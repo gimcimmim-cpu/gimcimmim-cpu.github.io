@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>페이지를 찾을 수 없습니다</title>
+<script>
+// 세션 중 이미 인증된 경우 바로 통과
+(function(){
+  if(sessionStorage.getItem('auth_ok')==='1'){
+    document.addEventListener('DOMContentLoaded',function(){
+      document.title='팀장 대시보드 · 김철민';
+      document.getElementById('lock-screen').style.display='none';
+      document.getElementById('dashboard').style.display='block';
+    });
+  }
+})();
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+:root {
+  --bg:#0d1117; --bg2:#161b22; --bg3:#21262d; --border:#30363d;
+  --text:#e6edf3; --muted:#8b949e;
+  --blue:#58a6ff; --orange:#f0883e; --purple:#bc8cff;
+  --green:#3fb950; --red:#f85149; --yellow:#d29922; --teal:#39d3f5;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:13px;line-height:1.6;}
+a{text-decoration:none;color:inherit;}
+
+/* ── HEADER ── */
+.header{
+  background:linear-gradient(135deg,#0d1117,#161b22,#1a1f2e);
+  border-bottom:1px solid var(--border);
+  padding:20px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.header-left{display:flex;align-items:center;gap:14px;}
+.avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;}
+.header-title{font-size:16px;font-weight:700;background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.header-sub{font-size:11px;color:var(--muted);}
+.header-right{display:flex;gap:8px;align-items:center;}
+.badge{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--muted);}
+.badge.live{border-color:var(--green);color:var(--green);}
+.badge.live::before{content:'● ';animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* ── LAYOUT ── */
+.container{max-width:1440px;margin:0 auto;padding:24px 32px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+.full{grid-column:1/-1;}
+
+/* ── CARD ── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.card-hd{padding:13px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+.card-title{font-weight:600;font-size:13px;display:flex;align-items:center;gap:7px;}
+.card-body{padding:16px;}
+
+/* ── KPI ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px;}
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;transition:transform .15s;}
+.kpi:hover{transform:translateY(-2px);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0;}
+.kpi.k-blue::before{background:var(--blue);}
+.kpi.k-orange::before{background:var(--orange);}
+.kpi.k-purple::before{background:var(--purple);}
+.kpi.k-green::before{background:var(--green);}
+.kpi.k-red::before{background:var(--red);}
+.kpi-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px;}
+.kpi-num{font-size:30px;font-weight:700;line-height:1;}
+.kpi.k-blue .kpi-num{color:var(--blue);}
+.kpi.k-orange .kpi-num{color:var(--orange);}
+.kpi.k-purple .kpi-num{color:var(--purple);}
+.kpi.k-green .kpi-num{color:var(--green);}
+.kpi.k-red .kpi-num{color:var(--red);}
+.kpi-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+
+/* ── 팀원 바 차트 ── */
+.member-bars{padding:12px 16px;display:flex;flex-direction:column;gap:12px;}
+.mb-row{display:flex;align-items:center;gap:12px;}
+.mb-name{width:52px;font-size:12px;font-weight:600;flex-shrink:0;}
+.mb-bar-wrap{flex:1;background:var(--bg3);border-radius:6px;height:22px;position:relative;overflow:hidden;}
+.mb-bar{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:10px;font-size:11px;font-weight:600;color:rgba(255,255,255,.9);transition:width 1s ease-out;min-width:30px;}
+.mb-count{width:36px;text-align:right;font-size:12px;font-weight:700;flex-shrink:0;}
+.mb-chips{display:flex;flex-wrap:wrap;gap:4px;padding:0 16px 12px;}
+.mb-chip{font-size:10px;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--muted);}
+
+/* ── 제품 진행률 ── */
+.product-list{padding:8px 0;max-height:400px;overflow-y:auto;}
+.product-list::-webkit-scrollbar{width:4px;}
+.product-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+.prod-row{padding:9px 16px;border-bottom:1px solid rgba(48,54,61,.4);transition:background .15s;}
+.prod-row:hover{background:rgba(255,255,255,.02);}
+.prod-row:last-child{border-bottom:none;}
+.prod-top{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.prod-name{font-weight:600;font-size:12px;flex:1;}
+.prod-phase{font-size:10px;padding:1px 7px;border-radius:20px;font-weight:500;}
+.phase-r{background:rgba(88,166,255,.12);color:var(--blue);border:1px solid rgba(88,166,255,.25);}
+.phase-p{background:rgba(240,136,62,.12);color:var(--orange);border:1px solid rgba(240,136,62,.25);}
+.phase-a{background:rgba(188,140,255,.12);color:var(--purple);border:1px solid rgba(188,140,255,.25);}
+.prod-pct{font-size:11px;font-weight:700;width:30px;text-align:right;}
+.prod-bar-bg{height:4px;background:var(--bg3);border-radius:10px;overflow:hidden;}
+.prod-bar-fill{height:100%;border-radius:10px;}
+.fill-r{background:linear-gradient(90deg,var(--blue),#a5c8ff);}
+.fill-p{background:linear-gradient(90deg,var(--orange),#ffc18a);}
+.fill-a{background:linear-gradient(90deg,var(--purple),#d4b0ff);}
+.fill-g{background:linear-gradient(90deg,var(--green),#85e89d);}
+
+/* ── 실험 결과 ── */
+.exp-table{width:100%;border-collapse:collapse;}
+.exp-table th{padding:7px 12px;text-align:left;font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--border);}
+.exp-table td{padding:8px 12px;font-size:12px;border-bottom:1px solid rgba(48,54,61,.4);vertical-align:middle;}
+.exp-table tr:last-child td{border-bottom:none;}
+.exp-table tr:hover td{background:rgba(255,255,255,.02);}
+.result-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;}
+.r-ok{background:rgba(63,185,80,.12);color:var(--green);border:1px solid rgba(63,185,80,.3);}
+.r-warn{background:rgba(210,153,34,.12);color:var(--yellow);border:1px solid rgba(210,153,34,.3);}
+.r-fail{background:rgba(248,81,73,.12);color:var(--red);border:1px solid rgba(248,81,73,.3);}
+
+/* ── 이슈 트래커 ── */
+.issue-list{padding:10px 14px;display:flex;flex-direction:column;gap:8px;}
+.issue-item{background:rgba(248,81,73,.05);border:1px solid rgba(248,81,73,.18);border-radius:8px;padding:11px 14px;transition:border-color .2s;}
+.issue-item:hover{border-color:rgba(248,81,73,.35);}
+.issue-item.warn{background:rgba(210,153,34,.05);border-color:rgba(210,153,34,.18);}
+.issue-item.warn:hover{border-color:rgba(210,153,34,.35);}
+.issue-hd{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.issue-tag{font-size:10px;padding:1px 7px;border-radius:20px;}
+.it-red{background:rgba(248,81,73,.15);color:var(--red);border:1px solid rgba(248,81,73,.3);}
+.it-warn{background:rgba(210,153,34,.15);color:var(--yellow);border:1px solid rgba(210,153,34,.3);}
+.issue-title{font-weight:600;font-size:12px;color:var(--red);flex:1;}
+.issue-item.warn .issue-title{color:var(--yellow);}
+.issue-who{font-size:10px;color:var(--muted);}
+.issue-desc{font-size:11px;color:var(--muted);line-height:1.5;}
+
+/* ── 분기 타임라인 ── */
+.quarter-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:14px;}
+.q-month{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+.q-month-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+.q-m1{color:var(--blue);} .q-m2{color:var(--purple);} .q-m3{color:var(--orange);}
+.q-item{font-size:11px;color:var(--muted);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;gap:6px;}
+.q-item:last-child{border-bottom:none;}
+.q-dot{margin-top:5px;width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+
+/* ── 도넛 ── */
+.donut-wrap{display:flex;align-items:center;gap:20px;padding:14px 16px;}
+.donut-svg{position:relative;width:90px;height:90px;flex-shrink:0;}
+.donut-svg svg{transform:rotate(-90deg);}
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.donut-num{font-size:20px;font-weight:700;}
+.donut-lbl{font-size:9px;color:var(--muted);}
+.legend{display:flex;flex-direction:column;gap:6px;}
+.lg-item{display:flex;align-items:center;gap:7px;font-size:11px;}
+.lg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.lg-name{color:var(--muted);flex:1;}
+.lg-val{font-weight:600;}
+
+/* ── CHIP ── */
+.chip{font-size:10px;padding:1px 8px;border-radius:20px;font-weight:500;}
+.chip-b{background:rgba(88,166,255,.1);color:var(--blue);border:1px solid rgba(88,166,255,.25);}
+.chip-o{background:rgba(240,136,62,.1);color:var(--orange);border:1px solid rgba(240,136,62,.25);}
+.chip-p{background:rgba(188,140,255,.1);color:var(--purple);border:1px solid rgba(188,140,255,.25);}
+.chip-g{background:rgba(63,185,80,.1);color:var(--green);border:1px solid rgba(63,185,80,.25);}
+
+@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.grid2,.grid3{grid-template-columns:1fr;}.container{padding:16px;}}
+
+/* ── LOCK SCREEN ── */
+#lock-screen{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;
+  background:var(--bg);
+  position:fixed;inset:0;z-index:9999;
+}
+.lock-box{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:40px 44px;
+  text-align:center;
+  width:340px;
+  box-shadow:0 24px 80px rgba(0,0,0,.6);
+  animation:fadeIn .4s ease;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.lock-icon{font-size:42px;margin-bottom:16px;}
+.lock-title{font-size:17px;font-weight:700;margin-bottom:4px;color:var(--text);}
+.lock-sub{font-size:12px;color:var(--muted);margin-bottom:28px;}
+.pin-dots{display:flex;justify-content:center;gap:12px;margin-bottom:24px;}
+.pin-dot{
+  width:14px;height:14px;border-radius:50%;
+  background:var(--bg3);border:2px solid var(--border);
+  transition:all .2s;
+}
+.pin-dot.filled{background:var(--blue);border-color:var(--blue);box-shadow:0 0 8px rgba(88,166,255,.5);}
+.pin-dot.error{background:var(--red);border-color:var(--red);animation:shake .3s ease;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}
+}
+.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;}
+.num-btn{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:12px;padding:14px 0;
+  font-size:18px;font-weight:600;color:var(--text);
+  cursor:pointer;transition:all .15s;user-select:none;
+}
+.num-btn:hover{background:#2d333b;border-color:#484f58;transform:scale(1.04);}
+.num-btn:active{transform:scale(.96);}
+.num-btn.del{font-size:14px;color:var(--muted);}
+.lock-hint{font-size:10px;color:rgba(139,148,158,.4);margin-top:8px;}
+.lock-error-msg{font-size:12px;color:var(--red);height:16px;margin-top:4px;transition:opacity .2s;}
+#dashboard{display:none;}
+</style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div id="lock-screen">
+  <div class="lock-box">
+    <div class="lock-icon">🔐</div>
+    <div class="lock-title">팀장 전용 페이지</div>
+    <div class="lock-sub">PIN 번호를 입력하세요</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="numpad">
+      <button class="num-btn" onclick="pressNum('1')">1</button>
+      <button class="num-btn" onclick="pressNum('2')">2</button>
+      <button class="num-btn" onclick="pressNum('3')">3</button>
+      <button class="num-btn" onclick="pressNum('4')">4</button>
+      <button class="num-btn" onclick="pressNum('5')">5</button>
+      <button class="num-btn" onclick="pressNum('6')">6</button>
+      <button class="num-btn" onclick="pressNum('7')">7</button>
+      <button class="num-btn" onclick="pressNum('8')">8</button>
+      <button class="num-btn" onclick="pressNum('9')">9</button>
+      <button class="num-btn del" onclick="pressNum('←')" style="grid-column:1;">⌫</button>
+      <button class="num-btn" onclick="pressNum('0')">0</button>
+      <div></div>
+    </div>
+    <div class="lock-error-msg" id="err-msg"></div>
+    <div class="lock-hint">브라우저 탭을 닫기 전까지 유지됩니다</div>
+  </div>
+</div>
+
+<script>
+var pin='';
+var correct='1004';
+function pressNum(v){
+  var msg=document.getElementById('err-msg');
+  msg.textContent='';
+  if(v==='←'){pin=pin.slice(0,-1);}
+  else if(pin.length<4){pin+=v;}
+  updateDots();
+  if(pin.length===4){
+    setTimeout(function(){
+      if(pin===correct){
+        sessionStorage.setItem('auth_ok','1');
+        document.getElementById('lock-screen').style.display='none';
+        document.getElementById('dashboard').style.display='block';
+        document.title='팀장 대시보드 · 김철민';
+      } else {
+        var dots=document.querySelectorAll('.pin-dot');
+        dots.forEach(function(d){d.classList.add('error');d.classList.remove('filled');});
+        msg.textContent='PIN이 맞지 않습니다';
+        setTimeout(function(){
+          dots.forEach(function(d){d.classList.remove('error');});
+          pin='';
+          updateDots();
+        },700);
+      }
+    },120);
+  }
+}
+function updateDots(){
+  for(var i=0;i<4;i++){
+    var d=document.getElementById('d'+i);
+    d.classList.toggle('filled',i<pin.length);
+  }
+}
+// 키보드 지원
+document.addEventListener('keydown',function(e){
+  if(document.getElementById('lock-screen').style.display==='none') return;
+  if(e.key>='0'&&e.key<='9') pressNum(e.key);
+  if(e.key==='Backspace') pressNum('←');
+});
+// 세션 체크
+if(sessionStorage.getItem('auth_ok')==='1'){
+  document.getElementById('lock-screen').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+  document.title='팀장 대시보드 · 김철민';
+}
+</script>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="avatar">철민</div>
+    <div>
+      <div class="header-title">팀장 대시보드 · 김철민</div>
+      <div class="header-sub">바디텍메드 Cancer팀 · 2026년 1분기 종합 현황</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="badge live">14주차</span>
+    <span class="badge">2026. 03. 30 ~ 04. 03</span>
+    <a href="weekly_dashboard.html" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--muted);">📊 주간 대시보드</a>
+    <a href="index.html" style="background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--muted);">🏠 허브</a>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- KPI -->
+<div class="kpi-grid">
+  <div class="kpi k-blue">
+    <div class="kpi-label">🔬 연구 아이템</div>
+    <div class="kpi-num">6</div>
+    <div class="kpi-sub">진행 중</div>
+  </div>
+  <div class="kpi k-orange">
+    <div class="kpi-label">🏭 생산 아이템</div>
+    <div class="kpi-num">10</div>
+    <div class="kpi-sub">진행 중</div>
+  </div>
+  <div class="kpi k-purple">
+    <div class="kpi-label">📋 허가 아이템</div>
+    <div class="kpi-num">6</div>
+    <div class="kpi-sub">진행 중</div>
+  </div>
+  <div class="kpi k-green">
+    <div class="kpi-label">✅ 이번 주 완료</div>
+    <div class="kpi-num">4</div>
+    <div class="kpi-sub">실험 PASS</div>
+  </div>
+  <div class="kpi k-red">
+    <div class="kpi-label">⚠️ 이슈</div>
+    <div class="kpi-num">3</div>
+    <div class="kpi-sub">처리 필요</div>
+  </div>
+</div>
+
+<!-- ROW 1: 팀원 업무량 + 도넛 -->
+<div class="grid2">
+
+  <!-- 팀원별 업무량 -->
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title">👥 팀원별 업무량 비교 <span style="font-size:10px;color:var(--muted);font-weight:400;">(14주차 담당 아이템 수)</span></div>
+    </div>
+    <div class="member-bars">
+      <div>
+        <div class="mb-row">
+          <div class="mb-name">임지은</div>
+          <div class="mb-bar-wrap">
+            <div class="mb-bar" style="width:82%;background:linear-gradient(90deg,#f85149,#ff7eb6);">PSA Cal 이슈·수식·제조</div>
+          </div>
+          <div class="mb-count" style="color:var(--red);">4</div>
+        </div>
+      </div>
+      <div>
+        <div class="mb-row">
+          <div class="mb-name">고경열</div>
+          <div class="mb-bar-wrap">
+            <div class="mb-bar" style="width:75%;background:linear-gradient(90deg,var(--orange),#ffc18a);">Ferritin·개발보고서·BR280·C.dif</div>
+          </div>
+          <div class="mb-count" style="color:var(--orange);">4</div>
+        </div>
+      </div>
+      <div>
+        <div class="mb-row">
+          <div class="mb-name">김수지</div>
+          <div class="mb-bar-wrap">
+            <div class="mb-bar" style="width:65%;background:linear-gradient(90deg,var(--purple),#d4b0ff);">CA125 TD·CA15-3 안정성·IFU</div>
+          </div>
+          <div class="mb-count" style="color:var(--purple);">3</div>
+        </div>
+      </div>
+      <div>
+        <div class="mb-row">
+          <div class="mb-name">김나연</div>
+          <div class="mb-bar-wrap">
+            <div class="mb-bar" style="width:55%;background:linear-gradient(90deg,var(--blue),#a5c8ff);">AFP PEG·경쟁사취합·PMPF회의</div>
+          </div>
+          <div class="mb-count" style="color:var(--blue);">3</div>
+        </div>
+      </div>
+      <div>
+        <div class="mb-row">
+          <div class="mb-name">박주연</div>
+          <div class="mb-bar-wrap">
+            <div class="mb-bar" style="width:52%;background:linear-gradient(90deg,var(--yellow),#ffe08a);">Poloxamer·Cyfra이슈·재고실사</div>
+          </div>
+          <div class="mb-count" style="color:var(--yellow);">3</div>
+        </div>
+      </div>
+      <div>
+        <div class="mb-row">
+          <div class="mb-name">이다희</div>
+          <div class="mb-bar-wrap">
+            <div class="mb-bar" style="width:30%;background:linear-gradient(90deg,var(--teal),#a0f0ff);">CEA 정전기·H.pylori PEG</div>
+          </div>
+          <div class="mb-count" style="color:var(--teal);">2</div>
+        </div>
+        <div style="padding:3px 0 0 64px;font-size:10px;color:var(--red);">⚠ 4/7 개인연차</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 업무 분포 도넛 + 이번 주 실험 결과 -->
+  <div style="display:flex;flex-direction:column;gap:16px;">
+
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title">📊 업무 분포</div>
+        <span style="font-size:10px;color:var(--muted);">총 27건</span>
+      </div>
+      <div class="donut-wrap">
+        <div class="donut-svg">
+          <svg width="90" height="90" viewBox="0 0 90 90">
+            <circle cx="45" cy="45" r="36" fill="none" stroke="#21262d" stroke-width="11"/>
+            <circle cx="45" cy="45" r="36" fill="none" stroke="#58a6ff" stroke-width="11" stroke-dasharray="50.3 175.9" stroke-dashoffset="0"/>
+            <circle cx="45" cy="45" r="36" fill="none" stroke="#f0883e" stroke-width="11" stroke-dasharray="83.9 142.0" stroke-dashoffset="-50.3"/>
+            <circle cx="45" cy="45" r="36" fill="none" stroke="#bc8cff" stroke-width="11" stroke-dasharray="50.3 175.9" stroke-dashoffset="-134.2"/>
+            <circle cx="45" cy="45" r="36" fill="none" stroke="#3fb950" stroke-width="11" stroke-dasharray="41.9 184.3" stroke-dashoffset="-184.5"/>
+          </svg>
+          <div class="donut-center"><div class="donut-num">27</div><div class="donut-lbl">총 아이템</div></div>
+        </div>
+        <div class="legend">
+          <div class="lg-item"><div class="lg-dot" style="background:var(--blue);"></div><span class="lg-name">연구</span><span class="lg-val" style="color:var(--blue);">6건</span></div>
+          <div class="lg-item"><div class="lg-dot" style="background:var(--orange);"></div><span class="lg-name">생산</span><span class="lg-val" style="color:var(--orange);">10건</span></div>
+          <div class="lg-item"><div class="lg-dot" style="background:var(--purple);"></div><span class="lg-name">허가</span><span class="lg-val" style="color:var(--purple);">6건</span></div>
+          <div class="lg-item"><div class="lg-dot" style="background:var(--green);"></div><span class="lg-name">기타</span><span class="lg-val" style="color:var(--green);">5건</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title">🧪 이번 주 실험 결과 요약</div>
+      </div>
+      <div style="padding:8px 0;">
+        <table class="exp-table">
+          <tr><th>실험</th><th>담당</th><th>결과</th></tr>
+          <tr><td>AFP PEG 상관성</td><td style="color:var(--muted);">김나연</td><td><span class="result-badge r-ok">✅ PASS</span></td></tr>
+          <tr><td>AFIAS Ferritin 벨기에</td><td style="color:var(--muted);">고경열</td><td><span class="result-badge r-ok">✅ 완료</span></td></tr>
+          <tr><td>CEA 구조물 정전기</td><td style="color:var(--muted);">이다희</td><td><span class="result-badge r-ok">✅ PASS</span></td></tr>
+          <tr><td>CA15-3 안정성 182일</td><td style="color:var(--muted);">김수지</td><td><span class="result-badge r-warn">⚠ Diluent 이상</span></td></tr>
+          <tr><td>H.pylori PEG 재현성</td><td style="color:var(--muted);">이다희</td><td><span class="result-badge r-warn">⚠ 재현성 저하</span></td></tr>
+          <tr><td>Poloxamer 188</td><td style="color:var(--muted);">박주연</td><td><span class="result-badge r-fail">❌ 효과 없음</span></td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ROW 2: 제품별 누적 진행률 + 이슈 -->
+<div class="grid2">
+
+  <!-- 제품별 진행률 -->
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title">📈 제품별 누적 진행률</div>
+      <div style="display:flex;gap:6px;">
+        <span class="chip chip-b">연구</span>
+        <span class="chip chip-o">생산</span>
+        <span class="chip chip-p">허가</span>
+      </div>
+    </div>
+    <div class="product-list">
+      <!-- 허가 완료 임박 -->
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">Calprotectin</span>
+          <span class="prod-phase phase-a">허가</span>
+          <span class="prod-pct" style="color:var(--green);">92%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-g" style="width:92%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">CEA [AFIAS]</span>
+          <span class="prod-phase phase-p">생산</span>
+          <span class="prod-pct" style="color:var(--green);">88%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-p" style="width:88%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">PSA Neo / Free PSA</span>
+          <span class="prod-phase phase-p">생산</span>
+          <span class="prod-pct" style="color:var(--orange);">75%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-p" style="width:75%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">H. Pylori SA</span>
+          <span class="prod-phase phase-p">생산</span>
+          <span class="prod-pct" style="color:var(--orange);">72%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-p" style="width:72%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">iFOB Neo</span>
+          <span class="prod-phase phase-a">허가</span>
+          <span class="prod-pct" style="color:var(--purple);">70%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-a" style="width:70%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">Ferritin [AFIAS]</span>
+          <span class="prod-phase phase-p">생산</span>
+          <span class="prod-pct" style="color:var(--orange);">68%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-p" style="width:68%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">Cyfra21-1</span>
+          <span class="prod-phase phase-a">허가</span>
+          <span class="prod-pct" style="color:var(--purple);">62%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-a" style="width:62%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">CA125 [IVDR]</span>
+          <span class="prod-phase phase-a">허가</span>
+          <span class="prod-pct" style="color:var(--purple);">55%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-a" style="width:55%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">CA15-3 [IVDD]</span>
+          <span class="prod-phase phase-a">허가</span>
+          <span class="prod-pct" style="color:var(--purple);">52%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-a" style="width:52%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">CA19-9</span>
+          <span class="prod-phase phase-a">허가</span>
+          <span class="prod-pct" style="color:var(--purple);">50%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-a" style="width:50%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">AFP</span>
+          <span class="prod-phase phase-r">연구</span>
+          <span class="prod-pct" style="color:var(--blue);">45%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-r" style="width:45%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">HE4</span>
+          <span class="prod-phase phase-r">연구</span>
+          <span class="prod-pct" style="color:var(--blue);">35%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-r" style="width:35%;"></div></div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-top">
+          <span class="prod-name">C.difficile</span>
+          <span class="prod-phase phase-r">연구</span>
+          <span class="prod-pct" style="color:var(--blue);">20%</span>
+        </div>
+        <div class="prod-bar-bg"><div class="prod-bar-fill fill-r" style="width:20%;"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 이슈 + 1분기 요약 -->
+  <div style="display:flex;flex-direction:column;gap:16px;">
+
+    <!-- 이슈 트래커 -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title" style="color:var(--red);">⚠️ 이슈 트래커</div>
+        <span style="font-size:10px;background:rgba(248,81,73,.1);color:var(--red);border:1px solid rgba(248,81,73,.3);padding:2px 8px;border-radius:20px;">3건 처리 필요</span>
+      </div>
+      <div class="issue-list">
+        <div class="issue-item">
+          <div class="issue-hd">
+            <span class="issue-tag it-red">🚨 긴급</span>
+            <span class="issue-title">PSA Cal 제조사 변경 이슈</span>
+            <span class="issue-who">임지은</span>
+          </div>
+          <div class="issue-desc">Biocheck→DRG 변경 후 측정값 8,800배 낮음 → 제조사 클레임 발송. 후속 회신 대기 중.</div>
+        </div>
+        <div class="issue-item warn">
+          <div class="issue-hd">
+            <span class="issue-tag it-warn">⚠ 모니터링</span>
+            <span class="issue-title">H.pylori PEG 그래뉼 재현성 저하</span>
+            <span class="issue-who">이다희</span>
+          </div>
+          <div class="issue-desc">정전기 제거 효과는 확인됐으나 재현성 기존 대비 저하. 배합 조건 재검토 필요.</div>
+        </div>
+        <div class="issue-item warn">
+          <div class="issue-hd">
+            <span class="issue-tag it-warn">⚠ 모니터링</span>
+            <span class="issue-title">CA15-3 Diluent 가혹 안정성 저하</span>
+            <span class="issue-who">김수지</span>
+          </div>
+          <div class="issue-desc">98일차부터 성능 저하 시작. 실시간 안정성 평가 병행 → 최종 유효기간 확정 필요.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1분기 요약 -->
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-title">📅 2026년 1분기 주요 성과</div>
+        <span style="font-size:10px;color:var(--muted);">1월 ~ 3월</span>
+      </div>
+      <div class="quarter-grid">
+        <div class="q-month">
+          <div class="q-month-label q-m1">1월</div>
+          <div class="q-item"><div class="q-dot" style="background:var(--green);margin-top:5px;"></div><span>Stool 자동화 기획 회의</span></div>
+          <div class="q-item"><div class="q-dot" style="background:var(--blue);margin-top:5px;"></div><span>iFOB Neo IVDR 서류 착수</span></div>
+          <div class="q-item"><div class="q-dot" style="background:var(--orange);margin-top:5px;"></div><span>PSA Neo 수식 개발 시작</span></div>
+        </div>
+        <div class="q-month">
+          <div class="q-month-label q-m2">2월</div>
+          <div class="q-item"><div class="q-dot" style="background:var(--purple);margin-top:5px;"></div><span>CA125 IVDR TD 착수</span></div>
+          <div class="q-item"><div class="q-dot" style="background:var(--green);margin-top:5px;"></div><span>Ferritin 벨기에 임사용 준비</span></div>
+          <div class="q-item"><div class="q-dot" style="background:var(--blue);margin-top:5px;"></div><span>HE4 Tris base 전환 실험</span></div>
+        </div>
+        <div class="q-month">
+          <div class="q-month-label q-m3">3월</div>
+          <div class="q-item"><div class="q-dot" style="background:var(--green);margin-top:5px;"></div><span>CEA AFIAS 출하 완료 ✅</span></div>
+          <div class="q-item"><div class="q-dot" style="background:var(--purple);margin-top:5px;"></div><span>AFP PMPF 서류 제출 완료</span></div>
+          <div class="q-item"><div class="q-dot" style="background:var(--orange);margin-top:5px;"></div><span>H.pylori SA id chip 이관</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="text-align:center;padding:16px 0 6px;color:var(--muted);font-size:11px;">
+  Cancer팀 팀장 대시보드 · 김철민 · 바디텍메드 · 2026년 14주차
+</div>
+
+</div><!-- /container -->
+</div><!-- /dashboard -->
+</body>
+</html>

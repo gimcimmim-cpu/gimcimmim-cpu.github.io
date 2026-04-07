@@ -235,6 +235,7 @@
   .c-purple{ --accent-color: var(--purple); }
   .c-green { --accent-color: var(--green);  }
   .c-teal  { --accent-color: #39d3f5;       }
+  .c-pink  { --accent-color: #ff7eb6;       }
 
   .c-blue  .card-icon { background: rgba(88,166,255,0.12); }
   .c-orange .card-icon { background: rgba(240,136,62,0.12); }
@@ -253,6 +254,9 @@
   .c-purple .tag { background: rgba(188,140,255,0.1);color: var(--purple); border: 1px solid rgba(188,140,255,0.25); }
   .c-green .tag  { background: rgba(63,185,80,0.1);  color: var(--green);  border: 1px solid rgba(63,185,80,0.25); }
   .c-teal  .tag  { background: rgba(57,211,245,0.1); color: #39d3f5;       border: 1px solid rgba(57,211,245,0.25); }
+  .c-pink  .card-icon { background: rgba(255,126,182,0.12); }
+  .c-pink  .card-title { color: #ff7eb6; }
+  .c-pink  .tag  { background: rgba(255,126,182,0.1); color: #ff7eb6;      border: 1px solid rgba(255,126,182,0.25); }
 
   /* FOOTER */
   footer {
@@ -286,7 +290,7 @@
 </header>
 
 <main>
-  <div class="section-label">프로그램 목록 · 5개</div>
+  <div class="section-label">프로그램 목록 · 6개</div>
 
   <div class="card-grid">
 
@@ -352,6 +356,22 @@
         <span class="tag">생산</span>
         <span class="tag">일정</span>
         <span class="tag">KCM</span>
+      </div>
+    </a>
+
+    <a class="card c-pink" href="leader_dashboard.html">
+      <div class="card-top">
+        <div class="card-icon">👤</div>
+        <div class="card-info">
+          <div class="card-title">팀장 대시보드</div>
+          <div class="card-sub">팀원 업무량 비교 · 제품별 누적 진행률 · 분기 요약 · 이슈 트래커</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">팀장 전용</span>
+        <span class="tag">분기 현황</span>
+        <span class="tag">이슈 관리</span>
       </div>
     </a>
 
