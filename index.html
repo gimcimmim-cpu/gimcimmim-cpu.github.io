@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cancer팀 주간 업무 대시보드</title>
+<title>Cancer팀 · 업무 허브</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
 
@@ -14,13 +14,10 @@
     --border: #30363d;
     --text: #e6edf3;
     --text-muted: #8b949e;
-    --research: #58a6ff;
-    --production: #f0883e;
-    --approval: #bc8cff;
-    --other: #3fb950;
-    --issue: #f85149;
-    --warning: #d29922;
-    --card-hover: #1c2128;
+    --blue: #58a6ff;
+    --orange: #f0883e;
+    --purple: #bc8cff;
+    --green: #3fb950;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,1081 +26,357 @@
     background: var(--bg);
     color: var(--text);
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 13px;
-    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* ── HEADER ── */
-  .header {
-    background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1a1f2e 100%);
+  .bg-glow {
+    position: fixed;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 800px; height: 500px;
+    background: radial-gradient(ellipse, rgba(88,166,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 48px 32px 32px;
+    text-align: center;
     border-bottom: 1px solid var(--border);
-    padding: 24px 32px;
-    display: flex;
+    background: linear-gradient(180deg, rgba(88,166,255,0.04) 0%, transparent 100%);
+  }
+
+  .logo {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-  }
-
-  .header-left h1 {
-    font-size: 20px;
-    font-weight: 700;
-    background: linear-gradient(90deg, #58a6ff, #bc8cff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -0.3px;
-  }
-
-  .header-left .subtitle {
-    color: var(--text-muted);
-    font-size: 12px;
-    margin-top: 2px;
-  }
-
-  .header-right {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-  }
-
-  .badge {
-    background: var(--bg3);
+    gap: 10px;
+    background: var(--bg2);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 11px;
+    border-radius: 30px;
+    padding: 6px 16px 6px 10px;
+    margin-bottom: 20px;
+    font-size: 12px;
     color: var(--text-muted);
   }
 
-  .badge.live {
-    border-color: #3fb950;
-    color: #3fb950;
-  }
-
-  .badge.live::before {
-    content: '●';
-    margin-right: 5px;
+  .logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
     animation: pulse 2s infinite;
   }
 
   @keyframes pulse {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+    50% { opacity: 0.4; }
   }
 
-  /* ── LAYOUT ── */
-  .container {
-    max-width: 1400px;
+  header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #e6edf3 0%, #8b949e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+
+  header h1 span {
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  header p {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* MAIN */
+  main {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    width: 100%;
     margin: 0 auto;
-    padding: 24px 32px;
+    padding: 48px 24px;
   }
 
-  /* ── KPI ROW ── */
-  .kpi-row {
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* CARD GRID */
+  .card-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    margin-bottom: 24px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
   }
 
-  .kpi-card {
+  .card {
     background: var(--bg2);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
+    border-radius: 16px;
+    padding: 24px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.2s, transform 0.15s;
   }
 
-  .kpi-card:hover {
-    transform: translateY(-2px);
-    border-color: #484f58;
-  }
-
-  .kpi-card::before {
+  .card::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 3px;
-    border-radius: 12px 12px 0 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
   }
 
-  .kpi-card.research::before { background: var(--research); }
-  .kpi-card.production::before { background: var(--production); }
-  .kpi-card.approval::before { background: var(--approval); }
-  .kpi-card.other::before { background: var(--other); }
-  .kpi-card.issue::before { background: var(--issue); }
-
-  .kpi-label {
-    color: var(--text-muted);
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  .card:hover {
+    border-color: #484f58;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
   }
 
-  .kpi-number {
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
+  .card:hover::before { opacity: 1; }
 
-  .kpi-card.research .kpi-number { color: var(--research); }
-  .kpi-card.production .kpi-number { color: var(--production); }
-  .kpi-card.approval .kpi-number { color: var(--approval); }
-  .kpi-card.other .kpi-number { color: var(--other); }
-  .kpi-card.issue .kpi-number { color: var(--issue); }
-
-  .kpi-sub {
-    color: var(--text-muted);
-    font-size: 11px;
-  }
-
-  /* ── MAIN GRID ── */
-  .main-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-
-  .full-width {
-    grid-column: 1 / -1;
-  }
-
-  /* ── SECTION CARD ── */
-  .section-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .section-header {
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    font-size: 14px;
-  }
-
-  .section-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .dot-research { background: var(--research); box-shadow: 0 0 8px var(--research); }
-  .dot-production { background: var(--production); box-shadow: 0 0 8px var(--production); }
-  .dot-approval { background: var(--approval); box-shadow: 0 0 8px var(--approval); }
-  .dot-other { background: var(--other); box-shadow: 0 0 8px var(--other); }
-
-  .section-count {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2px 10px;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  /* ── ITEM LIST ── */
-  .item-list {
-    padding: 8px 0;
-    max-height: 360px;
-    overflow-y: auto;
-  }
-
-  .item-list::-webkit-scrollbar { width: 4px; }
-  .item-list::-webkit-scrollbar-track { background: transparent; }
-  .item-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
-  .item-row {
-    padding: 10px 18px;
-    border-bottom: 1px solid rgba(48,54,61,0.4);
-    transition: background 0.15s;
-    cursor: default;
-  }
-
-  .item-row:last-child { border-bottom: none; }
-  .item-row:hover { background: rgba(255,255,255,0.03); }
-
-  .item-name {
-    font-weight: 600;
-    font-size: 13px;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .item-tag {
-    font-size: 10px;
-    padding: 1px 7px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-
-  .tag-exp { background: rgba(88,166,255,0.15); color: var(--research); border: 1px solid rgba(88,166,255,0.3); }
-  .tag-doc { background: rgba(240,136,62,0.15); color: var(--production); border: 1px solid rgba(240,136,62,0.3); }
-  .tag-mfg { background: rgba(63,185,80,0.15); color: var(--other); border: 1px solid rgba(63,185,80,0.3); }
-  .tag-test { background: rgba(188,140,255,0.15); color: var(--approval); border: 1px solid rgba(188,140,255,0.3); }
-
-  .item-desc {
-    color: var(--text-muted);
-    font-size: 12px;
-    line-height: 1.5;
-  }
-
-  .item-next {
-    margin-top: 6px;
-    padding: 5px 8px;
-    background: rgba(255,255,255,0.03);
-    border-left: 2px solid rgba(255,255,255,0.1);
-    border-radius: 0 4px 4px 0;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  .item-next::before {
-    content: '▶ 차주: ';
-    color: rgba(255,255,255,0.25);
-    font-size: 10px;
-  }
-
-  /* ── ISSUE PANEL ── */
-  .issue-list {
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .issue-card {
-    background: rgba(248,81,73,0.06);
-    border: 1px solid rgba(248,81,73,0.2);
-    border-radius: 8px;
-    padding: 12px 14px;
-    transition: border-color 0.2s;
-  }
-
-  .issue-card:hover {
-    border-color: rgba(248,81,73,0.4);
-  }
-
-  .issue-card.warning {
-    background: rgba(210,153,34,0.06);
-    border-color: rgba(210,153,34,0.2);
-  }
-
-  .issue-card.warning:hover {
-    border-color: rgba(210,153,34,0.4);
-  }
-
-  .issue-top {
+  .card-top {
     display: flex;
     align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 5px;
+    gap: 14px;
   }
 
-  .issue-icon {
-    font-size: 14px;
-    margin-top: 1px;
-  }
-
-  .issue-title {
-    font-weight: 600;
-    font-size: 13px;
-    color: var(--issue);
-    flex: 1;
-  }
-
-  .issue-card.warning .issue-title {
-    color: var(--warning);
-  }
-
-  .issue-person {
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    background: rgba(248,81,73,0.15);
-    color: var(--issue);
-    border: 1px solid rgba(248,81,73,0.3);
-    white-space: nowrap;
-  }
-
-  .issue-card.warning .issue-person {
-    background: rgba(210,153,34,0.15);
-    color: var(--warning);
-    border-color: rgba(210,153,34,0.3);
-  }
-
-  .issue-desc {
-    color: var(--text-muted);
-    font-size: 12px;
-    line-height: 1.5;
-    padding-left: 24px;
-  }
-
-  /* ── TEAM PANEL ── */
-  .team-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    padding: 16px;
-  }
-
-  .team-member {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 14px;
-    transition: border-color 0.2s, transform 0.15s;
-  }
-
-  .team-member:hover {
-    border-color: #484f58;
-    transform: translateY(-1px);
-  }
-
-  .member-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-
-  .member-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+  .card-icon {
+    width: 46px; height: 46px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 13px;
+    font-size: 22px;
     flex-shrink: 0;
   }
 
-  .member-name {
-    font-weight: 600;
-    font-size: 13px;
+  .card-info { flex: 1; }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    line-height: 1.3;
   }
 
-  .member-status {
-    font-size: 10px;
-    padding: 1px 7px;
-    border-radius: 20px;
-    margin-left: auto;
+  .card-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
   }
 
-  .status-active {
-    background: rgba(63,185,80,0.15);
-    color: var(--other);
-    border: 1px solid rgba(63,185,80,0.3);
+  .card-arrow {
+    font-size: 18px;
+    color: var(--text-muted);
+    transition: transform 0.2s, color 0.2s;
+    align-self: center;
+    flex-shrink: 0;
   }
 
-  .status-leave {
-    background: rgba(248,81,73,0.15);
-    color: var(--issue);
-    border: 1px solid rgba(248,81,73,0.3);
+  .card:hover .card-arrow {
+    transform: translateX(5px);
+    color: var(--text);
   }
 
-  .member-tasks {
+  .card-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
-  }
-
-  .task-chip {
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 4px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: var(--text-muted);
-    line-height: 1.4;
-  }
-
-  /* ── PROGRESS SECTION ── */
-  .progress-grid {
-    padding: 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .progress-item {
-    display: flex;
-    flex-direction: column;
     gap: 6px;
   }
 
-  .progress-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .progress-name {
-    font-size: 12px;
+  .tag {
+    font-size: 10px;
+    padding: 2px 9px;
+    border-radius: 20px;
     font-weight: 500;
   }
 
-  .progress-pct {
-    font-size: 11px;
-    font-weight: 600;
-  }
+  /* 카드 색상 테마 */
+  .c-blue  { --accent-color: var(--blue);   }
+  .c-orange{ --accent-color: var(--orange); }
+  .c-purple{ --accent-color: var(--purple); }
+  .c-green { --accent-color: var(--green);  }
+  .c-teal  { --accent-color: #39d3f5;       }
 
-  .progress-bar {
-    height: 5px;
-    background: var(--bg3);
-    border-radius: 10px;
-    overflow: hidden;
-  }
+  .c-blue  .card-icon { background: rgba(88,166,255,0.12); }
+  .c-orange .card-icon { background: rgba(240,136,62,0.12); }
+  .c-purple .card-icon { background: rgba(188,140,255,0.12); }
+  .c-green .card-icon  { background: rgba(63,185,80,0.12); }
+  .c-teal  .card-icon  { background: rgba(57,211,245,0.12); }
 
-  .progress-fill {
-    height: 100%;
-    border-radius: 10px;
-    transition: width 1s ease-out;
-  }
+  .c-blue  .card-title { color: var(--blue); }
+  .c-orange .card-title { color: var(--orange); }
+  .c-purple .card-title { color: var(--purple); }
+  .c-green .card-title  { color: var(--green); }
+  .c-teal  .card-title  { color: #39d3f5; }
 
-  /* ── SECTION ACCENT COLORS ── */
-  .accent-research { color: var(--research); }
-  .accent-production { color: var(--production); }
-  .accent-approval { color: var(--approval); }
-  .accent-other { color: var(--other); }
+  .c-blue  .tag { background: rgba(88,166,255,0.1);  color: var(--blue);   border: 1px solid rgba(88,166,255,0.25); }
+  .c-orange .tag { background: rgba(240,136,62,0.1); color: var(--orange); border: 1px solid rgba(240,136,62,0.25); }
+  .c-purple .tag { background: rgba(188,140,255,0.1);color: var(--purple); border: 1px solid rgba(188,140,255,0.25); }
+  .c-green .tag  { background: rgba(63,185,80,0.1);  color: var(--green);  border: 1px solid rgba(63,185,80,0.25); }
+  .c-teal  .tag  { background: rgba(57,211,245,0.1); color: #39d3f5;       border: 1px solid rgba(57,211,245,0.25); }
 
-  .fill-research { background: linear-gradient(90deg, var(--research), #a5c8ff); }
-  .fill-production { background: linear-gradient(90deg, var(--production), #ffc18a); }
-  .fill-approval { background: linear-gradient(90deg, var(--approval), #d4b0ff); }
-  .fill-other { background: linear-gradient(90deg, var(--other), #85e89d); }
-
-  /* ── DONUT CHART ── */
-  .chart-section {
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .donut-wrap {
+  /* FOOTER */
+  footer {
     position: relative;
-    width: 100px;
-    height: 100px;
-    flex-shrink: 0;
-  }
-
-  .donut-wrap svg {
-    transform: rotate(-90deg);
-  }
-
-  .donut-center {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    z-index: 1;
     text-align: center;
-  }
-
-  .donut-num {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1;
-  }
-
-  .donut-sub {
-    font-size: 9px;
-    color: var(--text-muted);
-  }
-
-  .legend {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-  }
-
-  .legend-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .legend-label { color: var(--text-muted); flex: 1; }
-  .legend-count { font-weight: 600; }
-
-  /* ── WEEK NAV ── */
-  .week-nav {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
+    padding: 20px;
     border-top: 1px solid var(--border);
+    color: var(--text-muted);
     font-size: 11px;
-    color: var(--text-muted);
   }
 
-  .week-arrow {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 2px 8px;
-    cursor: pointer;
-    color: var(--text-muted);
-    transition: all 0.15s;
-  }
-
-  .week-arrow:hover {
-    background: var(--border);
-    color: var(--text);
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    .kpi-row { grid-template-columns: repeat(3, 1fr); }
-    .main-grid { grid-template-columns: 1fr; }
-    .team-grid { grid-template-columns: repeat(2, 1fr); }
-    .container { padding: 16px; }
-    .header { padding: 16px; }
+  @media (max-width: 600px) {
+    .card-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 26px; }
+    header { padding: 32px 20px 24px; }
   }
 </style>
 </head>
 <body>
 
-<!-- ── HEADER ── -->
-<header class="header">
-  <div class="header-left">
-    <h1>🔬 Cancer팀 주간 대시보드</h1>
-    <div class="subtitle">보고 기간: 2026년 3월 30일(월) ~ 4월 3일(금) &nbsp;|&nbsp; 차주: 4월 6일 ~ 4월 10일</div>
+<div class="bg-glow"></div>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    바디텍메드 · Cancer팀
   </div>
-  <div class="header-right">
-    <span class="badge live">이번 주</span>
-    <span class="badge">바디텍메드 · Cancer팀</span>
-  </div>
+  <h1>업무 <span>허브</span></h1>
+  <p>Cancer팀 업무 도구 모음 &nbsp;·&nbsp; 카드를 클릭해 각 프로그램으로 이동하세요</p>
 </header>
 
-<!-- ── CONTAINER ── -->
-<div class="container">
+<main>
+  <div class="section-label">프로그램 목록 · 5개</div>
 
-  <!-- KPI ROW -->
-  <div class="kpi-row">
-    <div class="kpi-card research">
-      <div class="kpi-label">🔬 연구</div>
-      <div class="kpi-number">6</div>
-      <div class="kpi-sub">진행 아이템</div>
-    </div>
-    <div class="kpi-card production">
-      <div class="kpi-label">🏭 생산</div>
-      <div class="kpi-number">10</div>
-      <div class="kpi-sub">진행 아이템</div>
-    </div>
-    <div class="kpi-card approval">
-      <div class="kpi-label">📋 허가</div>
-      <div class="kpi-number">6</div>
-      <div class="kpi-sub">진행 아이템</div>
-    </div>
-    <div class="kpi-card other">
-      <div class="kpi-label">📌 기타</div>
-      <div class="kpi-number">5</div>
-      <div class="kpi-sub">진행 아이템</div>
-    </div>
-    <div class="kpi-card issue">
-      <div class="kpi-label">⚠️ 이슈</div>
-      <div class="kpi-number">3</div>
-      <div class="kpi-sub">처리 필요</div>
-    </div>
-  </div>
+  <div class="card-grid">
 
-  <!-- MAIN GRID ROW 1 -->
-  <div class="main-grid">
+    <a class="card c-blue" href="weekly_dashboard.html">
+      <div class="card-top">
+        <div class="card-icon">📊</div>
+        <div class="card-info">
+          <div class="card-title">주간 업무 대시보드</div>
+          <div class="card-sub">Cancer팀 주간보고 시각화 · 프로젝트 진행률 · 이슈 현황 · 팀원별 업무</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">연구</span>
+        <span class="tag">생산</span>
+        <span class="tag">허가</span>
+        <span class="tag">노션 연동</span>
+      </div>
+    </a>
 
-    <!-- 연구 섹션 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title">
-          <span class="section-dot dot-research"></span>
-          <span class="accent-research">🔬 연구</span>
+    <a class="card c-orange" href="IDChipQC_v2_dashboard.html">
+      <div class="card-top">
+        <div class="card-icon">🔬</div>
+        <div class="card-info">
+          <div class="card-title">IDChip QC 대시보드</div>
+          <div class="card-sub">ID Chip 검수 관리 · QC 데이터 분석 · v2</div>
         </div>
-        <span class="section-count">6건</span>
+        <div class="card-arrow">→</div>
       </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-name">Calprotectin (내수허가) <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">의료기기파일 C-tip으로 최종 수정 완료 (기안 진행 중)</div>
-          <div class="item-next">기안 상신 완료 후 내수허가 등록</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">HE4 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">MES/Tris base granule 4종 재제조 → 대조군 재현성 불량 재제조 / 액상 CV &lt;6% 확인 → 2 line uncut 기타 출고 완료</div>
-          <div class="item-next">2 line으로 변경 후 실험 진행</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">AFP <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">PEG 0%, 1% granule 검체 패턴 재확인 – 문제 없어 실링 예정</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">PSA (자사항체 안정성) <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">Streptavidin, Chicken IgY 안정성 모니터링 → Fapon Chicken IgY 이상, 이원화 확인 → ichroma PSA / PSA Neo 가혹 환산 8개월 안정</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">Ferritin (AFIAS 벨기에 임사용) <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">벨기에 임사용 AFIAS-6 장비 test (고경열)</div>
-          <div class="item-next">PEG20000 첨가 Ferritin granule AFIAS test</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">AFIAS iFOB Neo / Stool 자동화 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">AFIAS-10 전용 SW &amp; C-tip 구동 실험</div>
-          <div class="item-next">AFIAS PEG 첨가 granule 성능 실험 (0% 대조군, 1% 실험군)</div>
-        </div>
+      <div class="card-tags">
+        <span class="tag">ID Chip</span>
+        <span class="tag">QC</span>
+        <span class="tag">검수</span>
       </div>
-    </div>
+    </a>
 
-    <!-- 생산 섹션 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title">
-          <span class="section-dot dot-production"></span>
-          <span class="accent-production">🏭 생산</span>
+    <a class="card c-purple" href="conjugation_calculator_final.html">
+      <div class="card-top">
+        <div class="card-icon">🧪</div>
+        <div class="card-info">
+          <div class="card-title">Conjugation 계산기</div>
+          <div class="card-sub">항체 컨쥬게이션 계산 · 시약 양 산출 · 최종 버전</div>
         </div>
-        <span class="section-count">10건</span>
+        <div class="card-arrow">→</div>
       </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-name">Calprotectin <span class="item-tag tag-doc">수식</span></div>
-          <div class="item-desc">CPWCA11X 수식 작성 중</div>
-          <div class="item-next">CP_EB 50L 생산 / CPWCE01Z 수식 작성</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">H. Pylori SA <span class="item-tag tag-mfg">제조</span></div>
-          <div class="item-desc">수식 작성(HSWCK03, 04) id chip 이관 완료 / Conjugator 5mg 제조 / TPCB134 6배치 PASS / HS_EB_260402 50L 제조</div>
-          <div class="item-next">HS_DDB 3.1L / HS DB 3.1L (4배치) 제조</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">H. Pylori SA (PEG 실검체) <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">PEG20000 0%, 1% 실검체 측정 (N/P 6개) → 정성 결과 일치 / PEG 1%: cal CV 일부 높으나 측정 가능</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">Ferritin <span class="item-tag tag-mfg">제조</span></div>
-          <div class="item-desc">DFR_DB_10.75L 제조 예정 / AFIAS Ferritin 수식 작성 (FRWCA86X, 87X)</div>
-          <div class="item-next">AFIAS Ferritin 출하 전 검사 2배치 / DFR_DDB_18L 제조</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">CEA [AFIAS] <span class="item-tag tag-test">검사</span></div>
-          <div class="item-desc">AFIAS CEA 출하 전 검사 완료 (Lot: CEWCA16X) / 수식 작성</div>
-          <div class="item-next">연구용 AFIAS CEA 2배치 측정 진행 중</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">CA125 Control assign <span class="item-tag tag-test">검사</span></div>
-          <div class="item-desc">C1COWD12 Exp.2027.04 assign 측정 완료 (ichroma CA125, AFIAS CA125, Cobas e411, Access2)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">PSA Neo / Free PSA <span class="item-tag tag-doc">수식</span></div>
-          <div class="item-desc">ichroma PSA [PSWCT04], AFIAS PSA Neo [PSWCA41X] 수식 및 반q 진행 (total CV 4.4~5.7%) / PS-Biotin 36mg conjugation</div>
-          <div class="item-next">PSA Calibrator 분주</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">iFOB Neo / CA19-9 <span class="item-tag tag-doc">수식</span></div>
-          <div class="item-desc">ichroma iFOB Neo (FOWCF03Z) 수식 / Boditech CA19-9 Control (CXCOWD08) assign / iFOB Neo EB 제조</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">Stool (H. Pylori EB) <span class="item-tag tag-mfg">제조</span></div>
-          <div class="item-desc">HS_EB_13L 제조 및 필터 완료 (HSWDA11X) / HS_EB_50L 필터 예정 (HSWDK08, 09)</div>
-        </div>
+      <div class="card-tags">
+        <span class="tag">Conjugation</span>
+        <span class="tag">계산기</span>
+        <span class="tag">시약</span>
       </div>
-    </div>
+    </a>
+
+    <a class="card c-green" href="생산일정 관리 추출_KCM.html">
+      <div class="card-top">
+        <div class="card-icon">🏭</div>
+        <div class="card-info">
+          <div class="card-title">생산일정 관리</div>
+          <div class="card-sub">생산 일정 추출 및 관리 · KCM 전용</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">생산</span>
+        <span class="tag">일정</span>
+        <span class="tag">KCM</span>
+      </div>
+    </a>
+
+    <a class="card c-teal" href="final-flowchart-generator.html">
+      <div class="card-top">
+        <div class="card-icon">🗺️</div>
+        <div class="card-info">
+          <div class="card-title">Flowchart Generator</div>
+          <div class="card-sub">플로우차트 자동 생성 · 프로세스 시각화 · 다이어그램</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Flowchart</span>
+        <span class="tag">다이어그램</span>
+        <span class="tag">시각화</span>
+      </div>
+    </a>
 
   </div>
+</main>
 
-  <!-- MAIN GRID ROW 2 -->
-  <div class="main-grid">
+<footer>
+  바디텍메드 Cancer팀 업무 허브 &nbsp;·&nbsp; gimcimmim-cpu.github.io
+</footer>
 
-    <!-- 허가 섹션 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title">
-          <span class="section-dot dot-approval"></span>
-          <span class="accent-approval">📋 허가</span>
-        </div>
-        <span class="section-count">6건</span>
-      </div>
-      <div class="item-list">
-        <div class="item-row">
-          <div class="item-name">Cyfra21-1 <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">LSR 2차 수정 – 김현종 부장님 검토 완료</div>
-          <div class="item-next">PMPF, LSR 3차 수정 (김성중 부장님 의견 반영 전체 수정)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">PSA / Free PSA <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">LSR, PMPF Plan, Report SOP 지침서 수정 회의 참석 / Free PSA 이원결과보고서 작성 및 전달</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">CA125 IVDR TD <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">ichroma/AFIAS CA125 TD 금주 15건 작성 완료, 서명 진행 (임상전문가 서명 포함)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">CEA / CA125 IVDR Class C <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">CEA LSR, ichroma/AFIAS CEA Neo – SOP 기준 반영 재작성 / CA125 LSR, ichroma/AFIAS CA125 – SOP 기준 반영 재작성 (갱신)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">CA15-3 IVDD IFU <span class="item-tag tag-exp">안정성</span></div>
-          <div class="item-desc">ichroma CA15-3 / Boditech CA15-3 Control insert 성능 작성 / 37℃ 가혹 안정성: 26.04.02 기준 182일차 (가혹 환산 418일)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">iFOB Neo / CA19-9 <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">iFOB Neo LSR, PMPF Plan/Report 수정 / CA19-9 LSR, PMPF Plan/Report 수정 / AFIAS iFOB Neo 개발완료보고서 검토·수정 / 의료기기 파일 수정</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 이슈 + 기타 -->
-    <div style="display:flex; flex-direction:column; gap:16px;">
-
-      <!-- 이슈 -->
-      <div class="section-card">
-        <div class="section-header">
-          <div class="section-title">
-            <span style="color:var(--issue)">⚠️ 주요 이슈 사항</span>
-          </div>
-          <span class="section-count" style="color:var(--issue); border-color:rgba(248,81,73,0.3); background:rgba(248,81,73,0.08);">3건 처리 필요</span>
-        </div>
-        <div class="issue-list">
-          <div class="issue-card">
-            <div class="issue-top">
-              <span class="issue-icon">🚨</span>
-              <span class="issue-title">PSA Cal 제조 이슈</span>
-              <span class="issue-person">임지은</span>
-            </div>
-            <div class="issue-desc">Biocheck→DRG 제조사 변경, Cat no 유지한 PSA Standard stock solution 농도 12,000ng/mL이나 장비 측정값 8,800배 낮게 나옴 → 제조사 클레임 메일 발송</div>
-          </div>
-          <div class="issue-card warning">
-            <div class="issue-top">
-              <span class="issue-icon">⚠️</span>
-              <span class="issue-title">Poloxamer 188 데이터 사용 불가</span>
-              <span class="issue-person" style="background:rgba(210,153,34,0.15);color:var(--warning);border-color:rgba(210,153,34,0.3);">박주연</span>
-            </div>
-            <div class="issue-desc">Cyfra21-1 2cycle 추가 측정값 전체적으로 높게 나와 데이터 사용 불가 → 실검체 측정으로 전환 예정</div>
-          </div>
-          <div class="issue-card warning">
-            <div class="issue-top">
-              <span class="issue-icon">📄</span>
-              <span class="issue-title">CA125 IVDR TD 임상전문가 서명 대기</span>
-              <span class="issue-person" style="background:rgba(210,153,34,0.15);color:var(--warning);border-color:rgba(210,153,34,0.3);">김수지</span>
-            </div>
-            <div class="issue-desc">유투바이오, 박준홍 부장님께 서류 전달 완료 → 차주 수요일 4/8까지 수령 예상</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 기타 (요약) -->
-      <div class="section-card">
-        <div class="section-header">
-          <div class="section-title">
-            <span class="section-dot dot-other"></span>
-            <span class="accent-other">📌 기타</span>
-          </div>
-          <span class="section-count">5건</span>
-        </div>
-        <div class="item-list" style="max-height:180px;">
-          <div class="item-row">
-            <div class="item-name">서류 작업 <span class="item-tag tag-doc">서류</span></div>
-            <div class="item-desc">ichroma Ferritin 개발완료보고서 기안 상신 / BR280 연구종료보고서 / AFP 경쟁사 취합 / PMPF 작성법 회의</div>
-          </div>
-          <div class="item-row">
-            <div class="item-name">Poloxamer 추가 실험 (박주연) <span class="item-tag tag-exp">실험</span></div>
-            <div class="item-desc">Cyfra21-1 2cycle 측정값 높음 → 데이터 불가 / 재고 실사 1분기 진행</div>
-            <div class="item-next">Ferritin, Cyfra21-1 실검체 측정 / AFIAS-1 SW 평가</div>
-          </div>
-          <div class="item-row">
-            <div class="item-name">정전기 방지 거름망 실험 <span class="item-tag tag-exp">실험</span></div>
-            <div class="item-desc">정전기 방지 거름망 투입 및 실링 후 재현성 확인 (AFIAS CEA, 이다희)</div>
-          </div>
-          <div class="item-row">
-            <div class="item-name">C.difficile <span class="item-tag tag-exp">실험</span></div>
-            <div class="item-desc">Medix사 C.difficile Toxin A&amp;B 항원 SDS-PAGE 완료 → 결과 나게쉬 부장님께 전달</div>
-            <div class="item-next">자체 제작 calibrator 타사 장비 (VIDAS, Techlab, SD) 측정</div>
-          </div>
-          <div class="item-row">
-            <div class="item-name">회의 <span class="item-tag tag-doc">회의</span></div>
-            <div class="item-desc">Cancer팀 주간회의(4/2) / PMPF 관련 회의(4/1) / IVDR 문서 SOP 작성 방안 회의(4/1)</div>
-            <div class="item-next">Cancer팀 주간회의</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- TEAM + CHART ROW -->
-  <div class="main-grid" style="margin-top:0;">
-
-    <!-- 팀원별 업무 현황 -->
-    <div class="section-card full-width">
-      <div class="section-header">
-        <div class="section-title">👥 팀원별 업무 현황</div>
-        <span class="section-count">6명</span>
-      </div>
-      <div class="team-grid">
-        <div class="team-member">
-          <div class="member-header">
-            <div class="member-avatar" style="background:rgba(88,166,255,0.15);color:var(--research);">이다</div>
-            <div>
-              <div class="member-name">이다희</div>
-            </div>
-            <span class="member-status status-leave">4/7 연차</span>
-          </div>
-          <div class="member-tasks">
-            <span class="task-chip">H. Pylori SA PEG 실험</span>
-            <span class="task-chip">CEA 정전기 거름망</span>
-            <span class="task-chip">AFIAS 장비 test</span>
-          </div>
-        </div>
-        <div class="team-member">
-          <div class="member-header">
-            <div class="member-avatar" style="background:rgba(240,136,62,0.15);color:var(--production);">고경</div>
-            <div>
-              <div class="member-name">고경열</div>
-            </div>
-            <span class="member-status status-active">근무 중</span>
-          </div>
-          <div class="member-tasks">
-            <span class="task-chip">AFIAS Ferritin 벨기에 test</span>
-            <span class="task-chip">개발완료보고서 기안</span>
-            <span class="task-chip">BR280 연구종료보고서</span>
-            <span class="task-chip">C.difficile SDS-PAGE</span>
-          </div>
-        </div>
-        <div class="team-member">
-          <div class="member-header">
-            <div class="member-avatar" style="background:rgba(63,185,80,0.15);color:var(--other);">김나</div>
-            <div>
-              <div class="member-name">김나연</div>
-            </div>
-            <span class="member-status status-active">근무 중</span>
-          </div>
-          <div class="member-tasks">
-            <span class="task-chip">AFP PEG 상관성 실험</span>
-            <span class="task-chip">AFP 경쟁사 취합</span>
-            <span class="task-chip">PMPF 작성법 회의</span>
-          </div>
-        </div>
-        <div class="team-member">
-          <div class="member-header">
-            <div class="member-avatar" style="background:rgba(188,140,255,0.15);color:var(--approval);">김수</div>
-            <div>
-              <div class="member-name">김수지</div>
-            </div>
-            <span class="member-status status-active">근무 중</span>
-          </div>
-          <div class="member-tasks">
-            <span class="task-chip">CA125 IVDR TD 15건 작성</span>
-            <span class="task-chip">CA15-3 가혹 안정성 182일차</span>
-            <span class="task-chip">CA15-3 IFU 성능 작성</span>
-          </div>
-        </div>
-        <div class="team-member">
-          <div class="member-header">
-            <div class="member-avatar" style="background:rgba(248,81,73,0.15);color:var(--issue);">박주</div>
-            <div>
-              <div class="member-name">박주연</div>
-            </div>
-            <span class="member-status status-active">근무 중</span>
-          </div>
-          <div class="member-tasks">
-            <span class="task-chip">Poloxamer 188 성능 평가</span>
-            <span class="task-chip">⚠️ Cyfra21-1 데이터 이슈</span>
-            <span class="task-chip">재고 실사 1분기</span>
-          </div>
-        </div>
-        <div class="team-member">
-          <div class="member-header">
-            <div class="member-avatar" style="background:rgba(210,153,34,0.15);color:var(--warning);">임지</div>
-            <div>
-              <div class="member-name">임지은</div>
-            </div>
-            <span class="member-status status-active">근무 중</span>
-          </div>
-          <div class="member-tasks">
-            <span class="task-chip">⚠️ PSA Cal 이슈 클레임</span>
-            <span class="task-chip">PSA Neo 수식/반q</span>
-            <span class="task-chip">Free PSA 제조</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- CHART ROW -->
-  <div class="main-grid" style="grid-template-columns: 1fr 1fr; margin-top: 16px;">
-
-    <!-- 업무 분포 도넛 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title">📊 업무 분포</div>
-      </div>
-      <div class="chart-section">
-        <div class="donut-wrap">
-          <svg width="100" height="100" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#21262d" stroke-width="12"/>
-            <!-- 연구 6/27 = 22.2% = 55.9deg -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#58a6ff" stroke-width="12"
-              stroke-dasharray="55.9 195.4" stroke-dashoffset="0"/>
-            <!-- 생산 10/27 = 37.0% = 93.2deg -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#f0883e" stroke-width="12"
-              stroke-dasharray="93.2 157.4" stroke-dashoffset="-55.9"/>
-            <!-- 허가 6/27 = 22.2% = 55.9deg -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#bc8cff" stroke-width="12"
-              stroke-dasharray="55.9 195.4" stroke-dashoffset="-149.1"/>
-            <!-- 기타 5/27 = 18.5% = 46.5deg -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#3fb950" stroke-width="12"
-              stroke-dasharray="46.5 204.8" stroke-dashoffset="-205.0"/>
-          </svg>
-          <div class="donut-center">
-            <div class="donut-num">27</div>
-            <div class="donut-sub">총 아이템</div>
-          </div>
-        </div>
-        <div class="legend">
-          <div class="legend-item">
-            <div class="legend-dot" style="background:var(--research);"></div>
-            <span class="legend-label">연구</span>
-            <span class="legend-count accent-research">6건 (22%)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-dot" style="background:var(--production);"></div>
-            <span class="legend-label">생산</span>
-            <span class="legend-count accent-production">10건 (37%)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-dot" style="background:var(--approval);"></div>
-            <span class="legend-label">허가</span>
-            <span class="legend-count accent-approval">6건 (22%)</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-dot" style="background:var(--other);"></div>
-            <span class="legend-label">기타</span>
-            <span class="legend-count accent-other">5건 (19%)</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 주요 제품 진행률 -->
-    <div class="section-card">
-      <div class="section-header">
-        <div class="section-title">📈 주요 제품 진행률</div>
-      </div>
-      <div class="progress-grid">
-        <div class="progress-item">
-          <div class="progress-top">
-            <span class="progress-name">PSA Neo / Free PSA</span>
-            <span class="progress-pct accent-approval">75%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill fill-approval" style="width:75%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-top">
-            <span class="progress-name">iFOB Neo</span>
-            <span class="progress-pct accent-approval">70%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill fill-approval" style="width:70%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-top">
-            <span class="progress-name">H. Pylori SA</span>
-            <span class="progress-pct accent-production">65%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill fill-production" style="width:65%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-top">
-            <span class="progress-name">Calprotectin (허가)</span>
-            <span class="progress-pct accent-research">90%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill fill-research" style="width:90%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-top">
-            <span class="progress-name">CEA AFIAS</span>
-            <span class="progress-pct accent-production">85%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill fill-production" style="width:85%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-top">
-            <span class="progress-name">CA15-3 IVDD</span>
-            <span class="progress-pct accent-other">55%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill fill-other" style="width:55%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-top">
-            <span class="progress-name">Cyfra21-1 허가</span>
-            <span class="progress-pct accent-approval">60%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill fill-approval" style="width:60%"></div>
-          </div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-top">
-            <span class="progress-name">CA125 IVDR</span>
-            <span class="progress-pct accent-approval">50%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill fill-approval" style="width:50%"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- FOOTER -->
-  <div style="text-align:center; padding:20px 0 8px; color:var(--text-muted); font-size:11px;">
-    Cancer팀 주간 대시보드 &nbsp;·&nbsp; 바디텍메드 &nbsp;·&nbsp; 2026년 3월 30일 ~ 4월 3일 &nbsp;·&nbsp; 노션 자동 연동
-  </div>
-
-</div>
 </body>
 </html>
