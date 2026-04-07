@@ -269,12 +269,122 @@
     font-size: 11px;
   }
 
+  /* DATE/TIME BAR */
+  .datetime-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .dt-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 28px;
+    position: relative;
+  }
+
+  .dt-block:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 20%; bottom: 20%;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .dt-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+  }
+
+  .dt-value {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+
+  .dt-value.time { color: var(--blue); font-variant-numeric: tabular-nums; font-size: 28px; }
+  .dt-value.date { color: var(--text); font-size: 15px; }
+  .dt-value.week {
+    font-size: 28px;
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .dt-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  .dt-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    display: inline-flex;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+
   @media (max-width: 600px) {
     .card-grid { grid-template-columns: 1fr; }
     header h1 { font-size: 26px; }
     header { padding: 32px 20px 24px; }
+    .dt-block { padding: 10px 16px; }
+    .dt-value.time { font-size: 22px; }
+    .dt-value.week { font-size: 22px; }
   }
 </style>
+<script>
+function getISOWeek(d) {
+  var date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  var dayNum = date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+  var yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+  return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+}
+function getWeekRange(d) {
+  var day = d.getDay();
+  var mon = new Date(d); mon.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
+  var fri = new Date(mon); fri.setDate(mon.getDate() + 4);
+  var fmt = function(dt){ return (dt.getMonth()+1) + '/' + dt.getDate(); };
+  return fmt(mon) + ' ~ ' + fmt(fri);
+}
+function getDayKo(d) {
+  return ['일','월','화','수','목','금','토'][d.getDay()] + '요일';
+}
+function pad(n){ return n < 10 ? '0'+n : n; }
+function updateClock() {
+  var now = new Date();
+  var h = pad(now.getHours()), m = pad(now.getMinutes()), s = pad(now.getSeconds());
+  var timeEl = document.getElementById('dt-time');
+  if(timeEl) timeEl.textContent = h + ':' + m + ':' + s;
+}
+window.addEventListener('DOMContentLoaded', function(){
+  var now = new Date();
+  var week = getISOWeek(now);
+  var months = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+
+  document.getElementById('dt-date').textContent =
+    now.getFullYear() + '년 ' + months[now.getMonth()] + ' ' + now.getDate() + '일';
+  document.getElementById('dt-day').textContent = getDayKo(now);
+  document.getElementById('dt-week').textContent = week + '주차';
+  document.getElementById('dt-range').textContent = getWeekRange(now);
+
+  updateClock();
+  setInterval(updateClock, 1000);
+});
+</script>
 </head>
 <body>
 
@@ -287,6 +397,25 @@
   </div>
   <h1>업무 <span>허브</span></h1>
   <p>Cancer팀 업무 도구 모음 &nbsp;·&nbsp; 카드를 클릭해 각 프로그램으로 이동하세요</p>
+
+  <!-- 날짜/시간/주차 위젯 -->
+  <div class="dt-wrap">
+    <div class="dt-block">
+      <div class="dt-label">📅 날짜</div>
+      <div class="dt-value date" id="dt-date">—</div>
+      <div class="dt-sub" id="dt-day">—</div>
+    </div>
+    <div class="dt-block">
+      <div class="dt-label">🕐 현재 시간</div>
+      <div class="dt-value time" id="dt-time">--:--:--</div>
+      <div class="dt-sub">실시간</div>
+    </div>
+    <div class="dt-block">
+      <div class="dt-label">📋 이번 주차</div>
+      <div class="dt-value week" id="dt-week">—</div>
+      <div class="dt-sub" id="dt-range">—</div>
+    </div>
+  </div>
 </header>
 
 <main>
