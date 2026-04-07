@@ -1,0 +1,2804 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ID Chip 통합 검수 시스템</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0d14; --surface:#13151f; --card:#181b28; --card2:#1e2133;
+  --border:rgba(255,255,255,0.06); --border2:rgba(255,255,255,0.10);
+  --green:#4ade80; --blue:#60a5fa; --purple:#a78bfa;
+  --red:#f87171; --yellow:#fbbf24; --orange:#fb923c; --cyan:#22d3ee;
+  --text:#e2e8f0; --text2:#94a3b8; --text3:#475569;
+  --mono:'IBM Plex Mono',monospace; --sans:'Pretendard',-apple-system,sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;
+  background-image:radial-gradient(ellipse 80% 40% at 50% -10%,rgba(96,165,250,0.07),transparent)}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:#1e2133;border-radius:3px}
+
+header{padding:16px 28px;display:flex;align-items:center;gap:14px;
+  border-bottom:1px solid var(--border);background:rgba(19,21,31,0.95);
+  backdrop-filter:blur(12px);position:sticky;top:0;z-index:300}
+.hlogo{width:34px;height:34px;border-radius:8px;
+  background:linear-gradient(135deg,#1d4ed8,#7c3aed);
+  display:flex;align-items:center;justify-content:center;font-size:17px;
+  box-shadow:0 0 18px rgba(124,58,237,0.3);flex-shrink:0}
+.htitle{font-size:14px;font-weight:800;letter-spacing:-.3px}
+.hsub{font-size:10px;color:var(--text2);font-family:var(--mono);margin-top:1px}
+#hstat{margin-left:auto;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+
+#main{max-width:1260px;margin:0 auto;padding:20px 18px}
+
+/* ── UPLOAD PANELS ── */
+.upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+@media(max-width:700px){.upload-grid{grid-template-columns:1fr}}
+.upload-panel{border:1.5px dashed var(--border2);border-radius:12px;padding:18px 16px;
+  background:rgba(24,27,40,0.7);cursor:pointer;transition:all .18s;position:relative}
+.upload-panel:hover,.upload-panel.drag-over{border-color:var(--blue);background:rgba(24,27,40,0.95)}
+.up-label{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.up-icon{font-size:20px}
+.up-title{font-size:13px;font-weight:700}
+.up-badge{font-size:10px;font-family:var(--mono);padding:1px 6px;border-radius:4px}
+.ub-writer{background:rgba(96,165,250,.15);color:var(--blue);border:1px solid rgba(96,165,250,.2)}
+.ub-record{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.15)}
+.up-hint{font-size:11px;color:var(--text3)}
+.up-hint em{color:var(--text2);font-style:normal}
+input[type=file]{display:none}
+
+/* ── FILE CHIPS ── */
+.chip-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;min-height:0}
+.fchip{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;
+  border-radius:6px;background:var(--card2);border:1px solid var(--border2);font-size:10px;max-width:380px}
+.fchip-p{font-size:9px;font-weight:800;padding:1px 4px;border-radius:3px;flex-shrink:0;font-family:var(--mono)}
+.fp-ichroma{background:rgba(96,165,250,.2);color:var(--blue)}
+.fp-afias{background:rgba(167,139,250,.2);color:var(--purple)}
+.fp-rec{background:rgba(74,222,128,.12);color:var(--green)}
+.fp-unk{background:rgba(71,85,105,.2);color:var(--text3)}
+.fchip-n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;color:var(--text2)}
+.fchip-meta{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;flex-shrink:0;font-family:var(--mono);letter-spacing:.02em}
+.fchip-lot{background:rgba(251,191,36,.15);color:#f59e0b;border:1px solid rgba(251,191,36,.25)}
+.fchip-exp{background:rgba(99,102,241,.15);color:#818cf8;border:1px solid rgba(99,102,241,.25)}
+.fchip-x{cursor:pointer;color:var(--text3);font-size:13px;flex-shrink:0;transition:color .12s}
+.fchip-x:hover{color:var(--red)}
+
+/* ── RUN BTN ── */
+#run-btn{display:block;width:100%;padding:12px;margin-bottom:24px;
+  background:linear-gradient(135deg,#1d4ed8,#7c3aed);color:#fff;
+  font-size:14px;font-weight:700;border:none;border-radius:10px;cursor:pointer;
+  transition:opacity .2s,transform .12s;font-family:var(--sans);
+  box-shadow:0 4px 20px rgba(124,58,237,0.22)}
+#run-btn:hover:not(:disabled){opacity:.88;transform:translateY(-1px)}
+#run-btn:disabled{opacity:.22;cursor:not-allowed;transform:none}
+
+/* ── LOADING ── */
+#loading{display:none;text-align:center;padding:56px 0;color:var(--text2)}
+.spin{display:inline-block;font-size:24px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── EMPTY ── */
+#empty{text-align:center;padding:56px 0}
+#empty .ei{font-size:44px;opacity:.12;margin-bottom:12px}
+#empty p{color:var(--text2);font-size:13px}
+
+/* ── PLATFORM SECTION ── */
+.plat-sec{margin-bottom:32px}
+.plat-hdr{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  border-radius:10px;margin-bottom:12px;border-left:3px solid}
+.plat-hdr.ich{border-left-color:var(--blue);background:rgba(96,165,250,.05)}
+.plat-hdr.af{border-left-color:var(--purple);background:rgba(167,139,250,.05)}
+.plat-title{font-size:15px;font-weight:800}
+.plat-cnt{font-size:10px;font-family:var(--mono);color:var(--text2);
+  background:var(--card2);padding:2px 7px;border-radius:4px}
+
+/* ── ITEM GROUP ── */
+.igrp{background:var(--card);border:1px solid var(--border);border-radius:12px;
+  margin-bottom:10px;overflow:hidden}
+.igrp-hdr{padding:11px 15px;display:flex;align-items:center;gap:8px;
+  background:var(--card2);cursor:pointer;user-select:none;flex-wrap:wrap}
+.igrp-hdr:hover{background:#22253b}
+.igrp-name{font-size:13px;font-weight:700}
+.igrp-lot{font-size:10px;font-family:var(--mono);color:var(--green);
+  background:rgba(74,222,128,.08);padding:2px 7px;border-radius:4px;
+  border:1px solid rgba(74,222,128,.15)}
+.igrp-badges{display:flex;gap:5px;margin-left:auto;flex-wrap:wrap}
+.ig-tog{font-size:12px;transition:transform .18s;color:var(--text2);flex-shrink:0}
+.ig-tog.cl{transform:rotate(-90deg)}
+.igrp-body{border-top:1px solid var(--border)}
+
+/* ── CHECK TABS ── */
+.check-tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
+.ctab{padding:8px 16px;font-size:11px;font-weight:600;cursor:pointer;
+  color:var(--text2);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.ctab:hover{color:var(--text)}
+.ctab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.ctab.has-diff{color:var(--red) !important}
+.ctab.has-diff.active{border-bottom-color:var(--red)}
+.tab-content{display:none;padding:14px 15px}
+.tab-content.active{display:block}
+
+/* ── SHEET PANEL ── */
+.sp{background:var(--bg);border:1px solid var(--border);border-radius:9px;
+  overflow:hidden;margin-bottom:10px}
+.sp:last-child{margin-bottom:0}
+.sp-hdr{display:flex;align-items:center;gap:8px;padding:7px 12px;
+  background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.sp-name{font-size:11px;font-weight:700;font-family:var(--mono);color:var(--blue)}
+.sp-note{font-size:10px;color:var(--text3);margin-left:2px}
+.sp-stat{margin-left:auto}
+
+/* ── TABLES ── */
+.twrap{overflow-x:auto}
+table.ct{width:100%;border-collapse:collapse;font-size:11px;min-width:400px}
+table.ct thead th{padding:5px 10px;text-align:left;font-size:10px;font-weight:600;
+  color:var(--text2);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);
+  font-family:var(--mono);white-space:nowrap}
+table.ct thead th.ca{color:var(--blue)}
+table.ct thead th.cb{color:var(--purple)}
+table.ct thead th.cc{color:var(--green)}
+table.ct td{padding:4px 10px;border-bottom:1px solid rgba(255,255,255,.03);
+  font-family:var(--mono);font-size:11px;vertical-align:top}
+table.ct td.cl{color:var(--text2);font-size:10px;width:22%;white-space:nowrap}
+table.ct td.cv{color:var(--text);width:30%;word-break:break-all}
+table.ct td.cf{text-align:center;width:26px;padding:4px 3px}
+table.ct tr.rd{background:rgba(248,113,113,.07)}
+table.ct tr.rd td.cv{color:#fca5a5}
+table.ct tr.ra{background:rgba(255,255,255,.015)}
+table.ct tr:last-child td{border-bottom:none}
+table.st{width:100%;border-collapse:collapse;font-size:11px}
+table.st td{padding:4px 10px;border-bottom:1px solid rgba(255,255,255,.03);font-family:var(--mono)}
+table.st td:first-child{color:var(--text2);font-size:10px;width:34%;white-space:nowrap}
+table.st td:last-child{color:var(--text);word-break:break-all}
+table.st tr:last-child td{border-bottom:none}
+
+.fok{color:var(--green);font-size:11px}
+.fdiff{color:var(--red);font-size:12px}
+.fskip{color:var(--text3);font-size:11px}
+
+/* ── BADGES ── */
+.b{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;
+  border-radius:99px;font-size:10px;font-weight:700;font-family:var(--mono)}
+.b-pass{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.18)}
+.b-diff{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.22)}
+.b-info{background:rgba(96,165,250,.1);color:var(--blue);border:1px solid rgba(96,165,250,.18)}
+.b-warn{background:rgba(251,191,36,.08);color:var(--yellow);border:1px solid rgba(251,191,36,.2)}
+.b-match{background:rgba(34,211,238,.08);color:var(--cyan);border:1px solid rgba(34,211,238,.18)}
+.b-no{background:rgba(71,85,105,.12);color:var(--text3);border:1px solid rgba(71,85,105,.2)}
+
+/* ── CROSS CHECK WARNING ── */
+.xwarn{padding:8px 12px;font-size:11px;color:var(--yellow);
+  background:rgba(251,191,36,.06);border-radius:6px;border:1px solid rgba(251,191,36,.15);
+  margin-bottom:8px;font-family:var(--mono)}
+.xok{padding:8px 12px;font-size:11px;color:var(--green);
+  background:rgba(74,222,128,.06);border-radius:6px;border:1px solid rgba(74,222,128,.12);
+  margin-bottom:8px;font-family:var(--mono)}
+
+/* ── REFERENCE STORAGE ── */
+.ref-bar{display:flex;align-items:center;gap:8px;padding:6px 10px;
+  background:rgba(34,211,238,.04);border-top:1px solid rgba(34,211,238,.1);
+  flex-wrap:wrap}
+.ref-bar-label{font-size:10px;color:var(--text3);font-family:var(--mono)}
+.btn-ref-save{padding:3px 10px;border:1px solid rgba(34,211,238,.35);
+  background:rgba(34,211,238,.08);color:var(--cyan);border-radius:6px;
+  font-size:10px;font-weight:700;cursor:pointer;font-family:var(--mono);
+  transition:background .15s}
+.btn-ref-save:hover{background:rgba(34,211,238,.18)}
+.btn-ref-del{padding:3px 10px;border:1px solid rgba(248,113,113,.3);
+  background:rgba(248,113,113,.06);color:var(--red);border-radius:6px;
+  font-size:10px;font-weight:700;cursor:pointer;font-family:var(--mono);
+  transition:background .15s}
+.btn-ref-del:hover{background:rgba(248,113,113,.16)}
+.ref-saved-badge{font-size:10px;color:var(--cyan);font-family:var(--mono);
+  background:rgba(34,211,238,.07);border:1px solid rgba(34,211,238,.18);
+  border-radius:4px;padding:1px 7px}
+.ref-suffix-badge{font-size:10px;font-weight:800;font-family:var(--mono);
+  padding:1px 8px;border-radius:4px;
+  background:rgba(251,191,36,.15);color:#f59e0b;border:1px solid rgba(251,191,36,.3)}
+/* ── ID CHIP 제작 의뢰서 배치 비교 패널 ── */
+.rec-batch-wrap{margin-bottom:18px}
+.rec-batch-sec{background:var(--card);border:1px solid rgba(74,222,128,.18);
+  border-radius:12px;margin-bottom:10px;overflow:hidden}
+.rec-batch-hdr{display:flex;align-items:center;gap:10px;padding:10px 15px;
+  background:rgba(74,222,128,.04);border-bottom:1px solid rgba(74,222,128,.1);
+  cursor:pointer;user-select:none;flex-wrap:wrap}
+.rec-batch-hdr:hover{background:rgba(74,222,128,.09)}
+.rec-batch-title{font-size:14px;font-weight:800;color:var(--green)}
+.rec-batch-meta{font-size:10px;font-family:var(--mono);color:var(--text2);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:340px}
+.rec-batch-body{padding:12px 14px}
+.rec-ref-bar{display:flex;align-items:center;gap:7px;padding:6px 10px;
+  background:rgba(74,222,128,.03);border-top:1px solid rgba(74,222,128,.1);
+  flex-wrap:wrap;margin-top:8px}
+.btn-rec-save{padding:3px 11px;border:1px solid rgba(74,222,128,.4);
+  background:rgba(74,222,128,.09);color:var(--green);border-radius:6px;
+  font-size:10px;font-weight:700;cursor:pointer;font-family:var(--mono);
+  transition:background .15s}
+.btn-rec-save:hover{background:rgba(74,222,128,.2)}
+.btn-rec-save:disabled{opacity:.4;cursor:not-allowed}
+.btn-rec-del{padding:3px 11px;border:1px solid rgba(248,113,113,.3);
+  background:rgba(248,113,113,.07);color:var(--red);border-radius:6px;
+  font-size:10px;font-weight:700;cursor:pointer;font-family:var(--mono);
+  transition:background .15s}
+.btn-rec-del:hover{background:rgba(248,113,113,.18)}
+.rec-saved-badge{font-size:10px;color:var(--green);font-family:var(--mono);
+  background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);
+  border-radius:4px;padding:1px 8px}
+.rec-batch-prev-info{font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:5px;margin-bottom:8px}
+
+/* 기준값 비교 열 */
+table.ct th.cref{color:var(--cyan) !important}
+table.ct td.cref{color:var(--cyan);opacity:.75}
+table.ct tr.rd td.cref{color:#f87171}
+/* 기준값 불일치 */
+table.ct tr.rref{background:rgba(34,211,238,.06)}
+table.ct tr.rref td.cv{color:#67e8f9}
+
+/* 저장된 아이템 목록 패널 */
+.ref-list-panel{background:var(--card);border:1px solid var(--border);
+  border-radius:10px;margin-bottom:18px;overflow:hidden}
+.ref-list-hdr{display:flex;align-items:center;gap:8px;padding:8px 14px;
+  background:rgba(34,211,238,.04);border-bottom:1px solid rgba(34,211,238,.1);
+  cursor:pointer;user-select:none}
+.ref-list-hdr:hover{background:rgba(34,211,238,.08)}
+.ref-list-hdr-title{font-size:12px;font-weight:700;color:var(--cyan)}
+.ref-list-body{padding:10px 14px;display:flex;flex-wrap:wrap;gap:6px}
+.ref-item-chip{display:flex;align-items:center;gap:5px;padding:3px 10px;
+  background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.18);
+  border-radius:20px;font-size:10px;font-family:var(--mono)}
+.ref-item-chip .ri-plt{color:var(--text3)}
+.ref-item-chip .ri-name{color:var(--cyan);font-weight:700}
+.ref-item-chip .ri-del{color:var(--text3);cursor:pointer;margin-left:3px;font-size:12px}
+.ref-item-chip .ri-del:hover{color:var(--red)}
+
+/* ══════════════════════════════════════════════════
+   상단 메인 탭 네비게이션
+══════════════════════════════════════════════════ */
+.main-nav{display:flex;gap:0;border-bottom:1px solid var(--border);
+  background:rgba(13,15,20,0.98);padding:0 28px;
+  backdrop-filter:blur(12px);position:sticky;top:57px;z-index:200}
+.main-nav-tab{padding:10px 20px;font-size:12px;font-weight:700;cursor:pointer;
+  color:var(--text2);border-bottom:2px solid transparent;transition:all .15s;
+  background:none;border-top:none;border-left:none;border-right:none;
+  font-family:var(--sans);white-space:nowrap}
+.main-nav-tab:hover{color:var(--text)}
+.main-nav-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.main-nav-tab.dash.active{color:var(--purple);border-bottom-color:var(--purple)}
+.main-panel{display:none}
+.main-panel.active{display:block}
+
+/* ══════════════════════════════════════════════════
+   로트 이력 대시보드
+══════════════════════════════════════════════════ */
+.dash-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.dash-stat-card{background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:12px 18px;display:flex;flex-direction:column;gap:4px;min-width:110px}
+.dash-stat-val{font-size:24px;font-weight:800;font-family:var(--mono);line-height:1}
+.dash-stat-lbl{font-size:10px;color:var(--text2)}
+.dash-stat-card.ich .dash-stat-val{color:var(--blue)}
+.dash-stat-card.af  .dash-stat-val{color:var(--purple)}
+.dash-stat-card.all .dash-stat-val{color:var(--green)}
+.hist-sec{margin-bottom:28px}
+.hist-plat-hdr{display:flex;align-items:center;gap:10px;padding:10px 14px;
+  border-radius:10px;margin-bottom:10px;border-left:3px solid}
+.hist-plat-hdr.ich{border-left-color:var(--blue);background:rgba(96,165,250,.05)}
+.hist-plat-hdr.af {border-left-color:var(--purple);background:rgba(167,139,250,.05)}
+.hist-plat-title{font-size:15px;font-weight:800}
+.hist-plat-cnt{font-size:10px;font-family:var(--mono);color:var(--text2);
+  background:var(--card2);padding:2px 7px;border-radius:4px}
+.lht{width:100%;border-collapse:collapse;font-size:11px}
+.lht thead th{padding:6px 10px;text-align:left;font-size:10px;font-weight:700;
+  background:rgba(255,255,255,.03);border-bottom:1px solid var(--border);
+  font-family:var(--mono);white-space:nowrap;vertical-align:bottom}
+.lht thead th.lc{color:var(--green);text-align:center;
+  border-left:1px solid var(--border2);min-width:110px}
+.lht thead th.lc.latest{color:var(--blue)}
+.lht td{padding:4px 10px;border-bottom:1px solid rgba(255,255,255,.03);
+  font-family:var(--mono);font-size:11px;vertical-align:middle}
+.lht td.pc{color:var(--text2);font-size:10px;width:22%;white-space:nowrap}
+.lht td.vc{text-align:center;border-left:1px solid rgba(255,255,255,.04)}
+.lht td.vc.vdiff{color:var(--red);font-weight:700;background:rgba(248,113,113,.05)}
+.lht td.vc.vfirst{color:var(--blue)}
+.lht td.vc.vsame{color:var(--text2)}
+.lht tr.rowdiff .pc{color:var(--yellow)}
+.lht tr:last-child td{border-bottom:none}
+.lht tr:nth-child(even){background:rgba(255,255,255,.01)}
+.lot-del-btn{display:inline-flex;align-items:center;gap:3px;font-size:9px;
+  font-family:var(--mono);padding:2px 6px;border-radius:3px;cursor:pointer;
+  background:rgba(248,113,113,.08);color:var(--red);border:1px solid rgba(248,113,113,.2);
+  transition:background .12s;margin-top:5px}
+.lot-del-btn:hover{background:rgba(248,113,113,.2)}
+.lot-head-info{font-size:10px;font-weight:700;color:var(--green)}
+.lot-head-date{display:block;font-size:9px;font-weight:400;color:var(--text3);margin-top:1px}
+.btn-hist-save{padding:3px 11px;border:1px solid rgba(167,139,250,.4);
+  background:rgba(167,139,250,.1);color:var(--purple);border-radius:6px;
+  font-size:10px;font-weight:700;cursor:pointer;font-family:var(--mono);
+  transition:background .15s}
+.btn-hist-save:hover{background:rgba(167,139,250,.22)}
+.btn-hist-save:disabled{opacity:.4;cursor:not-allowed}
+.hist-saved-badge{font-size:10px;color:var(--purple);font-family:var(--mono);
+  background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);
+  border-radius:4px;padding:1px 8px}
+#dash-empty{text-align:center;padding:60px 0}
+#dash-empty .ei{font-size:44px;opacity:.12;margin-bottom:12px}
+#dash-empty p{color:var(--text2);font-size:13px}
+.param-type-id{font-size:9px;color:var(--blue);
+  background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.15);
+  border-radius:3px;padding:1px 4px;margin-right:4px;font-family:var(--mono)}
+.param-type-fml{font-size:9px;color:var(--purple);
+  background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.15);
+  border-radius:3px;padding:1px 4px;margin-right:4px;font-family:var(--mono)}
+.hist-lot-cnt{font-size:10px;font-family:var(--mono);color:var(--cyan);
+  background:rgba(34,211,238,.07);border:1px solid rgba(34,211,238,.18);
+  border-radius:4px;padding:2px 7px}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hlogo">🔬</div>
+  <div>
+    <div class="htitle">ID Chip 통합 검수 시스템</div>
+    <div class="hsub">Writer 전배치 비교 · Writer ↔ 수식기록서 크로스체크</div>
+  </div>
+  <div id="hstat"></div>
+</header>
+
+<!-- ══ 상단 탭 네비게이션 ══ -->
+<nav class="main-nav">
+  <button class="main-nav-tab active" data-tab="analysis" onclick="switchMainTab('analysis')">🔍 검수 분석</button>
+  <button class="main-nav-tab dash" data-tab="dashboard" onclick="switchMainTab('dashboard')">📊 로트 이력 대시보드</button>
+</nav>
+
+<!-- ══ 검수 분석 패널 ══ -->
+<div id="panel-analysis" class="main-panel active">
+<div id="main">
+
+  <!-- 폴더 선택 버튼 (EXE + standalone 공통 표시) -->
+  <div id="folder-bar" style="display:flex;align-items:center;margin-bottom:10px">
+    <button id="btn-folder-html"
+      style="background:#3b82f6;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:0 0 0 1px rgba(59,130,246,0.5)"
+      onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'"
+      onclick="document.getElementById('fi-folder').click()">
+      📁 폴더 추가 (자동 분류)
+    </button>
+    <span id="folder-status" style="font-size:12px;color:var(--text2);margin-left:12px"></span>
+    <input id="fi-folder" type="file" webkitdirectory mozdirectory multiple
+           accept=".xlsx,.xlsm,.xls" style="display:none"
+           onchange="handleFolderInput(this)"/>
+  </div>
+
+  <div class="upload-grid">
+    <!-- Writer 파일 -->
+    <div class="upload-panel" id="dz-writer">
+      <div class="up-label">
+        <span class="up-icon">💾</span>
+        <span class="up-title">Writer 파일</span>
+        <span class="up-badge ub-writer">ichroma .xlsx / AFIAS .xlsm</span>
+      </div>
+      <div class="up-hint"><em>여러 파일 동시 업로드</em> — 같은 아이템끼리 자동 그룹핑 후 비교</div>
+      <div class="chip-list" id="chips-writer"></div>
+      <input id="fi-writer" type="file" accept=".xlsx,.xlsm,.xls" multiple/>
+    </div>
+    <!-- 수식기록서 파일 -->
+    <div class="upload-panel" id="dz-rec">
+      <div class="up-label">
+        <span class="up-icon">📋</span>
+        <span class="up-title">수식 제조기록서</span>
+        <span class="up-badge ub-record">ichroma / AFIAS 기록서 .xlsx</span>
+      </div>
+      <div class="up-hint"><em>Writer 파일과 같은 로트번호</em>의 기록서 업로드 → 수식값 크로스체크</div>
+      <div class="chip-list" id="chips-rec"></div>
+      <input id="fi-rec" type="file" accept=".xlsx,.xlsm,.xls" multiple/>
+    </div>
+  </div>
+
+  <button id="run-btn" disabled onclick="runAnalysis()">🔍 통합 검수 실행</button>
+  <div id="loading"><div class="spin">⚙</div><br>분석 중…</div>
+  <div id="ref-list-container"></div>
+  <div id="rec-batch-container"></div>
+  <div id="results"></div>
+  <div id="empty">
+    <div class="ei">🧬</div>
+    <p>Writer 파일과 수식 제조기록서를 업로드하면<br>아이템별로 자동 분류·검수합니다</p>
+    <p style="margin-top:8px;font-size:11px;font-family:var(--mono);color:var(--text3)">
+      Writer만 업로드 → 전배치 비교 &nbsp;|&nbsp; 기록서도 업로드 → Writer↔기록서 크로스체크 추가
+    </p>
+  </div>
+</div><!-- /#main -->
+</div><!-- /#panel-analysis -->
+
+<!-- ══ 로트 이력 대시보드 패널 ══ -->
+<div id="panel-dashboard" class="main-panel">
+  <div style="max-width:1260px;margin:0 auto;padding:20px 18px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+      <span style="font-size:15px;font-weight:800">📊 로트 이력 대시보드</span>
+      <span style="font-size:11px;color:var(--text2);font-family:var(--mono)">
+        ichroma / AFIAS 아이템별 수식 이력 관리 — 배치간 수식 변화 추적
+      </span>
+      <button onclick="renderDashboard()"
+        style="margin-left:auto;padding:5px 14px;background:rgba(167,139,250,.12);
+          border:1px solid rgba(167,139,250,.35);color:var(--purple);border-radius:6px;
+          font-size:11px;font-weight:700;cursor:pointer;font-family:var(--mono)">
+        🔄 새로고침
+      </button>
+    </div>
+    <div id="dashboard-content">
+      <div id="dash-empty">
+        <div class="ei">📊</div>
+        <p>저장된 로트 이력이 없습니다</p>
+        <p style="margin-top:8px;font-size:11px;font-family:var(--mono);color:var(--text3)">
+          검수 분석 후 기록서 배치 패널에서 "📥 이력 저장" 버튼을 누르면<br>이 대시보드에서 배치간 수식 변화를 추적할 수 있습니다
+        </p>
+      </div>
+    </div>
+  </div>
+</div><!-- /#panel-dashboard -->
+
+<script>
+// ═══════════════════════════════════════════════════════
+// STANDALONE 모드: localStorage 기반 storage 폴리필
+// (EXE/WebView2 환경에서는 C#이 window.storage를 먼저 주입하므로 이 블록은 실행 안 됨)
+// ═══════════════════════════════════════════════════════
+if (!window.storage) {
+  // C# 스토리지 브릿지와 동일한 반환 형식으로 맞춤
+  // get → 값 있으면 { value: "..." }, 없으면 null
+  // set/delete → null
+  // list → { keys: [...] }
+  window.storage = {
+    get: async (k) => {
+      const v = localStorage.getItem(k);
+      return v !== null ? { value: v } : null;
+    },
+    set: async (k, v) => { localStorage.setItem(k, v); return null; },
+    delete: async (k) => { localStorage.removeItem(k); return null; },
+    list: async (pfx) => {
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith(pfx)) keys.push(k);
+      }
+      return { keys };
+    }
+  };
+}
+
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+const writerFiles=[], recFiles=[];
+let uid=0;
+
+// ═══════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════
+function cv(v){if(v===null||v===undefined)return "";if(v instanceof Date)return v.toLocaleDateString("ko");return String(v).trim();}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function numEq(a,b,tol=1e-4){const fa=parseFloat(a),fb=parseFloat(b);if(isNaN(fa)||isNaN(fb))return false;return Math.abs(fa-fb)<=tol;}
+function valEq(a,b){return a===b||numEq(a,b);}
+function rowVals(row){return(row||[]).map(cv).filter(Boolean);}
+function readRows(wb,name){
+  if(!wb.SheetNames.includes(name))return null;
+  return XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,defval:null}).map(r=>r.map(cv));
+}
+function shortName(fname){return fname.replace(/\.(xlsx?|xlsm)$/i,"").split("_").slice(0,2).join("_");}
+function diffBadge(n){return n>0?`<span class="b b-diff">⚠ ${n}개 차이</span>`:`<span class="b b-pass">✓ 일치</span>`;}
+
+// ═══════════════════════════════════════════════════════
+// PLATFORM DETECTION
+// ═══════════════════════════════════════════════════════
+function detectPlatform(wb, fname){
+  const n=wb.SheetNames.join("|");
+  if(n.includes("Lot0 공통"))return "ichroma";
+  // 기존 단일시트 형식: "ITEM정보"
+  if(n.includes("ITEM정보"))return "AFIAS";
+  // 통합 다중시트 형식: "ITEM 정보" (공백) + "1~29번", "Lot(...)번" 등
+  if(n.includes("ITEM 정보"))return "AFIAS";
+  // 수식기록서 감지
+  if(n.includes("ichroma")||n.includes("라벨"))return "record";
+  // 검수용 서식파일 / 결과 시트 감지 → 자동 skip 대상
+  if(n.includes("Id chip 정보 입력")||n.includes("전배치 수식 정보")||n.includes("계산식 비교")||n.includes("판정"))return "form";
+  // ichroma 제조기록서 — 시트명이 "제조기록서"인 경우 (Ferritin 등)
+  if(wb.SheetNames.some(s=>s==="제조기록서"||s.startsWith("제조기록서_")||s.startsWith("제조기록서 ")))return "record";
+  // ── 파일명 기반 fallback (시트명 인코딩 문제 등 대비) ──────────────
+  if(fname){
+    const fn = fname.toLowerCase();
+    if(fn.includes("\uac80\uc218\uc6a9 \uc11c\uc2dd\ud30c\uc77c")||fn.includes("checkup form"))return "form";
+    if(fn.includes("\uc81c\uc870\uae30\ub85d\uc11c")||fn.includes("\uc218\uc2dd \uc131\uc801\uc11c"))return "record";
+  }
+  return "unknown";
+}
+
+// ═══════════════════════════════════════════════════════
+// ── ICHROMA WRITER EXTRACTOR ──────────────────────────
+// ═══════════════════════════════════════════════════════
+// 시트에서 의미있는 파라미터 행을 모두 읽어 {label→value} 맵 반환
+// ichroma 구조: col[0]=번지/no, col[1]=파라미터설명, col[2]=절대값(입력값)
+// 단, 바코드유무 행(row4)은 col[0]이 설명, col[1]이 값
+// ── Lot0 공통 시트: col2=파라미터설명, col3=절대값 ──────────────
+function extractLot0Map(rows){
+  const map = new Map();
+  const SKIP_STARTS = ["IDW","0x","item name","lot name","Exp","Unit","▼","※","-","     -"];
+  const SKIP_EXACT  = new Set(["수식","절대값","변환값","구분","번지","ok","단위선택","PCT","TNI","고정 단위"]);
+
+  for(const raw of rows){
+    if(!raw) continue;
+    const r = raw.map(cv);
+
+    // 바코드 유무 특수행 (col2에 긴 설명)
+    if(r[2] && r[2].includes("바코드 유무 (44")){
+      map.set("바코드 유무", r[3]||"-"); continue;
+    }
+
+    const label = r[2]||"";
+    const val   = r[3]||"";
+    if(!label) continue;
+    if(SKIP_EXACT.has(label)) continue;
+    if(SKIP_STARTS.some(s=>label.startsWith(s))) continue;
+    if(/^[\d\.\s~]+$/.test(label)) continue;
+    if(val==="True"||val==="False"||val==="") continue;
+
+    // 괄호/줄바꿈 앞 핵심 설명만
+    const key = label.split("(")[0].split("\n")[0].trim();
+    if(key.length < 2) continue;
+    if(!map.has(key)) map.set(key, val);
+  }
+  return map;
+}
+
+// ── Lot1 / ITEM 시트: col1=파라미터설명, col2=절대값 ────────────
+function extractIchromaSheetMap(rows, stopRow){
+  const map = new Map(); // 순서 보존
+  const limit = stopRow || rows.length;
+  // 제외 키워드: 헤더/메모/단위표/설명 행
+  const SKIP_COL1 = ["수식","절대값","변환값","구분","번지","ok","단위선택","0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","PCT","TNI","고정 단위","▼","지우지"];
+  const SKIP_STARTS = ["IDW","0x","True","False","01","00","FF","ff"];
+
+  for(let i=0; i<Math.min(rows.length, limit); i++){
+    const raw = rows[i];
+    if(!raw) continue;
+    const r = raw.map(cv);
+
+    // 바코드 유무 행: col[0]이 긴 설명
+    if(r[0] && r[0].includes("바코드 유무 (44")){
+      map.set("바코드 유무", r[1]||"-"); continue;
+    }
+    // 바코드유무2 행
+    if(r[1] && r[1].includes("바코드 유무2")){
+      map.set("바코드 유무2", r[2]||"-"); continue;
+    }
+
+    // 일반 파라미터 행: col[1]이 설명, col[2]가 절대값
+    const label = r[1]||"";
+    const val   = r[2]||"";
+    if(!label) continue;
+    // 스킵: 설명이 너무 짧거나 숫자뿐이거나 헤더류
+    if(SKIP_COL1.includes(label)) continue;
+    if(/^[\d\s]+$/.test(label)) continue;
+    if(SKIP_STARTS.some(s=>label.startsWith(s))) continue;
+    if(label.startsWith("▼")||label.startsWith("※")||label.startsWith("-")) continue;
+    // 값이 없으면 스킵 (0은 유효한 값)
+    if(val===""&&label.includes("생략")) continue;
+
+    // 로트/EXP 계열은 별도 처리 (비교 제외)
+    if(label.includes("A50 Lot")||label.includes("A50 exp")||
+       label==="Lot"||label.startsWith("production date")) continue;
+
+    map.set(label, val);
+  }
+  return map;
+}
+
+// ── ichroma 아이템 번호 → 이름 매핑 테이블 ─────────────────────
+const ICHROMA_ITEM_MAP = {
+  1:"PSA",2:"AFP",3:"hsCRP",4:"CEA",5:"MAU",6:"HbA1c",7:"mCRP&whsCRP",8:"All-in-one CRP",
+  9:"PCT",10:"system control",11:"TN-I",12:"D-Dimer",13:"T4",14:"TSH",15:"Anti-CCP",
+  16:"LH",17:"hCG",18:"Testosterone",19:"Progesterone",20:"Cortisol",21:"FSH",22:"PRL",
+  23:"Calprotectin",24:"H.pylori SA",25:"FOB",26:"Vitamin D",27:"ASO",28:"RF IgM",
+  29:"Ferritin",30:"CK-MB",31:"Lp-PLA2",32:"Myoglobin",33:"H-FABP",34:"T3",
+  35:"Total B hCG",36:"RF Igm",37:"Beta HCG",38:"Cystatin C",39:"HbA1c",40:"Estradiol",
+  41:"LDL-D",42:"Total IgE",43:"SAA",44:"ST2",45:"CRP/SAA",46:"Tumor triple-M",
+  47:"Vitamin D Neo",48:"COVID-19/Flu A+B/RSV",49:"HbA1c Neo",50:"Free PSA",
+  51:"Anti-HBS",52:"Anti-HCV",53:"HBsAg",54:"Noro",55:"Rota",56:"Rota/Adeno",
+  57:"TnI plus",58:"NT-proBNP",59:"Zika IgG/IgM",60:"HIV-1/2 Ag/Ab",61:"Dengue IgG/IgM",
+  62:"Dengue NS1",63:"Gonorrhea",64:"Syphills",65:"IGRA-TB",66:"Zika NS1",
+  67:"Influenza A+B",68:"b-hCG plus",69:"PCT plus",70:"TSH plus",71:"FSH plus",
+  72:"LH plus",73:"PRL plus",74:"PSA plus",75:"AFP plus",76:"CEA plus",77:"Ferritin plus",
+  78:"Anti-CCP_RFIgM",79:"Strep A",80:"Astro",81:"CK-MB/Tn-I/Myo",82:"PCT/CRP",
+  83:"Flu A+B/RSV",84:"MMP-9",85:"RSV",86:"Adenovirus",87:"Mycoplasma",88:"Chlamydia",
+  89:"AMH",90:"CHIKV IgG/IgM",91:"hCG/PG",92:"iFOB/Calprotectin",93:"NT-proBNP/D-Dimer",
+  94:"Anti-CCP (고감도)",95:"Chlamydia/Gonorrhea(CT/NG)",96:"JEV IgG/IgM",97:"DENV/CHIKV Ag",
+  98:"COVID-19 SP/NP IgG",99:"AST/ALT",100:"QC팀 사용중",101:"Toxo IgG/IgM",102:"ToRC IgM",
+  103:"ToRC IgG",104:"COVID-19 Ab",105:"COVID-19 IGRA",106:"COVID-19 Ag",107:"IL-6",
+  108:"COVID-19/Flu Ag",109:"DPP-3",110:"Troponin T",111:"BNP",112:"COVID-19 nAb",
+  113:"NT-proBNP/ST2",114:"Gastrin 17",115:"Pepsinogen I/II",116:"AST",
+  117:"ichroma Toxo IgM",118:"ichroma Toxo IgG",119:"ichroma CMV IgM",120:"ichroma CMV IgG",
+  121:"ichroma Rubella IgM",122:"ichroma Rubella IgG",123:"CA125",124:"CA15-3",125:"CA19-9",
+  126:"Cyfra21-1",127:"mAMP/COC/THC",128:"Free T4",129:"Thyroid Duo",130:"AMP/EDDP/OPI",
+  131:"BAR/BZO/TCA",132:"MxA",133:"MxA/CRP",134:"MxA/PCT",135:"IGF-1",136:"CHI3L1",
+  137:"P1NP",138:"KL-6",139:"LAM Ag",140:"penKid",141:"HIV 1/2 Ab",142:"PTH",143:"PlGF",
+  144:"Insulin",145:"FEN/KET/MDMA",148:"PR3-ANKA"
+};
+
+function ichromaItemNumToName(num){
+  const n = parseInt(num);
+  return ICHROMA_ITEM_MAP[n] || null;
+}
+
+function extractIchromaWriter(wb, fname){
+  // ── Lot0 공통: 전체 행 읽기 ──────────────────────
+  const lot0Rows = readRows(wb,"Lot0 공통")||[];
+  const lot0Data = extractLot0Map(lot0Rows);
+
+  // ── Lot1번이 아닐때 입력 → 아이템명·수식 전체 읽기 ──
+  const lot1Sheet = readRows(wb,"Lot1번이 아닐때 입력");
+  let masterItemName="", masterLot="", masterExp="";
+  let itemData = new Map();
+  // ── lot1 시트 파싱 ────────────────────────────────────────────
+  // ★ 로직:
+  //   - "30번 이후를 쓰세요": col2=아이템번호 → 번호로 시트 직접 탐색
+  //   - 일반 아이템명: 이름으로 ITEM 시트 스캔 (폴백)
+  const lot1ItemEntries = []; // [{name, sheetName}]
+
+  // 번호 범위 시트 탐색 헬퍼: col2(row5)가 itemNum과 일치하는 시트 반환
+  // ITEM(n~m), n~m, n~m_F, n~m_TRF 등 모든 패턴 포함
+  // ★ row5 col1이 "30번 이후를 쓰세요" 같은 안내문인 시트는 제외
+  function findSheetByItemNum(itemNum){
+    const target = String(itemNum).trim();
+    return wb.SheetNames.find(sn => {
+      if(sn==="Lot1번이 아닐때 입력") return false;
+      if(!/^ITEM\(|^\d/.test(sn)) return false;
+      const rows = readRows(wb, sn);
+      if(!rows||rows.length<5) return false;
+      const r5 = rows[4].map(cv);
+      // col1이 안내문("이후를 쓰세요")인 시트는 실제 데이터 시트가 아님 → 제외
+      if((r5[1]||"").includes("이후를 쓰세요")) return false;
+      return r5[2] === target;
+    }) || null;
+  }
+
+  if(lot1Sheet && lot1Sheet.length>4){
+    for(let i=4; i<Math.min(lot1Sheet.length, 30); i++){
+      const r = lot1Sheet[i].map(cv);
+      const seq = r[0]||"";
+      if(!seq || !/^\d+$/.test(seq)) continue;
+      const col1 = r[1]||"";
+      const col2 = r[2]||"";
+      if(!col1) continue;
+
+      let name = "", sheetName = null;
+
+      if(col1.includes("이후를 쓰세요") || col1.includes("번 이후")){
+        // ★ "30번 이후를 쓰세요": col2=번호 → 번호로 시트 탐색
+        if(!col2 || col2==="0") continue;
+        name = ICHROMA_ITEM_MAP[parseInt(col2)] || col2;
+        sheetName = findSheetByItemNum(col2);
+      } else {
+        // 일반 아이템명: null → validItemSheets에서 이름으로 스캔
+        name = col1;
+        sheetName = null;
+      }
+      if(!name || name.includes("바코드") || name.includes("유무") || name==="0") continue;
+
+      lot1ItemEntries.push({name, sheetName});
+    }
+
+    masterItemName = lot1ItemEntries.length>0 ? lot1ItemEntries[0].name : "";
+
+    // lot/exp 추출
+    const lot1Raw = XLSX.utils.sheet_to_json(wb.Sheets["Lot1번이 아닐때 입력"],{header:1,defval:null});
+    for(const row of lot1Raw){
+      if(!row) continue;
+      const r = row.map(v=>v===null||v===undefined?"":String(v).trim());
+      if(!masterLot && r[1]&&r[1].includes("A50 Lot") && r[2]&&r[2]!=="") masterLot=r[2];
+      if(!masterExp  && r[1]&&r[1].includes("A50 exp") && r[2]&&r[2]!=="") masterExp=String(r[2]);
+      if(masterLot && masterExp) break;
+    }
+    itemData = extractIchromaSheetMap(lot1Sheet, 55);
+  }
+  if(!masterLot||masterLot==="-") masterLot = lotFromFilename(fname||"")||"-";
+
+  // ── validItemSheets 구성 ──────────────────────────────────────
+  const validItemSheets=[];
+
+  if(lot1ItemEntries.length>0){
+    for(const entry of lot1ItemEntries){
+      // sheetName이 있으면 바로 사용, null이면 이름으로 ITEM 시트 스캔
+      let targetSheet = entry.sheetName;
+      if(!targetSheet){
+        targetSheet = wb.SheetNames.find(sn => {
+          if(!/^ITEM\(|^\d/.test(sn)) return false;
+          const rows = readRows(wb,sn);
+          if(!rows||rows.length<5) return false;
+          return rows[4].map(cv)[1] === entry.name;
+        }) || null;
+      }
+      if(!targetSheet) continue;
+      const rows = readRows(wb, targetSheet);
+      if(!rows||rows.length<5) continue;
+      const sheetMap = extractIchromaSheetMap(rows, 55);
+      let sLot="-", sExp="-";
+      for(let i=4;i<Math.min(rows.length,110);i++){
+        const r=rows[i].map(cv);
+        if(r[1]&&r[1].includes("A50 Lot")) sLot=r[2]||"-";
+        if(r[1]&&r[1].includes("A50 exp")) sExp=r[2]||"-";
+      }
+      validItemSheets.push({sheet:targetSheet, itemName:entry.name, lot:sLot, exp:sExp, paramMap:sheetMap});
+    }
+  } else {
+    // 폴백: ITEM(n~m) 또는 숫자 시작 번호 범위 시트 전체 스캔
+    const ITEM_SHEET_NAMES=wb.SheetNames.filter(s=>/^ITEM\(/.test(s)||/^\d/.test(s));
+    for(const sn of ITEM_SHEET_NAMES){
+      const rows=readRows(wb,sn);
+      if(!rows||rows.length<5) continue;
+      const r5=rows[4].map(cv);
+      const sItemName=r5[1]||"";
+      if(!sItemName||sItemName.includes("바코드")||sItemName.includes("유무")||sItemName.includes("이후를 쓰세요")) continue;
+      if(masterItemName && sItemName!==masterItemName) continue;
+      const sheetMap = extractIchromaSheetMap(rows, 55);
+      let sLot="-", sExp="-";
+      for(let i=4;i<Math.min(rows.length,110);i++){
+        const r=rows[i].map(cv);
+        if(r[1]&&r[1].includes("A50 Lot")) sLot=r[2]||"-";
+        if(r[1]&&r[1].includes("A50 exp")) sExp=r[2]||"-";
+      }
+      validItemSheets.push({sheet:sn,itemName:sItemName,lot:sLot,exp:sExp,paramMap:sheetMap});
+    }
+  }
+
+  return{platform:"ichroma",itemName:masterItemName,lot:masterLot,exp:masterExp,
+    lot0Data,itemData,validItemSheets};
+}
+
+// ═══════════════════════════════════════════════════════
+// ── AFIAS WRITER EXTRACTOR ────────────────────────────
+// ═══════════════════════════════════════════════════════
+// ITEM정보 시트: col2=파라미터명(긴 설명), col3=절대값  (row7~row44)
+// 통합수식 시트: col1=파라미터명, col2=절대값, 섹션별(A-6/A-10/A-3/A-1)
+
+function extractAfiasItemMap(rows){
+  // ITEM정보/ITEM 정보 시트 파싱
+  // 기존형 row7(idx6)~row44: col2=파라미터설명, col3=절대값
+  // 통합형 row5(idx4)~     : col2=파라미터설명, col3=절대값 (동일 컬럼)
+  const map = new Map();
+  const SKIP_LABELS = ["LOT 명","EXP 날짜","아이템 명","바코드","Menarini","AFIAS-1","AFIAS-10","AFIAS-3","IDW","▼","※","지우지","Reserved"];
+  const SKIP_VALS   = ["True","False","IDW","0x","▼","※","#VALUE"];
+
+  for(let i=4; i<Math.min(rows.length, 70); i++){
+    const r = rows[i]; if(!r) continue;
+    const rv = r.map(cv);
+    // col2=설명, col3=절대값
+    let label = rv[2]||"";
+    let val   = rv[3]||"";
+    if(!label || !val) continue;
+    if(SKIP_VALS.some(s=>String(val).startsWith(s))) continue;
+    if(["True","False"].includes(String(val))) continue;
+    if(SKIP_LABELS.some(s=>label.includes(s))) continue;
+    if(/^\d+\.?\d*$/.test(label)) continue;
+    // 긴 설명은 첫 괄호 앞만 키로
+    const key = label.split("(")[0].trim();
+    if(key.length < 2) continue;
+    if(!map.has(key)) map.set(key, val);
+  }
+  return map;
+}
+
+function extractAfiasSuikSections(rows){
+  // 통합수식 시트를 섹션별로 파싱
+  // 섹션 헤더: "▼ For A-6", "▼ For A-10", "▼ For A-3", "▼ For A-1"
+  // 각 행: col1=파라미터명, col2=절대값
+  //
+  // Writer 키 3가지 레이아웃:
+  //   Rev_43: "3차","2차","1차","절편"  (단순형 — Serum 전용, Serum prefix 없음)
+  //   Rev_73: "Serum ratio 3차","Serum ratio 2차",...,"WB ratio 3차",...
+  //   Rev_61: "Serum 3차","Serum 2차",...,"WB ratio 3차",...
+  //
+  // ★ 모두 "Serum 3차"/"Serum 2차"/"Serum 1차"/"Serum 절편"으로 정규화하여 저장
+  //   → 기록서 formulaMap 키("Serum 3차" 등)와 정확히 매칭
+
+  const SECTIONS = ["A-6","A-10","A-3","A-1"];
+  const sectionMaps = {};
+  let currentSection = null;
+  let sectionItemName = ""; // 섹션 내 제품명 (row1 = item명)
+
+  const SKIP_LABELS = ["Lot 번호","production date","▼","IDW","0x","※","지우지","Serum_Item","WB_Item","AFIAS-","후변화"];
+  const SKIP_VALS   = ["True","False","IDW","0x","▼","#"];
+
+  // ★ Writer 키 → 정규화 키 변환
+  function normWriterKey(label){
+    const l = label.toLowerCase().replace(/\s+/g,"").replace(/[\(\)_]/g,"");
+    // "Serum ratio 3차" / "Serum 3차" / "3차" → "Serum 3차"
+    if(/3차$/.test(label) && !l.includes("wb") && !l.includes("c-tip") && !l.includes("anti")) return "Serum 3차";
+    if(/2차$/.test(label) && !l.includes("wb") && !l.includes("c-tip") && !l.includes("anti")) return "Serum 2차";
+    if(/1차$/.test(label) && !l.includes("wb") && !l.includes("c-tip") && !l.includes("anti")) return "Serum 1차";
+    if(/절편$/.test(label) && !l.includes("wb") && !l.includes("c-tip") && !l.includes("anti")) return "Serum 절편";
+    // "WB ratio 3차" → 그대로 유지 (기록서도 동일)
+    if(/wb.*3차/.test(l)) return "WB ratio 3차";
+    if(/wb.*2차/.test(l)) return "WB ratio 2차";
+    if(/wb.*1차/.test(l)) return "WB ratio 1차";
+    if(/wb.*절편/.test(l)) return "WB ratio 절편";
+    // anti-ratio
+    if(/anti.*3차/.test(l)) return "anti-ratio 3차";
+    if(/anti.*2차/.test(l)) return "anti-ratio 2차";
+    if(/anti.*1차/.test(l)) return "anti-ratio 1차";
+    if(/anti.*절편/.test(l)) return "anti-ratio 절편";
+    // 그 외: 원본 유지
+    return label.split("(")[0].trim();
+  }
+
+  for(const r of rows){
+    if(!r) continue;
+    const rv = r.map(cv);
+    const joined = rv.join(" ");
+
+    // 섹션 감지 (후변화 섹션은 다른 비교 대상이므로 스킵)
+    if(joined.includes("후변화")) { currentSection=null; continue; }
+    const foundSec = SECTIONS.find(s => joined.includes(`For ${s}`));
+    if(foundSec){
+      currentSection = foundSec;
+      sectionItemName = "";
+      if(!sectionMaps[currentSection]) sectionMaps[currentSection] = new Map();
+      continue;
+    }
+    if(!currentSection) continue;
+
+    const label = rv[1]||"";
+    const val   = rv[2]||"";
+    if(!label) continue;
+    if(!val) continue;
+    if(SKIP_VALS.some(s => String(val).startsWith(s))) continue;
+    if(["True","False"].includes(String(val))) continue;
+    if(SKIP_LABELS.some(s => label.includes(s))) continue;
+    if(/^[\d\.]+$/.test(label)) continue;
+    if(label.length < 2) continue;
+
+    const normKey = normWriterKey(label);
+    if(!sectionMaps[currentSection].has(normKey)){
+      sectionMaps[currentSection].set(normKey, val);
+    }
+  }
+  return sectionMaps; // { "A-6": Map, "A-10": Map, "A-3": Map, "A-1": Map }
+}
+
+function extractAfiasWriter(wb){
+  // ── 시트명 탐지: 단일시트형 vs 다중시트형(통합 .xls) ────────────────
+  // 단일시트형: "ITEM정보" + "통합수식"
+  // 다중시트형: "ITEM 정보"(공백) + "1~29번","30~37번","Lot(xxx~yyy)" 등
+  const sheetNames = wb.SheetNames;
+  const itemSheetName = sheetNames.find(s=>s==="ITEM정보") ||
+                        sheetNames.find(s=>s==="ITEM 정보") || "";
+  const itemRows = itemSheetName ? (readRows(wb,itemSheetName)||[]) : [];
+
+  // 아이템명/LOT명/EXP: col2=설명, col3=값 (row5~12)
+  let itemName="-", lotNo="-", exp="-";
+  for(let i=4; i<Math.min(itemRows.length,13); i++){
+    const r = itemRows[i].map(cv);
+    const label = r[2]||"";
+    const val   = r[3]||"-";
+    if(label.includes("아이템 명")) itemName=val;
+    if(label.includes("LOT 명"))   lotNo=val;
+    if(label.includes("EXP 날짜")) exp=val;
+  }
+
+  // 수식 시트 수집
+  let suikRows = readRows(wb,"통합수식")||[];
+  if(suikRows.length===0){
+    // 다중시트형: For A-6 헤더를 포함하는 시트들 모두 수집
+    // ★ 현재 ITEM 정보의 아이템 번호를 찾아 해당 시트 우선 배치
+    let targetItemNum = -1;
+    for(let i=4; i<Math.min(itemRows.length,8); i++){
+      const r = itemRows[i].map(cv);
+      if(r[2]&&r[2].includes("아이템 명")){
+        // 아이템명에 해당하는 번호는 각 수식 시트 row5의 col2에서 찾음
+        break;
+      }
+    }
+
+    const formulaSheets = sheetNames.filter(s=>
+      /^\d+~\d+번/.test(s) ||
+      /^Lot\(/.test(s) ||
+      /^\d+~\d+번_TRF/.test(s)
+    );
+
+    // 아이템명이 포함된 시트를 앞에 배치 (해당 아이템의 수식이 우선 파싱됨)
+    const prioritySheets = [];
+    const otherSheets = [];
+    for(const sn of formulaSheets){
+      const rows = readRows(wb,sn)||[];
+      // row5(idx4)의 col1=아이템명, col2=번호
+      const r5 = rows[4] ? rows[4].map(cv) : [];
+      const snItemName = r5[1]||"";
+      if(itemName!=="-" && snItemName===itemName){
+        prioritySheets.push(sn);
+      } else {
+        otherSheets.push(sn);
+      }
+    }
+
+    for(const sn of [...prioritySheets, ...otherSheets]){
+      const rows = readRows(wb,sn)||[];
+      suikRows = suikRows.concat(rows);
+      suikRows.push(null); // 시트 경계
+    }
+  }
+
+  const itemMap      = extractAfiasItemMap(itemRows);
+  const suikSections = extractAfiasSuikSections(suikRows);
+  // 하위 호환: 공통 suikMap = A-6 섹션
+  const suikMap = suikSections["A-6"] || new Map();
+
+  return{platform:"AFIAS", itemName, lotNo, exp, itemMap, suikMap, suikSections};
+}
+
+// ═══════════════════════════════════════════════════════
+// ── 수식기록서 EXTRACTOR ──────────────────────────────
+// 파일명에서 로트번호 추출 — 숫자 1개 이상 포함한 영문+숫자 조합만 유효
+// AFIAS, IDCHIP, CEA 같은 순수 영문 약어는 제외
+function lotFromFilename(fname){
+  const base = fname.replace(/\.(xlsx?|xlsm)$/i,"");
+  const parts = base.split(/[_\-]/);
+  // 로트코드 판별: 영문+숫자 혼합, 길이 7~9, 숫자 포함
+  // 제외: IDCHIP, AFIAS1, Rev43 등 (길이 7 미만 또는 알려진 비로트 토큰)
+  const NON_LOT = new Set(["IDCHIP","WRITE","AFIAS","SMART","Rev","AFIAS1","AFIAS3","AFIAS6","IDCHIP1"]);
+  const isLot = p => /^[A-Z][A-Z0-9]{6,8}$/.test(p)   // 길이 7~9
+                  && /\d/.test(p)                          // 숫자 포함
+                  && !/^Rev\d/i.test(p)                   // Rev43 류 제외
+                  && !NON_LOT.has(p.toUpperCase().replace(/\d/g,"").slice(0,6)+"");
+
+  // 뒤에서 앞으로 스캔 (로트가 파일명 뒤쪽에 붙는 경우 많음)
+  for(let i=parts.length-1; i>=0; i--){
+    if(isLot(parts[i])) return parts[i];
+  }
+  return null;
+}
+
+// Writer 로트번호 통합 추출 (플랫폼별 키가 다름, 파일명 fallback 포함)
+function writerLotOf(w){
+  let lot = "-";
+  if(w.platform==="ichroma") lot = w.data.lot||"-";
+  if(w.platform==="AFIAS")   lot = w.data.lotNo||"-";
+  if(!lot||lot==="-") lot = lotFromFilename(w.fname)||"-";
+  return lot.trim();
+}
+
+// 로트 키로 기록서 찾기 — 대소문자 무관, 앞뒤공백 무관, 접미사 허용
+function findRecByLot(recByLot, ...lots){
+  for(const lot of lots){
+    if(!lot||lot==="-") continue;
+    const key = lot.trim().toUpperCase();
+    // 1) 정확 일치
+    for(const [k,v] of Object.entries(recByLot)){
+      if(k.trim().toUpperCase()===key) return v;
+    }
+    // 2) 기록서 키가 로트로 시작하는 경우 (예: "FRVLA80X_(메나리니)" → key="FRVLA80X")
+    for(const [k,v] of Object.entries(recByLot)){
+      if(k.trim().toUpperCase().startsWith(key)) return v;
+    }
+    // 3) 반대: 로트가 기록서 키를 포함하는 경우
+    for(const [k,v] of Object.entries(recByLot)){
+      const kn = k.trim().toUpperCase();
+      if(key.startsWith(kn) && kn.length>=7) return v;
+    }
+  }
+  return null;
+}
+
+function extractRecord(wb, fname){
+  const recSheet = wb.SheetNames.find(s=>s.includes("ichroma")||s.includes("라벨"))||wb.SheetNames[0];
+  const platform = recSheet.includes("라벨") ? "AFIAS" : "ichroma";
+  const rawRows  = XLSX.utils.sheet_to_json(wb.Sheets[recSheet], {header:1, defval:null});
+  const sv = v => (v===null||v===undefined) ? "" : String(v).trim();
+
+  // ── ichroma 커버 페이지에서 아이템명 추출 (PRODUCT NAME 행, ~row 20) ──
+  let itemNameFromCover = "";
+  if(platform === "ichroma"){
+    for(let i=0; i<Math.min(rawRows.length, 25); i++){
+      const r = rawRows[i]||[];
+      const rv = r.map(sv);
+      // col9 에 "PRODUCT NAME" 또는 "PRODUCT" 키워드가 있는 행 탐색
+      const c9 = rv[9] ? rv[9].toUpperCase().replace(/\s/g,"") : "";
+      if(c9.includes("PRODUCTNAME") || c9.includes("제품명")){
+        // 값은 col10 이후에서 가장 마지막 비어있지 않은 문자열
+        // (col19 등에 "ichroma 수식" 같은 플랫폼 설명이 있으므로 역방향 탐색)
+        for(let k=rv.length-1; k>=10; k--){
+          const v = rv[k];
+          if(v && v.length>=2 && !/^[\d.\-\s]+$/.test(v)){
+            itemNameFromCover = v.trim(); break;
+          }
+        }
+        break;
+      }
+    }
+  }
+
+  // ── LOT / EXP 추출 (row1~30 범위, col9=키워드, col19=값) ──────────
+  let lotNo = lotFromFilename(fname)||"-", exp = "-";
+  for(let i=0; i<Math.min(rawRows.length, 35); i++){
+    const r = rawRows[i]||[];
+    const cell9 = sv(r[9]).replace(/[\s.]/g,"").toUpperCase();
+    if(cell9==="LOTNO"||cell9==="LOT명"){
+      for(let k=10; k<r.length; k++){
+        const v=sv(r[k]);
+        if(v && v.length>=4 && !/^[0-9.~\-]+$/.test(v)){
+          const cleaned = v.replace(/\s*[\(_（].*/, "").trim();
+          if(cleaned && lotNo==="-") lotNo = cleaned;
+          break;
+        }
+      }
+    }
+    if(sv(r[9]).toUpperCase().replace(/\s/g,"").startsWith("EXP")){
+      for(let k=10; k<r.length; k++){
+        const v=sv(r[k]); if(v && exp==="-"){ exp=v; break; }
+      }
+    }
+  }
+
+  // ── 스킵 라벨 판정 ──────────────────────────────────────────────
+  const SKIP_LABELS_EXACT = new Set(["LOT 명","EXP 날짜","아이템 명","Lot 번호","production date",
+    "item","LOT","EXP","바코드 구분"]);
+  const isSkipLabel = lbl => {
+    if(!lbl || lbl.length < 2) return true;
+    if(/^[\d.\-\s]+$/.test(lbl)) return true;
+    const k = lbl.split("(")[0].trim();
+    if(SKIP_LABELS_EXACT.has(k)) return true;
+    return false;
+  };
+  const isSkipVal = val => {
+    if(!val || val==="") return true;
+    if(val==="True"||val==="False") return true;
+    if(val.startsWith("IDW")||val.startsWith("0x")||val.startsWith("▼")) return true;
+    return false;
+  };
+
+  const idChipMap  = new Map();   // Item 정보 (파라미터)
+  const formulaMap = new Map();   // 수식 계수값
+
+  if(platform === "ichroma"){
+    // ── ichroma 기록서: 제조기록서_수식 ichroma ───────────────────
+    // 레이아웃 A (HSWAY11 스타일): * Item 정보 → col2=NO, col6=설명, col23=값
+    // 레이아웃 B (AFP/Ferritin 스타일): ID Chip 정보 공정명 → 헤더행에서 컬럼 자동 감지
+    //   AFP:     col2=NO, col6=param, col16=value  (value = label+10)
+    //   Ferritin: col1=NO, col5=param, col15=value  (value = label+10)
+    let inItemA = false, inItemB = false;
+    // 레이아웃 B 컬럼 위치 (헤더행에서 자동 감지)
+    let icNoCol = 1, icLabelCol = 3, icValCol = 12; // 기본값 (레거시 호환)
+
+    for(let i=0; i<rawRows.length; i++){
+      const r = rawRows[i]||[];
+      const joined = r.map(sv).join(" ");
+
+      // 레이아웃 A 진입
+      if(joined.includes("* Item 정보") && !inItemB){ inItemA=true; continue; }
+      // 레이아웃 B 진입 (ID Chip 정보 공정명 섹션)
+      if(joined.includes("ID Chip 정보") && joined.includes("공정명")){ inItemB=true; inItemA=false; continue; }
+      // 종료
+      if((inItemA||inItemB) && (joined.includes("수식 확인")||joined.includes("확인일"))){ inItemA=false; inItemB=false; }
+
+      if(inItemA){
+        if(sv(r[2]).toUpperCase()==="NO" && joined.toLowerCase().includes("barcod")) continue;
+        const no=sv(r[2]), label=sv(r[6]), val=sv(r[23]);
+        if(no && /^\d+$/.test(no) && label && val){
+          const key=label.split("(")[0].trim();
+          if(!isSkipLabel(key) && !isSkipVal(val) && key.length>=2)
+            if(!idChipMap.has(key)) idChipMap.set(key, val);
+        }
+      }
+
+      if(inItemB){
+        // 헤더행 감지: NO + barcod → 컬럼 위치 자동 감지 후 스킵
+        if(joined.toLowerCase().includes("barcod")){
+          // NO 컬럼 위치 탐색 (0~4번 컬럼에서)
+          for(let k=0; k<Math.min(r.length,5); k++){
+            if(sv(r[k]).toUpperCase()==="NO"){ icNoCol=k; break; }
+          }
+          // barcod 컬럼 위치 탐색 → 이것이 라벨(param) 컬럼
+          for(let k=icNoCol+1; k<Math.min(r.length,15); k++){
+            if(sv(r[k]).toLowerCase().includes("barcod")){
+              icLabelCol=k; break;
+            }
+          }
+          // 값 컬럼 = 라벨 컬럼 + 10 (AFP/Ferritin 공통 패턴)
+          icValCol = icLabelCol + 10;
+          continue; // 헤더행 스킵
+        }
+        if(joined.includes("장비")&&joined.includes("관리번호")) continue;
+        const no=sv(r[icNoCol]), label=sv(r[icLabelCol]), val=sv(r[icValCol]);
+        if(no && /^\d+$/.test(no) && label && label.length>=2){
+          const key=label.split("(")[0].trim();
+          if(!isSkipLabel(key) && key.length>=2){
+            // val이 비어있거나 0이면 우측 스캔
+            let v=val;
+            if(!v||v==="0"){
+              for(let k=icValCol; k<Math.min(r.length,icValCol+15); k++){
+                const c=sv(r[k]);
+                if(c&&c!=="0"&&!/^(IDW|0x|▼)/.test(c)){ v=c; break; }
+              }
+            }
+            if(!isSkipVal(v) && !idChipMap.has(key)) idChipMap.set(key, v||"-");
+          }
+        }
+      }
+    }
+
+    // 수식 파라미터: 최종수식 표 (ratio/serum/WB 행 → 3차/2차/1차/절편)
+    // ★ 열 위치를 헤더행에서 자동 감지 (파일 버전·포맷별로 열 간격이 다름)
+    //   예) AFP/Ferritin: col[5]=3차, col[8]=2차, col[11]=1차, col[14]=절편
+    //   구버전: col[5]=3차, col[7]=2차, col[10]=1차, col[12]=절편
+    let inFormula = false;
+    let wbSection = false;         // WB 수식 섹션 여부
+    let fc3=5, fc2=8, fc1=11, fcb=14;  // 열 위치 (헤더에서 자동 감지)
+
+    // 헤더행에서 열 위치 감지 헬퍼
+    function detectFmlCols(row){
+      const rv = row.map(sv);
+      let d3=fc3, d2=fc2, d1=fc1, db=fcb;
+      for(let k=1; k<rv.length; k++){
+        const v=rv[k];
+        if(v==="3차"){ d3=k; }
+        else if(v==="2차"){ d2=k; }
+        else if(v==="1차"){ d1=k; }
+        else if(v==="절편"){ db=k; break; }
+      }
+      return [d3,d2,d1,db];
+    }
+
+    for(let i=0; i<rawRows.length; i++){
+      const r = rawRows[i]||[];
+      const joined = r.map(sv).join(" ");
+
+      // ① Serum 최종수식 헤더 감지 → 열 위치 자동 감지 후 진입
+      if(joined.includes("최종수식") && joined.includes("3차") && joined.includes("절편")
+         && !sv(r[0]).includes("WB")){
+        [fc3,fc2,fc1,fcb] = detectFmlCols(r);
+        inFormula=true; wbSection=false; continue;
+      }
+      // ② WB 최종 수식 헤더 감지 → WB 섹션으로 전환 (데이터 행으로 처리하지 않음)
+      if(inFormula && sv(r[0]).includes("WB") && joined.includes("3차") && joined.includes("절편")){
+        [fc3,fc2,fc1,fcb] = detectFmlCols(r);
+        wbSection=true; continue;
+      }
+      // ③ 섹션 종료
+      if(inFormula && (joined.includes("특이사항")||joined.includes("수식 확인")||
+                       (joined.includes("작성자") && !joined.includes("ratio")))){
+        inFormula=false; wbSection=false; continue;
+      }
+      if(!inFormula) continue;
+
+      const rawLabel = sv(r[0]);
+      // 숫자 또는 지수표기 라벨 스킵 (Calibrator 농도값 등)
+      if(!rawLabel||isSkipLabel(rawLabel)) continue;
+      if(/^[\d\.\-eE\+]+$/.test(rawLabel.trim())) continue;
+      if(/^-?[\d\.]+e[\-\+]?\d+$/i.test(rawLabel.trim())) continue;
+      // WB 섹션 여부에 따라 prefix 부여 (중복 방지)
+      const label = (wbSection && !rawLabel.toLowerCase().startsWith("wb"))
+        ? `WB ${rawLabel}` : rawLabel;
+
+      // ★ 자동 감지된 열 위치로 값 추출 + 한글 텍스트 값 차단 (헤더 오인 방지)
+      const isNum = s => s && !/^[가-힣]/.test(s) && !/^#/.test(s);
+      const v3=sv(r[fc3]), v2=sv(r[fc2]), v1=sv(r[fc1]), vb=sv(r[fcb]);
+      if(isNum(v3)) formulaMap.set(`${label} 3차`, v3);
+      if(isNum(v2)) formulaMap.set(`${label} 2차`, v2);
+      if(isNum(v1)) formulaMap.set(`${label} 1차`, v1);
+      if(isNum(vb)) formulaMap.set(`${label} 절편`, vb);
+    }
+
+  } else {
+    // ── AFIAS 기록서: 기타_라벨 ──────────────────────────────────
+    //
+    // 섹션 1: 공용 * Item 정보 (헤더: col1=NO, col5=barcod, col14=있음, col17=없음)
+    //   왼쪽 데이터: col1=NO, col5=설명, col14=값
+    //   오른쪽 데이터: col21=NO, col25=설명, col34=값
+    //
+    // 섹션 2: ID CHIP 제작 의뢰서 아래 수식 섹션 (헤더: col2=NO, col6=barcod, col15=있음)
+    //   데이터: col2=NO, col6=파라미터명(Serum 3차 등), col16=값
+    //   → 이것이 기록서 최종수식 수치이므로 formulaMap에 저장
+    //
+    // ★ 최종수식 (기록서 상단): 별도 행 "최종수식 / 3차 / 2차 / 1차 / 절편"
+    //   헤더 패턴 → 다음 행의 Ratio 값 (col5=3차, col7=2차, col9=1차, col11=절편)
+
+    let inItemCommon = false;   // 섹션1: 공용 * Item 정보
+    let inItemFormula = false;  // 섹션2: AFIAS 전용 수식 (ID CHIP 제작 의뢰서)
+    let inFinalFormula = false; // 최종수식 표
+    let finalFormulaTypeB = false; // 타입B: 값이 col21~30에 있는 경우
+
+    for(let i=0; i<rawRows.length; i++){
+      const r = rawRows[i]||[];
+      const joined = r.map(sv).join(" ");
+
+      // ── 섹션 진입/종료 감지 ──────────────────────────────────────
+      // 공용 * Item 정보 진입
+      if(joined.includes("* Item 정보") && !inItemFormula){
+        inItemCommon=true; inFinalFormula=false; continue;
+      }
+      // AFIAS 전용 수식 섹션 진입 (ID CHIP 제작 의뢰서 하위)
+      if(joined.includes("AFIAS") && joined.includes("전용 수식")){
+        inItemCommon=false; inItemFormula=true; inFinalFormula=false; finalFormulaTypeB=false; continue;
+      }
+      // 최종수식 표 진입 — 타입A: 한 행에 "최종수식 3차 ... 절편"
+      if(joined.includes("최종수식") && joined.includes("3차") && joined.includes("절편")){
+        inFinalFormula=true; finalFormulaTypeB=false; inItemCommon=false; inItemFormula=false; continue;
+      }
+      // 최종수식 표 진입 — 타입B: "최종수식"이 있고 다음 행에 3차/절편 컬럼 헤더
+      if(!inFinalFormula && joined.includes("최종수식") && !joined.includes("3차")){
+        const nextR = rawRows[i+1]||[];
+        const nextJ = nextR.map(sv).join(" ");
+        if(nextJ.includes("3차") && nextJ.includes("절편")){
+          inFinalFormula=true; finalFormulaTypeB=true;
+          inItemCommon=false; inItemFormula=false;
+          i++; continue; // 타입B 헤더행(3차/2차/1차/절편) 스킵
+        }
+      }
+      // 섹션 종료
+      if(joined.includes("수식 확인")||joined.includes("확인일")){
+        inItemCommon=false; inItemFormula=false; inFinalFormula=false; continue;
+      }
+
+      // ── 섹션1: 공용 Item 정보 (col1=NO, col5=설명, col14=값) ──────
+      if(inItemCommon){
+        // 헤더행 스킵
+        if(sv(r[1]).toUpperCase()==="NO" && joined.toLowerCase().includes("barcod")) continue;
+        // 왼쪽
+        const no1=sv(r[1]), lbl1=sv(r[5]), val1=sv(r[14]);
+        if(no1 && /^\d+$/.test(no1) && lbl1.length>=2 && !isSkipLabel(lbl1) && !isSkipVal(val1)){
+          const key=lbl1.split("(")[0].trim();
+          if(key.length>=2 && !idChipMap.has(key)) idChipMap.set(key, val1);
+        }
+        // 오른쪽 (col21=NO, col25=설명, col34=값)
+        const no2=sv(r[21]), lbl2=sv(r[25]), val2=sv(r[34]);
+        if(no2 && /^\d+$/.test(no2) && lbl2 && lbl2.length>=2 && !isSkipLabel(lbl2) && !isSkipVal(val2)){
+          const key=lbl2.split("(")[0].trim();
+          if(key.length>=2 && !idChipMap.has(key)) idChipMap.set(key, val2);
+        }
+      }
+
+      // ── 섹션2: 수식 섹션 (col2=NO, col6=파라미터명, col16=값) ──────
+      // ★ 이것이 Writer 통합수식과 비교할 핵심 수식값
+      if(inItemFormula){
+        if(sv(r[2]).toUpperCase()==="NO" && joined.toLowerCase().includes("barcod")) continue;
+        const no=sv(r[2]), lbl=sv(r[6]), val=sv(r[16]);
+        if(no && /^\d+$/.test(no) && lbl && lbl.length>=2){
+          const key=lbl.split("(")[0].trim();
+          // LOT/item/production date 등 메타 파라미터는 idChipMap으로
+          const isMetaKey = /^(item|lot|production|아이템)/i.test(key);
+          const isFormulaKey = /^(serum|WB|ratio|anti|new)/i.test(key);
+          if(!isSkipLabel(key) && key.length>=2){
+            if(isMetaKey){
+              if(!idChipMap.has(key)) idChipMap.set(key, val||"-");
+            } else if(isFormulaKey){
+              // Serum 3차/2차/1차/절편, WB ratio 등 → 수식 계수
+              if(!formulaMap.has(key)) formulaMap.set(key, val||"0");
+            } else {
+              // 그 외 (Min/Max/믹싱 등) → 기기 설정값
+              if(!idChipMap.has(key)) idChipMap.set(key, val||"-");
+            }
+          }
+        }
+      }
+
+      // ── 최종수식 표 데이터 파싱 ────────────────────────────────────
+      // 타입A (FRVLA80X 스타일): 헤더 row: col0=최종수식, col5=3차, col8=2차, col11=1차, col15=절편
+      //   데이터행: col0=라벨(serum ratio 등), col5=3차값, col8=2차값, col11=1차값, col15=절편값
+      // 타입B (PSA IJE 스타일): 헤더 row: col21=최종수식 → 다음행 col21=3차, col24=2차, col27=1차, col30=절편
+      //   데이터행: col0=라벨(ratio(Sr)/ratio(WB)), col21=3차, col24=2차, col27=1차, col30=절편
+      const isNum = s => s && /^-?[\d\.eE\+]+$/.test(s.trim());
+
+      if(inFinalFormula){
+        // 종료 조건: 빈 행 연속, 작성자 행, 다음 제조기록서 섹션 시작
+        if(!joined.trim()){ inFinalFormula=false; continue; }
+        if(joined.includes("작성자")||joined.includes("제조기록서")||joined.includes("공정명")){ inFinalFormula=false; continue; }
+        if(joined.includes("WB 최종 수식")) continue;
+        // 헤더행: 3차/2차/절편 텍스트만 있는 행 (라벨 없음)
+        if(joined.includes("3차") && joined.includes("절편") && !sv(r[0]).toLowerCase().includes("ratio")) continue;
+
+        const rawLabel = sv(r[0])||"";
+        if(!rawLabel || /^[\d\.\-eE\+\s]+$/.test(rawLabel)) continue;
+
+        // ★ 핵심 레이블 정규화
+        // 기록서 "ratio"/"serum ratio"/"ratio(Sr)" → Writer "Serum" (같은 값)
+        // 기록서 "ratio(WB)"/"WB ratio" → Writer "WB ratio"
+        const normLabel = (() => {
+          const l = rawLabel.toLowerCase()
+            .replace(/\n/g,"").replace(/\s+/g,"")
+            .replace(/[\(\)]/g,"");
+          if(l.startsWith("wb")||l.includes("wbratio")||l==="ratiowb") return "WB ratio";
+          if(l.includes("antiratio")||l.startsWith("anti")) return "anti-ratio";
+          // ratio/serumratio/ratio(Sr)/ratio(Serum) 등 → "Serum"
+          if(l==="ratio"||l==="ratiosr"||(l.includes("serum")&&!l.includes("anti"))) return "Serum";
+          return rawLabel.replace(/\n/g," ").trim();
+        })();
+
+        let v3, v2, v1, vb;
+        if(finalFormulaTypeB){
+          // 타입B: col21=3차(최종), col24=2차, col27=1차, col30=절편
+          v3=sv(r[21]); v2=sv(r[24]); v1=sv(r[27]); vb=sv(r[30]);
+        } else {
+          // 타입A: col5=3차, col8=2차, col11=1차, col15=절편
+          v3=sv(r[5]); v2=sv(r[8]); v1=sv(r[11]); vb=sv(r[15]);
+        }
+
+        // ★ 최종수식 값이 최우선 — formulaMap에 덮어씀
+        if(v3 && isNum(v3) && !/^#/.test(v3)) formulaMap.set(`${normLabel} 3차`, v3);
+        if(v2 && isNum(v2) && !/^#/.test(v2)) formulaMap.set(`${normLabel} 2차`, v2);
+        if(v1 && isNum(v1) && !/^#/.test(v1)) formulaMap.set(`${normLabel} 1차`, v1);
+        if(vb && isNum(vb) && !/^#/.test(vb)) formulaMap.set(`${normLabel} 절편`, vb);
+      }
+    }
+  } // end AFIAS else block
+
+  console.log(`[extractRecord] ${fname} | platform=${platform} | item=${itemNameFromCover||"(cover miss)"} | lot=${lotNo} | idChip=${idChipMap.size} | formula=${formulaMap.size}`);
+  return { platform, lotNo, exp, idChipMap, formulaMap, itemName: itemNameFromCover || "" };
+}
+
+// ═══════════════════════════════════════════════════════
+// FILE MANAGEMENT
+// ═══════════════════════════════════════════════════════
+async function addFiles(fileList, pool, chipsId, typeLabel){
+  for(const f of [...fileList]){
+    if(!/\.(xls|xlsx|xlsm)$/i.test(f.name)||pool.find(x=>x.name===f.name)) continue;
+    const buf=await f.arrayBuffer();
+    const wb=XLSX.read(new Uint8Array(buf),{type:"array"});
+    const plt=detectPlatform(wb, f.name);
+    let data=null;
+    if(typeLabel==="rec") data=extractRecord(wb, f.name);
+    else if(plt==="AFIAS") data=extractAfiasWriter(wb);
+    else if(plt==="ichroma") data=extractIchromaWriter(wb);
+    pool.push({id:++uid,name:f.name,wb,platform:plt,type:typeLabel,data});
+  }
+  renderChips(pool,chipsId);
+  updateRunBtn();
+}
+function removeFile(id,pool,chipsId){
+  const i=pool.findIndex(f=>f.id===id);
+  if(i>=0) pool.splice(i,1);
+  renderChips(pool,chipsId);
+  updateRunBtn();
+}
+function renderChips(pool,chipsId){
+  document.getElementById(chipsId).innerHTML=pool.map(f=>{
+    const pCls=f.platform==="ichroma"?"fp-ichroma":f.platform==="AFIAS"?"fp-afias":
+               f.platform==="record"?"fp-rec":"fp-unk";
+    const pLbl=f.platform==="record"?"기록서":f.platform;
+    const nm=f.name.length>38?f.name.slice(0,36)+"…":f.name;
+    // LOT / EXP 뱃지 (Writer 파일에서 추출된 경우)
+    let metaBadges="";
+    if(f.data && f.data.lotNo && f.data.lotNo!=="-"){
+      metaBadges+=`<span class="fchip-meta fchip-lot">${esc(f.data.lotNo)}</span>`;
+    }
+    if(f.data && f.data.exp && f.data.exp!=="-"){
+      metaBadges+=`<span class="fchip-meta fchip-exp">${esc(f.data.exp)}</span>`;
+    }
+    return `<div class="fchip">
+      <span class="fchip-p ${pCls}">${esc(pLbl)}</span>
+      <span class="fchip-n" title="${esc(f.name)}">${esc(nm)}</span>
+      ${metaBadges}
+      <span class="fchip-x" onclick="removeFile(${f.id},${f.type==='writer'?'writerFiles':'recFiles'},'${chipsId}')">×</span>
+    </div>`;
+  }).join("");
+}
+// ═══════════════════════════════════════════════════════
+// 폴더 선택 핸들러 (standalone HTML 폴더 버튼)
+// ═══════════════════════════════════════════════════════
+async function handleFolderInput(input){
+  const files = [...input.files].filter(f=>/\.(xlsx|xlsm|xls)$/i.test(f.name));
+  if(!files.length){ return; }
+  const status = document.getElementById("folder-status");
+  status.textContent = `${files.length}개 파일 분류 중…`;
+  let writerAdded=0, recAdded=0, skipped=0;
+  for(const f of files){
+    try{
+      const buf = await f.arrayBuffer();
+      const wb  = XLSX.read(new Uint8Array(buf),{type:"array"});
+      const plt = detectPlatform(wb, f.name);
+      // 중복 체크
+      if(writerFiles.find(x=>x.name===f.name)||recFiles.find(x=>x.name===f.name)){
+        skipped++; continue;
+      }
+      if(plt==="form"){ skipped++; continue; }
+      let extracted=null, pool, chipsId, typeLabel;
+      if(plt==="record"){
+        extracted=extractRecord(wb,f.name);
+        pool=recFiles; chipsId="chips-rec"; typeLabel="rec"; recAdded++;
+      } else if(plt==="ichroma"){
+        extracted=extractIchromaWriter(wb,f.name);
+        pool=writerFiles; chipsId="chips-writer"; typeLabel="writer"; writerAdded++;
+      } else if(plt==="AFIAS"){
+        extracted=extractAfiasWriter(wb);
+        pool=writerFiles; chipsId="chips-writer"; typeLabel="writer"; writerAdded++;
+      } else {
+        // unknown → Writer 풀
+        pool=writerFiles; chipsId="chips-writer"; typeLabel="writer"; writerAdded++;
+      }
+      pool.push({id:++uid,name:f.name,wb,platform:plt,type:typeLabel,data:extracted});
+    } catch(e){ skipped++; console.warn("[folderInput]",f.name,e); }
+  }
+  renderChips(writerFiles,"chips-writer");
+  renderChips(recFiles,"chips-rec");
+  updateRunBtn();
+  status.textContent = `✓ Writer ${writerAdded}개 · 기록서 ${recAdded}개 추가 (스킵 ${skipped}개)`;
+  input.value=""; // 같은 폴더 재선택 가능하게 초기화
+}
+
+function updateRunBtn(){
+  document.getElementById("run-btn").disabled=writerFiles.length===0;
+}
+
+// events
+["writer","rec"].forEach(type=>{
+  const dz=document.getElementById(`dz-${type}`);
+  const fi=document.getElementById(`fi-${type}`);
+  const pool=type==="writer"?writerFiles:recFiles;
+  const chips=`chips-${type}`;
+  dz.addEventListener("click",()=>fi.click());
+  dz.addEventListener("dragover",e=>{e.preventDefault();dz.classList.add("drag-over")});
+  dz.addEventListener("dragleave",()=>dz.classList.remove("drag-over"));
+  dz.addEventListener("drop",e=>{e.preventDefault();dz.classList.remove("drag-over");addFiles(e.dataTransfer.files,pool,chips,type)});
+  fi.addEventListener("change",e=>{addFiles(e.target.files,pool,chips,type);fi.value=""});
+});
+
+// ═══════════════════════════════════════════════════════
+// 제조기록서 배치 비교 STORAGE
+// key: "batch-rec:{platform}:{encodedItemName}"
+// ═══════════════════════════════════════════════════════
+async function saveRecBatch(platform, itemName, lotNo, exp, idChipMap, formulaMap){
+  const key = `batch-rec:${platform}:${encodeURIComponent(itemName)}`;
+  const obj = {
+    savedAt: new Date().toISOString(),
+    lot: lotNo, exp,
+    idChipParams:  Object.fromEntries(idChipMap  || new Map()),
+    formulaParams: Object.fromEntries(formulaMap || new Map())
+  };
+  try{ await window.storage.set(key, JSON.stringify(obj)); return true; }
+  catch(e){ console.error("saveRecBatch error", e); return false; }
+}
+
+async function loadRecBatch(platform, itemName){
+  const key = `batch-rec:${platform}:${encodeURIComponent(itemName)}`;
+  try{
+    const r = await window.storage.get(key);
+    if(!r) return null;
+    const p = JSON.parse(r.value);
+    return {
+      savedAt:    p.savedAt,
+      lot:        p.lot || "-",
+      exp:        p.exp || "-",
+      idChipMap:  new Map(Object.entries(p.idChipParams  || {})),
+      formulaMap: new Map(Object.entries(p.formulaParams || {}))
+    };
+  }catch(e){ return null; }
+}
+
+async function deleteRecBatch(platform, itemName){
+  const key = `batch-rec:${platform}:${encodeURIComponent(itemName)}`;
+  try{ await window.storage.delete(key); return true; }
+  catch(e){ return false; }
+}
+
+// ═══════════════════════════════════════════════════════
+// 제조기록서 — ID CHIP 제작 의뢰서 패널 렌더링
+// ═══════════════════════════════════════════════════════
+async function renderRecBatchSection(recFileList){
+  if(!recFileList || recFileList.length === 0) return "";
+  let html = "";
+
+  for(const rf of recFileList){
+    const rd = rf.data;
+    if(!rd) continue;
+
+    const platform = rd.platform || "AFIAS";
+    // 아이템명 — 커버 페이지 추출값 우선, 그 다음 idChipMap, 마지막 파일명 fallback
+    const itemName = rd.itemName                    // ichroma: 커버 PRODUCT NAME 행
+                  || rd.idChipMap?.get("아이템 명") // AFIAS: ITEM정보 시트
+                  || rd.idChipMap?.get("item")
+                  || rd.idChipMap?.get("Item name")
+                  || lotFromFilename(rf.name) || "?";
+    const lotNo = rd.lotNo || "-";
+    const exp   = rd.exp   || "-";
+
+    // 이전 배치 로드
+    const prev = await loadRecBatch(platform, itemName);
+
+    // ── 합산 맵: Item정보 + 수식계수 (표시 순서: Item정보 먼저)
+    // 메타 키는 제외 (아이템 명, Lot 번호, EXP 등)
+    const META_KEYS = new Set(["아이템 명","item","Item name","LOT 명","EXP 날짜",
+      "Lot 번호","production date","item name","lot"]);
+    const filteredIdChip = new Map([...(rd.idChipMap||new Map())].filter(([k])=>!META_KEYS.has(k)));
+    const combinedCur    = new Map([...filteredIdChip, ...(rd.formulaMap||new Map())]);
+
+    // ── 테이블 ──────────────────────────────────────────────────
+    let tableHtml = "";
+    let diffCount = 0;
+
+    if(prev){
+      const filteredPrevIdChip = new Map([...(prev.idChipMap||new Map())].filter(([k])=>!META_KEYS.has(k)));
+      const combinedPrev = new Map([...filteredPrevIdChip, ...(prev.formulaMap||new Map())]);
+      const allKeys = [...new Set([...combinedPrev.keys(), ...combinedCur.keys()])];
+
+      const rows = allKeys.map((label,i)=>{
+        const cv = combinedCur.get(label)||"-";
+        const pv = combinedPrev.get(label)||"-";
+        const isDiff = cv!=="-" && pv!=="-" && !valEq(cv, pv);
+        if(isDiff) diffCount++;
+        const cls  = isDiff ? "rd" : (i%2 ? "ra" : "");
+        const flag = isDiff
+          ? `<span class="fdiff">⚠</span>`
+          : cv==="-"||pv==="-"
+            ? `<span class="fskip">—</span>`
+            : `<span class="fok">✓</span>`;
+        return `<tr class="${cls}">
+          <td class="cl">${esc(label)}</td>
+          <td class="cv ca">${esc(cv)}</td>
+          <td class="cv" style="border-left:1px solid var(--border)">${esc(pv)}</td>
+          <td class="cf">${flag}</td>
+        </tr>`;
+      }).join("");
+
+      const prevLabel = `${prev.lot} (저장: ${prev.savedAt.slice(0,10)})`;
+      tableHtml = `
+        <div class="rec-batch-prev-info">
+          ${diffCount>0
+            ? `<span class="b b-diff">⚠ ${diffCount}개 차이</span>`
+            : `<span class="b b-pass">✓ 이전 배치와 일치</span>`}
+          <span style="margin-left:8px">이전 배치: ${esc(prevLabel)}</span>
+        </div>
+        <div class="twrap"><table class="ct">
+          <thead><tr>
+            <th style="width:34%">파라미터</th>
+            <th class="ca">현재 배치 (${esc(lotNo)})</th>
+            <th style="border-left:1px solid var(--border)">이전 배치 (${esc(prev.lot)})</th>
+            <th style="width:26px"></th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>`;
+    } else {
+      // 단독 표시 (이전 배치 없음)
+      const rows = [...combinedCur.entries()].map(([k,v],i)=>
+        `<tr class="${i%2?'ra':''}">
+          <td class="cl">${esc(k)}</td>
+          <td class="cv">${esc(v)}</td>
+        </tr>`
+      ).join("");
+      tableHtml = `
+        <div class="rec-batch-prev-info"><span class="b b-no">저장된 이전 배치 없음 — 이 배치를 기준으로 저장하세요</span></div>
+        <div class="twrap"><table class="ct">
+          <thead><tr>
+            <th style="width:40%">파라미터</th>
+            <th class="ca">값 (LOT: ${esc(lotNo)})</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>`;
+    }
+
+    // ── 저장 버튼 바 ────────────────────────────────────────────
+    const mapB64 = btoa(unescape(encodeURIComponent(JSON.stringify({
+      idChip:  Object.fromEntries(rd.idChipMap  || new Map()),
+      formula: Object.fromEntries(rd.formulaMap || new Map())
+    }))));
+
+    // 이 배치가 이미 이력에 저장되어 있는지 확인
+    const histData = await loadLotHistory(platform, itemName);
+    const alreadyInHist = histData.some(e => e.lot === lotNo);
+    const histCnt = histData.length;
+
+    const refBar = `<div class="rec-ref-bar">
+      <span style="font-size:10px;color:var(--text3);font-family:var(--mono)">배치 기준</span>
+      <button class="btn-rec-save"
+        data-platform="${esc(platform)}" data-iname="${esc(itemName)}"
+        data-lot="${esc(lotNo)}" data-exp="${esc(exp)}" data-map="${mapB64}"
+        onclick="onSaveRecBatch(this)">💾 전배치 기준으로 저장</button>
+      <button class="btn-hist-save"
+        data-platform="${esc(platform)}" data-iname="${esc(itemName)}"
+        data-lot="${esc(lotNo)}" data-exp="${esc(exp)}" data-map="${mapB64}"
+        onclick="onSaveHist(this)"
+        ${alreadyInHist ? 'disabled style="opacity:.5"' : ''}>
+        📥 ${alreadyInHist ? '✓ 이력 저장됨' : '이력 저장'}</button>
+      ${histCnt>0 ? `<span class="hist-lot-cnt">📊 ${histCnt}개 로트 이력</span>` : ""}
+      ${prev
+        ? `<button class="btn-rec-del"
+            data-platform="${esc(platform)}" data-iname="${esc(itemName)}"
+            onclick="onDeleteRecBatch(this)">🗑 기준 삭제</button>
+           <span class="rec-saved-badge">📌 기준: ${esc(prev.lot)} (${prev.savedAt.slice(0,10)})</span>`
+        : ""}
+    </div>`;
+
+    // ── 뱃지 ──────────────────────────────────────────────────
+    const badges = `
+      <div style="display:flex;gap:5px;margin-left:auto;flex-wrap:wrap">
+        <span class="b b-info">${esc(platform)}</span>
+        <span class="b b-warn" style="background:rgba(74,222,128,.1);color:var(--green);border-color:rgba(74,222,128,.25)">LOT: ${esc(lotNo)}</span>
+        <span class="b b-info">EXP: ${esc(exp)}</span>
+        ${prev
+          ? `${diffCount>0
+              ? `<span class="b b-diff">⚠ ${diffCount}개 차이</span>`
+              : `<span class="b b-pass">✓ 이전 배치 일치</span>`}`
+          : `<span class="b b-no">첫 배치</span>`}
+      </div>`;
+
+    html += `<div class="rec-batch-sec">
+      <div class="rec-batch-hdr" onclick="toggleRecBatch(this)">
+        <span style="font-size:16px">📋</span>
+        <span class="rec-batch-title">ID CHIP 제작 의뢰서</span>
+        <span class="rec-batch-meta" title="${esc(rf.name)}">${esc(rf.name.replace(/\.(xlsx?|xlsm)$/i,""))}</span>
+        ${badges}
+        <span class="ig-tog">▾</span>
+      </div>
+      <div class="rec-batch-body">
+        ${tableHtml}
+        ${refBar}
+      </div>
+    </div>`;
+  }
+
+  return html ? `<div class="rec-batch-wrap">${html}</div>` : "";
+}
+
+// ── 배치 저장 클릭 핸들러 (기준값 저장 + 이력에도 동시 추가)
+async function onSaveRecBatch(btn){
+  const platform = btn.dataset.platform;
+  const itemName = btn.dataset.iname;
+  const lotNo    = btn.dataset.lot;
+  const exp      = btn.dataset.exp;
+  const mapB64   = btn.dataset.map;
+  btn.disabled = true; btn.textContent = "저장 중…";
+  try{
+    const parsed     = JSON.parse(decodeURIComponent(escape(atob(mapB64))));
+    const idChipMap  = new Map(Object.entries(parsed.idChip  || {}));
+    const formulaMap = new Map(Object.entries(parsed.formula || {}));
+    // 1) 기존 단일 기준 저장 (전배치 비교용)
+    const ok = await saveRecBatch(platform, itemName, lotNo, exp, idChipMap, formulaMap);
+    // 2) 다중 이력에도 함께 저장
+    await saveLotToHistory(platform, itemName, lotNo, exp, idChipMap, formulaMap);
+    if(ok){
+      btn.textContent = "✓ 기준 저장됨";
+      btn.style.background = "rgba(74,222,128,.2)";
+      // 저장 뱃지 추가
+      const bar = btn.closest(".rec-ref-bar");
+      if(bar){
+        const existing = bar.querySelector(".rec-saved-badge");
+        if(!existing){
+          const badge = document.createElement("span");
+          badge.className = "rec-saved-badge";
+          badge.textContent = `📌 기준: ${lotNo} (${new Date().toISOString().slice(0,10)})`;
+          bar.appendChild(badge);
+        }
+        // 이력 저장 버튼도 완료 상태로
+        const histBtn = bar.querySelector(".btn-hist-save");
+        if(histBtn){ histBtn.disabled=true; histBtn.textContent="📥 ✓ 이력 저장됨"; }
+        // 이력 개수 뱃지 업데이트
+        const cntBadge = bar.querySelector(".hist-lot-cnt");
+        if(cntBadge){
+          const hist = await loadLotHistory(platform, itemName);
+          cntBadge.textContent = `📊 ${hist.length}개 로트 이력`;
+        }
+      }
+    } else {
+      btn.textContent = "저장 실패"; btn.disabled = false;
+    }
+  }catch(e){
+    console.error(e);
+    btn.textContent = "오류: " + e.message.slice(0,20); btn.disabled = false;
+  }
+}
+
+// ── 배치 기준 삭제 클릭 핸들러
+async function onDeleteRecBatch(btn){
+  const platform = btn.dataset.platform;
+  const itemName = btn.dataset.iname;
+  if(!confirm(`[${platform}] ${itemName} — 저장된 배치 기준을 삭제하시겠습니까?\n삭제 후 다시 분석을 실행하면 반영됩니다.`)) return;
+  const ok = await deleteRecBatch(platform, itemName);
+  if(ok){
+    btn.nextElementSibling?.remove(); // badge
+    btn.remove();
+    alert("삭제됐습니다. 분석을 다시 실행하면 반영됩니다.");
+  }
+}
+
+// ── 배치 패널 토글
+function toggleRecBatch(hdr){
+  const body = hdr.nextElementSibling;
+  const tog  = hdr.querySelector(".ig-tog");
+  if(body.style.display === "none"){ body.style.display=""; tog.classList.remove("cl"); }
+  else { body.style.display="none"; tog.classList.add("cl"); }
+}
+
+// ═══════════════════════════════════════════════════════
+// REFERENCE STORAGE — 아이템별 기준값 저장/불러오기
+// ═══════════════════════════════════════════════════════
+// 키 형식: "ref:{platform}:{itemName}:{section}"
+// section: "lot0" | "item" | "suik_A-6" | "suik_A-10" | ...
+
+async function saveRef(platform, itemName, section, map){
+  const key = `ref:${platform}:${encodeURIComponent(itemName)}:${section}`;
+  const obj = Object.fromEntries(map);
+  try{
+    await window.storage.set(key, JSON.stringify({savedAt: new Date().toISOString(), params: obj}));
+    return true;
+  }catch(e){ console.error("saveRef error", e); return false; }
+}
+
+async function loadRef(platform, itemName, section){
+  const key = `ref:${platform}:${encodeURIComponent(itemName)}:${section}`;
+  try{
+    const r = await window.storage.get(key);
+    if(!r) return null;
+    const parsed = JSON.parse(r.value);
+    return { savedAt: parsed.savedAt, map: new Map(Object.entries(parsed.params)) };
+  }catch(e){ return null; }
+}
+
+async function deleteRef(platform, itemName, section){
+  const key = `ref:${platform}:${encodeURIComponent(itemName)}:${section}`;
+  try{ await window.storage.delete(key); return true; }
+  catch(e){ return false; }
+}
+
+async function listAllRefs(){
+  try{
+    const r = await window.storage.list("ref:");
+    return r ? r.keys : [];
+  }catch(e){ return []; }
+}
+
+async function deleteAllRefsForItem(platform, itemName){
+  const prefix = `ref:${platform}:${encodeURIComponent(itemName)}:`;
+  try{
+    const r = await window.storage.list(prefix);
+    if(r && r.keys){
+      for(const k of r.keys) await window.storage.delete(k);
+    }
+  }catch(e){}
+}
+
+// Map을 기준값과 비교하는 확장 테이블 렌더러
+function mapCmpTableWithRef(maps, fnames, refMap, refLabel){
+  const allKeys = [...new Set([...( refMap ? refMap.keys() : []), ...maps.flatMap(m=>[...m.keys()])])];
+  let dc=0, refDiff=0;
+
+  const rows = allKeys.map((label,i)=>{
+    const vals = maps.map(m=>m.get(label)||"-");
+    if(vals.every(v=>v==="-") && (!refMap||!refMap.has(label))) return "";
+
+    const isDiff = !vals.every(v=>valEq(v,vals[0]));
+    if(isDiff) dc++;
+    const refVal = refMap ? (refMap.get(label)||"-") : null;
+    const isRefDiff = refVal !== null && !vals.every(v=>valEq(v,refVal));
+    if(isRefDiff) refDiff++;
+
+    const cls = isDiff?"rd":isRefDiff?"rref":(i%2?"ra":"");
+    const flag = isDiff?`<span class="fdiff">⚠</span>`:`<span class="fok">✓</span>`;
+
+    return `<tr class="${cls}">
+      <td class="cl">${esc(label)}</td>
+      ${vals.map((v,vi)=>`<td class="cv" style="${vi>0?"border-left:1px solid var(--border)":""}">${esc(v)}</td>`).join("")}
+      ${refVal!==null?`<td class="cv cref" style="border-left:2px solid rgba(34,211,238,.25)">${esc(refVal)}</td>`:""}
+      <td class="cf">${flag}${isRefDiff?`<span style="color:var(--cyan);font-size:10px" title="기준값과 다름">≠</span>`:""}</td>
+    </tr>`;
+  }).filter(Boolean).join("");
+
+  const refHead = refMap ? `<th class="cref" style="width:22%;border-left:2px solid rgba(34,211,238,.25)">${esc(refLabel||"기준값")}</th>` : "";
+  const thead=`<thead><tr>
+    <th style="width:26%">파라미터</th>
+    ${fnames.map((fn,i)=>`<th class="c${["a","b","c","d"][i]||"a"}">${esc(fn)}</th>`).join("")}
+    ${refHead}
+    <th style="width:26px"></th>
+  </tr></thead>`;
+  return{html:`<div class="twrap"><table class="ct">${thead}<tbody>${rows}</tbody></table></div>`,dc,refDiff};
+}
+
+// 저장된 아이템 목록 패널 렌더링
+async function renderRefListPanel(){
+  const keys = await listAllRefs();
+  if(keys.length===0) return "";
+  const items = keys.map(k=>{
+    const parts = k.split(":");
+    // ref:platform:encodedName:section
+    const platform = parts[1]||"";
+    const iname = decodeURIComponent(parts[2]||"");
+    const section = parts.slice(3).join(":") || "";
+    return {k, platform, iname, section};
+  });
+  // 아이템별로 묶기
+  const byItem = {};
+  for(const it of items){
+    const key = `${it.platform}|${it.iname}`;
+    if(!byItem[key]) byItem[key]={platform:it.platform, iname:it.iname, sections:[]};
+    byItem[key].sections.push(it.section);
+  }
+  const chips = Object.values(byItem).map(({platform, iname, sections})=>`
+    <div class="ref-item-chip">
+      <span class="ri-plt">[${esc(platform)}]</span>
+      <span class="ri-name">${esc(iname)}</span>
+      <span style="color:var(--text3);font-size:9px">${sections.map(s=>`<span style="background:rgba(34,211,238,.1);padding:1px 4px;border-radius:3px">${esc(s)}</span>`).join(" ")}</span>
+      <span class="ri-del" data-platform="${esc(platform)}" data-iname="${esc(iname)}" onclick="deleteItemRef(this)" title="이 아이템 기준값 전체 삭제">🗑</span>
+    </div>`).join("");
+  return `<div class="ref-list-panel">
+    <div class="ref-list-hdr" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'flex':'none'">
+      <span class="ref-list-hdr-title">📌 저장된 기준값 아이템</span>
+      <span style="font-size:10px;color:var(--text3);margin-left:6px">${Object.keys(byItem).length}개</span>
+      <span style="margin-left:auto;font-size:10px;color:var(--text3)">▼</span>
+    </div>
+    <div class="ref-list-body">${chips}</div>
+  </div>`;
+}
+
+async function deleteItemRef(el){
+  const platform = el.dataset.platform;
+  const iname    = el.dataset.iname;
+  if(!confirm(`[${platform}] ${iname} 기준값을 모두 삭제하시겠습니까?`)) return;
+  await deleteAllRefsForItem(platform, iname);
+  const panel = document.getElementById("ref-list-container");
+  if(panel) panel.innerHTML = await renderRefListPanel();
+}
+
+// 저장 버튼 클릭 핸들러
+async function onSaveRef(btn){
+  const platform  = btn.dataset.platform;
+  const itemName  = btn.dataset.iname;
+  const section   = btn.dataset.section;
+  const mapB64    = btn.dataset.map;
+  btn.disabled=true; btn.textContent="저장 중…";
+  try{
+    const mapJson = decodeURIComponent(escape(atob(mapB64)));
+    const map = new Map(Object.entries(JSON.parse(mapJson)));
+    const ok = await saveRef(platform, itemName, section, map);
+    if(ok){
+      btn.textContent="✓ 저장됨";
+      btn.className="btn-ref-del";
+      const panel = document.getElementById("ref-list-container");
+      if(panel) panel.innerHTML = await renderRefListPanel();
+    } else {
+      btn.textContent="저장 실패"; btn.disabled=false;
+    }
+  }catch(e){
+    btn.textContent="오류: "+e.message.slice(0,30); btn.disabled=false;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER: Map 기반 전체 비교 테이블
+// ═══════════════════════════════════════════════════════
+function mapCmpTable(maps, fnames, skipKeys=[]){
+  // maps: Array<Map<label,value>>  — 파일별 순서 보존 Map
+  const allKeys = [...new Set(maps.flatMap(m=>[...m.keys()]))];
+  let dc=0;
+  const rows = allKeys.map((label,i)=>{
+    const vals = maps.map(m=>m.get(label)||"-");
+    if(vals.every(v=>v==="-")) return "";
+    const isSkip = skipKeys.includes(label);
+    const isDiff = !isSkip && !vals.every(v=>valEq(v,vals[0]));
+    if(isDiff) dc++;
+    const cls = isDiff?"rd":(i%2?"ra":"");
+    const flag = isSkip?`<span class="fskip">—</span>`:isDiff?`<span class="fdiff">⚠</span>`:`<span class="fok">✓</span>`;
+    return `<tr class="${cls}">
+      <td class="cl">${esc(label)}</td>
+      ${vals.map((v,vi)=>`<td class="cv" style="${vi>0?"border-left:1px solid var(--border)":""}">${esc(v)}</td>`).join("")}
+      <td class="cf">${flag}</td>
+    </tr>`;
+  }).filter(Boolean).join("");
+
+  const thead=`<thead><tr>
+    <th style="width:30%">파라미터</th>
+    ${fnames.map((fn,i)=>`<th class="c${["a","b","c","d"][i]||"a"}">${esc(fn)}</th>`).join("")}
+    <th style="width:26px"></th>
+  </tr></thead>`;
+  return{html:`<div class="twrap"><table class="ct">${thead}<tbody>${rows}</tbody></table></div>`,dc};
+}
+
+function mapSingleTable(map){
+  const rows=[...map.entries()].map(([k,v])=>
+    `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`
+  ).join("");
+  return `<table class="st">${rows}</table>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER ICHROMA GROUP
+// ═══════════════════════════════════════════════════════
+async function renderIchromaGroup(iname, wrecs, rrec){
+  const lots = wrecs.map(w=>w.data.lot).filter(v=>v&&v!=="-").join(" / ")||"-";
+  const fnames = wrecs.map(w=>shortName(w.fname));
+  const tabContents={}, tabDiffs={}, tabRefDiffs={};
+  const platform = "ichroma";
+
+  // 저장 버튼 + 기준 삭제 버튼 HTML 생성 헬퍼
+  const refBar = (section, map, refData) => {
+    const mapB64 = btoa(unescape(encodeURIComponent(JSON.stringify(Object.fromEntries(map)))));
+    const savedBadge = refData ? `<span class="ref-saved-badge">📌 기준: ${refData.savedAt.slice(0,10)}</span>` : "";
+    const saveBtn = `<button class="btn-ref-save"
+      data-platform="${esc(platform)}" data-iname="${esc(iname)}" data-section="${esc(section)}"
+      data-map="${mapB64}"
+      onclick="onSaveRef(this)">📌 기준으로 저장</button>`;
+    const delBtn = refData ? `<button class="btn-ref-del"
+      data-platform="${esc(platform)}" data-iname="${esc(iname)}" data-section="${esc(section)}"
+      onclick="onDeleteRef(this)">🗑 기준 삭제</button>` : "";
+    return `<div class="ref-bar"><span class="ref-bar-label">기준값</span>${saveBtn}${delBtn}${savedBadge}</div>`;
+  };
+
+  // ─ Tab 1: Lot0 공통 ───────────────────────────────
+  const refLot0 = await loadRef(platform, iname, "lot0");
+  const lot0Maps = wrecs.map(w=>w.data.lot0Data);
+  if(wrecs.length===1){
+    const m = lot0Maps[0];
+    const body = refLot0
+      ? mapCmpTableWithRef([m],[fnames[0]],refLot0.map,"기준").html
+      : mapSingleTable(m);
+    tabContents.lot0 = sheetPanel("Lot0 공통","공통 설정값",refLot0?`<span class="b b-match">📌 기준비교</span>`:`<span class="b b-info">단독</span>`, body + refBar("lot0",m,refLot0));
+    tabDiffs.lot0 = 0; tabRefDiffs.lot0 = refLot0 ? mapCmpTableWithRef([m],[fnames[0]],refLot0.map,"기준").refDiff : 0;
+  } else {
+    const {html,dc,refDiff} = mapCmpTableWithRef(lot0Maps, fnames, refLot0?.map||null, "기준");
+    const badge = refLot0 ? `${diffBadge(dc)} <span class="b b-match">📌기준</span>` : diffBadge(dc);
+    tabContents.lot0 = sheetPanel("Lot0 공통","같은 아이템이면 동일해야 함", badge, html + refBar("lot0",lot0Maps[0],refLot0));
+    tabDiffs.lot0 = dc; tabRefDiffs.lot0 = refDiff||0;
+  }
+
+  // ─ Tab 2: ITEM 시트 (기준값 저장 없음) ───────────────
+  const getItemMap = (w) => {
+    const fromValid = w.data.validItemSheets.find(s=>s.itemName===iname);
+    return fromValid ? fromValid.paramMap : w.data.itemData;
+  };
+  const sheetNamesUsed = [...new Set(wrecs.flatMap(w=>
+    w.data.validItemSheets.filter(s=>s.itemName===iname).map(s=>s.sheet)
+  ))].join(" / ") || "Lot1번이 아닐때 입력";
+  const lotExpRows = wrecs.map(w=>{
+    const vs=w.data.validItemSheets.find(s=>s.itemName===iname);
+    return `LOT: ${vs?.lot||w.data.lot||"-"}  EXP: ${vs?.exp||w.data.exp||"-"}`;
+  });
+  const itemMaps = wrecs.map(w=>getItemMap(w));
+  if(wrecs.length===1){
+    const m = itemMaps[0];
+    const lotNote = `<div style="font-size:10px;color:var(--text3);font-family:var(--mono);padding:5px 10px">${esc(lotExpRows[0])}</div>`;
+    tabContents.item = sheetPanel(sheetNamesUsed,`▸ ${iname}`,`<span class="b b-info">단독</span>`, lotNote+mapSingleTable(m));
+    tabDiffs.item=0; tabRefDiffs.item=0;
+  } else {
+    const lotNote = `<div style="font-size:10px;color:var(--text3);font-family:var(--mono);padding:5px 10px">${wrecs.map((w,i)=>`${fnames[i]}: ${lotExpRows[i]}`).join(" &nbsp;|&nbsp; ")}</div>`;
+    const {html,dc} = mapCmpTable(itemMaps, fnames);
+    tabContents.item = sheetPanel(sheetNamesUsed,`▸ ${iname}`, diffBadge(dc), lotNote+html);
+    tabDiffs.item=dc; tabRefDiffs.item=0;
+  }
+
+  // ─ Tab 3: 기록서 크로스체크 ───────────────────────
+  let crossHtml="", crossDiff=0;
+  if(rrec){
+    const result = crossCheck(wrecs[0].data, rrec);
+    crossHtml=result.html; crossDiff=result.diffs;
+  } else {
+    crossHtml=`<div class="xwarn">📋 Writer 로트 <b>${esc(writerLotOf(wrecs[0]))}</b>와 일치하는 기록서를 찾을 수 없습니다. (파일명 로트: ${esc(lotFromFilename(wrecs[0].fname)||"-")})<br>해당 로트의 수식기록서를 업로드하면 크로스체크가 활성화됩니다.</div>`;
+  }
+  tabContents.cross=crossHtml; tabDiffs.cross=crossDiff; tabRefDiffs.cross=0;
+
+  const gid=`g${uid++}`;
+  const tabs=[
+    {id:"lot0", label:"Lot0 공통"},
+    {id:"item",  label:`ITEM 시트 (${iname})`},
+    {id:"cross", label:"기록서 크로스체크"},
+  ];
+  const tabBar = tabs.map((t,i)=>{
+    const hasRefDiff = tabRefDiffs[t.id]>0;
+    const hasDiff = tabDiffs[t.id]>0;
+    const cls = `ctab${i===0?" active":""}${hasDiff?" has-diff":""}${hasRefDiff&&!hasDiff?" has-ref-diff":""}`;
+    const extra = hasDiff?` <span style="font-size:9px">(${tabDiffs[t.id]})</span>`
+                : hasRefDiff?` <span style="font-size:9px;color:var(--cyan)">≠${tabRefDiffs[t.id]}</span>`:"";
+    return `<div class="${cls}" onclick="switchTab('${gid}','${t.id}',this)">${esc(t.label)}${extra}</div>`;
+  }).join("");
+  const tabPanes = tabs.map((t,i)=>
+    `<div class="tab-content${i===0?" active":""}" id="${gid}-${t.id}">${tabContents[t.id]}</div>`
+  ).join("");
+
+  return{iname, lots, totalDiff:Object.values(tabDiffs).reduce((a,b)=>a+b,0), html:`<div class="check-tabs">${tabBar}</div>${tabPanes}`};
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER AFIAS GROUP
+// ═══════════════════════════════════════════════════════
+async function renderAfiasGroup(iname, wrecs, rrec){
+  const lots  = wrecs.map(w=>w.data.lotNo||"-").filter(v=>v!=="-").join(" / ")||"-";
+  const fnames = wrecs.map(w=>shortName(w.fname));
+  const tabContents={}, tabDiffs={}, tabRefDiffs={};
+  const platform = "AFIAS";
+
+  // ★ AFIAS F/X suffix: 그룹키에 이미 포함됨 (e.g. "PSA (X)", "PSA (F)")
+  // refIname = iname 그대로 사용
+  function getLotSuffix(lotNo){
+    if(!lotNo || lotNo==="-") return "";
+    const last = lotNo.trim().slice(-1).toUpperCase();
+    return (last==="F"||last==="X") ? last : "";
+  }
+  const suffixes = [...new Set(wrecs.map(w=>getLotSuffix(w.data.lotNo||"")).filter(Boolean))];
+  const lotSuffix = suffixes.length===1 ? suffixes[0] : "";
+  const refIname = iname; // 그룹키에 suffix 이미 포함
+
+  const refBar = (section, map, refData) => {
+    const mapB64 = btoa(unescape(encodeURIComponent(JSON.stringify(Object.fromEntries(map)))));
+    const savedBadge = refData ? `<span class="ref-saved-badge">📌 기준: ${refData.savedAt.slice(0,10)}</span>` : "";
+    // ★ data-iname에 refIname(suffix 포함) 사용
+    const saveBtn = `<button class="btn-ref-save"
+      data-platform="${esc(platform)}" data-iname="${esc(refIname)}" data-section="${esc(section)}"
+      data-map="${mapB64}"
+      onclick="onSaveRef(this)">📌 기준으로 저장</button>`;
+    const delBtn = refData ? `<button class="btn-ref-del"
+      data-platform="${esc(platform)}" data-iname="${esc(refIname)}" data-section="${esc(section)}"
+      onclick="onDeleteRef(this)">🗑 기준 삭제</button>` : "";
+    // suffix 안내 뱃지
+    const suffixBadge = lotSuffix ? `<span class="ref-suffix-badge">${lotSuffix} 타입</span>` : "";
+    return `<div class="ref-bar"><span class="ref-bar-label">기준값</span>${suffixBadge}${saveBtn}${delBtn}${savedBadge}</div>`;
+  };
+
+  // ─ Tab 1: ITEM정보 비교 ──────────────────────────────
+  const refItem = await loadRef(platform, refIname, "item");
+  const lotNote = `<div style="font-size:10px;color:var(--text3);font-family:var(--mono);padding:5px 10px">${
+    wrecs.map((w,i)=>`<b>${fnames[i]}</b>: LOT ${esc(w.data.lotNo)} / EXP ${esc(w.data.exp)}`).join(" &nbsp;|&nbsp; ")
+  }</div>`;
+  if(wrecs.length===1){
+    const m = wrecs[0].data.itemMap;
+    const body = refItem ? mapCmpTableWithRef([m],[fnames[0]],refItem.map,"기준").html : mapSingleTable(m);
+    tabContents.item = sheetPanel("ITEM정보","공통 설정값",refItem?`<span class="b b-match">📌 기준비교</span>`:`<span class="b b-info">단독</span>`, lotNote+body+refBar("item",m,refItem));
+    tabDiffs.item=0; tabRefDiffs.item = refItem ? mapCmpTableWithRef([m],[fnames[0]],refItem.map,"기준").refDiff : 0;
+  } else {
+    const maps = wrecs.map(w=>w.data.itemMap);
+    const {html,dc,refDiff} = mapCmpTableWithRef(maps, fnames, refItem?.map||null, "기준");
+    tabContents.item = sheetPanel("ITEM정보","공통 설정값 비교 (LOT/EXP 제외)", diffBadge(dc), lotNote+html+refBar("item",maps[0],refItem));
+    tabDiffs.item=dc; tabRefDiffs.item=refDiff||0;
+  }
+
+  // ─ Tab 2~5: 통합수식 섹션별 비교 (기준값 저장 없음) ──
+  const SUIK_SECTIONS = ["A-6","A-10","A-3","A-1"];
+  const activeSections = SUIK_SECTIONS.filter(sec =>
+    wrecs.some(w => w.data.suikSections && w.data.suikSections[sec] && w.data.suikSections[sec].size > 0)
+  );
+
+  if(activeSections.length === 0){
+    if(wrecs.length===1){
+      tabContents["suik_A-6"] = sheetPanel("통합수식","수식 파라미터",`<span class="b b-info">단독</span>`, mapSingleTable(wrecs[0].data.suikMap));
+      tabDiffs["suik_A-6"]=0; tabRefDiffs["suik_A-6"]=0;
+    } else {
+      const maps = wrecs.map(w=>w.data.suikMap);
+      const {html,dc} = mapCmpTable(maps, fnames);
+      tabContents["suik_A-6"] = sheetPanel("통합수식","수식 파라미터 비교", diffBadge(dc), html);
+      tabDiffs["suik_A-6"]=dc; tabRefDiffs["suik_A-6"]=0;
+    }
+  } else {
+    for(const sec of activeSections){
+      const secKey = `suik_${sec}`;
+      if(wrecs.length===1){
+        const m = (wrecs[0].data.suikSections||{})[sec] || new Map();
+        tabContents[secKey] = sheetPanel(`통합수식 ${sec}`,`${sec} 수식 파라미터`,`<span class="b b-info">단독</span>`, mapSingleTable(m));
+        tabDiffs[secKey]=0; tabRefDiffs[secKey]=0;
+      } else {
+        const maps = wrecs.map(w=>((w.data.suikSections||{})[sec]) || new Map());
+        const {html,dc} = mapCmpTable(maps, fnames);
+        tabContents[secKey] = sheetPanel(`통합수식 ${sec}`,`${sec} 수식 파라미터 비교`, diffBadge(dc), html);
+        tabDiffs[secKey]=dc; tabRefDiffs[secKey]=0;
+      }
+    }
+  }
+
+  // ─ Tab: 기록서 크로스체크 ─────────────────────────
+  let crossHtml="", crossDiff=0;
+  if(rrec){
+    const result = crossCheck(wrecs[0].data, rrec);
+    crossHtml=result.html; crossDiff=result.diffs;
+  } else {
+    crossHtml=`<div class="xwarn">📋 Writer 로트 <b>${esc(writerLotOf(wrecs[0]))}</b>와 일치하는 기록서를 찾을 수 없습니다. (파일명 로트: ${esc(lotFromFilename(wrecs[0].fname)||"-")})<br>해당 로트의 수식기록서를 업로드하면 크로스체크가 활성화됩니다.</div>`;
+  }
+  tabContents.cross=crossHtml; tabDiffs.cross=crossDiff; tabRefDiffs.cross=0;
+
+  const gid=`g${uid++}`;
+  const tabs = [
+    {id:"item", label:"ITEM정보"},
+    ...(activeSections.length > 0
+      ? activeSections.map(sec=>({id:`suik_${sec}`, label:`수식 ${sec}`}))
+      : [{id:"suik_A-6", label:"통합수식"}]),
+    {id:"cross", label:"기록서 크로스체크"},
+  ];
+
+  const tabBar = tabs.map((t,i)=>{
+    const hasDiff = tabDiffs[t.id]>0;
+    const hasRefDiff = tabRefDiffs[t.id]>0;
+    const extra = hasDiff?` <span style="font-size:9px">(${tabDiffs[t.id]})</span>`
+                : hasRefDiff?` <span style="font-size:9px;color:var(--cyan)">≠${tabRefDiffs[t.id]}</span>`:"";
+    return `<div class="ctab${i===0?" active":""}${hasDiff?" has-diff":""}" onclick="switchTab('${gid}','${t.id}',this)">${esc(t.label)}${extra}</div>`;
+  }).join("");
+  const tabPanes = tabs.map((t,i)=>
+    `<div class="tab-content${i===0?" active":""}" id="${gid}-${t.id}">${tabContents[t.id]||""}</div>`
+  ).join("");
+
+  return{iname: refIname, lots, totalDiff:Object.values(tabDiffs).reduce((a,b)=>a+b,0), html:`<div class="check-tabs">${tabBar}</div>${tabPanes}`};
+}
+// ═══════════════════════════════════════════════════════
+function crossCheck(writerData, recordData){
+  const platform = writerData.platform;
+
+  // ── 매핑 설계 ──────────────────────────────────────────────────
+  // ichroma:
+  //   기록서 idChipMap  (* Item 정보 파라미터)  ↔  Writer lot0Data (Lot0 공통)
+  //   기록서 formulaMap (최종수식 계수값)        ↔  Writer itemData (Lot1 수식값)
+  // AFIAS:
+  //   기록서 idChipMap  (* Item 정보 파라미터)  ↔  Writer itemMap
+  //   기록서 formulaMap (수식 계수값)            ↔  Writer suikMap
+  let wMapForItem, wMapForFormula;
+  if(platform==="ichroma"){
+    wMapForItem    = writerData.lot0Data instanceof Map ? writerData.lot0Data : new Map();
+    wMapForFormula = writerData.itemData instanceof Map ? writerData.itemData : new Map();
+  } else {
+    wMapForItem    = writerData.itemMap  instanceof Map ? writerData.itemMap  : new Map();
+    wMapForFormula = writerData.suikMap  instanceof Map ? writerData.suikMap  : new Map();
+  }
+
+  const rIdMap  = recordData.idChipMap  instanceof Map ? recordData.idChipMap  : new Map();
+  const rFmlMap = recordData.formulaMap instanceof Map ? recordData.formulaMap : new Map();
+
+  // ── 유사 키 매칭 ──────────────────────────────────────────────
+  function findInMap(wMap, rLabel){
+    if(wMap.has(rLabel)) return wMap.get(rLabel);
+    const rN = rLabel.replace(/\s+/g,"").toLowerCase();
+    for(const[wk,wv] of wMap){
+      if(wk.replace(/\s+/g,"").toLowerCase()===rN) return wv;
+    }
+    const rWords = rLabel.split(/[\s\(\)\-_]+/).filter(w=>w.length>1).map(w=>w.toLowerCase());
+    for(const[wk,wv] of wMap){
+      const wWords = wk.split(/[\s\(\)\-_]+/).filter(w=>w.length>1).map(w=>w.toLowerCase());
+      const rCore = rWords.filter(w=>!/^\d+차?$/.test(w));
+      const wCore = wWords.filter(w=>!/^\d+차?$/.test(w));
+      if(rCore.length && wCore.length && rCore.every(w=>wWords.includes(w))) return wv;
+      if(rCore.length && wCore.length && wCore.every(w=>rWords.includes(w))) return wv;
+    }
+    return undefined;
+  }
+
+  const sections = [];
+
+  // 섹션 1: ID CHIP 파라미터 (Item정보)
+  sections.push({
+    title: platform==="ichroma"
+      ? "ID CHIP 파라미터 비교 (기록서 Item정보 ↔ Writer Lot0 공통)"
+      : "ID CHIP 파라미터 비교 (기록서 Item정보 ↔ Writer ITEM정보)",
+    wMap: wMapForItem, rMap: rIdMap,
+    priority: true  // 항상 표시
+  });
+
+  // 섹션 2: 수식 계수값
+  if(platform==="ichroma"){
+    sections.push({
+      title: "수식 계수 비교 (기록서 최종수식 ↔ Writer 수식값)",
+      wMap: wMapForFormula, rMap: rFmlMap, priority: false
+    });
+  } else {
+    // AFIAS: 기록서 formulaMap vs 각 장비별 통합수식 섹션 (A-6, A-10, A-3, A-1)
+    const suikSecs = writerData.suikSections || {};
+    const secOrder = ["A-6","A-10","A-3","A-1"];
+    for(const sec of secOrder){
+      const wMap = suikSecs[sec] instanceof Map ? suikSecs[sec] : null;
+      if(!wMap) continue;
+      sections.push({
+        title: `★ 수식 계수 비교 — AFIAS-${sec.replace("A-","")} (기록서 ↔ Writer 통합수식 ${sec})`,
+        wMap, rMap: rFmlMap, priority: true,
+        highlight: true  // 중요 섹션
+      });
+    }
+    // suikSections 없으면 기존 suikMap 폴백
+    if(secOrder.every(s=>!suikSecs[s])){
+      sections.push({
+        title: "수식 계수 비교 (기록서 수식섹션 ↔ Writer 통합수식)",
+        wMap: wMapForFormula, rMap: rFmlMap, priority: false
+      });
+    }
+  }
+
+  let totalDiffs = 0, allHtml = "";
+
+  for(const sec of sections){
+    const { title, wMap, rMap, highlight } = sec;
+    if(!wMap || rMap.size===0) continue;
+
+    const pairs = [];
+    for(const [rLabel, rv] of rMap){
+      if(!rv||rv==="-") continue;
+      if(/^(lot|exp|date|아이템|item)$/i.test(rLabel.trim())) continue;
+      const wv = findInMap(wMap, rLabel);
+      const wvStr = wv !== undefined ? String(wv) : "-";
+      const isDiff = wvStr!=="-" && !valEq(wvStr, rv);
+      if(isDiff) totalDiffs++;
+      pairs.push({label:rLabel, writer:wvStr, record:rv, isDiff});
+    }
+    if(pairs.length===0) continue;
+
+    const dc  = pairs.filter(p=>p.isDiff).length;
+    const noW = pairs.filter(p=>p.writer==="-").length;
+    const matched = pairs.filter(p=>p.writer!=="-").length;
+    const st  = dc>0 ? `<span class="b b-diff">⚠ ${dc}개 불일치 / ${matched}개 매칭</span>` :
+                matched===0 ? `<span class="b b-no">Writer 매칭값 없음</span>` :
+                `<span class="b b-pass">✓ ${matched}개 일치</span>`;
+
+    const rowsHtml = pairs.map((p,i)=>{
+      const cls  = p.isDiff ? "rd" : (i%2 ? "ra" : "");
+      const flag = p.isDiff ? `<span class="fdiff">⚠</span>` :
+                   p.writer==="-" ? `<span class="fskip">—</span>` : `<span class="fok">✓</span>`;
+      return `<tr class="${cls}">
+        <td class="cl">${esc(p.label)}</td>
+        <td class="cv ca">${esc(p.writer)}</td>
+        <td class="cv" style="border-left:1px solid var(--border)">${esc(p.record)}</td>
+        <td class="cf">${flag}</td>
+      </tr>`;
+    }).join("");
+
+    const borderStyle = highlight ? ' style="border-left:3px solid #f5a623"' : '';
+    allHtml += `<div class="sp"${borderStyle}>
+    <div class="sp-hdr">
+      <span class="sp-name">${esc(title)}</span>
+      <span class="sp-note">· Writer 파일 ↔ 수식기록서</span>
+      <div class="sp-stat">${st}</div>
+    </div>
+    <div class="twrap"><table class="ct">
+      <thead><tr>
+        <th style="width:34%">파라미터 (기록서 기준)</th>
+        <th class="ca">Writer 파일 (절대값)</th>
+        <th class="cc">수식기록서</th>
+        <th style="width:26px"></th>
+      </tr></thead>
+      <tbody>${rowsHtml}</tbody>
+    </table></div>
+  </div>`;
+  }
+
+  if(!allHtml){
+    allHtml=`<div class="xwarn">⚠ 기록서에서 ID CHIP 정보를 파싱할 수 없습니다.<br>"* Item 정보" 섹션이 포함된 기록서인지 확인하세요.</div>`;
+  }
+  return { html: allHtml, diffs: totalDiffs };
+}
+
+// sheetPanel helper (여기서 정의 — 이전 위치에서 이동)
+function sheetPanel(name, note, statusHtml, bodyHtml){
+  return `<div class="sp">
+    <div class="sp-hdr">
+      <span class="sp-name">${esc(name)}</span>
+      ${note?`<span class="sp-note">· ${esc(note)}</span>`:""}
+      <div class="sp-stat">${statusHtml}</div>
+    </div>
+    ${bodyHtml}
+  </div>`;
+}
+
+function switchTab(gid, tabId, el){
+  el.closest(".check-tabs").querySelectorAll(".ctab").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active");
+  const body=el.closest(".igrp-body");
+  body.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));
+  body.querySelector(`#${gid}-${tabId}`).classList.add("active");
+}
+
+// ═══════════════════════════════════════════════════════
+// MAIN ANALYSIS
+// ═══════════════════════════════════════════════════════
+async function runAnalysis(){
+  if(!writerFiles.length) return;
+  document.getElementById("loading").style.display="block";
+  document.getElementById("results").innerHTML="";
+  document.getElementById("empty").style.display="none";
+
+  try{
+    // Extract writers
+    const writers=writerFiles.map(f=>{
+      let data;
+      if(f.platform==="ichroma")      data=extractIchromaWriter(f.wb, f.name);
+      else if(f.platform==="AFIAS")   data=extractAfiasWriter(f.wb);
+      else                             data={platform:"unknown",itemName:"?"};
+      return{fname:f.name,platform:f.platform,data};
+    });
+
+    // 기록서 로트 인덱싱
+    const recByLot={};
+    const cleanLot = v => v ? v.trim().replace(/\s*[\(_\(].*/, "").trim().toUpperCase() : "";
+    recFiles.forEach(f=>{
+      const rd = f.data || extractRecord(f.wb, f.name);
+      f.data = rd;
+      if(rd.lotNo && rd.lotNo!=="-"){
+        const k1 = rd.lotNo.trim().toUpperCase();
+        const k2 = cleanLot(rd.lotNo);
+        recByLot[k1] = rd;
+        if(k2 && k2!==k1) recByLot[k2] = rd;
+      }
+      const fnLot = lotFromFilename(f.name);
+      if(fnLot) recByLot[fnLot.trim().toUpperCase()] = rd;
+    });
+    console.log("[recByLot keys]", Object.keys(recByLot));
+
+    const ichWriters=writers.filter(w=>w.platform==="ichroma");
+    const afWriters =writers.filter(w=>w.platform==="AFIAS");
+    const unkWriters=writers.filter(w=>w.platform==="unknown");
+
+    const ichGroups={}, afGroups={};
+    ichWriters.forEach(w=>{ const k=w.data.itemName||"?"; if(!ichGroups[k]) ichGroups[k]=[]; ichGroups[k].push(w); });
+    // ★ AFIAS: itemName + LOT suffix(F/X)로 그룹화 — F타입과 X타입 분리
+    afWriters.forEach(w=>{
+      const name = w.data.itemName||"?";
+      const lot  = w.data.lotNo||"";
+      const last = lot.trim().slice(-1).toUpperCase();
+      const suffix = (last==="F"||last==="X") ? ` (${last})` : "";
+      const k = name + suffix;
+      if(!afGroups[k]) afGroups[k]=[];
+      afGroups[k].push(w);
+    });
+
+    let html="";
+    const totalDiffs={ich:0,af:0};
+
+    // ── ichroma ──────────────────────────────────────
+    if(ichWriters.length){
+      const iItems=Object.keys(ichGroups).length;
+      const iMulti=Object.values(ichGroups).filter(v=>v.length>1).length;
+      html+=`<div class="plat-sec">
+        <div class="plat-hdr ich">
+          <span style="font-size:17px">🔵</span>
+          <span class="plat-title">ichroma Writer</span>
+          <span class="plat-cnt">${ichWriters.length}개 파일 · ${iItems}개 아이템</span>
+          ${iMulti?`<span class="b b-warn">🔀 ${iMulti}개 전배치 비교</span>`:""}
+          ${recFiles.length?`<span class="b b-match">📋 기록서 크로스체크 활성</span>`:""}
+        </div>`;
+
+      for(const[iname,wrecs] of Object.entries(ichGroups)){
+        const writerLot = writerLotOf(wrecs[0]);
+        const writerFnLot = lotFromFilename(wrecs[0].fname)||"-";
+        const rrec = findRecByLot(recByLot, writerLot, writerFnLot);
+        console.log(`[ichroma] ${iname} writerLot="${writerLot}" fnLot="${writerFnLot}" matched=${!!rrec}`);
+
+        const grp = await renderIchromaGroup(iname, wrecs, rrec);
+        totalDiffs.ich += grp.totalDiff;
+        const multiFile=wrecs.length>1, hasRec=!!rrec;
+        html+=`<div class="igrp">
+          <div class="igrp-hdr" onclick="toggleGrp(this)">
+            <span class="igrp-name">${esc(iname)}</span>
+            <span class="igrp-lot">${esc(grp.lots)}</span>
+            <div class="igrp-badges">
+              ${multiFile?`<span class="b b-warn">🔀 ${wrecs.length}개 배치</span>`:`<span class="b b-info">단독</span>`}
+              ${hasRec?`<span class="b b-match">📋 기록서 매칭</span>`:`<span class="b b-no">기록서 없음</span>`}
+              ${grp.totalDiff>0?`<span class="b b-diff">⚠ ${grp.totalDiff}개 이상</span>`:`<span class="b b-pass">✓</span>`}
+            </div>
+            <span class="ig-tog">▾</span>
+          </div>
+          <div class="igrp-body">${grp.html}</div>
+        </div>`;
+      }
+      html+="</div>";
+    }
+
+    // ── AFIAS ───────────────────────────────────────
+    if(afWriters.length){
+      const aItems=Object.keys(afGroups).length;
+      const aMulti=Object.values(afGroups).filter(v=>v.length>1).length;
+      html+=`<div class="plat-sec">
+        <div class="plat-hdr af">
+          <span style="font-size:17px">🟣</span>
+          <span class="plat-title">AFIAS Writer</span>
+          <span class="plat-cnt">${afWriters.length}개 파일 · ${aItems}개 아이템</span>
+          ${aMulti?`<span class="b b-warn">🔀 ${aMulti}개 전배치 비교</span>`:""}
+          ${recFiles.length?`<span class="b b-match">📋 기록서 크로스체크 활성</span>`:""}
+        </div>`;
+
+      for(const[iname,wrecs] of Object.entries(afGroups)){
+        const writerLot = writerLotOf(wrecs[0]);
+        const writerFnLot = lotFromFilename(wrecs[0].fname)||"-";
+        const rrec = findRecByLot(recByLot, writerLot, writerFnLot);
+        console.log(`[AFIAS] ${iname} writerLot="${writerLot}" fnLot="${writerFnLot}" matched=${!!rrec}`);
+        const grp = await renderAfiasGroup(iname, wrecs, rrec);
+        totalDiffs.af += grp.totalDiff;
+        const multiFile=wrecs.length>1, hasRec=!!rrec;
+        html+=`<div class="igrp">
+          <div class="igrp-hdr" onclick="toggleGrp(this)">
+            <span class="igrp-name">${esc(iname)}</span>
+            <span class="igrp-lot">${esc(grp.lots)}</span>
+            <div class="igrp-badges">
+              ${multiFile?`<span class="b b-warn">🔀 ${wrecs.length}개 배치</span>`:`<span class="b b-info">단독</span>`}
+              ${hasRec?`<span class="b b-match">📋 기록서 매칭</span>`:`<span class="b b-no">기록서 없음</span>`}
+              ${grp.totalDiff>0?`<span class="b b-diff">⚠ ${grp.totalDiff}개 이상</span>`:`<span class="b b-pass">✓</span>`}
+            </div>
+            <span class="ig-tog">▾</span>
+          </div>
+          <div class="igrp-body">${grp.html}</div>
+        </div>`;
+      }
+      html+="</div>";
+    }
+
+    if(unkWriters.length){
+      html+=`<div style="padding:10px;font-size:11px;font-family:var(--mono);color:var(--text3)">
+        ⚠ 플랫폼 미인식: ${unkWriters.map(r=>esc(r.fname)).join(", ")}
+      </div>`;
+    }
+
+    // 저장된 기준값 목록 패널 (결과 상단)
+    const refListHtml = await renderRefListPanel();
+    document.getElementById("ref-list-container").innerHTML = refListHtml;
+
+    // ── 제조기록서 ID CHIP 제작 의뢰서 배치 비교 패널 ──────────────
+    const recBatchHtml = await renderRecBatchSection(recFiles);
+    document.getElementById("rec-batch-container").innerHTML = recBatchHtml;
+
+    document.getElementById("results").innerHTML=html||`<div style="padding:40px;text-align:center;color:var(--text2)">분석 가능한 데이터가 없습니다</div>`;
+
+    const allDiff=totalDiffs.ich+totalDiffs.af;
+    // 이력 현황 집계
+    const histKeys = await listAllHistKeys();
+    const histTotalLots = (await Promise.all(histKeys.map(async k=>{
+      const parts=k.split(":");
+      return await loadLotHistory(parts[1]||"", decodeURIComponent(parts[2]||""));
+    }))).reduce((s,arr)=>s+arr.length,0);
+    document.getElementById("hstat").innerHTML=`
+      <span style="font-size:11px;color:var(--text2)">${writerFiles.length}개 Writer · ${recFiles.length}개 기록서</span>
+      ${allDiff>0?`<span class="b b-diff">⚠ 총 ${allDiff}개 차이</span>`:`<span class="b b-pass">✓ 전체 이상 없음</span>`}
+      ${histTotalLots>0
+        ? `<span class="b" style="background:rgba(167,139,250,.1);color:var(--purple);border:1px solid rgba(167,139,250,.25);cursor:pointer" onclick="switchMainTab('dashboard')">📊 ${histKeys.length}개 아이템 · ${histTotalLots}개 이력</span>`
+        : ""}
+    `;
+  } catch(e){
+    document.getElementById("results").innerHTML=
+      `<div style="color:var(--red);padding:20px;font-size:11px;font-family:var(--mono)">⚠ 오류: ${esc(e.message)}</div>`;
+    console.error(e);
+  } finally {
+    document.getElementById("loading").style.display="none";
+  }
+}
+
+// 기준 단건 삭제
+async function onDeleteRef(btn){
+  const platform = btn.dataset.platform;
+  const itemName = btn.dataset.iname;
+  const section  = btn.dataset.section;
+  if(!confirm(`[${platform}] ${itemName} / ${section} 기준값을 삭제하시겠습니까?`)) return;
+  await deleteRef(platform, itemName, section);
+  btn.closest(".ref-bar").querySelector(".ref-saved-badge")?.remove();
+  btn.remove();
+  const panel = document.getElementById("ref-list-container");
+  if(panel) panel.innerHTML = await renderRefListPanel();
+}
+
+function toggleGrp(hdr){
+  const body=hdr.nextElementSibling;
+  const tog=hdr.querySelector(".ig-tog");
+  if(body.style.display==="none"){body.style.display="";tog.classList.remove("cl");}
+  else{body.style.display="none";tog.classList.add("cl");}
+}
+
+// 페이지 로드 시 저장된 기준값 목록 표시
+(async()=>{
+  const panel = document.getElementById("ref-list-container");
+  if(panel) panel.innerHTML = await renderRefListPanel();
+})();
+
+// ═══════════════════════════════════════════════════════
+// 메인 탭 전환
+// ═══════════════════════════════════════════════════════
+function switchMainTab(tab){
+  document.querySelectorAll('.main-nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector(`.main-nav-tab[data-tab="${tab}"]`).classList.add('active');
+  document.querySelectorAll('.main-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(`panel-${tab}`).classList.add('active');
+  if(tab==='dashboard') renderDashboard();
+}
+
+// ═══════════════════════════════════════════════════════
+// 다중 로트 이력 스토리지
+// key: "batch-hist:{platform}:{encodedItemName}"
+// value: JSON array (최신 순), 최대 HIST_MAX 개
+// ═══════════════════════════════════════════════════════
+const HIST_MAX = 30;
+
+async function loadLotHistory(platform, itemName){
+  const key = `batch-hist:${platform}:${encodeURIComponent(itemName)}`;
+  try{
+    const r = await window.storage.get(key);
+    if(!r) return [];
+    const arr = JSON.parse(r.value);
+    return Array.isArray(arr) ? arr : [];
+  }catch(e){ return []; }
+}
+
+async function saveLotToHistory(platform, itemName, lotNo, exp, idChipMap, formulaMap){
+  const key = `batch-hist:${platform}:${encodeURIComponent(itemName)}`;
+  try{
+    const existing = await loadLotHistory(platform, itemName);
+    const idx = existing.findIndex(e => e.lot === lotNo);
+    const entry = {
+      lot: lotNo, exp,
+      savedAt: new Date().toISOString(),
+      idChipParams:  Object.fromEntries(idChipMap  || new Map()),
+      formulaParams: Object.fromEntries(formulaMap || new Map())
+    };
+    if(idx >= 0){ existing[idx] = entry; }
+    else { existing.unshift(entry); }
+    const trimmed = existing.slice(0, HIST_MAX);
+    await window.storage.set(key, JSON.stringify(trimmed));
+    return true;
+  }catch(e){ console.error("saveLotToHistory error", e); return false; }
+}
+
+async function deleteLotFromHistory(platform, itemName, lotNo){
+  const key = `batch-hist:${platform}:${encodeURIComponent(itemName)}`;
+  try{
+    const existing = await loadLotHistory(platform, itemName);
+    const filtered = existing.filter(e => e.lot !== lotNo);
+    if(filtered.length === 0){ await window.storage.delete(key); }
+    else { await window.storage.set(key, JSON.stringify(filtered)); }
+    return true;
+  }catch(e){ return false; }
+}
+
+async function deleteAllHistForItem(platform, itemName){
+  const key = `batch-hist:${platform}:${encodeURIComponent(itemName)}`;
+  try{ await window.storage.delete(key); return true; }
+  catch(e){ return false; }
+}
+
+async function listAllHistKeys(){
+  try{
+    const r = await window.storage.list("batch-hist:");
+    return r ? r.keys : [];
+  }catch(e){ return []; }
+}
+
+// ── 구형 batch-rec 데이터 자동 마이그레이션 ─────────────
+async function migrateLegacyBatchKeys(){
+  try{
+    const r = await window.storage.list("batch-rec:");
+    if(!r || !r.keys || !r.keys.length) return;
+    for(const k of r.keys){
+      const parts = k.split(":");
+      const platform = parts[1]||"";
+      const itemName = decodeURIComponent(parts[2]||"");
+      const old = await window.storage.get(k);
+      if(!old) continue;
+      const p = JSON.parse(old.value);
+      if(!p || !p.lot || p.lot==="-") continue;
+      const existing = await loadLotHistory(platform, itemName);
+      if(existing.some(e=>e.lot===p.lot)) continue; // 이미 마이그레이션됨
+      const idChipMap  = new Map(Object.entries(p.idChipParams  || {}));
+      const formulaMap = new Map(Object.entries(p.formulaParams || {}));
+      await saveLotToHistory(platform, itemName, p.lot, p.exp||"-", idChipMap, formulaMap);
+    }
+  }catch(e){ console.warn("migration error", e); }
+}
+
+// ── 이력 저장 버튼 핸들러 ─────────────────────────────
+async function onSaveHist(btn){
+  const platform = btn.dataset.platform;
+  const itemName = btn.dataset.iname;
+  const lotNo    = btn.dataset.lot;
+  const exp      = btn.dataset.exp;
+  const mapB64   = btn.dataset.map;
+  btn.disabled = true; btn.textContent = "저장 중…";
+  try{
+    const parsed     = JSON.parse(decodeURIComponent(escape(atob(mapB64))));
+    const idChipMap  = new Map(Object.entries(parsed.idChip  || {}));
+    const formulaMap = new Map(Object.entries(parsed.formula || {}));
+    const ok = await saveLotToHistory(platform, itemName, lotNo, exp, idChipMap, formulaMap);
+    if(ok){
+      btn.textContent = "✓ 이력에 저장됨";
+      btn.style.background = "rgba(167,139,250,.25)";
+      const bar = btn.closest(".rec-ref-bar");
+      if(bar){
+        const existing = bar.querySelector(".hist-saved-badge");
+        if(existing) existing.remove();
+        const badge = document.createElement("span");
+        badge.className = "hist-saved-badge";
+        badge.textContent = `📥 ${lotNo} 이력 저장됨`;
+        bar.appendChild(badge);
+      }
+    } else {
+      btn.textContent = "저장 실패"; btn.disabled = false;
+    }
+  }catch(e){
+    console.error(e);
+    btn.textContent = "오류: " + e.message.slice(0,20); btn.disabled = false;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// 대시보드 렌더링
+// ═══════════════════════════════════════════════════════
+async function renderDashboard(){
+  const content = document.getElementById("dashboard-content");
+  if(!content) return;
+  content.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text2)">
+    <div class="spin" style="font-size:22px">⚙</div><br>대시보드 로딩 중…
+  </div>`;
+
+  // 구형 데이터 마이그레이션 시도
+  await migrateLegacyBatchKeys();
+
+  try{
+    const histKeys = await listAllHistKeys();
+    if(!histKeys.length){
+      content.innerHTML = `<div id="dash-empty">
+        <div class="ei">📊</div>
+        <p>저장된 로트 이력이 없습니다</p>
+        <p style="margin-top:8px;font-size:11px;font-family:var(--mono);color:var(--text3)">
+          검수 분석 탭 → 기록서 배치 패널 → <b style="color:var(--purple)">📥 이력 저장</b> 버튼으로<br>
+          배치 수식 정보를 누적 저장하면 이 대시보드에서 배치간 변화를 추적할 수 있습니다
+        </p>
+      </div>`;
+      return;
+    }
+
+    // 키 파싱 및 데이터 로드
+    const items = [];
+    for(const k of histKeys){
+      const parts = k.split(":");
+      const platform = parts[1]||"";
+      const itemName = decodeURIComponent(parts[2]||"");
+      const history = await loadLotHistory(platform, itemName);
+      if(history.length > 0) items.push({platform, itemName, history});
+    }
+
+    // 플랫폼별 분류
+    const ichItems = items.filter(i=>i.platform==="ichroma").sort((a,b)=>a.itemName.localeCompare(b.itemName));
+    const afItems  = items.filter(i=>i.platform==="AFIAS").sort((a,b)=>a.itemName.localeCompare(b.itemName));
+    const totalLots = items.reduce((s,i)=>s+i.history.length, 0);
+
+    let html = `<div class="dash-stats">
+      <div class="dash-stat-card all">
+        <div class="dash-stat-val">${items.length}</div>
+        <div class="dash-stat-lbl">아이템 종류</div>
+      </div>
+      <div class="dash-stat-card all">
+        <div class="dash-stat-val">${totalLots}</div>
+        <div class="dash-stat-lbl">누적 저장 로트</div>
+      </div>
+      <div class="dash-stat-card ich">
+        <div class="dash-stat-val">${ichItems.length}</div>
+        <div class="dash-stat-lbl">ichroma 아이템</div>
+      </div>
+      <div class="dash-stat-card af">
+        <div class="dash-stat-val">${afItems.length}</div>
+        <div class="dash-stat-lbl">AFIAS 아이템</div>
+      </div>
+    </div>`;
+
+    if(ichItems.length){
+      html += `<div class="hist-sec">
+        <div class="hist-plat-hdr ich">
+          <span style="font-size:17px">🔵</span>
+          <span class="hist-plat-title">ichroma</span>
+          <span class="hist-plat-cnt">${ichItems.length}개 아이템</span>
+        </div>`;
+      for(const item of ichItems) html += buildItemHistBlock(item);
+      html += `</div>`;
+    }
+    if(afItems.length){
+      html += `<div class="hist-sec">
+        <div class="hist-plat-hdr af">
+          <span style="font-size:17px">🟣</span>
+          <span class="hist-plat-title">AFIAS</span>
+          <span class="hist-plat-cnt">${afItems.length}개 아이템</span>
+        </div>`;
+      for(const item of afItems) html += buildItemHistBlock(item);
+      html += `</div>`;
+    }
+
+    content.innerHTML = html;
+
+  }catch(e){
+    content.innerHTML = `<div style="color:var(--red);padding:20px;font-size:11px;font-family:var(--mono)">⚠ 대시보드 오류: ${esc(e.message)}</div>`;
+    console.error(e);
+  }
+}
+
+// ── 아이템 이력 블록 빌더 ────────────────────────────
+function buildItemHistBlock(item){
+  const {platform, itemName, history} = item;
+  // 최대 15개 로트 표시 (최신 순)
+  const lots = history.slice(0, 15);
+
+  // 모든 파라미터 키 수집
+  const idParams  = new Set();
+  const fmlParams = new Set();
+  for(const e of lots){
+    Object.keys(e.idChipParams||{}).forEach(k=>idParams.add(k));
+    Object.keys(e.formulaParams||{}).forEach(k=>fmlParams.add(k));
+  }
+
+  // 변화 감지 함수
+  const valOf = (entry, key, isFormula) => {
+    const map = isFormula ? (entry.formulaParams||{}) : (entry.idChipParams||{});
+    return map[key] || "-";
+  };
+  const hasChange = (key, isFormula) => {
+    const vals = lots.map(e=>valOf(e,key,isFormula));
+    return !vals.every(v=>v===vals[0]);
+  };
+
+  // 수식 파라미터 우선, 변화있는 것 상단 정렬
+  const fmlChanged   = [...fmlParams].filter(k=>hasChange(k,true));
+  const fmlUnchanged = [...fmlParams].filter(k=>!hasChange(k,true));
+  const idChanged    = [...idParams].filter(k=>hasChange(k,false));
+  const idUnchanged  = [...idParams].filter(k=>!hasChange(k,false));
+
+  const sortedParams = [
+    ...fmlChanged.map(k=>({key:k,isFormula:true,changed:true})),
+    ...fmlUnchanged.map(k=>({key:k,isFormula:true,changed:false})),
+    ...idChanged.map(k=>({key:k,isFormula:false,changed:true})),
+    ...idUnchanged.map(k=>({key:k,isFormula:false,changed:false})),
+  ];
+
+  const anyChange = fmlChanged.length>0 || idChanged.length>0;
+
+  // 로트 헤더 행
+  const lotHeads = lots.map((e,i)=>`<th class="lc${i===0?' latest':''}">
+    <div class="lot-head-info">${esc(e.lot||'-')}</div>
+    <span class="lot-head-date">${e.savedAt.slice(0,10)}</span>
+    <button class="lot-del-btn"
+      onclick="onDeleteLotFromDash('${esc(platform)}','${esc(itemName)}','${esc(e.lot||'')}',this)">🗑 삭제</button>
+  </th>`).join("");
+
+  // 데이터 행들
+  const dataRows = sortedParams.map(({key, isFormula, changed})=>{
+    const vals = lots.map(e=>valOf(e,key,isFormula));
+    const refVal = vals[0];
+    const cells = vals.map((v,i)=>{
+      let cls="vc";
+      if(i===0) cls+=" vfirst";
+      else if(changed && v!==refVal && v!=="-") cls+=" vdiff";
+      else cls+=" vsame";
+      return `<td class="${cls}">${esc(v)}</td>`;
+    }).join("");
+    const typeTag = isFormula
+      ? `<span class="param-type-fml">수식</span>`
+      : `<span class="param-type-id">ID</span>`;
+    return `<tr class="${changed?'rowdiff':''}">
+      <td class="pc">${typeTag}${esc(key)}</td>
+      ${cells}
+    </tr>`;
+  }).join("");
+
+  // 전체 아이템 삭제 버튼
+  const delAllBtn = `<button
+    onclick="onDeleteAllHistForItem('${esc(platform)}','${esc(itemName)}',this)"
+    style="margin-left:auto;padding:3px 10px;border:1px solid rgba(248,113,113,.3);
+      background:rgba(248,113,113,.06);color:var(--red);border-radius:6px;
+      font-size:10px;font-weight:700;cursor:pointer;font-family:var(--mono)">
+    🗑 이 아이템 전체 삭제
+  </button>`;
+
+  return `<div class="igrp" style="margin-bottom:12px">
+    <div class="igrp-hdr" onclick="toggleGrp(this)">
+      <span class="igrp-name">${esc(itemName)}</span>
+      <span class="hist-lot-cnt">${lots.length}개 로트 이력</span>
+      <div class="igrp-badges">
+        <span class="b b-info">${esc(platform)}</span>
+        ${anyChange
+          ? `<span class="b b-warn">⚠ 수식 변경 ${fmlChanged.length + idChanged.length}개 파라미터</span>`
+          : `<span class="b b-pass">✓ 전배치 수식 일정</span>`}
+      </div>
+      ${delAllBtn}
+      <span class="ig-tog">▾</span>
+    </div>
+    <div class="igrp-body">
+      <div class="twrap" style="padding:10px">
+        <table class="lht">
+          <thead><tr>
+            <th style="width:20%;min-width:140px">파라미터</th>
+            ${lotHeads}
+          </tr></thead>
+          <tbody>${dataRows||`<tr><td colspan="20" style="text-align:center;color:var(--text3);padding:20px">저장된 파라미터 없음</td></tr>`}</tbody>
+        </table>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ── 대시보드 내 단건 로트 삭제 핸들러 ──────────────────
+async function onDeleteLotFromDash(platform, itemName, lotNo, btn){
+  if(!confirm(`[${platform}] ${itemName}\nLOT ${lotNo} 이력을 삭제하시겠습니까?`)) return;
+  const ok = await deleteLotFromHistory(platform, itemName, lotNo);
+  if(ok) renderDashboard();
+}
+
+// ── 아이템 전체 삭제 핸들러 ─────────────────────────────
+async function onDeleteAllHistForItem(platform, itemName, btn){
+  if(!confirm(`[${platform}] ${itemName}\n이 아이템의 모든 로트 이력을 삭제하시겠습니까?`)) return;
+  const ok = await deleteAllHistForItem(platform, itemName);
+  if(ok) renderDashboard();
+}
+</script>
+</body>
+</html>
