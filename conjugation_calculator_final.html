@@ -1,0 +1,3498 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Conjugation Protocol Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .protocol-tabs {
+            display: flex;
+            background: #f8f9fa;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .protocol-tab {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            color: #6c757d;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .protocol-tab:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .protocol-tab.active {
+            background: white;
+            color: #4facfe;
+            border-bottom-color: #4facfe;
+        }
+
+        .protocol-content {
+            padding: 20px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .protocol-content.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .input-group:focus-within {
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-row input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .input-row input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .input-row .unit {
+            font-size: 14px;
+            color: #6c757d;
+            font-weight: 500;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .input-row select.unit-select {
+            min-width: 90px;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fff;
+            color: #495057;
+        }
+
+        .calculation-result {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #4facfe;
+        }
+
+        .calculation-result h3 {
+            color: #2d3748;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+        }
+
+        .result-item .label {
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .result-item .value {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .protocol-steps {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .protocol-steps h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .step {
+            display: flex;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .step-number {
+            background: #4facfe;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #4a5568;
+        }
+
+        .protocol-save-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .save-button {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .save-button.download {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .save-button.copy {
+            background: linear-gradient(135deg, #007bff 0%, #6f42c1 100%);
+        }
+
+        .save-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .save-button:active {
+            transform: translateY(0);
+        }
+
+        .batch-panel {
+            margin: 18px 20px 20px;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid #dfe7ef;
+            background: #f8fbff;
+        }
+
+        .batch-title {
+            margin: 0 0 12px;
+            font-size: 16px;
+            color: #1f3f66;
+        }
+
+        .batch-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .batch-label {
+            color: #4a5568;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        #batch-name-input,
+        #batch-select {
+            flex: 1;
+            min-width: 190px;
+            padding: 10px 12px;
+            border: 1px solid #cfd9e4;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        .batch-button {
+            border: none;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #fff;
+            background: #4f6d8f;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .batch-button.primary {
+            background: linear-gradient(135deg, #0f8a8f 0%, #14a66f 100%);
+        }
+
+        .batch-button.danger {
+            background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%);
+        }
+
+        .batch-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.14);
+        }
+
+        .batch-file-input {
+            display: none;
+        }
+
+        .batch-help {
+            margin: 6px 0 0;
+            color: #5d6a78;
+            font-size: 12px;
+        }
+
+        .batch-section-title {
+            margin: 12px 0 6px;
+            font-size: 13px;
+            color: #2d4a68;
+            font-weight: 700;
+        }
+
+        .batch-panel input[type="text"],
+        .batch-panel input[type="datetime-local"],
+        .batch-panel input[type="number"] {
+            min-width: 130px;
+            padding: 10px 12px;
+            border: 1px solid #cfd9e4;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #fff;
+        }
+
+        .batch-switch {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #415469;
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .meta-input {
+            flex: 1;
+        }
+
+        .qc-box {
+            border: 1px solid #d7e3ee;
+            border-radius: 10px;
+            padding: 10px;
+            background: #fff;
+        }
+
+        .qc-summary {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .qc-summary strong {
+            color: #254664;
+        }
+
+        .qc-status {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: #6c757d;
+        }
+
+        .qc-status.pass {
+            background: #1e9b55;
+        }
+
+        .qc-status.fail {
+            background: #d9534f;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .dashboard-card {
+            border-radius: 8px;
+            background: #fff;
+            border: 1px solid #d7e3ee;
+            padding: 8px 10px;
+        }
+
+        .dashboard-card .k {
+            font-size: 12px;
+            color: #5d6a78;
+        }
+
+        .dashboard-card .v {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f3f66;
+        }
+
+        .dashboard-note {
+            margin: 8px 0 0;
+            color: #4f5f70;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+
+        .history-list,
+        .reminder-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 6px;
+            max-height: 260px;
+            overflow: auto;
+        }
+
+        .history-card,
+        .reminder-card {
+            border: 1px solid #d7e3ee;
+            border-radius: 10px;
+            background: #fff;
+            padding: 10px;
+        }
+
+        .history-head,
+        .reminder-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .history-name,
+        .reminder-name {
+            color: #1f3f66;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .history-meta,
+        .reminder-meta {
+            color: #58697a;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .history-actions,
+        .reminder-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .mini-btn {
+            border: none;
+            border-radius: 7px;
+            padding: 6px 8px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #fff;
+            background: #4f6d8f;
+        }
+
+        .mini-btn.danger {
+            background: #d9534f;
+        }
+
+        .mini-btn.success {
+            background: #1e9b55;
+        }
+
+        .reset-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .reset-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .reset-button:active {
+            transform: translateY(0);
+        }
+
+        /* 모바일 최적화 */
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 0;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .protocol-content {
+                flex: 1;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .protocol-tabs {
+                flex-wrap: nowrap;
+            }
+
+            .protocol-tab {
+                font-size: 11px;
+                padding: 12px 8px;
+            }
+
+            .input-row input {
+                font-size: 16px; /* iOS에서 줌 방지 */
+            }
+
+            .batch-panel {
+                margin: 12px;
+                padding: 12px;
+            }
+
+            .batch-button {
+                flex: 1;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .batch-switch {
+                width: 100%;
+                margin-left: 0;
+                justify-content: flex-end;
+            }
+        }
+
+        /* 강제 밝은 모드 */
+        .container {
+            background: white !important;
+            color: #333 !important;
+        }
+
+        .input-group {
+            background: #f8f9fa !important;
+        }
+
+        .input-row input {
+            background: white !important;
+            color: #333 !important;
+            border-color: #dee2e6 !important;
+        }
+
+        .protocol-steps {
+            background: #f8f9fa !important;
+        }
+
+        .step {
+            background: white !important;
+            color: #4a5568 !important;
+        }
+
+        .step-content {
+            color: #4a5568 !important;
+        }
+
+        .result-item .label {
+            color: #4a5568 !important;
+        }
+
+        .result-item .value {
+            color: #2d3748 !important;
+        }
+
+        .calculation-result h3 {
+            color: #2d3748 !important;
+        }
+
+        .protocol-steps h3 {
+            color: #2d3748 !important;
+        }
+
+        .input-group label {
+            color: #495057 !important;
+        }
+
+        .input-row .unit {
+            color: #6c757d !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Conjugation Protocol Calculator</h1>
+            <p>실험 프로토콜 계산기</p>
+        </div>
+
+        <div class="protocol-tabs">
+            <button class="protocol-tab active" onclick="showProtocol('eu')">Eu</button>
+            <button class="protocol-tab" onclick="showProtocol('biotin')">Biotin</button>
+            <button class="protocol-tab" onclick="showProtocol('gsa')">G-SA</button>
+            <button class="protocol-tab" onclick="showProtocol('darkred')">Dark Red</button>
+            <button class="protocol-tab" onclick="showProtocol('alexa')">Alexa/FPR</button>
+            <button class="protocol-tab" onclick="showProtocol('neweu')">New Eu</button>
+        </div>
+
+        <!-- Europium Protocol -->
+        <div id="eu" class="protocol-content active">
+            <div class="input-group">
+                <label>전체 생산량 (1 vial)</label>
+                <div class="input-row">
+                    <input type="number" id="eu-total-volume" value="1" step="0.5" onchange="handleEuTotalVolumeChanged()">
+                    <select id="eu-total-volume-unit" class="unit-select" onchange="handleEuTotalVolumeUnitChanged(this)">
+                        <option value="ml" selected>mL</option>
+                        <option value="ul">μL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>항체 농도</label>
+                <div class="input-row">
+                    <input type="number" id="eu-antibody-conc" value="0.5" step="0.1" onchange="calculateEu()">
+                    <select id="eu-antibody-conc-unit" class="unit-select" onchange="handleUnitChange(this, 'eu-antibody-conc', 'concentration', 'calculateEu')">
+                        <option value="mg/ml" selected>mg/mL</option>
+                        <option value="ug/ml">μg/mL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>필요 항체량</label>
+                <div class="input-row">
+                    <input type="number" id="eu-antibody-needed-input" value="0.1" step="0.01" onchange="calculateEu()">
+                    <select id="eu-antibody-needed-unit" class="unit-select" onchange="handleUnitChange(this, 'eu-antibody-needed-input', 'mass', 'calculateEu')">
+                        <option value="mg" selected>mg</option>
+                        <option value="ug">μg</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Eu 원액 농도</label>
+                <div class="input-row">
+                    <input type="number" id="eu-stock-conc" value="1" step="0.1" onchange="calculateEu()">
+                    <span class="unit">% solid</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Eu 사용량 (기본: 전체 부피의 10%, 수정 가능)</label>
+                <div class="input-row">
+                    <input type="number" id="eu-usage-input" value="100" step="10" onchange="calculateEu()">
+                    <select id="eu-usage-unit" class="unit-select" onchange="handleUnitChange(this, 'eu-usage-input', 'volume', 'calculateEu')">
+                        <option value="ul" selected>μL</option>
+                        <option value="ml">mL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calculation-result" id="eu-results">
+                <h3>📊 계산 결과</h3>
+                <div class="result-item">
+                    <span class="label">Eu conjugation 양:</span>
+                    <span class="value" id="eu-conjugation-calculated">1.0 mg</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">항체 필요 부피:</span>
+                    <span class="value" id="eu-antibody-volume-calculated">0.2 ml</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">생산량 대비 Eu 비율:</span>
+                    <span class="value" id="eu-usage-ratio">10%</span>
+                </div>
+            </div>
+
+            <div class="protocol-steps">
+                <h3>📋 프로토콜 단계 (18단계)</h3>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">50mM MES pH 6.1 <span id="eu-step1-mes">900</span><span id="eu-step1-mes-unit">μL</span> + 200nm Eu-NP <span id="eu-step1-eu">100</span><span id="eu-step1-eu-unit">μL</span> 넣고 sonication</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">원심분리 20분</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">상등액 버리고 DDW <span id="eu-step3-ddw">630.2</span><span id="eu-step3-ddw-unit">μL</span> + 500mM MES pH 6.1 <span id="eu-step3-mes">100</span><span id="eu-step3-mes-unit">μL</span> 넣고 간단히 sonication 후, 2mg/ml NHS in DDW <span id="eu-step3-nhs">221</span><span id="eu-step3-nhs-unit">μL</span> + 1mg/ml EDC in DDW <span id="eu-step3-edc">48.8</span><span id="eu-step3-edc-unit">μL</span> 첨가</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">Shaker를 이용하여 호일로 차광한 뒤 30분 교반</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">원심분리 14,000rpm, 4℃, 20분</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">상등액 버리고 50mM MES <span id="eu-step6-mes">1</span><span id="eu-step6-mes-unit">mL</span> 넣은 후 sonication</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">7</div>
+                    <div class="step-content">원심분리 20분</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">8</div>
+                    <div class="step-content">상등액 버리고 50mM MES <span id="eu-step8-mes">1</span><span id="eu-step8-mes-unit">mL</span> 넣은 후 sonication</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">9</div>
+                    <div class="step-content">원심분리 20분</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">10</div>
+                    <div class="step-content">상등액 버리고 DDW <span id="eu-step10-ddw">700</span><span id="eu-step10-ddw-unit">μL</span> + 500mM MES <span id="eu-step10-mes">100</span><span id="eu-step10-mes-unit">μL</span> 넣고 sonication</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">11</div>
+                    <div class="step-content">항체 <span id="eu-step11-conc">0.5</span><span id="eu-step11-conc-unit">mg/ml</span> <span id="eu-step11-volume">200</span><span id="eu-step11-volume-unit">μL</span> 첨가</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">12</div>
+                    <div class="step-content">Shaker를 이용하여 1시간 30분 교반</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">13</div>
+                    <div class="step-content">원심분리 14,000rpm, 4℃, 20분</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">14</div>
+                    <div class="step-content">상등액 제거하고 Blocking Buffer (1%BSA in DDW) <span id="eu-step14-blocking">1</span><span id="eu-step14-blocking-unit">mL</span> 첨가 후 sonication</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">15</div>
+                    <div class="step-content">Shaker를 이용하여 30분 교반</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">16</div>
+                    <div class="step-content">원심분리 20분</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">17</div>
+                    <div class="step-content">상등액 제거하고 Storage Buffer (1%BSA in 50mM Tris pH 8.8) <span id="eu-step17-storage">1</span><span id="eu-step17-storage-unit">mL</span> 첨가 후 sonication</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">18</div>
+                    <div class="step-content">정량 후 소분하여 냉동(-20℃) 보관</div>
+                </div>
+            </div>
+
+            <div class="protocol-save-buttons">
+                <button class="save-button download" onclick="downloadEuProtocol()">
+                    📄 텍스트 파일로 저장
+                </button>
+                <button class="save-button copy" onclick="copyEuProtocol()">
+                    📋 클립보드에 복사
+                </button>
+            </div>
+
+            <button class="reset-button" onclick="resetEu()">🔄 초기값으로 재설정</button>
+        </div>
+
+        <!-- Biotin Protocol -->
+        <div id="biotin" class="protocol-content">
+            <div class="input-group">
+                <label>항체 conjugation 양</label>
+                <div class="input-row">
+                    <input type="number" id="biotin-antibody-amount" value="1" step="0.1" onchange="calculateBiotin()">
+                    <select id="biotin-antibody-amount-unit" class="unit-select" onchange="handleUnitChange(this, 'biotin-antibody-amount', 'mass', 'calculateBiotin')">
+                        <option value="mg" selected>mg</option>
+                        <option value="ug">μg</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>항체 농도</label>
+                <div class="input-row">
+                    <input type="number" id="biotin-antibody-conc" value="2" step="0.1" onchange="calculateBiotin()">
+                    <select id="biotin-antibody-conc-unit" class="unit-select" onchange="handleUnitChange(this, 'biotin-antibody-conc', 'concentration', 'calculateBiotin')">
+                        <option value="mg/ml" selected>mg/mL</option>
+                        <option value="ug/ml">μg/mL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calculation-result" id="biotin-results">
+                <h3>📊 계산 결과</h3>
+                <div class="result-item">
+                    <span class="label">항체 필요 부피:</span>
+                    <span class="value" id="biotin-antibody-volume">0.5 ml</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">1M Sodium bicarbonate:</span>
+                    <span class="value" id="biotin-bicarbonate">50 μL (0.050ml)</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Biotin 필요량:</span>
+                    <span class="value" id="biotin-needed-amount">0.01 mg</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Biotin 첨가량 (5mg/ml):</span>
+                    <span class="value" id="biotin-volume-needed">5 μL (0.005ml)</span>
+                </div>
+            </div>
+
+            <div class="protocol-steps">
+                <h3>📋 프로토콜 단계</h3>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">항체 <span id="biotin-step1-conc">2</span><span id="biotin-step1-conc-unit">mg/ml</span> <span id="biotin-step1-volume">0.5</span><span id="biotin-step1-volume-unit">mL</span> + 1M Sodium bicarbonate (NaHCO₃) <span id="biotin-step1-bicarbonate">50</span><span id="biotin-step1-bicarbonate-unit">μL</span></div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">Biotin (Thermo, 5mg/ml in DMSO) <span id="biotin-step2-biotin">5.0</span><span id="biotin-step2-biotin-unit">μL</span> 첨가</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">4시간 roller에서 반응</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">Sephadex G-25로 정제</div>
+                </div>
+            </div>
+
+            <div class="protocol-save-buttons">
+                <button class="save-button download" onclick="downloadBiotinProtocol()">
+                    📄 텍스트 파일로 저장
+                </button>
+                <button class="save-button copy" onclick="copyBiotinProtocol()">
+                    📋 클립보드에 복사
+                </button>
+            </div>
+
+            <button class="reset-button" onclick="resetBiotin()">🔄 초기값으로 재설정</button>
+        </div>
+
+        <!-- G-SA Protocol -->
+        <div id="gsa" class="protocol-content">
+            <div class="input-group">
+                <label>Roll 분량 (여유분 포함)</label>
+                <div class="input-row">
+                    <input type="number" id="gsa-roll-amount" value="10" step="1" onchange="calculateGSA()">
+                    <span class="unit">Roll</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Streptavidin 양</label>
+                <div class="input-row">
+                    <input type="number" id="gsa-streptavidin" value="10" step="1" onchange="calculateGSA()">
+                    <select id="gsa-streptavidin-unit" class="unit-select" onchange="handleUnitChange(this, 'gsa-streptavidin', 'mass', 'calculateGSA')">
+                        <option value="mg" selected>mg</option>
+                        <option value="ug">μg</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calculation-result" id="gsa-results">
+                <h3>📊 계산 결과</h3>
+                <div class="result-item">
+                    <span class="label">100mM Na-phosphate 버퍼:</span>
+                    <span class="value" id="gsa-phosphate">계산됨</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">HNa2O4P:</span>
+                    <span class="value" id="gsa-hna2o4p">7.1 g</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">H2NaO4P:</span>
+                    <span class="value" id="gsa-h2nao4p">2.1 g</span>
+                </div>
+            </div>
+
+            <div class="protocol-steps">
+                <h3>📋 프로토콜 단계</h3>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">Streptavidin <span id="gsa-step1-sa">10</span><span id="gsa-step1-sa-unit">mg</span>을 1mM Sodium carbonate buffer pH 9.6에 녹여 10mg/ml로 제조</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">Glutaraldehyde 용액 준비</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">교반하며 반응 진행</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">정제 및 보관</div>
+                </div>
+            </div>
+
+            <div class="protocol-save-buttons">
+                <button class="save-button download" onclick="downloadGSAProtocol()">
+                    📄 텍스트 파일로 저장
+                </button>
+                <button class="save-button copy" onclick="copyGSAProtocol()">
+                    📋 클립보드에 복사
+                </button>
+            </div>
+
+            <button class="reset-button" onclick="resetGSA()">🔄 초기값으로 재설정</button>
+        </div>
+
+        <!-- Dark Red Protocol -->
+        <div id="darkred" class="protocol-content">
+            <div class="input-group">
+                <label>최종 제조 볼륨</label>
+                <div class="input-row">
+                    <input type="number" id="darkred-final-volume" value="500" step="100" onchange="calculateDarkRed()">
+                    <select id="darkred-volume-unit" onchange="calculateDarkRed()" style="min-width: 60px; padding: 12px; border: 1px solid #dee2e6; border-radius: 8px; font-size: 16px; background: white;">
+                        <option value="ul">μL</option>
+                        <option value="ml">ml</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Protocol 2용 MES 농도</label>
+                <div class="input-row">
+                    <select id="darkred-mes-conc" onchange="calculateDarkRed()" style="flex: 1; padding: 12px; border: 1px solid #dee2e6; border-radius: 8px; font-size: 16px; background: white;">
+                        <option value="50">50mM MES</option>
+                        <option value="5">5mM MES</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calculation-result" id="darkred-results">
+                <h3>📊 계산 결과</h3>
+                <div class="result-item">
+                    <span class="label">스케일 비율:</span>
+                    <span class="value" id="darkred-scale">1.0배</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">계산된 Bead volume:</span>
+                    <span class="value" id="darkred-bead-calc">50 μL (0.050 ml)</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Protocol 1 DDW:</span>
+                    <span class="value" id="darkred-ddw">265.1 μL (0.265 ml)</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Protocol 2 MES buffer:</span>
+                    <span class="value" id="darkred-mes-buffer">450 μL (0.450 ml)</span>
+                </div>
+            </div>
+
+            <div class="protocol-steps">
+                <h3>📋 프로토콜 단계 (6단계)</h3>
+                
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>Pre-washing:</strong><br>
+                        • 0.5M MES, 50mM MES <span id="darkred-step1-mes">50</span><span id="darkred-step1-mes-unit">μL</span><br>
+                        • Dark-red bead <span id="darkred-step1-bead">50</span><span id="darkred-step1-bead-unit">μL</span><br>
+                        • 2mg/ml NHS <span id="darkred-step1-nhs">110.5</span><span id="darkred-step1-nhs-unit">μL</span><br>
+                        • 1mg/ml EDC <span id="darkred-step1-edc">24.4</span><span id="darkred-step1-edc-unit">μL</span> (vortexing 중 첨가)<br>
+                        • DDW <span id="darkred-step1-ddw">265.1</span><span id="darkred-step1-ddw-unit">μL</span><br>
+                        • Final volume <span id="darkred-step1-total">500</span><span id="darkred-step1-total-unit">μL</span><br>
+                        → Vortexing 900rpm, RT, 30min<br>
+                        → Centrifuge 14000rpm, 15min, 4℃, 상층액 제거
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>Ab conjugation:</strong><br>
+                        • 남은 bead volume: <span id="darkred-step2-bead">50</span><span id="darkred-step2-bead-unit">μL</span><br>
+                        • Ab <span id="darkred-step2-ab">50</span>μg (final conc. 100μg/ml)<br>
+                        • <span id="darkred-step2-mes-conc">50mM</span> MES <span id="darkred-step2-mes">450</span><span id="darkred-step2-mes-unit">μL</span><br>
+                        • Final volume <span id="darkred-step2-total">500</span><span id="darkred-step2-total-unit">μL</span><br>
+                        → Bead + 50mM MES 혼합 후 sonication<br>
+                        → Vortexing 하면서 Ab 첨가<br>
+                        → Vortexing 900rpm, RT, 1h 30min<br>
+                        → Centrifuge 14000rpm, 15min, 4℃, 상층액 제거
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>Washing 1:</strong><br>
+                        • 50mM Tris-Cl, 1% BSA <span id="darkred-step3-wash">1.00</span><span id="darkred-step3-wash-unit">mL</span><br>
+                        → Sonication<br>
+                        → Centrifuge 14000rpm, 15min, 4℃, 상층액 제거
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <strong>Washing 2:</strong><br>
+                        • 50mM Tris-Cl, 1% BSA <span id="darkred-step4-wash">1.00</span><span id="darkred-step4-wash-unit">mL</span><br>
+                        → Sonication<br>
+                        → Centrifuge 14000rpm, 15min, 4℃, 상층액 제거
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <strong>Washing 3:</strong><br>
+                        • 50mM Tris-Cl, 1% BSA <span id="darkred-step5-wash">1.00</span><span id="darkred-step5-wash-unit">mL</span><br>
+                        → Sonication<br>
+                        → Vortexing 900rpm, RT, 30min<br>
+                        → Centrifuge 14000rpm, 15min, 4℃, 상층액 제거
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <strong>Stock:</strong><br>
+                        • 남은 bead volume 측정<br>
+                        • 50mM Tris-Cl, 1% BSA로 final volume <span id="darkred-step6-final">500</span><span id="darkred-step6-final-unit">μL</span>까지 조정<br>
+                        → Sonication
+                    </div>
+                </div>
+            </div>
+
+            <div class="protocol-save-buttons">
+                <button class="save-button download" onclick="downloadDarkRedProtocol()">
+                    📄 텍스트 파일로 저장
+                </button>
+                <button class="save-button copy" onclick="copyDarkRedProtocol()">
+                    📋 클립보드에 복사
+                </button>
+            </div>
+
+            <button class="reset-button" onclick="resetDarkRed()">🔄 초기값으로 재설정</button>
+        </div>
+
+        <!-- Alexa/FPR Protocol -->
+        <div id="alexa" class="protocol-content">
+            <div class="input-group">
+                <label>Protein 농도</label>
+                <div class="input-row">
+                    <input type="number" id="alexa-protein-conc" value="2" step="0.1" onchange="calculateAlexa()">
+                    <select id="alexa-protein-conc-unit" class="unit-select" onchange="handleUnitChange(this, 'alexa-protein-conc', 'concentration', 'calculateAlexa')">
+                        <option value="mg/ml" selected>mg/mL</option>
+                        <option value="ug/ml">μg/mL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>제조 부피</label>
+                <div class="input-row">
+                    <input type="number" id="alexa-volume" value="1" step="0.1" onchange="calculateAlexa()">
+                    <select id="alexa-volume-unit" class="unit-select" onchange="handleUnitChange(this, 'alexa-volume', 'volume', 'calculateAlexa')">
+                        <option value="ml" selected>mL</option>
+                        <option value="ul">μL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Protein Molecular Weight</label>
+                <div class="input-row">
+                    <input type="number" id="alexa-mol-weight" value="150000" step="1000" onchange="calculateAlexa()">
+                    <span class="unit">Da</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>A₂₈₀ of protein at 1 mg/ml</label>
+                <div class="input-row">
+                    <input type="number" id="alexa-a280-1mg" value="1.4" step="0.1" onchange="calculateAlexa()">
+                    <span class="unit">-</span>
+                </div>
+            </div>
+
+            <div class="calculation-result" id="alexa-results">
+                <h3>📊 제조 계산 결과</h3>
+                <div class="result-item">
+                    <span class="label">1M Sodium bicarbonate 첨가량:</span>
+                    <span class="value" id="alexa-bicarbonate">100 μL</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Dye 첨가량 (1ml당 20μL):</span>
+                    <span class="value" id="alexa-dye">20 μL</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">총 Dye 양:</span>
+                    <span class="value" id="alexa-total-dye">0.1 mg</span>
+                </div>
+            </div>
+
+            <!-- OD 측정 입력 섹션 -->
+            <div style="background: #f0f8ff; border-radius: 12px; padding: 15px; margin: 20px 0; border-left: 4px solid #007bff;">
+                <h3 style="color: #007bff; margin-bottom: 15px;">📈 OD 측정 및 계산</h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                    <div style="text-align: center; font-weight: 600; color: #495057;">측정</div>
+                    <div style="text-align: center; font-weight: 600; color: #495057;">280.00nm</div>
+                    <div style="text-align: center; font-weight: 600; color: #495057;">650.00nm</div>
+                    
+                    <div style="text-align: center; font-weight: 500;">OD1</div>
+                    <div class="input-row">
+                        <input type="number" id="alexa-od280-1" value="2.08" step="0.01" onchange="calculateAlexaOD()" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                    </div>
+                    <div class="input-row">
+                        <input type="number" id="alexa-od650-1" value="9.50" step="0.01" onchange="calculateAlexaOD()" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                    </div>
+                    
+                    <div style="text-align: center; font-weight: 500;">OD2</div>
+                    <div class="input-row">
+                        <input type="number" id="alexa-od280-2" value="2.08" step="0.01" onchange="calculateAlexaOD()" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                    </div>
+                    <div class="input-row">
+                        <input type="number" id="alexa-od650-2" value="9.53" step="0.01" onchange="calculateAlexaOD()" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                    </div>
+                    
+                    <div style="text-align: center; font-weight: 600; background: #fff3cd; padding: 5px; border-radius: 5px;">AVG</div>
+                    <div style="text-align: center; font-weight: 600; background: #fff3cd; padding: 8px; border-radius: 5px;" id="alexa-od280-avg">2.08</div>
+                    <div style="text-align: center; font-weight: 600; background: #fff3cd; padding: 8px; border-radius: 5px;" id="alexa-od650-avg">9.52</div>
+                </div>
+
+                <div class="input-group">
+                    <label>Dilution Factor</label>
+                    <div class="input-row">
+                        <input type="number" id="alexa-dilution" value="1" step="0.1" onchange="calculateAlexaOD()">
+                        <span class="unit">-</span>
+                    </div>
+                </div>
+
+                <div class="calculation-result">
+                    <h3>🧮 계산 결과 (Equations 2-4)</h3>
+                    <div class="result-item">
+                        <span class="label">Protein conc. (<span id="alexa-protein-conc-calc-unit">mg/ml</span>) - Eq.2:</span>
+                        <span class="value" id="alexa-protein-conc-calc">1.54 mg/ml</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Protein conc. (M) - Eq.3:</span>
+                        <span class="value" id="alexa-protein-molar">1.03E-5 M</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">DOL (moles dye/mole protein) - Eq.4:</span>
+                        <span class="value" id="alexa-dol">4.50</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">M ratio:</span>
+                        <span class="value" id="alexa-m-ratio">0.00</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Conjugation ratio:</span>
+                        <span class="value" id="alexa-conj-ratio">4.50</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="protocol-steps">
+                <h3>📋 프로토콜 단계 (5단계)</h3>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <strong>Protein 준비:</strong><br>
+                        • Protein <span id="alexa-step1-conc">2</span><span id="alexa-step1-conc-unit">mg/ml</span> <span id="alexa-step1-vol">1.0</span><span id="alexa-step1-vol-unit">ml</span> 준비<br>
+                        • 1M sodium bicarbonate(pH 8.5±0.5) <span id="alexa-step1-bicarbonate">100</span><span id="alexa-step1-bicarbonate-unit">μL</span> 첨가하여 100mM이 되게 조정
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <strong>Dye 첨가:</strong><br>
+                        • Dye <span id="alexa-step2-dye">20</span><span id="alexa-step2-dye-unit">μL</span> 천천히 첨가 (1ml당 20μL)<br>
+                        • 반응이 갑자기 일어나지 않게 천천히 진행<br>
+                        • 항체 1mg당 dye 0.1mg 비율 (1:0.05 or 1:0.1)
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <strong>반응:</strong><br>
+                        • 전체를 호일로 차광<br>
+                        • 저온(창고)에서 overnight 교반
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <strong>정제:</strong><br>
+                        • Column으로 정제<br>
+                        • 전날 Sephadex를 미리 swelling해놓고 냉장보관<br>
+                        • Volume에 맞는 column으로 진행
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <strong>정량 및 분석:</strong><br>
+                        • 280nm에서 정량<br>
+                        • OD₂₈₀, OD₆₅₀ 측정<br>
+                        • Equations 2-4를 사용하여 DOL 및 conjugation ratio 계산
+                    </div>
+                </div>
+            </div>
+
+            <div class="protocol-save-buttons">
+                <button class="save-button download" onclick="downloadAlexaProtocol()">
+                    📄 텍스트 파일로 저장
+                </button>
+                <button class="save-button copy" onclick="copyAlexaProtocol()">
+                    📋 클립보드에 복사
+                </button>
+            </div>
+
+            <button class="reset-button" onclick="resetAlexa()">🔄 초기값으로 재설정</button>
+        </div>
+
+        <!-- New Eu Protocol -->
+        <div id="neweu" class="protocol-content">
+            <div class="input-group">
+                <label>Europium Conjugation 양</label>
+                <div class="input-row">
+                    <input type="number" id="neweu-conjugation-amount" value="1" step="0.1" onchange="calculateNewEu()">
+                    <select id="neweu-conjugation-amount-unit" class="unit-select" onchange="handleUnitChange(this, 'neweu-conjugation-amount', 'mass', 'calculateNewEu')">
+                        <option value="mg" selected>mg</option>
+                        <option value="ug">μg</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>항체 농도</label>
+                <div class="input-row">
+                    <input type="number" id="neweu-antibody-conc" value="4" step="0.1" onchange="calculateNewEu()">
+                    <select id="neweu-antibody-conc-unit" class="unit-select" onchange="handleUnitChange(this, 'neweu-antibody-conc', 'concentration', 'calculateNewEu')">
+                        <option value="mg/ml" selected>mg/mL</option>
+                        <option value="ug/ml">μg/mL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>필요 부피</label>
+                <div class="input-row">
+                    <input type="number" id="neweu-volume" value="30" step="5" onchange="calculateNewEu()">
+                    <select id="neweu-volume-unit" class="unit-select" onchange="handleUnitChange(this, 'neweu-volume', 'volume', 'calculateNewEu')">
+                        <option value="ul" selected>μL</option>
+                        <option value="ml">mL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Europium 사용량</label>
+                <div class="input-row">
+                    <input type="number" id="neweu-usage" value="100" step="10" onchange="calculateNewEu()">
+                    <select id="neweu-usage-unit" class="unit-select" onchange="handleUnitChange(this, 'neweu-usage', 'volume', 'calculateNewEu')">
+                        <option value="ul" selected>μL</option>
+                        <option value="ml">mL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calculation-result" id="neweu-results">
+                <h3>📊 계산 결과</h3>
+                <div class="result-item">
+                    <span class="label">필요 항체량:</span>
+                    <span class="value" id="neweu-antibody-needed">120 μg</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">Blocking Buffer:</span>
+                    <span class="value" id="neweu-blocking">120 μL</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">NHS:</span>
+                    <span class="value" id="neweu-nhs">6 μL</span>
+                </div>
+                <div class="result-item">
+                    <span class="label">EDC:</span>
+                    <span class="value" id="neweu-edc">5 μL</span>
+                </div>
+            </div>
+
+            <div class="protocol-steps">
+                <h3>📋 프로토콜 단계</h3>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">50mM MES pH 6.0 <span id="neweu-step1-mes">450</span><span id="neweu-step1-mes-unit">μL</span>에 항체 <span id="neweu-step1-antibody">120</span><span id="neweu-step1-antibody-unit">μg</span> 용해</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">300nm Eu-NP <span id="neweu-step2-eu">100</span><span id="neweu-step2-eu-unit">μL</span> 첨가</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">10 mg/mL NHS in MES <span id="neweu-step3-nhs">6</span><span id="neweu-step3-nhs-unit">μL</span> + 10 mg/mL EDC in MES <span id="neweu-step3-edc">5</span><span id="neweu-step3-edc-unit">μL</span> 첨가</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">Blocking Buffer <span id="neweu-step4-blocking">25</span><span id="neweu-step4-blocking-unit">μL</span>로 반응 종료 (50mM HEPES, 1% BSA, 0.1% proclin 300, pH 8.0)</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">Storage Buffer: 50mM HEPES, 1% BSA, 0.1% proclin 300, pH 8.0</div>
+                </div>
+            </div>
+
+            <div class="protocol-save-buttons">
+                <button class="save-button download" onclick="downloadNewEuProtocol()">
+                    📄 텍스트 파일로 저장
+                </button>
+                <button class="save-button copy" onclick="copyNewEuProtocol()">
+                    📋 클립보드에 복사
+                </button>
+            </div>
+
+            <button class="reset-button" onclick="resetNewEu()">🔄 초기값으로 재설정</button>
+        </div>
+
+        <div class="batch-panel">
+            <h3 class="batch-title">💾 배치별 저장</h3>
+            <div class="batch-row">
+                <span class="batch-label">현재 프로토콜:</span>
+                <strong id="batch-current-protocol">Eu</strong>
+            </div>
+            <div class="batch-section-title">SOP / 메타정보</div>
+            <div class="batch-row">
+                <span class="batch-label">SOP 버전</span>
+                <input type="text" id="sop-version-input" value="SOP-1.0">
+                <label class="batch-switch">
+                    <input type="checkbox" id="sop-lock-checkbox" checked>
+                    SOP 고정
+                </label>
+            </div>
+            <div class="batch-row">
+                <input class="meta-input" type="text" id="batch-operator-input" placeholder="담당자">
+                <input class="meta-input" type="text" id="batch-reagent-lot-input" placeholder="시약 Lot">
+            </div>
+            <div class="batch-row">
+                <input type="text" id="batch-name-input" placeholder="배치명 입력 (예: lot-20260403-A)">
+                <button class="batch-button primary" onclick="handleSaveCurrentBatch()">저장</button>
+            </div>
+            <div class="batch-row">
+                <select id="batch-select"></select>
+                <button class="batch-button" onclick="handleLoadCurrentBatch()">불러오기</button>
+                <button class="batch-button danger" onclick="handleDeleteCurrentBatch()">삭제</button>
+            </div>
+            <div class="batch-row">
+                <button class="batch-button" onclick="handleExportCurrentProtocol()">JSON 내보내기</button>
+                <button class="batch-button" onclick="handleImportCurrentProtocol()">JSON 가져오기</button>
+                <input id="batch-import-input" class="batch-file-input" type="file" accept="application/json" onchange="handleBatchFileSelected(event)">
+            </div>
+
+            <div class="batch-section-title">QC 자동 판정</div>
+            <div class="qc-box">
+                <div class="qc-summary">
+                    <span class="batch-label">지표:</span>
+                    <strong id="qc-metric-label">-</strong>
+                    <span id="qc-current-value">-</span>
+                    <span id="qc-status-badge" class="qc-status">N/A</span>
+                </div>
+                <div class="batch-row">
+                    <span class="batch-label">하한</span>
+                    <input type="number" id="qc-min-input" step="0.01">
+                    <span class="batch-label">상한</span>
+                    <input type="number" id="qc-max-input" step="0.01">
+                    <button class="batch-button" onclick="handleSaveQcThreshold()">기준 저장</button>
+                </div>
+            </div>
+
+            <div class="batch-section-title">실험 리마인더</div>
+            <div class="batch-row">
+                <input type="datetime-local" id="reminder-datetime-input">
+                <input class="meta-input" type="text" id="reminder-note-input" placeholder="메모 (예: 반응 종료, 세척 시작)">
+                <button class="batch-button" onclick="handleAddReminder()">추가</button>
+            </div>
+            <div id="reminder-list" class="reminder-list"></div>
+
+            <div class="batch-section-title">통계 대시보드</div>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="k">총 배치</div>
+                    <div id="dashboard-total-batches" class="v">0</div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="k">QC PASS 비율</div>
+                    <div id="dashboard-pass-rate" class="v">0%</div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="k">최근 7일 저장</div>
+                    <div id="dashboard-last7" class="v">0</div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="k">현재 프로토콜 평균 지표</div>
+                    <div id="dashboard-current-avg" class="v">-</div>
+                </div>
+            </div>
+            <div id="dashboard-protocol-counts" class="dashboard-note"></div>
+
+            <div class="batch-section-title">Lot/Batch 이력</div>
+            <div id="batch-history-list" class="history-list"></div>
+
+            <p class="batch-help">프로토콜 탭별로 저장됩니다. 같은 이름 저장 시 덮어쓰기 확인이 표시됩니다.</p>
+        </div>
+    </div>
+
+    <script>
+        const PROTOCOL_IDS = ['eu', 'biotin', 'gsa', 'darkred', 'alexa', 'neweu'];
+        const PROTOCOL_LABELS = {
+            eu: 'Eu',
+            biotin: 'Biotin',
+            gsa: 'G-SA',
+            darkred: 'Dark Red',
+            alexa: 'Alexa/FPR',
+            neweu: 'New Eu'
+        };
+        const STORAGE_KEY = 'conjugation_batches_v1';
+        const STORAGE_VERSION = 1;
+        const DEFAULT_EU_USAGE_RATIO = 10;
+        let currentProtocolId = 'eu';
+        let reminderTimerId = null;
+
+        // 프로토콜 탭 전환
+        function showProtocol(protocolId) {
+            document.querySelectorAll('.protocol-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.protocol-content').forEach(content => content.classList.remove('active'));
+
+            const targetTab = document.querySelector(`[onclick="showProtocol('${protocolId}')"]`);
+            const targetContent = document.getElementById(protocolId);
+            if (!targetTab || !targetContent) {
+                return;
+            }
+
+            targetTab.classList.add('active');
+            targetContent.classList.add('active');
+
+            currentProtocolId = protocolId;
+            refreshBatchUI(protocolId);
+        }
+
+        function safeNumber(value, fallback) {
+            const parsed = Number(value);
+            return Number.isFinite(parsed) ? parsed : fallback;
+        }
+
+        function roundForInput(value) {
+            if (!Number.isFinite(value)) {
+                return '';
+            }
+            if (Math.abs(value) >= 100) {
+                return String(Math.round(value * 100) / 100);
+            }
+            return String(Math.round(value * 10000) / 10000);
+        }
+
+        function convertValueToCanonical(value, unitType, unit) {
+            if (!Number.isFinite(value)) {
+                return value;
+            }
+            if (unitType === 'volume') {
+                return unit === 'ml' ? value * 1000 : value; // canonical: μL
+            }
+            if (unitType === 'mass') {
+                return unit === 'ug' ? value / 1000 : value; // canonical: mg
+            }
+            if (unitType === 'concentration') {
+                return unit === 'ug/ml' ? value / 1000 : value; // canonical: mg/mL
+            }
+            return value;
+        }
+
+        function convertCanonicalToValue(canonicalValue, unitType, unit) {
+            if (!Number.isFinite(canonicalValue)) {
+                return canonicalValue;
+            }
+            if (unitType === 'volume') {
+                return unit === 'ml' ? canonicalValue / 1000 : canonicalValue;
+            }
+            if (unitType === 'mass') {
+                return unit === 'ug' ? canonicalValue * 1000 : canonicalValue;
+            }
+            if (unitType === 'concentration') {
+                return unit === 'ug/ml' ? canonicalValue * 1000 : canonicalValue;
+            }
+            return canonicalValue;
+        }
+
+        function formatMassDisplayFromMg(massMg, preferredUnit, digitsMg, digitsUg) {
+            const unit = preferredUnit || 'mg';
+            const dMg = typeof digitsMg === 'number' ? digitsMg : 2;
+            const dUg = typeof digitsUg === 'number' ? digitsUg : 0;
+            if (unit === 'ug') {
+                return convertCanonicalToValue(massMg, 'mass', 'ug').toFixed(dUg) + ' μg';
+            }
+            return massMg.toFixed(dMg) + ' mg';
+        }
+
+        function formatVolumeDisplayFromUl(volumeUl, preferredUnit, digitsMl, digitsUl) {
+            const unit = preferredUnit || 'ul';
+            const dMl = typeof digitsMl === 'number' ? digitsMl : 2;
+            const dUl = typeof digitsUl === 'number' ? digitsUl : 0;
+            if (unit === 'ml') {
+                return convertCanonicalToValue(volumeUl, 'volume', 'ml').toFixed(dMl) + ' mL';
+            }
+            return volumeUl.toFixed(dUl) + ' μL';
+        }
+
+        function getAutoVolumeUnit(volumeUl) {
+            return volumeUl >= 1000 ? 'ml' : 'ul';
+        }
+
+        function setAutoVolumeStepValue(valueId, unitId, volumeUl, digitsMl, digitsUl) {
+            const valueEl = document.getElementById(valueId);
+            const unitEl = document.getElementById(unitId);
+            if (!valueEl || !unitEl) {
+                return;
+            }
+            const useMl = volumeUl >= 1000;
+            const value = useMl ? (volumeUl / 1000) : volumeUl;
+            const dMl = typeof digitsMl === 'number' ? digitsMl : 3;
+            const dUl = typeof digitsUl === 'number' ? digitsUl : 0;
+            valueEl.textContent = value.toFixed(useMl ? dMl : dUl);
+            unitEl.textContent = useMl ? 'mL' : 'μL';
+        }
+
+        function handleUnitChange(selectElement, inputId, unitType, calculatorName) {
+            if (!selectElement) {
+                return;
+            }
+            const input = document.getElementById(inputId);
+            if (!input) {
+                return;
+            }
+            const prevUnit = selectElement.dataset.prevUnit || selectElement.value;
+            const nextUnit = selectElement.value;
+            const inputValue = safeNumber(input.value, 0);
+            const canonical = convertValueToCanonical(inputValue, unitType, prevUnit);
+            const converted = convertCanonicalToValue(canonical, unitType, nextUnit);
+            input.value = roundForInput(converted);
+            selectElement.dataset.prevUnit = nextUnit;
+
+            if (calculatorName && typeof window[calculatorName] === 'function') {
+                window[calculatorName]();
+            }
+        }
+
+        function syncUnitSelectMemory() {
+            document.querySelectorAll('select.unit-select').forEach(selectElement => {
+                selectElement.dataset.prevUnit = selectElement.value;
+            });
+        }
+
+        function getVolumeUl(inputId, unitId, fallback) {
+            const value = safeNumber((document.getElementById(inputId) || {}).value, fallback);
+            const unit = (document.getElementById(unitId) || {}).value || 'ul';
+            return convertValueToCanonical(value, 'volume', unit);
+        }
+
+        function getMassMg(inputId, unitId, fallback) {
+            const value = safeNumber((document.getElementById(inputId) || {}).value, fallback);
+            const unit = (document.getElementById(unitId) || {}).value || 'mg';
+            return convertValueToCanonical(value, 'mass', unit);
+        }
+
+        function getConcentrationMgMl(inputId, unitId, fallback) {
+            const value = safeNumber((document.getElementById(inputId) || {}).value, fallback);
+            const unit = (document.getElementById(unitId) || {}).value || 'mg/ml';
+            return convertValueToCanonical(value, 'concentration', unit);
+        }
+
+        function syncEuUsageToDefaultRatio(totalVolumeUlOverride) {
+            const usageInput = document.getElementById('eu-usage-input');
+            if (!usageInput) {
+                return;
+            }
+            const usageUnit = (document.getElementById('eu-usage-unit') || {}).value || 'ul';
+            const totalVolumeUl = Number.isFinite(totalVolumeUlOverride)
+                ? totalVolumeUlOverride
+                : getVolumeUl('eu-total-volume', 'eu-total-volume-unit', 1000);
+            const usageUl = totalVolumeUl * DEFAULT_EU_USAGE_RATIO / 100;
+            const usageDisplay = convertCanonicalToValue(usageUl, 'volume', usageUnit);
+            usageInput.value = roundForInput(usageDisplay);
+        }
+
+        function handleEuTotalVolumeChanged() {
+            const totalVolumeUl = getVolumeUl('eu-total-volume', 'eu-total-volume-unit', 1000);
+            syncEuUsageToDefaultRatio(totalVolumeUl);
+            calculateEu();
+        }
+
+        function handleEuTotalVolumeUnitChanged(selectElement) {
+            handleUnitChange(selectElement, 'eu-total-volume', 'volume');
+            const totalVolumeUl = getVolumeUl('eu-total-volume', 'eu-total-volume-unit', 1000);
+            syncEuUsageToDefaultRatio(totalVolumeUl);
+            calculateEu();
+        }
+
+        // Europium 계산
+        function calculateEu() {
+            const totalVolumeUl = getVolumeUl('eu-total-volume', 'eu-total-volume-unit', 1000);
+            const totalVolumeMl = totalVolumeUl / 1000;
+            const antibodyConc = getConcentrationMgMl('eu-antibody-conc', 'eu-antibody-conc-unit', 0.5);
+            const antibodyNeeded = getMassMg('eu-antibody-needed-input', 'eu-antibody-needed-unit', 0.1);
+            const euStockConc = parseFloat(document.getElementById('eu-stock-conc').value) || 1;
+            const euUsage = getVolumeUl('eu-usage-input', 'eu-usage-unit', 100);
+            const safeAntibodyConc = antibodyConc > 0 ? antibodyConc : 0.000001;
+            const euMassUnit = (document.getElementById('eu-antibody-needed-unit') || {}).value || 'mg';
+            const euResultVolumeUnit = (document.getElementById('eu-total-volume-unit') || {}).value || 'ml';
+            
+            // 기본 계산
+            const euConjugationAmount = euStockConc * euUsage / 100; // mg (1% solid = 10mg/ml 기준)
+            const scaleRatio = totalVolumeMl / 1; // 생산량 배수
+            const scaledAntibodyNeeded = antibodyNeeded * scaleRatio; // mg (생산량 배율 반영)
+            const antibodyVolume = scaledAntibodyNeeded / safeAntibodyConc; // ml
+            const antibodyVolumeUl = antibodyVolume * 1000;
+            const antibodyVolumeDisplayUnit = antibodyVolume < 1 ? 'ul' : 'ml';
+            const euUsageRatio = totalVolumeUl > 0 ? (euUsage / totalVolumeUl) * 100 : 0; // %
+            
+            // 결과 표시
+            document.getElementById('eu-conjugation-calculated').textContent = formatMassDisplayFromMg(euConjugationAmount, euMassUnit, 2, 0);
+            document.getElementById('eu-antibody-volume-calculated').textContent = formatVolumeDisplayFromUl(antibodyVolumeUl, antibodyVolumeDisplayUnit, 3, 0);
+            document.getElementById('eu-usage-ratio').textContent = euUsageRatio.toFixed(1) + '%';
+            
+            // 각 단계별 계산
+            // 1단계: 총 생산 부피에서 Eu 사용량을 제외한 나머지를 MES로 계산
+            const step1Eu = euUsage;
+            const step1Mes = Math.max(totalVolumeUl - step1Eu, 0);
+            
+            // 3단계
+            const step3Nhs = 221 * scaleRatio;
+            const step3Edc = 48.8 * scaleRatio;
+            const step3Mes = 100 * scaleRatio;
+            const step3Ddw = (1000 * scaleRatio) - (step3Nhs + step3Edc + step3Mes);
+            
+            // 6, 8단계: 생산량 그대로
+            const step6MesUl = totalVolumeUl;
+            const step8MesUl = totalVolumeUl;
+            
+            // 10단계
+            const step10Mes = totalVolumeMl * 100; // μL
+            const step10AntibodyVol = antibodyVolume * 1000; // μL
+            const step10Ddw = (totalVolumeMl * 1000) - step10Mes - step10AntibodyVol;
+            
+            // 11단계: 항체 정보
+            const step11Conc = antibodyConc;
+            const step11VolumeUl = antibodyVolume * 1000; // μL
+            const euConcUnit = (document.getElementById('eu-antibody-conc-unit') || {}).value || 'mg/ml';
+            const step11ConcDisplay = convertCanonicalToValue(step11Conc, 'concentration', euConcUnit);
+            
+            // 14, 17단계: 생산량 그대로
+            const step14BlockingUl = totalVolumeUl;
+            const step17StorageUl = totalVolumeUl;
+            
+            // 프로토콜 단계 업데이트
+            setAutoVolumeStepValue('eu-step1-mes', 'eu-step1-mes-unit', step1Mes, 3, 0);
+            setAutoVolumeStepValue('eu-step1-eu', 'eu-step1-eu-unit', step1Eu, 3, 0);
+            
+            setAutoVolumeStepValue('eu-step3-ddw', 'eu-step3-ddw-unit', step3Ddw, 3, 1);
+            setAutoVolumeStepValue('eu-step3-mes', 'eu-step3-mes-unit', step3Mes, 3, 0);
+            setAutoVolumeStepValue('eu-step3-nhs', 'eu-step3-nhs-unit', step3Nhs, 3, 1);
+            setAutoVolumeStepValue('eu-step3-edc', 'eu-step3-edc-unit', step3Edc, 3, 1);
+            
+            setAutoVolumeStepValue('eu-step6-mes', 'eu-step6-mes-unit', step6MesUl, 3, 0);
+            setAutoVolumeStepValue('eu-step8-mes', 'eu-step8-mes-unit', step8MesUl, 3, 0);
+            
+            setAutoVolumeStepValue('eu-step10-ddw', 'eu-step10-ddw-unit', step10Ddw, 3, 0);
+            setAutoVolumeStepValue('eu-step10-mes', 'eu-step10-mes-unit', step10Mes, 3, 0);
+            
+            document.getElementById('eu-step11-conc').textContent = step11ConcDisplay.toFixed(1);
+            document.getElementById('eu-step11-conc-unit').textContent = euConcUnit === 'ug/ml' ? 'μg/ml' : 'mg/ml';
+            setAutoVolumeStepValue('eu-step11-volume', 'eu-step11-volume-unit', step11VolumeUl, 3, 0);
+            
+            setAutoVolumeStepValue('eu-step14-blocking', 'eu-step14-blocking-unit', step14BlockingUl, 3, 0);
+            setAutoVolumeStepValue('eu-step17-storage', 'eu-step17-storage-unit', step17StorageUl, 3, 0);
+        }
+
+        // Biotin 계산
+        function calculateBiotin() {
+            const antibodyAmount = getMassMg('biotin-antibody-amount', 'biotin-antibody-amount-unit', 1);
+            const antibodyConc = getConcentrationMgMl('biotin-antibody-conc', 'biotin-antibody-conc-unit', 2);
+            const safeAntibodyConc = antibodyConc > 0 ? antibodyConc : 0.000001;
+            
+            // 계산
+            const antibodyVolume = antibodyAmount / safeAntibodyConc; // ml
+            const antibodyVolumeUl = antibodyVolume * 1000;
+            const bicarbonateVolume = antibodyVolume * 100; // μL (항체 부피의 1/10, ml를 μL로 변환)
+            const biotinNeeded = antibodyAmount * 0.01; // mg (1mg 항체당 0.01mg biotin)
+            const biotinVolume = (biotinNeeded / 5) * 1000; // μL (5mg/ml 농도)
+            
+            // 결과 표시
+            document.getElementById('biotin-antibody-volume').textContent = formatVolumeDisplayFromUl(antibodyVolumeUl, getAutoVolumeUnit(antibodyVolumeUl), 3, 0);
+            document.getElementById('biotin-bicarbonate').textContent = formatVolumeDisplayFromUl(bicarbonateVolume, getAutoVolumeUnit(bicarbonateVolume), 3, 0);
+            document.getElementById('biotin-needed-amount').textContent = biotinNeeded.toFixed(3) + ' mg';
+            document.getElementById('biotin-volume-needed').textContent = formatVolumeDisplayFromUl(biotinVolume, getAutoVolumeUnit(biotinVolume), 3, 0);
+            
+            // 프로토콜 단계 업데이트
+            const biotinConcUnit = (document.getElementById('biotin-antibody-conc-unit') || {}).value || 'mg/ml';
+            const biotinConcDisplay = convertCanonicalToValue(antibodyConc, 'concentration', biotinConcUnit);
+            document.getElementById('biotin-step1-conc').textContent = biotinConcDisplay.toFixed(1);
+            document.getElementById('biotin-step1-conc-unit').textContent = biotinConcUnit === 'ug/ml' ? 'μg/ml' : 'mg/ml';
+            setAutoVolumeStepValue('biotin-step1-volume', 'biotin-step1-volume-unit', antibodyVolumeUl, 3, 0);
+            setAutoVolumeStepValue('biotin-step1-bicarbonate', 'biotin-step1-bicarbonate-unit', bicarbonateVolume, 3, 0);
+            
+            setAutoVolumeStepValue('biotin-step2-biotin', 'biotin-step2-biotin-unit', biotinVolume, 3, 0);
+        }
+
+        // G-SA 계산
+        function calculateGSA() {
+            const rollAmount = parseFloat(document.getElementById('gsa-roll-amount').value) || 10;
+            const streptavidin = getMassMg('gsa-streptavidin', 'gsa-streptavidin-unit', 10);
+            
+            const hna2o4p = (7.1 * rollAmount / 10).toFixed(1);
+            const h2nao4p = (2.1 * rollAmount / 10).toFixed(1);
+            
+            document.getElementById('gsa-phosphate').textContent = '적절량';
+            document.getElementById('gsa-hna2o4p').textContent = hna2o4p + ' g';
+            document.getElementById('gsa-h2nao4p').textContent = h2nao4p + ' g';
+            const gsaMassUnit = (document.getElementById('gsa-streptavidin-unit') || {}).value || 'mg';
+            const gsaMassDisplay = convertCanonicalToValue(streptavidin, 'mass', gsaMassUnit);
+            document.getElementById('gsa-step1-sa').textContent = gsaMassDisplay.toFixed(gsaMassUnit === 'ug' ? 0 : 2);
+            document.getElementById('gsa-step1-sa-unit').textContent = gsaMassUnit === 'ug' ? 'μg' : 'mg';
+        }
+
+        // Dark Red 계산
+        function calculateDarkRed() {
+            const volumeInput = parseFloat(document.getElementById('darkred-final-volume').value) || 500;
+            const volumeUnit = document.getElementById('darkred-volume-unit').value;
+            const mesConc = parseFloat(document.getElementById('darkred-mes-conc').value) || 50;
+            
+            // 입력값을 μL로 변환
+            const finalVolumeUL = volumeUnit === 'ml' ? volumeInput * 1000 : volumeInput;
+            
+            // 스케일 비율 계산 (기준: 500μL)
+            const scaleRatio = finalVolumeUL / 500;
+            
+            // Bead volume = final volume의 1/10
+            const beadVolumeUL = finalVolumeUL * 0.1;
+            
+            // Protocol 1 계산
+            const mesVolumeUL = 50 * scaleRatio;  // 0.5M MES, 50mM MES
+            const nhsVolumeUL = 110.5 * scaleRatio;  // 2mg/ml NHS
+            const edcVolumeUL = 24.4 * scaleRatio;   // 1mg/ml EDC
+            const ddwVolumeUL = finalVolumeUL - beadVolumeUL - mesVolumeUL - nhsVolumeUL - edcVolumeUL;
+            
+            // Protocol 2 계산
+            const abAmount = 50 * scaleRatio;  // Ab 50μg
+            const mesBufferVolumeUL = finalVolumeUL - beadVolumeUL;  // 나머지 MES buffer
+            
+            // Washing buffer 계산 (기본 1ml)
+            const washVolumeML = 1.0 * scaleRatio;  // 1ml × scale
+            const washVolumeUL = washVolumeML * 1000;
+            
+            // 결과 표시
+            document.getElementById('darkred-scale').textContent = scaleRatio.toFixed(1) + '배';
+            document.getElementById('darkred-bead-calc').textContent = formatVolumeDisplayFromUl(beadVolumeUL, getAutoVolumeUnit(beadVolumeUL), 3, 1);
+            document.getElementById('darkred-ddw').textContent = formatVolumeDisplayFromUl(ddwVolumeUL, getAutoVolumeUnit(ddwVolumeUL), 3, 1);
+            document.getElementById('darkred-mes-buffer').textContent = formatVolumeDisplayFromUl(mesBufferVolumeUL, getAutoVolumeUnit(mesBufferVolumeUL), 3, 1);
+            
+            // 프로토콜 단계 업데이트
+            // Protocol 1
+            setAutoVolumeStepValue('darkred-step1-mes', 'darkred-step1-mes-unit', mesVolumeUL, 3, 1);
+            setAutoVolumeStepValue('darkred-step1-bead', 'darkred-step1-bead-unit', beadVolumeUL, 3, 0);
+            setAutoVolumeStepValue('darkred-step1-nhs', 'darkred-step1-nhs-unit', nhsVolumeUL, 3, 1);
+            setAutoVolumeStepValue('darkred-step1-edc', 'darkred-step1-edc-unit', edcVolumeUL, 3, 1);
+            setAutoVolumeStepValue('darkred-step1-ddw', 'darkred-step1-ddw-unit', ddwVolumeUL, 3, 1);
+            setAutoVolumeStepValue('darkred-step1-total', 'darkred-step1-total-unit', finalVolumeUL, 3, 0);
+            
+            // Protocol 2
+            setAutoVolumeStepValue('darkred-step2-bead', 'darkred-step2-bead-unit', beadVolumeUL, 3, 0);
+            document.getElementById('darkred-step2-ab').textContent = abAmount.toFixed(0);
+            document.getElementById('darkred-step2-mes-conc').textContent = mesConc + 'mM';
+            setAutoVolumeStepValue('darkred-step2-mes', 'darkred-step2-mes-unit', mesBufferVolumeUL, 3, 0);
+            setAutoVolumeStepValue('darkred-step2-total', 'darkred-step2-total-unit', finalVolumeUL, 3, 0);
+            
+            // Protocol 3-5 (Washing)
+            setAutoVolumeStepValue('darkred-step3-wash', 'darkred-step3-wash-unit', washVolumeUL, 2, 0);
+            setAutoVolumeStepValue('darkred-step4-wash', 'darkred-step4-wash-unit', washVolumeUL, 2, 0);
+            setAutoVolumeStepValue('darkred-step5-wash', 'darkred-step5-wash-unit', washVolumeUL, 2, 0);
+            
+            // Protocol 6
+            setAutoVolumeStepValue('darkred-step6-final', 'darkred-step6-final-unit', finalVolumeUL, 3, 0);
+        }
+
+        // Alexa 계산
+        function calculateAlexa() {
+            const proteinConc = getConcentrationMgMl('alexa-protein-conc', 'alexa-protein-conc-unit', 2);
+            const volumeUl = getVolumeUl('alexa-volume', 'alexa-volume-unit', 1000);
+            const volume = volumeUl / 1000;
+            const alexaConcUnit = (document.getElementById('alexa-protein-conc-unit') || {}).value || 'mg/ml';
+            const alexaVolumeUnit = (document.getElementById('alexa-volume-unit') || {}).value || 'ml';
+            
+            // 1M Sodium bicarbonate 계산 (100mM이 되도록)
+            // protein volume의 1/10을 첨가하여 100mM 달성
+            const bicarbonateVolume = volume * 100; // μL (1ml당 100μL)
+            
+            // Dye 계산 (1ml당 20μL)
+            const dyeVolume = volume * 20; // μL
+            
+            // 총 protein 양 계산
+            const totalProtein = proteinConc * volume; // mg
+            
+            // 총 dye 양 계산 (항체 1mg당 dye 0.1mg)
+            const totalDye = totalProtein * 0.1; // mg
+            
+            // 결과 표시
+            const alexaMassUnit = alexaConcUnit === 'ug/ml' ? 'ug' : 'mg';
+            document.getElementById('alexa-bicarbonate').textContent = formatVolumeDisplayFromUl(bicarbonateVolume, getAutoVolumeUnit(bicarbonateVolume), 3, 0);
+            document.getElementById('alexa-dye').textContent = formatVolumeDisplayFromUl(dyeVolume, getAutoVolumeUnit(dyeVolume), 3, 0);
+            document.getElementById('alexa-total-dye').textContent = formatMassDisplayFromMg(totalDye, alexaMassUnit, 2, 0);
+            
+            // 프로토콜 단계 업데이트
+            const alexaConcDisplay = convertCanonicalToValue(proteinConc, 'concentration', alexaConcUnit);
+            const alexaStepVolumeUnit = getAutoVolumeUnit(volumeUl);
+            const alexaVolumeDisplay = convertCanonicalToValue(volumeUl, 'volume', alexaStepVolumeUnit);
+            document.getElementById('alexa-step1-conc').textContent = alexaConcDisplay.toFixed(1);
+            document.getElementById('alexa-step1-conc-unit').textContent = alexaConcUnit === 'ug/ml' ? 'μg/ml' : 'mg/ml';
+            document.getElementById('alexa-step1-vol').textContent = alexaVolumeDisplay.toFixed(alexaStepVolumeUnit === 'ml' ? 3 : 0);
+            document.getElementById('alexa-step1-vol-unit').textContent = alexaStepVolumeUnit === 'ml' ? 'mL' : 'μL';
+            setAutoVolumeStepValue('alexa-step1-bicarbonate', 'alexa-step1-bicarbonate-unit', bicarbonateVolume, 3, 0);
+            setAutoVolumeStepValue('alexa-step2-dye', 'alexa-step2-dye-unit', dyeVolume, 3, 0);
+            
+            // OD 계산도 실행
+            calculateAlexaOD();
+        }
+
+        // Alexa OD 계산 (Equations 2-4)
+        function calculateAlexaOD() {
+            // OD 측정값들 가져오기
+            const od280_1 = parseFloat(document.getElementById('alexa-od280-1').value) || 2.08;
+            const od280_2 = parseFloat(document.getElementById('alexa-od280-2').value) || 2.08;
+            const od650_1 = parseFloat(document.getElementById('alexa-od650-1').value) || 9.50;
+            const od650_2 = parseFloat(document.getElementById('alexa-od650-2').value) || 9.53;
+            
+            // 평균값 계산
+            const od280_avg = (od280_1 + od280_2) / 2;
+            const od650_avg = (od650_1 + od650_2) / 2;
+            
+            // 평균값 표시 업데이트
+            document.getElementById('alexa-od280-avg').textContent = od280_avg.toFixed(2);
+            document.getElementById('alexa-od650-avg').textContent = od650_avg.toFixed(2);
+            
+            // 다른 파라미터들
+            const dilutionFactor = parseFloat(document.getElementById('alexa-dilution').value) || 1;
+            const molWeight = parseFloat(document.getElementById('alexa-mol-weight').value) || 150000;
+            const a280At1mg = parseFloat(document.getElementById('alexa-a280-1mg').value) || 1.4;
+            const safeA280At1mg = a280At1mg > 0 ? a280At1mg : 0.000001;
+            const safeMolWeight = molWeight > 0 ? molWeight : 1;
+            
+            // Equation 2: Protein concentration (mg/ml) - 평균값 사용
+            const proteinConcMgMl = ((od280_avg - (0.03 * od650_avg)) * dilutionFactor) / safeA280At1mg;
+            
+            // Equation 3: Protein concentration (M)
+            const proteinConcMolar = proteinConcMgMl / safeMolWeight;
+            const safeProteinConcMolar = Math.abs(proteinConcMolar) > 1e-18 ? proteinConcMolar : 1e-18;
+            
+            // Equation 4: DOL (Degree of Labeling) - 평균값 사용
+            const dol = (od650_avg * dilutionFactor) / (239000 * safeProteinConcMolar);
+            
+            // M ratio 계산 (일반적으로 280nm/260nm 비율이지만, 여기서는 280nm/650nm 사용)
+            const mRatio = od650_avg > 0 ? (od280_avg / od650_avg) : 0;
+            
+            // Conjugation ratio (DOL과 동일)
+            const conjugationRatio = dol;
+            
+            // 결과 표시
+            const alexaConcUnit = (document.getElementById('alexa-protein-conc-unit') || {}).value || 'mg/ml';
+            const alexaConcUnitLabel = alexaConcUnit === 'ug/ml' ? 'μg/ml' : 'mg/ml';
+            const proteinConcDisplay = convertCanonicalToValue(proteinConcMgMl, 'concentration', alexaConcUnit);
+            document.getElementById('alexa-protein-conc-calc').textContent = proteinConcDisplay.toFixed(2) + ' ' + alexaConcUnitLabel;
+            const alexaConcUnitEl = document.getElementById('alexa-protein-conc-calc-unit');
+            if (alexaConcUnitEl) {
+                alexaConcUnitEl.textContent = alexaConcUnitLabel;
+            }
+            document.getElementById('alexa-protein-molar').textContent = proteinConcMolar.toExponential(2) + ' M';
+            document.getElementById('alexa-dol').textContent = dol.toFixed(2);
+            document.getElementById('alexa-m-ratio').textContent = mRatio.toFixed(2);
+            document.getElementById('alexa-conj-ratio').textContent = conjugationRatio.toFixed(2);
+        }
+
+        // New Eu 계산
+        function calculateNewEu() {
+            const conjugationAmount = getMassMg('neweu-conjugation-amount', 'neweu-conjugation-amount-unit', 1);
+            const antibodyConc = getConcentrationMgMl('neweu-antibody-conc', 'neweu-antibody-conc-unit', 4);
+            const volumeUl = getVolumeUl('neweu-volume', 'neweu-volume-unit', 30);
+            const euUsage = getVolumeUl('neweu-usage', 'neweu-usage-unit', 100);
+            const neweuMassUnit = (document.getElementById('neweu-conjugation-amount-unit') || {}).value || 'mg';
+            const volumeMl = volumeUl / 1000;
+
+            const antibodyNeeded = volumeMl * antibodyConc; // mg
+            const baseEuUsageUl = 50;
+            const protocolScale = baseEuUsageUl > 0 ? (euUsage / baseEuUsageUl) : 0;
+            const estimatedTotalVolumeUl = euUsage > 0 ? (euUsage / 0.1) : 0; // Eu 사용량 10% 기준
+            const step1MesUl = Math.max(estimatedTotalVolumeUl - euUsage, 0);
+            const nhsVolumeUl = 6 * protocolScale;
+            const edcVolumeUl = 5 * protocolScale;
+            const blockingBufferUl = 25 * protocolScale;
+
+            const antibodyNeededDisplay = convertCanonicalToValue(antibodyNeeded, 'mass', neweuMassUnit);
+            const neweuBlockingUnit = getAutoVolumeUnit(blockingBufferUl);
+            const neweuUsageAutoUnit = getAutoVolumeUnit(euUsage);
+            const blockingDisplay = convertCanonicalToValue(blockingBufferUl, 'volume', neweuBlockingUnit);
+            const euUsageDisplay = convertCanonicalToValue(euUsage, 'volume', neweuUsageAutoUnit);
+            const neweuMassUnitLabel = neweuMassUnit === 'ug' ? 'μg' : 'mg';
+            const neweuVolumeUnitLabel = neweuBlockingUnit === 'ml' ? 'mL' : 'μL';
+            const neweuUsageUnitLabel = neweuUsageAutoUnit === 'ml' ? 'mL' : 'μL';
+
+            document.getElementById('neweu-antibody-needed').textContent = antibodyNeededDisplay.toFixed(neweuMassUnit === 'ug' ? 0 : 3) + ' ' + neweuMassUnitLabel;
+            document.getElementById('neweu-blocking').textContent = blockingDisplay.toFixed(neweuBlockingUnit === 'ml' ? 3 : 0) + ' ' + neweuVolumeUnitLabel;
+            document.getElementById('neweu-nhs').textContent = formatVolumeDisplayFromUl(nhsVolumeUl, getAutoVolumeUnit(nhsVolumeUl), 3, 1);
+            document.getElementById('neweu-edc').textContent = formatVolumeDisplayFromUl(edcVolumeUl, getAutoVolumeUnit(edcVolumeUl), 3, 1);
+            
+            // 프로토콜 단계 업데이트
+            setAutoVolumeStepValue('neweu-step1-mes', 'neweu-step1-mes-unit', step1MesUl, 3, 0);
+            document.getElementById('neweu-step1-antibody').textContent = antibodyNeededDisplay.toFixed(neweuMassUnit === 'ug' ? 0 : 3);
+            document.getElementById('neweu-step2-eu').textContent = euUsageDisplay.toFixed(neweuUsageAutoUnit === 'ml' ? 3 : 0);
+            document.getElementById('neweu-step4-blocking').textContent = blockingDisplay.toFixed(neweuBlockingUnit === 'ml' ? 3 : 0);
+            setAutoVolumeStepValue('neweu-step3-nhs', 'neweu-step3-nhs-unit', nhsVolumeUl, 3, 1);
+            setAutoVolumeStepValue('neweu-step3-edc', 'neweu-step3-edc-unit', edcVolumeUl, 3, 1);
+            const neweuStep1Unit = document.getElementById('neweu-step1-antibody-unit');
+            if (neweuStep1Unit) {
+                neweuStep1Unit.textContent = neweuMassUnitLabel;
+            }
+            const neweuStep2Unit = document.getElementById('neweu-step2-eu-unit');
+            if (neweuStep2Unit) {
+                neweuStep2Unit.textContent = neweuUsageUnitLabel;
+            }
+            const neweuStep4Unit = document.getElementById('neweu-step4-blocking-unit');
+            if (neweuStep4Unit) {
+                neweuStep4Unit.textContent = neweuVolumeUnitLabel;
+            }
+        }
+
+        function runProtocolCalculator(protocolId) {
+            const calculatorMap = {
+                eu: calculateEu,
+                biotin: calculateBiotin,
+                gsa: calculateGSA,
+                darkred: calculateDarkRed,
+                alexa: calculateAlexa,
+                neweu: calculateNewEu
+            };
+            if (calculatorMap[protocolId]) {
+                calculatorMap[protocolId]();
+            }
+        }
+
+        function getDefaultQcThresholds() {
+            return {
+                eu: { min: 0, max: 30 },
+                biotin: { min: 1, max: 50 },
+                gsa: { min: 0, max: 20 },
+                darkred: { min: 0.5, max: 10 },
+                alexa: { min: 3, max: 8 },
+                neweu: { min: 50, max: 500 }
+            };
+        }
+
+        function createDefaultSettings() {
+            return {
+                sopVersion: 'SOP-1.0',
+                sopLocked: true,
+                qcThresholds: getDefaultQcThresholds()
+            };
+        }
+
+        function normalizeQCRange(range, fallbackRange) {
+            const min = Number(range && range.min);
+            const max = Number(range && range.max);
+            if (!Number.isFinite(min) || !Number.isFinite(max) || min > max) {
+                return { min: fallbackRange.min, max: fallbackRange.max };
+            }
+            return { min, max };
+        }
+
+        function normalizeSettings(settings) {
+            const defaults = createDefaultSettings();
+            const src = settings && typeof settings === 'object' ? settings : {};
+            const normalized = {
+                sopVersion: typeof src.sopVersion === 'string' && src.sopVersion.trim() ? src.sopVersion.trim() : defaults.sopVersion,
+                sopLocked: typeof src.sopLocked === 'boolean' ? src.sopLocked : defaults.sopLocked,
+                qcThresholds: {}
+            };
+            PROTOCOL_IDS.forEach(protocolId => {
+                normalized.qcThresholds[protocolId] = normalizeQCRange(
+                    src.qcThresholds && src.qcThresholds[protocolId],
+                    defaults.qcThresholds[protocolId]
+                );
+            });
+            return normalized;
+        }
+
+        function normalizeReminderItem(item) {
+            if (!item || typeof item !== 'object') {
+                return null;
+            }
+            const protocolId = PROTOCOL_IDS.includes(item.protocolId) ? item.protocolId : null;
+            const dueAt = typeof item.dueAt === 'string' ? item.dueAt : '';
+            if (!protocolId || !dueAt || Number.isNaN(new Date(dueAt).getTime())) {
+                return null;
+            }
+            return {
+                id: typeof item.id === 'string' && item.id ? item.id : `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+                protocolId,
+                batchName: typeof item.batchName === 'string' ? item.batchName : '',
+                note: typeof item.note === 'string' ? item.note : '',
+                dueAt,
+                createdAt: typeof item.createdAt === 'string' && item.createdAt ? item.createdAt : new Date().toISOString(),
+                done: !!item.done,
+                completedAt: typeof item.completedAt === 'string' ? item.completedAt : '',
+                notifiedAt: typeof item.notifiedAt === 'string' ? item.notifiedAt : ''
+            };
+        }
+
+        function extractNumeric(text) {
+            if (typeof text === 'number') {
+                return Number.isFinite(text) ? text : null;
+            }
+            if (typeof text !== 'string') {
+                return null;
+            }
+            const matched = text.replace(/,/g, '').match(/-?\d+(\.\d+)?/);
+            if (!matched) {
+                return null;
+            }
+            const value = parseFloat(matched[0]);
+            return Number.isFinite(value) ? value : null;
+        }
+
+        function getCurrentQcMetricSnapshot(protocolId) {
+            const map = {
+                eu: { label: 'Eu 비율(%)', id: 'eu-usage-ratio' },
+                biotin: { label: 'Biotin 첨가량(μL)', id: 'biotin-volume-needed' },
+                gsa: { label: 'HNa2O4P (g)', id: 'gsa-hna2o4p' },
+                darkred: { label: '스케일 비율(배)', id: 'darkred-scale' },
+                alexa: { label: 'DOL', id: 'alexa-dol' },
+                neweu: { label: '필요 항체량(μg)', id: 'neweu-antibody-needed' }
+            };
+            const metric = map[protocolId];
+            if (!metric) {
+                return { label: '-', value: null, raw: '-' };
+            }
+            const element = document.getElementById(metric.id);
+            const raw = element ? element.textContent : '';
+            return { label: metric.label, value: extractNumeric(raw), raw: raw || '-' };
+        }
+
+        function evaluateQcStatus(value, min, max) {
+            if (!Number.isFinite(value) || !Number.isFinite(min) || !Number.isFinite(max)) {
+                return 'NA';
+            }
+            return value >= min && value <= max ? 'PASS' : 'FAIL';
+        }
+
+        function updateQcStatusBadge(status) {
+            const badge = document.getElementById('qc-status-badge');
+            if (!badge) {
+                return;
+            }
+            badge.className = 'qc-status';
+            if (status === 'PASS') {
+                badge.classList.add('pass');
+            } else if (status === 'FAIL') {
+                badge.classList.add('fail');
+            }
+            badge.textContent = status;
+        }
+
+        function setSopControlState(settings) {
+            const sopInput = document.getElementById('sop-version-input');
+            const lockInput = document.getElementById('sop-lock-checkbox');
+            if (!sopInput || !lockInput) {
+                return;
+            }
+            sopInput.value = settings.sopVersion;
+            lockInput.checked = settings.sopLocked;
+            sopInput.disabled = settings.sopLocked;
+        }
+
+        function createEmptyBatchStore() {
+            return {
+                version: STORAGE_VERSION,
+                protocols: {
+                    eu: [],
+                    biotin: [],
+                    gsa: [],
+                    darkred: [],
+                    alexa: [],
+                    neweu: []
+                },
+                settings: createDefaultSettings(),
+                reminders: []
+            };
+        }
+
+        function normalizeBatchItem(item) {
+            if (!item || typeof item !== 'object') {
+                return null;
+            }
+            const name = typeof item.name === 'string' ? item.name.trim() : '';
+            const values = item.values && typeof item.values === 'object' && !Array.isArray(item.values) ? item.values : null;
+            if (!name || !values) {
+                return null;
+            }
+            const createdAt = typeof item.createdAt === 'string' && item.createdAt ? item.createdAt : new Date().toISOString();
+            const updatedAt = typeof item.updatedAt === 'string' && item.updatedAt ? item.updatedAt : createdAt;
+            const metaSource = item.meta && typeof item.meta === 'object' ? item.meta : {};
+            const qcValue = Number(metaSource.qcValue);
+            const qcMin = Number(metaSource.qcMin);
+            const qcMax = Number(metaSource.qcMax);
+            const qcStatus = typeof metaSource.qcStatus === 'string' ? metaSource.qcStatus.toUpperCase() : 'NA';
+            const meta = {
+                sopVersion: typeof metaSource.sopVersion === 'string' ? metaSource.sopVersion : '',
+                operator: typeof metaSource.operator === 'string' ? metaSource.operator : '',
+                reagentLot: typeof metaSource.reagentLot === 'string' ? metaSource.reagentLot : '',
+                qcMetricLabel: typeof metaSource.qcMetricLabel === 'string' ? metaSource.qcMetricLabel : '',
+                qcValue: Number.isFinite(qcValue) ? qcValue : null,
+                qcMin: Number.isFinite(qcMin) ? qcMin : null,
+                qcMax: Number.isFinite(qcMax) ? qcMax : null,
+                qcStatus: qcStatus === 'PASS' || qcStatus === 'FAIL' ? qcStatus : 'NA'
+            };
+            return { name, createdAt, updatedAt, values, meta };
+        }
+
+        function normalizeBatchStore(data) {
+            const emptyStore = createEmptyBatchStore();
+            if (!data || typeof data !== 'object') {
+                return emptyStore;
+            }
+
+            const protocols = data.protocols && typeof data.protocols === 'object' ? data.protocols : {};
+            PROTOCOL_IDS.forEach(protocolId => {
+                const list = Array.isArray(protocols[protocolId]) ? protocols[protocolId] : [];
+                const normalizedList = [];
+                for (let i = 0; i < list.length; i += 1) {
+                    const normalized = normalizeBatchItem(list[i]);
+                    if (normalized) {
+                        normalizedList.push(normalized);
+                    }
+                }
+                emptyStore.protocols[protocolId] = normalizedList;
+            });
+            emptyStore.settings = normalizeSettings(data.settings);
+
+            const reminders = Array.isArray(data.reminders) ? data.reminders : [];
+            const normalizedReminders = [];
+            for (let i = 0; i < reminders.length; i += 1) {
+                const reminder = normalizeReminderItem(reminders[i]);
+                if (reminder) {
+                    normalizedReminders.push(reminder);
+                }
+            }
+            emptyStore.reminders = normalizedReminders;
+            return emptyStore;
+        }
+
+        function loadBatchStore() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) {
+                    return createEmptyBatchStore();
+                }
+                return normalizeBatchStore(JSON.parse(raw));
+            } catch (error) {
+                showMessage('배치 저장 데이터가 손상되어 초기화되었습니다.', 'error');
+                return createEmptyBatchStore();
+            }
+        }
+
+        function saveBatchStore(store) {
+            const normalized = normalizeBatchStore(store);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
+        }
+
+        function getCurrentProtocolId() {
+            const activeContent = document.querySelector('.protocol-content.active');
+            if (activeContent && PROTOCOL_IDS.includes(activeContent.id)) {
+                return activeContent.id;
+            }
+            return currentProtocolId;
+        }
+
+        function getProtocolFormValues(protocolId) {
+            const container = document.getElementById(protocolId);
+            if (!container) {
+                return {};
+            }
+            const fields = container.querySelectorAll('input[id], select[id], textarea[id]');
+            const values = {};
+            fields.forEach(field => {
+                if (field.type === 'checkbox') {
+                    values[field.id] = field.checked;
+                    return;
+                }
+                if (field.type === 'radio') {
+                    if (field.checked) {
+                        values[field.id] = field.value;
+                    }
+                    return;
+                }
+                values[field.id] = field.value;
+            });
+            return values;
+        }
+
+        function applyProtocolFormValues(protocolId, values) {
+            const container = document.getElementById(protocolId);
+            if (!container || !values || typeof values !== 'object') {
+                return;
+            }
+            Object.keys(values).forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field || !container.contains(field)) {
+                    return;
+                }
+                if (field.type === 'checkbox') {
+                    field.checked = !!values[fieldId];
+                    return;
+                }
+                if (field.type === 'radio') {
+                    field.checked = field.value === String(values[fieldId]);
+                    return;
+                }
+                field.value = values[fieldId];
+            });
+            syncUnitSelectMemory();
+            runProtocolCalculator(protocolId);
+        }
+
+        function findBatchIndexByName(batchList, batchName) {
+            const target = (batchName || '').trim().toLowerCase();
+            return batchList.findIndex(item => item.name.toLowerCase() === target);
+        }
+
+        function getCurrentBatchMeta(protocolId, settings) {
+            const operatorInput = document.getElementById('batch-operator-input');
+            const lotInput = document.getElementById('batch-reagent-lot-input');
+            const sopInput = document.getElementById('sop-version-input');
+            const snapshot = getCurrentQcMetricSnapshot(protocolId);
+            const range = settings.qcThresholds[protocolId];
+            return {
+                sopVersion: sopInput ? sopInput.value.trim() : settings.sopVersion,
+                operator: operatorInput ? operatorInput.value.trim() : '',
+                reagentLot: lotInput ? lotInput.value.trim() : '',
+                qcMetricLabel: snapshot.label,
+                qcValue: snapshot.value,
+                qcMin: range.min,
+                qcMax: range.max,
+                qcStatus: evaluateQcStatus(snapshot.value, range.min, range.max)
+            };
+        }
+
+        function applyBatchMetaToUI(meta) {
+            if (!meta || typeof meta !== 'object') {
+                return;
+            }
+            const operatorInput = document.getElementById('batch-operator-input');
+            const lotInput = document.getElementById('batch-reagent-lot-input');
+            if (operatorInput && typeof meta.operator === 'string') {
+                operatorInput.value = meta.operator;
+            }
+            if (lotInput && typeof meta.reagentLot === 'string') {
+                lotInput.value = meta.reagentLot;
+            }
+        }
+
+        function saveBatchForProtocol(protocolId, batchName) {
+            const trimmedName = (batchName || '').trim();
+            if (!trimmedName) {
+                showMessage('배치명을 입력해주세요.', 'error');
+                return;
+            }
+
+            const store = loadBatchStore();
+            const batchList = store.protocols[protocolId] || [];
+            const existingIndex = findBatchIndexByName(batchList, trimmedName);
+
+            if (existingIndex >= 0 && !window.confirm('같은 이름의 배치가 있습니다. 덮어쓸까요?')) {
+                return;
+            }
+
+            const nowIso = new Date().toISOString();
+            const existing = existingIndex >= 0 ? batchList[existingIndex] : null;
+            const item = {
+                name: trimmedName,
+                createdAt: existing ? existing.createdAt : nowIso,
+                updatedAt: nowIso,
+                values: getProtocolFormValues(protocolId),
+                meta: getCurrentBatchMeta(protocolId, store.settings)
+            };
+
+            if (existingIndex >= 0) {
+                batchList[existingIndex] = item;
+            } else {
+                batchList.unshift(item);
+            }
+
+            store.protocols[protocolId] = batchList;
+            saveBatchStore(store);
+            refreshBatchUI(protocolId);
+            document.getElementById('batch-name-input').value = trimmedName;
+            showMessage(`${PROTOCOL_LABELS[protocolId]} 배치를 저장했습니다.`, 'success');
+        }
+
+        function loadBatchForProtocol(protocolId, batchName) {
+            const trimmedName = (batchName || '').trim();
+            if (!trimmedName) {
+                showMessage('불러올 배치를 선택해주세요.', 'error');
+                return;
+            }
+
+            const store = loadBatchStore();
+            const batchList = store.protocols[protocolId] || [];
+            const index = findBatchIndexByName(batchList, trimmedName);
+            if (index < 0) {
+                showMessage('선택한 배치를 찾을 수 없습니다.', 'error');
+                return;
+            }
+
+            const item = batchList[index];
+            applyProtocolFormValues(protocolId, item.values);
+            applyBatchMetaToUI(item.meta);
+            document.getElementById('batch-name-input').value = item.name;
+            refreshBatchUI(protocolId);
+            showMessage(`${PROTOCOL_LABELS[protocolId]} 배치를 불러왔습니다.`, 'success');
+        }
+
+        function deleteBatchForProtocol(protocolId, batchName) {
+            const trimmedName = (batchName || '').trim();
+            if (!trimmedName) {
+                showMessage('삭제할 배치를 선택해주세요.', 'error');
+                return;
+            }
+
+            if (!window.confirm(`"${trimmedName}" 배치를 삭제할까요?`)) {
+                return;
+            }
+
+            const store = loadBatchStore();
+            const batchList = store.protocols[protocolId] || [];
+            const index = findBatchIndexByName(batchList, trimmedName);
+            if (index < 0) {
+                showMessage('삭제할 배치를 찾지 못했습니다.', 'error');
+                return;
+            }
+
+            batchList.splice(index, 1);
+            store.protocols[protocolId] = batchList;
+            saveBatchStore(store);
+            refreshBatchUI(protocolId);
+            showMessage('배치를 삭제했습니다.', 'success');
+        }
+
+        function formatBatchTime(isoText) {
+            const date = new Date(isoText);
+            if (Number.isNaN(date.getTime())) {
+                return '-';
+            }
+            return date.toLocaleString('ko-KR', {
+                year: '2-digit',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function refreshBatchUI(protocolId, providedStore) {
+            const resolvedProtocolId = PROTOCOL_IDS.includes(protocolId) ? protocolId : getCurrentProtocolId();
+            currentProtocolId = resolvedProtocolId;
+
+            const protocolLabel = document.getElementById('batch-current-protocol');
+            const batchSelect = document.getElementById('batch-select');
+            if (!protocolLabel || !batchSelect) {
+                return;
+            }
+
+            protocolLabel.textContent = PROTOCOL_LABELS[resolvedProtocolId] || resolvedProtocolId;
+
+            const store = providedStore || loadBatchStore();
+            const batchList = store.protocols[resolvedProtocolId] || [];
+            setSopControlState(store.settings);
+
+            batchSelect.innerHTML = '';
+            if (batchList.length === 0) {
+                const emptyOption = document.createElement('option');
+                emptyOption.value = '';
+                emptyOption.textContent = '저장된 배치 없음';
+                batchSelect.appendChild(emptyOption);
+            } else {
+                const placeholder = document.createElement('option');
+                placeholder.value = '';
+                placeholder.textContent = '배치를 선택하세요';
+                batchSelect.appendChild(placeholder);
+
+                batchList.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.name;
+                    option.textContent = `${item.name} (${formatBatchTime(item.updatedAt)})`;
+                    batchSelect.appendChild(option);
+                });
+            }
+
+            previewQcStatus(store.settings, resolvedProtocolId);
+            renderBatchHistory(resolvedProtocolId, store);
+            renderReminderList(resolvedProtocolId, store);
+            renderDashboard(store, resolvedProtocolId);
+        }
+
+        function renderBatchHistory(protocolId, store) {
+            const listEl = document.getElementById('batch-history-list');
+            if (!listEl) {
+                return;
+            }
+            listEl.innerHTML = '';
+
+            const list = [...(store.protocols[protocolId] || [])].sort((a, b) => {
+                return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+            });
+
+            if (list.length === 0) {
+                listEl.innerHTML = '<div class="history-card"><div class="history-meta">저장된 Lot/Batch 이력이 없습니다.</div></div>';
+                return;
+            }
+
+            list.slice(0, 20).forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'history-card';
+
+                const head = document.createElement('div');
+                head.className = 'history-head';
+
+                const name = document.createElement('div');
+                name.className = 'history-name';
+                name.textContent = item.name;
+                head.appendChild(name);
+
+                const status = document.createElement('span');
+                status.className = 'qc-status';
+                const qcStatus = item.meta && item.meta.qcStatus ? item.meta.qcStatus : 'NA';
+                if (qcStatus === 'PASS') {
+                    status.classList.add('pass');
+                } else if (qcStatus === 'FAIL') {
+                    status.classList.add('fail');
+                }
+                status.textContent = qcStatus;
+                head.appendChild(status);
+                card.appendChild(head);
+
+                const meta = document.createElement('div');
+                meta.className = 'history-meta';
+                const sop = item.meta && item.meta.sopVersion ? item.meta.sopVersion : '-';
+                const operator = item.meta && item.meta.operator ? item.meta.operator : '-';
+                const lot = item.meta && item.meta.reagentLot ? item.meta.reagentLot : '-';
+                const metricLabel = item.meta && item.meta.qcMetricLabel ? item.meta.qcMetricLabel : '-';
+                const metricValue = item.meta && Number.isFinite(item.meta.qcValue) ? item.meta.qcValue.toFixed(2) : '-';
+                meta.textContent = `저장: ${formatBatchTime(item.updatedAt)} | SOP: ${sop} | 담당자: ${operator} | Lot: ${lot} | ${metricLabel}: ${metricValue}`;
+                card.appendChild(meta);
+
+                const actions = document.createElement('div');
+                actions.className = 'history-actions';
+
+                const loadBtn = document.createElement('button');
+                loadBtn.className = 'mini-btn';
+                loadBtn.textContent = '불러오기';
+                loadBtn.addEventListener('click', function() {
+                    handleHistoryLoad(protocolId, item.name);
+                });
+                actions.appendChild(loadBtn);
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'mini-btn danger';
+                delBtn.textContent = '삭제';
+                delBtn.addEventListener('click', function() {
+                    handleHistoryDelete(protocolId, item.name);
+                });
+                actions.appendChild(delBtn);
+
+                card.appendChild(actions);
+                listEl.appendChild(card);
+            });
+        }
+
+        function handleHistoryLoad(protocolId, batchName) {
+            loadBatchForProtocol(protocolId, batchName);
+        }
+
+        function handleHistoryDelete(protocolId, batchName) {
+            deleteBatchForProtocol(protocolId, batchName);
+        }
+
+        function renderReminderList(protocolId, store) {
+            const listEl = document.getElementById('reminder-list');
+            if (!listEl) {
+                return;
+            }
+            listEl.innerHTML = '';
+
+            const now = Date.now();
+            const reminders = [...(store.reminders || [])]
+                .filter(item => item.protocolId === protocolId)
+                .sort((a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime());
+
+            if (reminders.length === 0) {
+                listEl.innerHTML = '<div class="reminder-card"><div class="reminder-meta">등록된 리마인더가 없습니다.</div></div>';
+                return;
+            }
+
+            reminders.slice(0, 20).forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'reminder-card';
+
+                const head = document.createElement('div');
+                head.className = 'reminder-head';
+                const name = document.createElement('div');
+                name.className = 'reminder-name';
+                name.textContent = item.note || '실험 리마인더';
+                head.appendChild(name);
+
+                const badge = document.createElement('span');
+                badge.className = 'qc-status';
+                if (item.done) {
+                    badge.classList.add('pass');
+                    badge.textContent = '완료';
+                } else if (new Date(item.dueAt).getTime() <= now) {
+                    badge.classList.add('fail');
+                    badge.textContent = '지남';
+                } else {
+                    badge.textContent = '예정';
+                }
+                head.appendChild(badge);
+                card.appendChild(head);
+
+                const meta = document.createElement('div');
+                meta.className = 'reminder-meta';
+                meta.textContent = `시각: ${formatBatchTime(item.dueAt)} | 배치: ${item.batchName || '-'}`;
+                card.appendChild(meta);
+
+                const actions = document.createElement('div');
+                actions.className = 'reminder-actions';
+
+                if (!item.done) {
+                    const doneBtn = document.createElement('button');
+                    doneBtn.className = 'mini-btn success';
+                    doneBtn.textContent = '완료';
+                    doneBtn.addEventListener('click', function() {
+                        handleCompleteReminder(item.id);
+                    });
+                    actions.appendChild(doneBtn);
+                }
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'mini-btn danger';
+                delBtn.textContent = '삭제';
+                delBtn.addEventListener('click', function() {
+                    handleDeleteReminder(item.id);
+                });
+                actions.appendChild(delBtn);
+
+                card.appendChild(actions);
+                listEl.appendChild(card);
+            });
+        }
+
+        function handleAddReminder() {
+            const dueInput = document.getElementById('reminder-datetime-input');
+            const noteInput = document.getElementById('reminder-note-input');
+            if (!dueInput) {
+                showMessage('리마인더 입력 요소를 찾을 수 없습니다.', 'error');
+                return;
+            }
+            const dueAt = dueInput.value ? new Date(dueInput.value).toISOString() : '';
+            if (!dueAt || Number.isNaN(new Date(dueAt).getTime())) {
+                showMessage('리마인더 시간을 입력해주세요.', 'error');
+                return;
+            }
+
+            const store = loadBatchStore();
+            const reminder = {
+                id: `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+                protocolId: getCurrentProtocolId(),
+                batchName: (document.getElementById('batch-name-input') || {}).value || '',
+                note: noteInput ? noteInput.value.trim() : '',
+                dueAt,
+                createdAt: new Date().toISOString(),
+                done: false,
+                completedAt: '',
+                notifiedAt: ''
+            };
+            store.reminders.unshift(reminder);
+            saveBatchStore(store);
+            refreshBatchUI(reminder.protocolId, store);
+            if (noteInput) {
+                noteInput.value = '';
+            }
+            showMessage('리마인더를 등록했습니다.', 'success');
+        }
+
+        function handleCompleteReminder(reminderId) {
+            const store = loadBatchStore();
+            const item = (store.reminders || []).find(rem => rem.id === reminderId);
+            if (!item) {
+                showMessage('리마인더를 찾지 못했습니다.', 'error');
+                return;
+            }
+            item.done = true;
+            item.completedAt = new Date().toISOString();
+            saveBatchStore(store);
+            refreshBatchUI(getCurrentProtocolId(), store);
+        }
+
+        function handleDeleteReminder(reminderId) {
+            const store = loadBatchStore();
+            const beforeCount = store.reminders.length;
+            store.reminders = store.reminders.filter(rem => rem.id !== reminderId);
+            if (store.reminders.length === beforeCount) {
+                showMessage('리마인더를 찾지 못했습니다.', 'error');
+                return;
+            }
+            saveBatchStore(store);
+            refreshBatchUI(getCurrentProtocolId(), store);
+        }
+
+        function checkDueReminders() {
+            const store = loadBatchStore();
+            const now = Date.now();
+            const dueList = store.reminders.filter(item =>
+                !item.done &&
+                !item.notifiedAt &&
+                !Number.isNaN(new Date(item.dueAt).getTime()) &&
+                new Date(item.dueAt).getTime() <= now
+            );
+            if (dueList.length === 0) {
+                return;
+            }
+
+            const notifiedAt = new Date().toISOString();
+            dueList.forEach(item => {
+                item.notifiedAt = notifiedAt;
+            });
+            saveBatchStore(store);
+
+            const first = dueList[0];
+            showMessage(`[리마인더] ${PROTOCOL_LABELS[first.protocolId]}: ${first.note || '실험 시각 도달'} (${dueList.length}건)`, 'success');
+            refreshBatchUI(getCurrentProtocolId(), store);
+        }
+
+        function renderDashboard(store, protocolId) {
+            const totalEl = document.getElementById('dashboard-total-batches');
+            const passRateEl = document.getElementById('dashboard-pass-rate');
+            const last7El = document.getElementById('dashboard-last7');
+            const avgEl = document.getElementById('dashboard-current-avg');
+            const countsEl = document.getElementById('dashboard-protocol-counts');
+            if (!totalEl || !passRateEl || !last7El || !avgEl || !countsEl) {
+                return;
+            }
+
+            let total = 0;
+            let pass = 0;
+            let evaluated = 0;
+            let last7 = 0;
+            const now = Date.now();
+            const sevenDays = 7 * 24 * 60 * 60 * 1000;
+            const counts = [];
+
+            PROTOCOL_IDS.forEach(id => {
+                const list = store.protocols[id] || [];
+                total += list.length;
+                counts.push(`${PROTOCOL_LABELS[id]} ${list.length}건`);
+                list.forEach(item => {
+                    const qcStatus = item.meta && item.meta.qcStatus ? item.meta.qcStatus : 'NA';
+                    if (qcStatus === 'PASS' || qcStatus === 'FAIL') {
+                        evaluated += 1;
+                        if (qcStatus === 'PASS') {
+                            pass += 1;
+                        }
+                    }
+                    const updatedTime = new Date(item.updatedAt).getTime();
+                    if (!Number.isNaN(updatedTime) && now - updatedTime <= sevenDays) {
+                        last7 += 1;
+                    }
+                });
+            });
+
+            const currentValues = (store.protocols[protocolId] || [])
+                .map(item => item.meta && Number.isFinite(item.meta.qcValue) ? item.meta.qcValue : null)
+                .filter(value => value !== null);
+            const avg = currentValues.length > 0
+                ? (currentValues.reduce((sum, value) => sum + value, 0) / currentValues.length).toFixed(2)
+                : '-';
+
+            totalEl.textContent = String(total);
+            passRateEl.textContent = evaluated > 0 ? `${((pass / evaluated) * 100).toFixed(1)}%` : '-';
+            last7El.textContent = String(last7);
+            avgEl.textContent = avg;
+            countsEl.textContent = counts.join(' | ');
+        }
+
+        function previewQcStatus(settings, protocolId) {
+            const resolvedProtocolId = protocolId || getCurrentProtocolId();
+            const resolvedSettings = settings || loadBatchStore().settings;
+            const snapshot = getCurrentQcMetricSnapshot(resolvedProtocolId);
+            const range = resolvedSettings.qcThresholds[resolvedProtocolId];
+
+            const labelEl = document.getElementById('qc-metric-label');
+            const valueEl = document.getElementById('qc-current-value');
+            const minInput = document.getElementById('qc-min-input');
+            const maxInput = document.getElementById('qc-max-input');
+            if (labelEl) {
+                labelEl.textContent = snapshot.label;
+            }
+            if (valueEl) {
+                valueEl.textContent = snapshot.raw;
+            }
+            if (minInput) {
+                minInput.value = String(range.min);
+            }
+            if (maxInput) {
+                maxInput.value = String(range.max);
+            }
+            const status = evaluateQcStatus(snapshot.value, range.min, range.max);
+            updateQcStatusBadge(status);
+        }
+
+        function handleSaveQcThreshold() {
+            const protocolId = getCurrentProtocolId();
+            const minInput = document.getElementById('qc-min-input');
+            const maxInput = document.getElementById('qc-max-input');
+            const min = Number(minInput ? minInput.value : NaN);
+            const max = Number(maxInput ? maxInput.value : NaN);
+            if (!Number.isFinite(min) || !Number.isFinite(max)) {
+                showMessage('QC 하한/상한 값을 확인해주세요.', 'error');
+                return;
+            }
+            if (min > max) {
+                showMessage('QC 하한은 상한보다 작거나 같아야 합니다.', 'error');
+                return;
+            }
+
+            const store = loadBatchStore();
+            store.settings.qcThresholds[protocolId] = { min, max };
+            saveBatchStore(store);
+            refreshBatchUI(protocolId, store);
+            showMessage('QC 기준을 저장했습니다.', 'success');
+        }
+
+        function handleSopLockChanged() {
+            const store = loadBatchStore();
+            const lockInput = document.getElementById('sop-lock-checkbox');
+            store.settings.sopLocked = !!(lockInput && lockInput.checked);
+            saveBatchStore(store);
+            setSopControlState(store.settings);
+        }
+
+        function handleSopVersionChanged() {
+            const store = loadBatchStore();
+            const sopInput = document.getElementById('sop-version-input');
+            if (!sopInput) {
+                return;
+            }
+            const value = sopInput.value.trim();
+            if (!value) {
+                showMessage('SOP 버전을 입력해주세요.', 'error');
+                sopInput.value = store.settings.sopVersion;
+                return;
+            }
+            store.settings.sopVersion = value;
+            saveBatchStore(store);
+        }
+
+        function exportBatchesForProtocol(protocolId) {
+            const store = loadBatchStore();
+            const batchList = store.protocols[protocolId] || [];
+            if (batchList.length === 0) {
+                showMessage('내보낼 배치가 없습니다.', 'error');
+                return;
+            }
+
+            const payload = {
+                version: STORAGE_VERSION,
+                exportedAt: new Date().toISOString(),
+                protocols: {
+                    [protocolId]: batchList
+                },
+                settings: {
+                    sopVersion: store.settings.sopVersion,
+                    sopLocked: store.settings.sopLocked,
+                    qcThresholds: {
+                        [protocolId]: store.settings.qcThresholds[protocolId]
+                    }
+                },
+                reminders: (store.reminders || []).filter(item => item.protocolId === protocolId)
+            };
+            const dateText = new Date().toISOString().slice(0, 10);
+            downloadTextFile(JSON.stringify(payload, null, 2), `${protocolId}_batches_${dateText}.json`, 'application/json;charset=utf-8');
+            showMessage('JSON 파일로 내보냈습니다.', 'success');
+        }
+
+        function importBatchesForProtocol(protocolId, file) {
+            if (!file) {
+                showMessage('가져올 JSON 파일을 선택해주세요.', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const text = event && event.target && typeof event.target.result === 'string' ? event.target.result : '';
+                    const parsed = JSON.parse(text);
+
+                    let importedList = null;
+                    if (parsed && typeof parsed === 'object') {
+                        if (parsed.protocols && Array.isArray(parsed.protocols[protocolId])) {
+                            importedList = parsed.protocols[protocolId];
+                        } else if (Array.isArray(parsed[protocolId])) {
+                            importedList = parsed[protocolId];
+                        }
+                    }
+
+                    if (!Array.isArray(importedList)) {
+                        throw new Error('선택한 파일에 해당 프로토콜 배치 데이터가 없습니다.');
+                    }
+
+                    const normalizedImported = importedList.map(normalizeBatchItem);
+                    if (normalizedImported.some(item => item === null)) {
+                        throw new Error('필수 필드(name, values)가 누락된 항목이 있습니다.');
+                    }
+
+                    const store = loadBatchStore();
+                    const currentList = store.protocols[protocolId] || [];
+
+                    const duplicateNames = normalizedImported
+                        .filter(item => findBatchIndexByName(currentList, item.name) >= 0)
+                        .map(item => item.name);
+                    if (duplicateNames.length > 0) {
+                        if (!window.confirm(`중복 배치(${duplicateNames.join(', ')})가 있습니다. 덮어쓸까요?`)) {
+                            return;
+                        }
+                    }
+
+                    normalizedImported.forEach(item => {
+                        const index = findBatchIndexByName(currentList, item.name);
+                        if (index >= 0) {
+                            const prev = currentList[index];
+                            currentList[index] = {
+                                name: item.name,
+                                createdAt: prev.createdAt || item.createdAt,
+                                updatedAt: item.updatedAt || new Date().toISOString(),
+                                values: item.values,
+                                meta: item.meta
+                            };
+                        } else {
+                            currentList.push(item);
+                        }
+                    });
+
+                    if (parsed.settings && typeof parsed.settings === 'object') {
+                        const parsedSettings = normalizeSettings(parsed.settings);
+                        store.settings.sopVersion = parsedSettings.sopVersion;
+                        store.settings.sopLocked = parsedSettings.sopLocked;
+                        store.settings.qcThresholds[protocolId] = parsedSettings.qcThresholds[protocolId];
+                    }
+
+                    if (Array.isArray(parsed.reminders)) {
+                        const importedReminders = parsed.reminders
+                            .map(normalizeReminderItem)
+                            .filter(item => item !== null);
+                        importedReminders.forEach(item => {
+                            const exists = store.reminders.find(rem => rem.id === item.id);
+                            if (!exists) {
+                                store.reminders.push(item);
+                            }
+                        });
+                    }
+
+                    store.protocols[protocolId] = currentList;
+                    saveBatchStore(store);
+                    refreshBatchUI(protocolId, store);
+                    showMessage(`JSON에서 ${normalizedImported.length}개 배치를 가져왔습니다.`, 'success');
+                } catch (error) {
+                    showMessage(`JSON 가져오기 실패: ${error.message}`, 'error');
+                }
+            };
+            reader.onerror = function() {
+                showMessage('파일 읽기에 실패했습니다.', 'error');
+            };
+            reader.readAsText(file, 'utf-8');
+        }
+
+        function handleSaveCurrentBatch() {
+            const protocolId = getCurrentProtocolId();
+            const input = document.getElementById('batch-name-input');
+            saveBatchForProtocol(protocolId, input ? input.value : '');
+        }
+
+        function handleLoadCurrentBatch() {
+            const protocolId = getCurrentProtocolId();
+            const select = document.getElementById('batch-select');
+            loadBatchForProtocol(protocolId, select ? select.value : '');
+        }
+
+        function handleDeleteCurrentBatch() {
+            const protocolId = getCurrentProtocolId();
+            const select = document.getElementById('batch-select');
+            deleteBatchForProtocol(protocolId, select ? select.value : '');
+        }
+
+        function handleExportCurrentProtocol() {
+            exportBatchesForProtocol(getCurrentProtocolId());
+        }
+
+        function handleImportCurrentProtocol() {
+            const fileInput = document.getElementById('batch-import-input');
+            if (!fileInput) {
+                showMessage('파일 입력 요소를 찾을 수 없습니다.', 'error');
+                return;
+            }
+            fileInput.value = '';
+            fileInput.click();
+        }
+
+        function handleBatchFileSelected(event) {
+            const file = event && event.target && event.target.files ? event.target.files[0] : null;
+            importBatchesForProtocol(getCurrentProtocolId(), file);
+            if (event && event.target) {
+                event.target.value = '';
+            }
+        }
+
+        function getDefaultReminderLocal() {
+            const date = new Date(Date.now() + 60 * 60 * 1000);
+            const offset = date.getTimezoneOffset() * 60000;
+            return new Date(date.getTime() - offset).toISOString().slice(0, 16);
+        }
+
+        function initBatchUI() {
+            const store = loadBatchStore();
+            saveBatchStore(store);
+            currentProtocolId = getCurrentProtocolId();
+            setSopControlState(store.settings);
+            syncUnitSelectMemory();
+
+            const sopInput = document.getElementById('sop-version-input');
+            const sopLockInput = document.getElementById('sop-lock-checkbox');
+            if (sopInput) {
+                sopInput.addEventListener('change', handleSopVersionChanged);
+            }
+            if (sopLockInput) {
+                sopLockInput.addEventListener('change', handleSopLockChanged);
+            }
+
+            const reminderInput = document.getElementById('reminder-datetime-input');
+            if (reminderInput && !reminderInput.value) {
+                reminderInput.value = getDefaultReminderLocal();
+            }
+
+            document.addEventListener('change', function(event) {
+                const target = event.target;
+                if (!(target instanceof HTMLElement)) {
+                    return;
+                }
+                if (!target.closest('.protocol-content')) {
+                    return;
+                }
+                const latestStore = loadBatchStore();
+                previewQcStatus(latestStore.settings, getCurrentProtocolId());
+                renderDashboard(latestStore, getCurrentProtocolId());
+            });
+
+            refreshBatchUI(currentProtocolId, store);
+
+            if (reminderTimerId) {
+                clearInterval(reminderTimerId);
+            }
+            reminderTimerId = setInterval(checkDueReminders, 60000);
+            checkDueReminders();
+        }
+
+        // 프로토콜 텍스트 생성 함수들
+        function generateEuProtocolText() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ko-KR');
+            const timeStr = now.toLocaleTimeString('ko-KR');
+            
+            // 입력값 가져오기
+            const totalVolume = parseFloat(document.getElementById('eu-total-volume').value) || 1;
+            const antibodyConc = parseFloat(document.getElementById('eu-antibody-conc').value) || 0.5;
+            const antibodyNeeded = parseFloat(document.getElementById('eu-antibody-needed-input').value) || 0.1;
+            const euStockConc = parseFloat(document.getElementById('eu-stock-conc').value) || 1;
+            const euUsage = parseFloat(document.getElementById('eu-usage-input').value) || 100;
+            const totalVolumeUnit = (document.getElementById('eu-total-volume-unit') || {}).value || 'ml';
+            const antibodyConcUnit = (document.getElementById('eu-antibody-conc-unit') || {}).value || 'mg/ml';
+            const antibodyNeededUnit = (document.getElementById('eu-antibody-needed-unit') || {}).value || 'mg';
+            const euUsageUnit = (document.getElementById('eu-usage-unit') || {}).value || 'ul';
+            
+            // 계산 결과 가져오기
+            const euConjugationAmount = document.getElementById('eu-conjugation-calculated').textContent;
+            const antibodyVolume = document.getElementById('eu-antibody-volume-calculated').textContent;
+            const euUsageRatio = document.getElementById('eu-usage-ratio').textContent;
+            
+            return `
+=== Europium Conjugation Protocol ===
+
+📅 작성일시: ${dateStr} ${timeStr}
+🧪 전체 생산량: ${totalVolume} ${totalVolumeUnit === 'ml' ? 'mL' : 'μL'}
+
+📋 입력 조건:
+• 항체 농도: ${antibodyConc} ${antibodyConcUnit}
+• 필요 항체량: ${antibodyNeeded} ${antibodyNeededUnit === 'ug' ? 'μg' : 'mg'}
+• Eu 원액 농도: ${euStockConc}% solid
+• Eu 사용량: ${euUsage} ${euUsageUnit === 'ml' ? 'mL' : 'μL'}
+
+📊 계산 결과:
+• Eu conjugation 양: ${euConjugationAmount}
+• 항체 필요 부피: ${antibodyVolume}
+• 생산량 대비 Eu 비율: ${euUsageRatio}
+
+========================================
+Generated by Conjugation Protocol Calculator
+${dateStr} ${timeStr}
+========================================
+            `.trim();
+        }
+
+        function generateBiotinProtocolText() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ko-KR');
+            const timeStr = now.toLocaleTimeString('ko-KR');
+            const antibodyAmount = parseFloat(document.getElementById('biotin-antibody-amount').value) || 1;
+            const antibodyConc = parseFloat(document.getElementById('biotin-antibody-conc').value) || 2;
+            const antibodyAmountUnit = (document.getElementById('biotin-antibody-amount-unit') || {}).value || 'mg';
+            const antibodyConcUnit = (document.getElementById('biotin-antibody-conc-unit') || {}).value || 'mg/ml';
+            const antibodyVolume = document.getElementById('biotin-antibody-volume').textContent;
+            const bicarbonate = document.getElementById('biotin-bicarbonate').textContent;
+            const biotinAmount = document.getElementById('biotin-needed-amount').textContent;
+            const biotinVolume = document.getElementById('biotin-volume-needed').textContent;
+
+            return `
+=== Biotin Conjugation Protocol ===
+
+📅 작성일시: ${dateStr} ${timeStr}
+
+📋 입력 조건:
+• 항체 conjugation 양: ${antibodyAmount} ${antibodyAmountUnit === 'ug' ? 'μg' : 'mg'}
+• 항체 농도: ${antibodyConc} ${antibodyConcUnit}
+
+📊 계산 결과:
+• 항체 필요 부피: ${antibodyVolume}
+• 1M Sodium bicarbonate: ${bicarbonate}
+• Biotin 필요량: ${biotinAmount}
+• Biotin 첨가량(5mg/ml): ${biotinVolume}
+
+========================================
+Generated by Conjugation Protocol Calculator
+${dateStr} ${timeStr}
+========================================
+            `.trim();
+        }
+
+        function generateGSAProtocolText() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ko-KR');
+            const timeStr = now.toLocaleTimeString('ko-KR');
+            const rollAmount = parseFloat(document.getElementById('gsa-roll-amount').value) || 10;
+            const streptavidin = parseFloat(document.getElementById('gsa-streptavidin').value) || 10;
+            const streptavidinUnit = (document.getElementById('gsa-streptavidin-unit') || {}).value || 'mg';
+            const phosphate = document.getElementById('gsa-phosphate').textContent;
+            const hna2o4p = document.getElementById('gsa-hna2o4p').textContent;
+            const h2nao4p = document.getElementById('gsa-h2nao4p').textContent;
+
+            return `
+=== G-SA Protocol ===
+
+📅 작성일시: ${dateStr} ${timeStr}
+
+📋 입력 조건:
+• Roll 분량: ${rollAmount} Roll
+• Streptavidin 양: ${streptavidin} ${streptavidinUnit === 'ug' ? 'μg' : 'mg'}
+
+📊 계산 결과:
+• 100mM Na-phosphate 버퍼: ${phosphate}
+• HNa2O4P: ${hna2o4p}
+• H2NaO4P: ${h2nao4p}
+
+========================================
+Generated by Conjugation Protocol Calculator
+${dateStr} ${timeStr}
+========================================
+            `.trim();
+        }
+
+        function generateDarkRedProtocolText() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ko-KR');
+            const timeStr = now.toLocaleTimeString('ko-KR');
+            const volumeInput = parseFloat(document.getElementById('darkred-final-volume').value) || 500;
+            const volumeUnit = document.getElementById('darkred-volume-unit').value;
+            const mesConc = parseFloat(document.getElementById('darkred-mes-conc').value) || 50;
+            const scale = document.getElementById('darkred-scale').textContent;
+            const beadCalc = document.getElementById('darkred-bead-calc').textContent;
+            const ddw = document.getElementById('darkred-ddw').textContent;
+            const mesBuffer = document.getElementById('darkred-mes-buffer').textContent;
+
+            return `
+=== Dark Red Conjugation Protocol ===
+
+📅 작성일시: ${dateStr} ${timeStr}
+🧪 최종 제조 볼륨: ${volumeInput} ${volumeUnit === 'ml' ? 'ml' : 'μL'}
+
+📋 입력 조건:
+• Protocol 2용 MES 농도: ${mesConc}mM MES
+
+📊 계산 결과:
+• 스케일 비율: ${scale}
+• 계산된 Bead volume: ${beadCalc}
+• Protocol 1 DDW: ${ddw}
+• Protocol 2 MES buffer: ${mesBuffer}
+
+========================================
+Generated by Conjugation Protocol Calculator
+${dateStr} ${timeStr}
+========================================
+            `.trim();
+        }
+
+        function generateAlexaProtocolText() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ko-KR');
+            const timeStr = now.toLocaleTimeString('ko-KR');
+            const proteinConc = parseFloat(document.getElementById('alexa-protein-conc').value) || 2;
+            const volume = parseFloat(document.getElementById('alexa-volume').value) || 1;
+            const proteinConcUnit = (document.getElementById('alexa-protein-conc-unit') || {}).value || 'mg/ml';
+            const volumeUnit = (document.getElementById('alexa-volume-unit') || {}).value || 'ml';
+            const molWeight = parseFloat(document.getElementById('alexa-mol-weight').value) || 150000;
+            const a280At1mg = parseFloat(document.getElementById('alexa-a280-1mg').value) || 1.4;
+            const dilutionFactor = parseFloat(document.getElementById('alexa-dilution').value) || 1;
+            const bicarbonateVolume = document.getElementById('alexa-bicarbonate').textContent;
+            const dyeVolume = document.getElementById('alexa-dye').textContent;
+            const totalDye = document.getElementById('alexa-total-dye').textContent;
+            const proteinConcCalc = document.getElementById('alexa-protein-conc-calc').textContent;
+            const proteinMolar = document.getElementById('alexa-protein-molar').textContent;
+            const dol = document.getElementById('alexa-dol').textContent;
+            const mRatio = document.getElementById('alexa-m-ratio').textContent;
+            const conjRatio = document.getElementById('alexa-conj-ratio').textContent;
+
+            return `
+=== Alexa/FPR Conjugation Protocol ===
+
+📅 작성일시: ${dateStr} ${timeStr}
+🧪 제조 부피: ${volume} ${volumeUnit === 'ml' ? 'mL' : 'μL'}
+
+📋 입력 조건:
+• Protein 농도: ${proteinConc} ${proteinConcUnit}
+• Protein Molecular Weight: ${molWeight} Da
+• A₂₈₀(1mg/ml): ${a280At1mg}
+• Dilution Factor: ${dilutionFactor}
+
+📊 계산 결과:
+• 1M Sodium bicarbonate 첨가량: ${bicarbonateVolume}
+• Dye 첨가량: ${dyeVolume}
+• 총 Dye 양: ${totalDye}
+• Protein conc.(Eq.2): ${proteinConcCalc}
+• Protein conc.(Eq.3): ${proteinMolar}
+• DOL(Eq.4): ${dol}
+• M ratio: ${mRatio}
+• Conjugation ratio: ${conjRatio}
+
+========================================
+Generated by Conjugation Protocol Calculator
+${dateStr} ${timeStr}
+========================================
+            `.trim();
+        }
+
+        function generateNewEuProtocolText() {
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ko-KR');
+            const timeStr = now.toLocaleTimeString('ko-KR');
+            const conjugationAmount = parseFloat(document.getElementById('neweu-conjugation-amount').value) || 1;
+            const antibodyConc = parseFloat(document.getElementById('neweu-antibody-conc').value) || 4;
+            const volume = parseFloat(document.getElementById('neweu-volume').value) || 30;
+            const euUsage = parseFloat(document.getElementById('neweu-usage').value) || 100;
+            const conjugationAmountUnit = (document.getElementById('neweu-conjugation-amount-unit') || {}).value || 'mg';
+            const antibodyConcUnit = (document.getElementById('neweu-antibody-conc-unit') || {}).value || 'mg/ml';
+            const volumeUnit = (document.getElementById('neweu-volume-unit') || {}).value || 'ul';
+            const euUsageUnit = (document.getElementById('neweu-usage-unit') || {}).value || 'ul';
+            const antibodyNeeded = document.getElementById('neweu-antibody-needed').textContent;
+            const blocking = document.getElementById('neweu-blocking').textContent;
+            const nhs = document.getElementById('neweu-nhs').textContent;
+            const edc = document.getElementById('neweu-edc').textContent;
+
+            return `
+=== New Eu Conjugation Protocol ===
+
+📅 작성일시: ${dateStr} ${timeStr}
+
+📋 입력 조건:
+• Europium Conjugation 양: ${conjugationAmount} ${conjugationAmountUnit === 'ug' ? 'μg' : 'mg'}
+• 항체 농도: ${antibodyConc} ${antibodyConcUnit}
+• 필요 부피: ${volume} ${volumeUnit === 'ml' ? 'mL' : 'μL'}
+• Europium 사용량: ${euUsage} ${euUsageUnit === 'ml' ? 'mL' : 'μL'}
+
+📊 계산 결과:
+• 필요 항체량: ${antibodyNeeded}
+• Blocking Buffer: ${blocking}
+• NHS: ${nhs}
+• EDC: ${edc}
+• Blocking Buffer composition: 50mM HEPES, 1% BSA, 0.1% proclin 300, pH 8.0
+• Storage Buffer composition: 50mM HEPES, 1% BSA, 0.1% proclin 300, pH 8.0
+
+========================================
+Generated by Conjugation Protocol Calculator
+${dateStr} ${timeStr}
+========================================
+            `.trim();
+        }
+
+        // 파일 다운로드 및 복사 함수들
+        function downloadTextFile(text, filename, mimeType) {
+            const blob = new Blob([text], { type: mimeType || 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function getDateStamp() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        function downloadEuProtocol() {
+            downloadTextFile(generateEuProtocolText(), `Eu_Protocol_${getDateStamp()}.txt`);
+            showMessage('Eu 프로토콜이 텍스트 파일로 저장되었습니다!', 'success');
+        }
+
+        function copyEuProtocol() {
+            copyToClipboard(generateEuProtocolText());
+        }
+
+        function downloadBiotinProtocol() {
+            downloadTextFile(generateBiotinProtocolText(), `Biotin_Protocol_${getDateStamp()}.txt`);
+            showMessage('Biotin 프로토콜이 텍스트 파일로 저장되었습니다!', 'success');
+        }
+
+        function copyBiotinProtocol() {
+            copyToClipboard(generateBiotinProtocolText());
+        }
+
+        function downloadGSAProtocol() {
+            downloadTextFile(generateGSAProtocolText(), `GSA_Protocol_${getDateStamp()}.txt`);
+            showMessage('G-SA 프로토콜이 텍스트 파일로 저장되었습니다!', 'success');
+        }
+
+        function copyGSAProtocol() {
+            copyToClipboard(generateGSAProtocolText());
+        }
+
+        function downloadDarkRedProtocol() {
+            downloadTextFile(generateDarkRedProtocolText(), `DarkRed_Protocol_${getDateStamp()}.txt`);
+            showMessage('Dark Red 프로토콜이 텍스트 파일로 저장되었습니다!', 'success');
+        }
+
+        function copyDarkRedProtocol() {
+            copyToClipboard(generateDarkRedProtocolText());
+        }
+
+        function downloadAlexaProtocol() {
+            downloadTextFile(generateAlexaProtocolText(), `Alexa_Protocol_${getDateStamp()}.txt`);
+            showMessage('Alexa 프로토콜이 텍스트 파일로 저장되었습니다!', 'success');
+        }
+
+        function copyAlexaProtocol() {
+            copyToClipboard(generateAlexaProtocolText());
+        }
+
+        function downloadNewEuProtocol() {
+            downloadTextFile(generateNewEuProtocolText(), `NewEu_Protocol_${getDateStamp()}.txt`);
+            showMessage('New Eu 프로토콜이 텍스트 파일로 저장되었습니다!', 'success');
+        }
+
+        function copyNewEuProtocol() {
+            copyToClipboard(generateNewEuProtocolText());
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showMessage('프로토콜이 클립보드에 복사되었습니다!', 'success');
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(text);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showMessage('프로토콜이 클립보드에 복사되었습니다!', 'success');
+            } catch (err) {
+                showMessage('복사에 실패했습니다. 다시 시도해주세요.', 'error');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showMessage(message, type) {
+            // 기존 메시지 제거
+            const existingMessage = document.querySelector('.protocol-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `protocol-message ${type}`;
+            messageDiv.textContent = message;
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 600;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+                ${type === 'success' ? 'background: linear-gradient(135deg, #28a745, #20c997);' : 'background: linear-gradient(135deg, #dc3545, #fd7e14);'}
+            `;
+            
+            document.body.appendChild(messageDiv);
+            
+            // 3초 후 메시지 제거
+            setTimeout(() => {
+                messageDiv.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (messageDiv.parentNode) {
+                        messageDiv.parentNode.removeChild(messageDiv);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // 초기화 함수들
+        function resetEu() {
+            document.getElementById('eu-total-volume').value = 1;
+            document.getElementById('eu-total-volume-unit').value = 'ml';
+            document.getElementById('eu-antibody-conc').value = 0.5;
+            document.getElementById('eu-antibody-conc-unit').value = 'mg/ml';
+            document.getElementById('eu-antibody-needed-input').value = 0.1;
+            document.getElementById('eu-antibody-needed-unit').value = 'mg';
+            document.getElementById('eu-stock-conc').value = 1;
+            document.getElementById('eu-usage-input').value = 100;
+            document.getElementById('eu-usage-unit').value = 'ul';
+            syncUnitSelectMemory();
+            calculateEu();
+        }
+
+        function resetBiotin() {
+            document.getElementById('biotin-antibody-amount').value = 1;
+            document.getElementById('biotin-antibody-amount-unit').value = 'mg';
+            document.getElementById('biotin-antibody-conc').value = 2;
+            document.getElementById('biotin-antibody-conc-unit').value = 'mg/ml';
+            syncUnitSelectMemory();
+            calculateBiotin();
+        }
+
+        function resetGSA() {
+            document.getElementById('gsa-roll-amount').value = 10;
+            document.getElementById('gsa-streptavidin').value = 10;
+            document.getElementById('gsa-streptavidin-unit').value = 'mg';
+            syncUnitSelectMemory();
+            calculateGSA();
+        }
+
+        function resetDarkRed() {
+            document.getElementById('darkred-final-volume').value = 500;
+            document.getElementById('darkred-volume-unit').value = 'ul';
+            document.getElementById('darkred-mes-conc').value = 50;
+            calculateDarkRed();
+        }
+
+        function resetAlexa() {
+            document.getElementById('alexa-protein-conc').value = 2;
+            document.getElementById('alexa-protein-conc-unit').value = 'mg/ml';
+            document.getElementById('alexa-volume').value = 1;
+            document.getElementById('alexa-volume-unit').value = 'ml';
+            document.getElementById('alexa-mol-weight').value = 150000;
+            document.getElementById('alexa-a280-1mg').value = 1.4;
+            document.getElementById('alexa-od280-1').value = 2.08;
+            document.getElementById('alexa-od280-2').value = 2.08;
+            document.getElementById('alexa-od650-1').value = 9.50;
+            document.getElementById('alexa-od650-2').value = 9.53;
+            document.getElementById('alexa-dilution').value = 1;
+            syncUnitSelectMemory();
+            calculateAlexa();
+        }
+
+        function resetNewEu() {
+            document.getElementById('neweu-conjugation-amount').value = 1;
+            document.getElementById('neweu-conjugation-amount-unit').value = 'mg';
+            document.getElementById('neweu-antibody-conc').value = 4;
+            document.getElementById('neweu-antibody-conc-unit').value = 'mg/ml';
+            document.getElementById('neweu-volume').value = 30;
+            document.getElementById('neweu-volume-unit').value = 'ul';
+            document.getElementById('neweu-usage').value = 100;
+            document.getElementById('neweu-usage-unit').value = 'ul';
+            syncUnitSelectMemory();
+            calculateNewEu();
+        }
+
+        // 페이지 로드 시 초기 계산
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateEu();
+            calculateBiotin();
+            calculateGSA();
+            calculateDarkRed();
+            calculateAlexa();
+            calculateNewEu();
+            initBatchUI();
+        });
+
+        // 터치 이벤트 최적화
+        document.addEventListener('touchstart', function() {}, {passive: true});
+        document.addEventListener('touchmove', function() {}, {passive: true});
+    </script>
+</body>
+</html>
