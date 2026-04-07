@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>문헌 검색 플로우차트 생성기</title>
+<style>
+:root{--bg:#f4f7ff;--surface:#fff;--line:#d5dded;--text:#1f2937;--primary:#1d4ed8;--primary2:#1e40af;--ok:#059669;--danger:#dc2626}
+*{box-sizing:border-box} body{margin:0;padding:20px;font-family:"Segoe UI","Noto Sans KR",Arial,sans-serif;background:radial-gradient(circle at top right,#e9f0ff 0%,var(--bg) 45%,#eef2ff 100%);color:var(--text)}
+.container{max-width:1320px;margin:0 auto;background:var(--surface);border-radius:14px;box-shadow:0 12px 30px rgba(15,23,42,.12);padding:20px}
+h1,h2{margin:0;color:var(--primary);text-align:center} h1{margin-bottom:10px;font-size:28px} h2{margin-bottom:12px;font-size:20px}
+.message{display:none;margin-bottom:14px;padding:10px 12px;border-radius:8px;border:1px solid transparent;font-size:14px}
+.message.info{background:#eff6ff;border-color:#bfdbfe;color:#1e3a8a}.message.error{background:#fff1f2;border-color:#fecdd3;color:#991b1b}
+.grid{display:grid;grid-template-columns:minmax(420px,1fr) minmax(420px,1fr);gap:18px;align-items:start}@media(max-width:1100px){.grid{grid-template-columns:1fr}}
+.panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px}.input-panel{background:#f8fafc}.preview-panel{overflow:auto;min-height:620px}
+.tabs{display:flex;border-bottom:1px solid var(--line);margin-bottom:14px}
+.tab{border:1px solid transparent;border-bottom:none;padding:10px 14px;cursor:pointer;border-radius:6px 6px 0 0;margin-right:6px;background:transparent;color:#334155}
+.tab.active{background:#fff;border-color:var(--line);font-weight:700}
+.tab-content{display:none}.tab-content.active{display:block}
+.header-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}@media(max-width:760px){.header-fields{grid-template-columns:1fr}}
+.control-group{margin-bottom:10px}.control-group label{display:block;margin-bottom:5px;font-weight:600;font-size:14px}
+input[type="file"],input[type="text"],input[type="number"],textarea{width:100%;border:1px solid var(--line);border-radius:6px;padding:9px 10px;font:inherit;background:#fff;color:var(--text)}
+input[type="file"]{margin-bottom:12px;border-style:dashed;background:#f8fafc} textarea{resize:vertical;min-height:56px}
+.step-editor{border:1px solid var(--line);background:#fff;border-radius:8px;padding:12px;margin-bottom:12px}
+.step-editor h3{margin:0 0 10px;color:#1e3a8a;font-size:16px;border-bottom:1px solid #eef2f7;padding-bottom:8px}
+.btn{border:none;border-radius:7px;padding:10px 14px;cursor:pointer;color:#fff;background:var(--primary);font-size:15px;line-height:1}.btn:hover{background:var(--primary2)}
+.btn-sm{font-size:13px;padding:7px 10px}.btn-success{background:var(--ok)}.btn-success:hover{background:#047857}.btn-danger{background:var(--danger)}.btn-danger:hover{background:#b91c1c}
+.btn-group{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.add-step-btn{width:100%;padding:10px;border:1px dashed #93c5fd;border-radius:8px;color:#1e40af;background:#eff6ff;font-weight:600;cursor:pointer;margin-top:2px}
+.add-step-btn:hover{background:#dbeafe}
+.download-options{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+#flowchart-preview{overflow:auto;border:1px solid var(--line);border-radius:8px;background:#fff;padding:10px;min-height:520px} #flowchart-preview svg{max-width:100%;height:auto;display:block}
+#data-preview{max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:8px;background:#fff;padding:8px;margin-bottom:10px}
+table{width:100%;border-collapse:collapse} th,td{border:1px solid var(--line);padding:7px;text-align:left;vertical-align:top;font-size:13px;word-break:break-word} th{background:#e0e7ff}
+.guide{margin-top:20px;padding:14px;border-radius:10px;background:#eff6ff;border:1px solid #dbeafe}.guide p{margin:8px 0;font-size:14px}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>문헌 검색 플로우차트 생성기</h1>
+  <div id="message" class="message info"></div>
+  <div class="grid">
+    <div class="panel input-panel">
+      <div class="tabs">
+        <button type="button" class="tab active" data-tab="edit-tab">직접 편집</button>
+        <button type="button" class="tab" data-tab="excel-tab">엑셀 데이터</button>
+      </div>
+      <div id="edit-tab" class="tab-content active">
+        <div class="header-fields">
+          <div class="control-group"><label for="chart-title">차트 제목</label><input type="text" id="chart-title" value="Literature Search (PubMed)"></div>
+          <div class="control-group"><label for="chart-subtitle">차트 부제</label><input type="text" id="chart-subtitle" value="Records identified through DB searching"></div>
+        </div>
+        <div id="steps-container"></div>
+        <button id="add-step-btn" class="add-step-btn" type="button">+ 단계 추가</button>
+        <div class="btn-group" style="margin-top:10px"><button id="update-chart-btn" class="btn" type="button">차트 수동 업데이트</button></div>
+      </div>
+      <div id="excel-tab" class="tab-content">
+        <input type="file" id="excel-input" accept=".xlsx,.xls">
+        <div id="data-preview"></div>
+        <button id="generate-btn" class="btn btn-success" type="button">엑셀로 차트 생성</button>
+      </div>
+    </div>
+    <div class="panel preview-panel">
+      <h2>플로우차트 미리보기</h2>
+      <div id="flowchart-preview"></div>
+      <div class="download-options">
+        <button id="download-svg-btn" class="btn" type="button">SVG 다운로드</button>
+        <button id="download-png-btn" class="btn" type="button">PNG 다운로드</button>
+        <button id="download-jpg-btn" class="btn" type="button">JPG 다운로드</button>
+      </div>
+    </div>
+  </div>
+  <div class="guide">
+    <h2>엑셀 입력 형식</h2>
+    <p><strong>Step</strong>, <strong>Description</strong>, <strong>Count</strong> 컬럼이 필요합니다. Query는 선택입니다.</p>
+    <p>한글 컬럼명(단계/설명/건수/쿼리)도 지원합니다.</p>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+const el={excelInput:document.getElementById('excel-input'),dataPreview:document.getElementById('data-preview'),generateBtn:document.getElementById('generate-btn'),updateBtn:document.getElementById('update-chart-btn'),preview:document.getElementById('flowchart-preview'),message:document.getElementById('message'),addStepBtn:document.getElementById('add-step-btn'),steps:document.getElementById('steps-container'),title:document.getElementById('chart-title'),subtitle:document.getElementById('chart-subtitle'),dSvg:document.getElementById('download-svg-btn'),dPng:document.getElementById('download-png-btn'),dJpg:document.getElementById('download-jpg-btn'),tabs:document.querySelectorAll('.tab')};
+
+const defaults={title:'Literature Search (PubMed)',subtitle:'Records identified through DB searching',steps:[
+{uid:1,title:'Record after excluding ineligible results removed',count:11101,query:'Query: (anemia) AND (ferritin)'},
+{uid:2,title:'Record after excluding ineligible results removed',count:2470,query:'Add filter: from 2018.03.15 to 2023.03.15'},
+{uid:3,title:'Record after excluding ineligible results removed',count:1412,query:'Add Query: AND (hemoglobin)'},
+{uid:4,title:'Record after excluding ineligible results removed',count:14,query:'Add Query: AND (point-of-care)'},
+{uid:5,title:'Eligible',count:2,query:'Manual screening'}
+]};
+
+let state=JSON.parse(JSON.stringify(defaults));
+let nextUid=state.steps.length+1;
+let msgTimer=null,liveTimer=null;
+const measureCtx=document.createElement('canvas').getContext('2d');
+
+const escHtml=t=>String(t??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const escXml=t=>String(t??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+const nInt=(v,d=0)=>{const n=Number(v);return Number.isFinite(n)?Math.max(0,Math.floor(n)):d};
+const s=v=>String(v??'').trim();
+
+function msg(text,type='info',dur=2500){clearTimeout(msgTimer);el.message.textContent=text;el.message.className=`message ${type}`;el.message.style.display='block';msgTimer=setTimeout(()=>el.message.style.display='none',dur)}
+
+function mkStep(title='새 단계',count=0,query=''){return{uid:nextUid++,title:s(title),count:nInt(count,0),query:String(query??'').trim()}}
+
+function pick(row,aliases){if(!row||typeof row!=='object')return undefined;const map=new Map(Object.entries(row).map(([k,v])=>[String(k).trim().toLowerCase(),v]));for(const a of aliases){const k=a.toLowerCase();if(map.has(k))return map.get(k)}return undefined}
+
+function readSteps(){const out=[];el.steps.querySelectorAll('.step-editor').forEach(card=>{out.push({uid:nInt(card.dataset.uid,0),title:s(card.querySelector('.step-title')?.value),count:nInt(card.querySelector('.step-count')?.value,0),query:String(card.querySelector('.step-query')?.value??'').trim()})});return out}
+
+function sync(){state.title=s(el.title.value)||defaults.title;state.subtitle=s(el.subtitle.value)||defaults.subtitle;const fromUi=readSteps();state.steps=fromUi.length?fromUi:[mkStep()]}
+
+function field(label,id,cls,type='text'){const w=document.createElement('div');w.className='control-group';const l=document.createElement('label');l.htmlFor=id;l.textContent=label;const i=document.createElement('input');i.type=type;i.id=id;i.className=cls;w.append(l,i);return{w,i}}
+function area(label,id,cls){const w=document.createElement('div');w.className='control-group';const l=document.createElement('label');l.htmlFor=id;l.textContent=label;const t=document.createElement('textarea');t.id=id;t.className=cls;t.rows=2;w.append(l,t);return{w,t}}
+
+function renderEditors(){el.steps.innerHTML='';state.steps.forEach((step,idx)=>{const card=document.createElement('div');card.className='step-editor';card.dataset.uid=String(step.uid);const h=document.createElement('h3');h.textContent=`단계 ${idx+1}`;card.appendChild(h);
+const f1=field('설명',`title-${step.uid}`,'step-title');f1.i.value=step.title;card.appendChild(f1.w);
+const f2=field('건수 (N)',`count-${step.uid}`,'step-count','number');f2.i.min='0';f2.i.value=String(step.count);card.appendChild(f2.w);
+const f3=area('쿼리',`query-${step.uid}`,'step-query');f3.t.value=step.query;card.appendChild(f3.w);
+const g=document.createElement('div');g.className='btn-group';
+const up=document.createElement('button');up.type='button';up.className='btn btn-sm';up.textContent='위로';up.addEventListener('click',()=>move(step.uid,-1));
+const down=document.createElement('button');down.type='button';down.className='btn btn-sm';down.textContent='아래로';down.addEventListener('click',()=>move(step.uid,1));
+const del=document.createElement('button');del.type='button';del.className='btn btn-sm btn-danger';del.textContent='삭제';del.addEventListener('click',()=>remove(step.uid));
+g.append(up,down,del);card.appendChild(g);el.steps.appendChild(card)});
+el.title.value=state.title;el.subtitle.value=state.subtitle}
+
+function remove(uid){sync();if(state.steps.length<=1){msg('최소 1개 단계는 필요합니다.','error');return;}state.steps=state.steps.filter(x=>x.uid!==uid);renderEditors();render();msg('단계를 삭제했습니다.')}
+function move(uid,dir){sync();const i=state.steps.findIndex(x=>x.uid===uid);if(i<0)return;const t=i+dir;if(t<0||t>=state.steps.length)return;[state.steps[i],state.steps[t]]=[state.steps[t],state.steps[i]];renderEditors();render()}
+function addStep(){sync();state.steps.push(mkStep());renderEditors();render();msg('새 단계를 추가했습니다.')}
+
+function tab(id){el.tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===id));document.querySelectorAll('.tab-content').forEach(c=>c.classList.toggle('active',c.id===id))}
+
+function previewRows(rows){if(!rows?.length){el.dataPreview.innerHTML='<p>미리볼 데이터가 없습니다.</p>';return;}const cols=Object.keys(rows[0]);const body=rows.slice(0,6);let html='<table><thead><tr>';cols.forEach(c=>html+=`<th>${escHtml(c)}</th>`);html+='</tr></thead><tbody>';body.forEach(r=>{html+='<tr>';cols.forEach(c=>html+=`<td>${escHtml(r[c])}</td>`);html+='</tr>'});html+='</tbody></table>';if(rows.length>body.length)html+=`<p style="margin-top:8px;color:#4b5563">추가 ${rows.length-body.length}행 생략</p>`;el.dataPreview.innerHTML=html}
+
+function parseRows(rows){const a={step:['step','단계','번호','order','index'],desc:['description','desc','설명','내용','title'],count:['count','n','건수','결과','number'],query:['query','쿼리','검색식','조건']};
+const parsed=rows.map((r,i)=>({order:nInt(pick(r,a.step),i+1),title:s(pick(r,a.desc)),count:nInt(pick(r,a.count),0),query:String(pick(r,a.query)??'').trim()}));
+if(!parsed.some(x=>x.title!==''||x.count>0))return{error:'엑셀에서 Description/Count 값을 찾지 못했습니다.'};
+parsed.sort((x,y)=>x.order-y.order);return{steps:parsed.map(x=>mkStep(x.title||'새 단계',x.count,x.query))}}
+
+function w(text,font){measureCtx.font=font;return measureCtx.measureText(text).width}
+function wrap(text,maxWidth,font){const raw=String(text??'').replace(/\r/g,'');if(!raw)return[''];const ps=raw.split('\n');const lines=[];ps.forEach((p,idx)=>{if(p===''){lines.push('')}else{let line='';for(const ch of p){const c=line+ch;if(!line||w(c,font)<=maxWidth)line=c;else{lines.push(line);line=ch}}if(line)lines.push(line)}if(idx<ps.length-1&&lines[lines.length-1]!=='')lines.push('')});return lines.length?lines:['']}
+function qWidth(query,font,min=320,max=560,pad=22){let m=0;String(query??'').split(/\r?\n/).forEach(line=>m=Math.max(m,w(line,font)));return Math.max(min,Math.min(max,Math.ceil(m+pad*2)))}
+function svg(data){
+  const fontTitle="700 28px 'Segoe UI','Noto Sans KR',Arial,sans-serif";
+  const fontSub="500 18px 'Segoe UI','Noto Sans KR',Arial,sans-serif";
+  const fontStep="600 18px 'Segoe UI','Noto Sans KR',Arial,sans-serif";
+  const fontCount="700 17px 'Segoe UI','Noto Sans KR',Arial,sans-serif";
+  const fontQuery="14px 'Segoe UI','Noto Sans KR',Arial,sans-serif";
+  const colorBg='#f1f1f1',colorHeader='#f8f8f8',colorMain='#1e3a8a',colorLine='#1f2a44',colorQuery='#334155',colorBorder='#2b4ea2',colorCount='#dc2626';
+  const SW=1600,HH=124,CX=420,BW=640,BHMin=96,TitleLH=24,QueryLH=19,AH=66,Gap=58,BoxGap=24,BaseQH=44,SideAnchorRatio=0.52;
+  const headerY=26,headerH=HH-8,headerBottom=headerY+headerH;
+  const startY=HH+56;
+  let y=startY;const rows=[];
+  data.steps.forEach((st,idx)=>{
+    const tLines=wrap(st.title,BW-44,fontStep);const titleH=Math.max(1,tLines.length)*TitleLH;const boxH=Math.max(BHMin,20+titleH+38);
+    let qW=0,qH=0,qLines=[];if(st.query){qW=qWidth(st.query,fontQuery);qLines=wrap(st.query,qW-24,fontQuery);qH=Math.max(BaseQH,16+qLines.length*QueryLH)}
+    const a1=y,a2=a1+AH,top=a2+BoxGap,sideY=Math.round(a1+(AH*SideAnchorRatio)),boxX=CX-BW/2,boxY=top;
+    let qbX=0,qbY=0;
+    if(st.query){
+      qbX=boxX+BW+150;
+      // 긴 쿼리도 위로 올라가지 않게 기준 상단을 고정하고 아래로 확장
+      const fixedTop=sideY-(BaseQH/2);
+      qbY=Math.max(fixedTop,headerBottom+12);
+    }
+    const rowTop=st.query?Math.min(boxY,qbY):boxY;
+    const rowBottom=st.query?Math.max(boxY+boxH,qbY+qH):boxY+boxH;
+    rows.push({idx,st,a1,a2,sideY,boxX,boxY,boxH,tLines,qLines,qW,qH,qbX,qbY,top:rowTop,bottom:rowBottom});
+    y=rowBottom+Gap;
+  });
+  const SH=Math.max(300,y+16);
+  let out=`<svg xmlns="http://www.w3.org/2000/svg" width="${SW}" height="${SH}" viewBox="0 0 ${SW} ${SH}">`;
+  out+=`<defs><marker id="ah" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto"><polygon points="0,0 6,2.5 0,5" fill="${colorLine}" /></marker><marker id="dh" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0,0 9,3.5 0,7" fill="${colorQuery}" /></marker></defs>`;
+  out+=`<rect x="0" y="0" width="${SW}" height="${SH}" fill="${colorBg}" />`;
+  out+=`<rect x="26" y="26" width="${SW-52}" height="${HH-8}" fill="${colorHeader}" stroke="${colorLine}" stroke-width="2" />`;
+  out+=`<text x="${SW/2}" y="78" text-anchor="middle" fill="${colorMain}" style="font:${fontTitle};">${escXml(data.title)}</text>`;
+  out+=`<text x="${SW/2}" y="112" text-anchor="middle" fill="${colorLine}" style="font:${fontSub};">${escXml(data.subtitle)}</text>`;
+  rows.forEach(r=>{
+    out+=`<line x1="${CX}" y1="${r.a1}" x2="${CX}" y2="${r.a2}" stroke="${colorLine}" stroke-width="3" marker-end="url(#ah)" />`;
+    if(r.st.query){
+      out+=`<line x1="${r.qbX}" y1="${r.sideY}" x2="${CX}" y2="${r.sideY}" stroke="${colorQuery}" stroke-width="2" stroke-dasharray="8,6" marker-end="url(#dh)" />`;
+      out+=`<rect x="${r.qbX}" y="${r.qbY}" width="${r.qW}" height="${r.qH}" fill="${colorHeader}" stroke="#64748b" stroke-width="1.5" rx="9" />`;
+      if(r.qLines.length){const block=r.qLines.length*QueryLH;const y0=r.qbY+(r.qH-block)/2+13;r.qLines.forEach((line,i)=>{out+=`<text x="${r.qbX+14}" y="${y0+i*QueryLH}" text-anchor="start" fill="${colorQuery}" style="font:${fontQuery};">${escXml(line)}</text>`})}
+    }
+    out+=`<rect x="${r.boxX}" y="${r.boxY}" width="${BW}" height="${r.boxH}" fill="${colorHeader}" stroke="${colorBorder}" stroke-width="2" rx="10" />`;
+    const t0=r.boxY+56;r.tLines.forEach((line,i)=>{out+=`<text x="${CX}" y="${t0+i*TitleLH}" text-anchor="middle" fill="${colorMain}" style="font:${fontStep};">${escXml(line)}</text>`});
+    out+=`<text x="${CX}" y="${r.boxY+r.boxH-16}" text-anchor="middle" fill="${colorCount}" style="font:${fontCount};">(N=${Number(r.st.count).toLocaleString('en-US')})</text>`;
+  });
+  out+='</svg>';return out;
+}
+
+function render(){el.preview.innerHTML=svg(state)}
+function queue(){clearTimeout(liveTimer);liveTimer=setTimeout(()=>{sync();render()},140)}
+function curSvg(){return el.preview.querySelector('svg')}
+
+function downloadSvg(){const sEl=curSvg();if(!sEl){msg('다운로드할 차트가 없습니다.','error');return;}const raw=new XMLSerializer().serializeToString(sEl);const blob=new Blob([raw],{type:'image/svg+xml;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='literature_search_flowchart.svg';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);msg('SVG 다운로드 완료')}
+
+function downloadRaster(format){const sEl=curSvg();if(!sEl){msg('다운로드할 차트가 없습니다.','error');return;}const raw=new XMLSerializer().serializeToString(sEl);const blob=new Blob([raw],{type:'image/svg+xml;charset=utf-8'});const sUrl=URL.createObjectURL(blob);const img=new Image();
+img.onload=()=>{const w=Number(sEl.getAttribute('width')),h=Number(sEl.getAttribute('height')),scale=2,margin=22;const c=document.createElement('canvas');c.width=(w+margin*2)*scale;c.height=(h+margin*2)*scale;const ctx=c.getContext('2d');ctx.scale(scale,scale);ctx.fillStyle='#f1f1f1';ctx.fillRect(0,0,w+margin*2,h+margin*2);ctx.drawImage(img,margin,margin,w,h);c.toBlob(out=>{if(!out){msg('이미지 변환 실패','error');URL.revokeObjectURL(sUrl);return;}const oUrl=URL.createObjectURL(out);const a=document.createElement('a');const ext=format==='jpeg'?'jpg':'png';a.href=oUrl;a.download=`literature_search_flowchart_hd.${ext}`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(oUrl);URL.revokeObjectURL(sUrl);msg(`${ext.toUpperCase()} 다운로드 완료`)},`image/${format}`,1)};
+img.onerror=()=>{URL.revokeObjectURL(sUrl);msg('이미지 변환 중 오류','error')};img.src=sUrl}
+
+function handleExcel(file){const reader=new FileReader();reader.onload=e=>{try{const data=new Uint8Array(e.target.result);const wb=XLSX.read(data,{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];const rows=XLSX.utils.sheet_to_json(ws,{defval:''});if(!rows?.length){msg('엑셀 데이터가 없습니다.','error');return;}const parsed=parseRows(rows);if(parsed.error){msg(parsed.error,'error',3600);return;}state.steps=parsed.steps;renderEditors();previewRows(rows);render();msg(`엑셀 데이터 반영 완료 (${parsed.steps.length}단계)`) }catch(err){console.error(err);msg('엑셀 처리 중 오류가 발생했습니다.','error',3200)}};reader.readAsArrayBuffer(file)}
+
+function bind(){el.tabs.forEach(t=>t.addEventListener('click',()=>tab(t.dataset.tab)));el.addStepBtn.addEventListener('click',addStep);el.updateBtn.addEventListener('click',()=>{sync();render();msg('차트 업데이트 완료')});el.generateBtn.addEventListener('click',()=>{sync();render();msg('현재 데이터로 차트를 생성했습니다.')});el.title.addEventListener('input',queue);el.subtitle.addEventListener('input',queue);el.steps.addEventListener('input',ev=>{const c=ev.target.classList;if(c.contains('step-title')||c.contains('step-count')||c.contains('step-query'))queue()});el.excelInput.addEventListener('change',e=>{const f=e.target.files[0];if(f)handleExcel(f)});el.dSvg.addEventListener('click',downloadSvg);el.dPng.addEventListener('click',()=>downloadRaster('png'));el.dJpg.addEventListener('click',()=>downloadRaster('jpeg'))}
+
+function init(){renderEditors();render();bind();msg('준비 완료. 입력하면 미리보기에 자동 반영됩니다.')}
+window.addEventListener('load',init);
+</script>
+</body>
+</html>
