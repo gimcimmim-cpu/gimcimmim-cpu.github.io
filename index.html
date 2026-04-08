@@ -8,387 +8,266 @@
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
 
   :root {
-    --bg: #0d1117;
-    --bg2: #161b22;
-    --bg3: #21262d;
-    --border: #30363d;
-    --text: #e6edf3;
-    --text-muted: #8b949e;
-    --blue: #58a6ff;
-    --orange: #f0883e;
-    --purple: #bc8cff;
-    --green: #3fb950;
+    --bg: #0d1117; --bg2: #161b22; --bg3: #21262d;
+    --border: #30363d; --text: #e6edf3; --text-muted: #8b949e;
+    --blue: #58a6ff; --orange: #f0883e; --purple: #bc8cff;
+    --green: #3fb950; --teal: #39d3f5; --pink: #ff7eb6; --yellow: #d29922;
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Sans KR', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Noto Sans KR',sans-serif; min-height:100vh; display:flex; flex-direction:column; }
 
   .bg-glow {
-    position: fixed;
-    top: -200px; left: 50%;
-    transform: translateX(-50%);
-    width: 800px; height: 500px;
-    background: radial-gradient(ellipse, rgba(88,166,255,0.06) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
+    position:fixed; top:-200px; left:50%; transform:translateX(-50%);
+    width:800px; height:500px;
+    background:radial-gradient(ellipse,rgba(88,166,255,0.06) 0%,transparent 70%);
+    pointer-events:none; z-index:0;
   }
 
   /* HEADER */
   header {
-    position: relative;
-    z-index: 10;
-    padding: 48px 32px 32px;
-    text-align: center;
-    border-bottom: 1px solid var(--border);
-    background: linear-gradient(180deg, rgba(88,166,255,0.04) 0%, transparent 100%);
+    position:relative; z-index:10;
+    padding:40px 32px 28px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,rgba(88,166,255,0.04) 0%,transparent 100%);
   }
-
   .logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 30px;
-    padding: 6px 16px 6px 10px;
-    margin-bottom: 20px;
-    font-size: 12px;
-    color: var(--text-muted);
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--bg2); border:1px solid var(--border); border-radius:30px;
+    padding:6px 16px 6px 10px; margin-bottom:18px; font-size:12px; color:var(--text-muted);
   }
-
-  .logo-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 8px var(--green);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
+  .logo-dot { width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 8px var(--green); animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
   header h1 {
-    font-size: 36px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    background: linear-gradient(135deg, #e6edf3 0%, #8b949e 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 10px;
+    font-size:34px; font-weight:700; letter-spacing:-1px;
+    background:linear-gradient(135deg,#e6edf3 0%,#8b949e 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    margin-bottom:8px;
   }
+  header h1 span { background:linear-gradient(90deg,var(--blue),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  header p { color:var(--text-muted); font-size:13px; line-height:1.7; }
 
-  header h1 span {
-    background: linear-gradient(90deg, var(--blue), var(--purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* DATE/TIME WIDGET */
+  .dt-wrap {
+    background:var(--bg2); border:1px solid var(--border); border-radius:16px;
+    display:inline-flex; margin-top:20px; overflow:hidden;
   }
-
-  header p {
-    color: var(--text-muted);
-    font-size: 14px;
-    line-height: 1.7;
+  .dt-block {
+    display:flex; flex-direction:column; align-items:center;
+    padding:12px 28px; position:relative;
   }
+  .dt-block:not(:last-child)::after {
+    content:''; position:absolute; right:0; top:20%; bottom:20%;
+    width:1px; background:var(--border);
+  }
+  .dt-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted); margin-bottom:5px; }
+  .dt-value { font-size:22px; font-weight:700; letter-spacing:-0.5px; line-height:1; }
+  .dt-value.time { color:var(--blue); font-variant-numeric:tabular-nums; font-size:26px; }
+  .dt-value.date { color:var(--text); font-size:14px; }
+  .dt-value.week { font-size:26px; background:linear-gradient(90deg,var(--blue),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .dt-sub { font-size:11px; color:var(--text-muted); margin-top:3px; }
 
   /* MAIN */
-  main {
-    flex: 1;
-    position: relative;
-    z-index: 1;
-    max-width: 960px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 48px 24px;
-  }
+  main { flex:1; position:relative; z-index:1; max-width:1000px; width:100%; margin:0 auto; padding:40px 24px; }
 
   .section-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--text-muted);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:1.2px;
+    color:var(--text-muted); margin-bottom:16px;
+    display:flex; align-items:center; gap:8px;
   }
-
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
   /* CARD GRID */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin-bottom: 48px;
-  }
+  .card-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:32px; }
 
   .card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-    position: relative;
-    overflow: hidden;
+    background:var(--bg2); border:1px solid var(--border); border-radius:16px;
+    padding:22px; text-decoration:none; color:inherit;
+    display:flex; flex-direction:column; gap:13px;
+    transition:border-color .2s,transform .2s,box-shadow .2s;
+    position:relative; overflow:hidden;
   }
-
   .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
+    content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg,transparent,var(--accent-color),transparent);
+    opacity:0; transition:opacity .3s;
+  }
+  .card:hover { border-color:#484f58; transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,.4); }
+  .card:hover::before { opacity:1; }
+
+  .card-num {
+    position:absolute; top:14px; right:16px;
+    font-size:10px; font-weight:700; color:rgba(139,148,158,.35);
+    font-variant-numeric:tabular-nums;
   }
 
-  .card:hover {
-    border-color: #484f58;
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-  }
+  .card-top { display:flex; align-items:flex-start; gap:14px; }
+  .card-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+  .card-info { flex:1; }
+  .card-title { font-size:15px; font-weight:700; margin-bottom:4px; line-height:1.3; }
+  .card-sub { font-size:12px; color:var(--text-muted); line-height:1.6; }
+  .card-arrow { font-size:17px; color:var(--text-muted); transition:transform .2s,color .2s; align-self:center; flex-shrink:0; }
+  .card:hover .card-arrow { transform:translateX(5px); color:var(--text); }
+  .card-tags { display:flex; flex-wrap:wrap; gap:5px; }
+  .tag { font-size:10px; padding:2px 8px; border-radius:20px; font-weight:500; }
 
-  .card:hover::before { opacity: 1; }
+  /* 색상 테마 */
+  .c-blue   { --accent-color:var(--blue);   } .c-blue   .card-icon { background:rgba(88,166,255,0.12); }   .c-blue   .card-title { color:var(--blue); }
+  .c-orange { --accent-color:var(--orange); } .c-orange .card-icon { background:rgba(240,136,62,0.12); }   .c-orange .card-title { color:var(--orange); }
+  .c-purple { --accent-color:var(--purple); } .c-purple .card-icon { background:rgba(188,140,255,0.12); }  .c-purple .card-title { color:var(--purple); }
+  .c-green  { --accent-color:var(--green);  } .c-green  .card-icon { background:rgba(63,185,80,0.12); }    .c-green  .card-title { color:var(--green); }
+  .c-teal   { --accent-color:var(--teal);   } .c-teal   .card-icon { background:rgba(57,211,245,0.12); }   .c-teal   .card-title { color:var(--teal); }
+  .c-yellow { --accent-color:var(--yellow); } .c-yellow .card-icon { background:rgba(210,153,34,0.12); }   .c-yellow .card-title { color:var(--yellow); }
+  .c-red    { --accent-color:#f0883e;       } .c-red    .card-icon { background:rgba(240,136,62,0.12); }   .c-red    .card-title { color:var(--orange); }
 
-  .card-top {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-  }
-
-  .card-icon {
-    width: 46px; height: 46px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
-  }
-
-  .card-info { flex: 1; }
-
-  .card-title {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 5px;
-    line-height: 1.3;
-  }
-
-  .card-sub {
-    font-size: 12px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
-  .card-arrow {
-    font-size: 18px;
-    color: var(--text-muted);
-    transition: transform 0.2s, color 0.2s;
-    align-self: center;
-    flex-shrink: 0;
-  }
-
-  .card:hover .card-arrow {
-    transform: translateX(5px);
-    color: var(--text);
-  }
-
-  .card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .tag {
-    font-size: 10px;
-    padding: 2px 9px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-
-  /* 카드 색상 테마 */
-  .c-blue  { --accent-color: var(--blue);   }
-  .c-orange{ --accent-color: var(--orange); }
-  .c-purple{ --accent-color: var(--purple); }
-  .c-green { --accent-color: var(--green);  }
-  .c-teal  { --accent-color: #39d3f5;       }
-  .c-pink  { --accent-color: #ff7eb6;       }
-
-  .c-blue  .card-icon { background: rgba(88,166,255,0.12); }
-  .c-orange .card-icon { background: rgba(240,136,62,0.12); }
-  .c-purple .card-icon { background: rgba(188,140,255,0.12); }
-  .c-green .card-icon  { background: rgba(63,185,80,0.12); }
-  .c-teal  .card-icon  { background: rgba(57,211,245,0.12); }
-
-  .c-blue  .card-title { color: var(--blue); }
-  .c-orange .card-title { color: var(--orange); }
-  .c-purple .card-title { color: var(--purple); }
-  .c-green .card-title  { color: var(--green); }
-  .c-teal  .card-title  { color: #39d3f5; }
-
-  .c-blue  .tag { background: rgba(88,166,255,0.1);  color: var(--blue);   border: 1px solid rgba(88,166,255,0.25); }
-  .c-orange .tag { background: rgba(240,136,62,0.1); color: var(--orange); border: 1px solid rgba(240,136,62,0.25); }
-  .c-purple .tag { background: rgba(188,140,255,0.1);color: var(--purple); border: 1px solid rgba(188,140,255,0.25); }
-  .c-green .tag  { background: rgba(63,185,80,0.1);  color: var(--green);  border: 1px solid rgba(63,185,80,0.25); }
-  .c-teal  .tag  { background: rgba(57,211,245,0.1); color: #39d3f5;       border: 1px solid rgba(57,211,245,0.25); }
-  .c-pink  .card-icon { background: rgba(255,126,182,0.12); }
-  .c-pink  .card-title { color: #ff7eb6; }
-  .c-pink  .tag  { background: rgba(255,126,182,0.1); color: #ff7eb6;      border: 1px solid rgba(255,126,182,0.25); }
+  .c-blue   .tag { background:rgba(88,166,255,0.1);  color:var(--blue);   border:1px solid rgba(88,166,255,0.25); }
+  .c-orange .tag { background:rgba(240,136,62,0.1);  color:var(--orange); border:1px solid rgba(240,136,62,0.25); }
+  .c-purple .tag { background:rgba(188,140,255,0.1); color:var(--purple); border:1px solid rgba(188,140,255,0.25); }
+  .c-green  .tag { background:rgba(63,185,80,0.1);   color:var(--green);  border:1px solid rgba(63,185,80,0.25); }
+  .c-teal   .tag { background:rgba(57,211,245,0.1);  color:var(--teal);   border:1px solid rgba(57,211,245,0.25); }
+  .c-yellow .tag { background:rgba(210,153,34,0.1);  color:var(--yellow); border:1px solid rgba(210,153,34,0.25); }
+  .c-red    .tag { background:rgba(240,136,62,0.1);  color:var(--orange); border:1px solid rgba(240,136,62,0.25); }
 
   /* FOOTER */
   footer {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 20px;
-    border-top: 1px solid var(--border);
-    color: var(--text-muted);
-    font-size: 11px;
+    position:relative; z-index:1; text-align:center;
+    padding:16px 20px; border-top:1px solid var(--border);
+    color:var(--text-muted); font-size:11px;
+    display:flex; align-items:center; justify-content:center; gap:16px;
   }
-
-  /* DATE/TIME BAR */
-  .datetime-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    margin-top: 20px;
-    flex-wrap: wrap;
+  .footer-hidden-btn {
+    background:none; border:none; cursor:pointer;
+    color:rgba(139,148,158,0.2); font-size:16px;
+    transition:color .3s; padding:4px 8px; border-radius:6px;
+    user-select:none;
   }
+  .footer-hidden-btn:hover { color:rgba(139,148,158,0.5); }
 
-  .dt-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 12px 28px;
-    position: relative;
+  /* PIN MODAL */
+  .pin-overlay {
+    display:none; position:fixed; inset:0; z-index:999;
+    background:rgba(0,0,0,.7); backdrop-filter:blur(6px);
+    align-items:center; justify-content:center;
   }
-
-  .dt-block:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    right: 0; top: 20%; bottom: 20%;
-    width: 1px;
-    background: var(--border);
+  .pin-overlay.show { display:flex; }
+  .pin-box {
+    background:var(--bg2); border:1px solid var(--border); border-radius:20px;
+    padding:36px 40px; text-align:center; width:320px;
+    box-shadow:0 24px 80px rgba(0,0,0,.6); animation:fadeUp .35s ease;
   }
-
-  .dt-label {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    margin-bottom: 5px;
+  @keyframes fadeUp { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+  .pin-icon { font-size:38px; margin-bottom:14px; }
+  .pin-title { font-size:16px; font-weight:700; margin-bottom:4px; }
+  .pin-sub { font-size:12px; color:var(--text-muted); margin-bottom:24px; }
+  .pin-dots { display:flex; justify-content:center; gap:12px; margin-bottom:22px; }
+  .pin-dot { width:13px; height:13px; border-radius:50%; background:var(--bg3); border:2px solid var(--border); transition:all .2s; }
+  .pin-dot.filled { background:var(--blue); border-color:var(--blue); box-shadow:0 0 8px rgba(88,166,255,.5); }
+  .pin-dot.error  { background:#f85149; border-color:#f85149; animation:shake .3s ease; }
+  @keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
+  .numpad { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-bottom:10px; }
+  .num-btn {
+    background:var(--bg3); border:1px solid var(--border); border-radius:11px;
+    padding:13px 0; font-size:17px; font-weight:600; color:var(--text);
+    cursor:pointer; transition:all .15s; user-select:none;
   }
+  .num-btn:hover { background:#2d333b; border-color:#484f58; transform:scale(1.04); }
+  .num-btn:active { transform:scale(.95); }
+  .pin-err { font-size:12px; color:#f85149; height:16px; margin-top:2px; }
+  .pin-close { font-size:11px; color:var(--text-muted); cursor:pointer; margin-top:10px; opacity:.6; }
+  .pin-close:hover { opacity:1; }
 
-  .dt-value {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1;
-  }
-
-  .dt-value.time { color: var(--blue); font-variant-numeric: tabular-nums; font-size: 28px; }
-  .dt-value.date { color: var(--text); font-size: 15px; }
-  .dt-value.week {
-    font-size: 28px;
-    background: linear-gradient(90deg, var(--blue), var(--purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .dt-sub {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 3px;
-  }
-
-  .dt-wrap {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    display: inline-flex;
-    margin-top: 20px;
-    overflow: hidden;
-  }
-
-  @media (max-width: 600px) {
-    .card-grid { grid-template-columns: 1fr; }
-    header h1 { font-size: 26px; }
-    header { padding: 32px 20px 24px; }
-    .dt-block { padding: 10px 16px; }
-    .dt-value.time { font-size: 22px; }
-    .dt-value.week { font-size: 22px; }
+  @media(max-width:600px) {
+    .card-grid { grid-template-columns:1fr; }
+    header h1 { font-size:26px; }
+    header { padding:28px 16px 20px; }
+    .dt-block { padding:10px 16px; }
+    .dt-value.time,.dt-value.week { font-size:20px; }
   }
 </style>
+
 <script>
-function getISOWeek(d) {
-  var date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-  var dayNum = date.getUTCDay() || 7;
-  date.setUTCDate(date.getUTCDate() + 4 - dayNum);
-  var yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
-  return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
-}
-function getWeekRange(d) {
-  var day = d.getDay();
-  var mon = new Date(d); mon.setDate(d.getDate() - (day === 0 ? 6 : day - 1));
-  var fri = new Date(mon); fri.setDate(mon.getDate() + 4);
-  var fmt = function(dt){ return (dt.getMonth()+1) + '/' + dt.getDate(); };
-  return fmt(mon) + ' ~ ' + fmt(fri);
-}
-function getDayKo(d) {
-  return ['일','월','화','수','목','금','토'][d.getDay()] + '요일';
-}
-function pad(n){ return n < 10 ? '0'+n : n; }
-function updateClock() {
-  var now = new Date();
-  var h = pad(now.getHours()), m = pad(now.getMinutes()), s = pad(now.getSeconds());
-  var timeEl = document.getElementById('dt-time');
-  if(timeEl) timeEl.textContent = h + ':' + m + ':' + s;
-}
-window.addEventListener('DOMContentLoaded', function(){
-  var now = new Date();
-  var week = getISOWeek(now);
-  var months = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+/* ── 날짜/시간/주차 ── */
+function getISOWeek(d){var date=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));var dn=date.getUTCDay()||7;date.setUTCDate(date.getUTCDate()+4-dn);var ys=new Date(Date.UTC(date.getUTCFullYear(),0,1));return Math.ceil((((date-ys)/86400000)+1)/7);}
+function getWeekRange(d){var day=d.getDay();var mon=new Date(d);mon.setDate(d.getDate()-(day===0?6:day-1));var fri=new Date(mon);fri.setDate(mon.getDate()+4);var fmt=function(dt){return(dt.getMonth()+1)+'/'+dt.getDate();};return fmt(mon)+' ~ '+fri.getMonth()+1+'/'+fri.getDate();}
+function getDayKo(d){return['일','월','화','수','목','금','토'][d.getDay()]+'요일';}
+function pad(n){return n<10?'0'+n:n;}
+function updateClock(){var now=new Date();var el=document.getElementById('dt-time');if(el)el.textContent=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());}
+window.addEventListener('DOMContentLoaded',function(){
+  var now=new Date();
+  var months=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  document.getElementById('dt-date').textContent=now.getFullYear()+'년 '+months[now.getMonth()]+' '+now.getDate()+'일';
+  document.getElementById('dt-day').textContent=getDayKo(now);
+  document.getElementById('dt-week').textContent=getISOWeek(now)+'주차';
+  var dn=now.getDay(),mon=new Date(now),fri=new Date(now);
+  mon.setDate(now.getDate()-(dn===0?6:dn-1));fri.setDate(mon.getDate()+4);
+  document.getElementById('dt-range').textContent=(mon.getMonth()+1)+'/'+mon.getDate()+' ~ '+(fri.getMonth()+1)+'/'+fri.getDate();
+  updateClock();setInterval(updateClock,1000);
+});
 
-  document.getElementById('dt-date').textContent =
-    now.getFullYear() + '년 ' + months[now.getMonth()] + ' ' + now.getDate() + '일';
-  document.getElementById('dt-day').textContent = getDayKo(now);
-  document.getElementById('dt-week').textContent = week + '주차';
-  document.getElementById('dt-range').textContent = getWeekRange(now);
-
-  updateClock();
-  setInterval(updateClock, 1000);
+/* ── PIN 모달 ── */
+var pin='';
+function openPin(){document.getElementById('pin-overlay').classList.add('show');pin='';updatePinDots();document.getElementById('pin-err').textContent='';}
+function closePin(){document.getElementById('pin-overlay').classList.remove('show');pin='';}
+function pressPin(v){
+  var err=document.getElementById('pin-err');err.textContent='';
+  if(v==='←'){pin=pin.slice(0,-1);}
+  else if(pin.length<4){pin+=v;}
+  updatePinDots();
+  if(pin.length===4){
+    setTimeout(function(){
+      if(pin==='1004'){closePin();window.location.href='leader_dashboard.html';}
+      else{
+        document.querySelectorAll('.pin-dot').forEach(function(d){d.classList.add('error');d.classList.remove('filled');});
+        err.textContent='PIN이 맞지 않습니다';
+        setTimeout(function(){document.querySelectorAll('.pin-dot').forEach(function(d){d.classList.remove('error');});pin='';updatePinDots();},700);
+      }
+    },120);
+  }
+}
+function updatePinDots(){for(var i=0;i<4;i++){var d=document.getElementById('pd'+i);if(d)d.classList.toggle('filled',i<pin.length);}}
+document.addEventListener('keydown',function(e){
+  var ov=document.getElementById('pin-overlay');
+  if(!ov||!ov.classList.contains('show'))return;
+  if(e.key>='0'&&e.key<='9')pressPin(e.key);
+  if(e.key==='Backspace')pressPin('←');
+  if(e.key==='Escape')closePin();
 });
 </script>
 </head>
 <body>
 
 <div class="bg-glow"></div>
+
+<!-- PIN 모달 -->
+<div class="pin-overlay" id="pin-overlay" onclick="if(event.target===this)closePin()">
+  <div class="pin-box">
+    <div class="pin-icon">🔐</div>
+    <div class="pin-title">팀장 전용 페이지</div>
+    <div class="pin-sub">PIN 번호를 입력하세요</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="pd0"></div>
+      <div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div>
+      <div class="pin-dot" id="pd3"></div>
+    </div>
+    <div class="numpad">
+      <button class="num-btn" onclick="pressPin('1')">1</button>
+      <button class="num-btn" onclick="pressPin('2')">2</button>
+      <button class="num-btn" onclick="pressPin('3')">3</button>
+      <button class="num-btn" onclick="pressPin('4')">4</button>
+      <button class="num-btn" onclick="pressPin('5')">5</button>
+      <button class="num-btn" onclick="pressPin('6')">6</button>
+      <button class="num-btn" onclick="pressPin('7')">7</button>
+      <button class="num-btn" onclick="pressPin('8')">8</button>
+      <button class="num-btn" onclick="pressPin('9')">9</button>
+      <button class="num-btn" onclick="pressPin('←')" style="font-size:14px;color:var(--text-muted);">⌫</button>
+      <button class="num-btn" onclick="pressPin('0')">0</button>
+      <div></div>
+    </div>
+    <div class="pin-err" id="pin-err"></div>
+    <div class="pin-close" onclick="closePin()">닫기</div>
+  </div>
+</div>
 
 <header>
   <div class="logo">
@@ -398,7 +277,6 @@ window.addEventListener('DOMContentLoaded', function(){
   <h1>업무 <span>허브</span></h1>
   <p>Cancer팀 업무 도구 모음 &nbsp;·&nbsp; 카드를 클릭해 각 프로그램으로 이동하세요</p>
 
-  <!-- 날짜/시간/주차 위젯 -->
   <div class="dt-wrap">
     <div class="dt-block">
       <div class="dt-label">📅 날짜</div>
@@ -419,16 +297,18 @@ window.addEventListener('DOMContentLoaded', function(){
 </header>
 
 <main>
-  <div class="section-label">프로그램 목록 · 6개</div>
+  <div class="section-label">프로그램 목록 · 7개</div>
 
   <div class="card-grid">
 
+    <!-- 1. 주간 업무 대시보드 -->
     <a class="card c-blue" href="weekly_dashboard.html">
+      <span class="card-num">01</span>
       <div class="card-top">
         <div class="card-icon">📊</div>
         <div class="card-info">
           <div class="card-title">주간 업무 대시보드</div>
-          <div class="card-sub">Cancer팀 주간보고 시각화 · 프로젝트 진행률 · 이슈 현황 · 팀원별 업무</div>
+          <div class="card-sub">Cancer팀 주간보고 시각화 · 프로젝트 진행률 · 이슈 현황 · 팀원별 차주 예정</div>
         </div>
         <div class="card-arrow">→</div>
       </div>
@@ -440,23 +320,45 @@ window.addEventListener('DOMContentLoaded', function(){
       </div>
     </a>
 
-    <a class="card c-orange" href="IDChipQC_v2_dashboard.html">
+    <!-- 2. 실험 시트 타이머 -->
+    <a class="card c-teal" href="experiment_timer.html">
+      <span class="card-num">02</span>
       <div class="card-top">
-        <div class="card-icon">🔬</div>
+        <div class="card-icon">⏱️</div>
         <div class="card-info">
-          <div class="card-title">IDChip QC 대시보드</div>
-          <div class="card-sub">ID Chip 검수 관리 · QC 데이터 분석 · v2</div>
+          <div class="card-title">실험 시트 타이머</div>
+          <div class="card-sub">실험별 시간 측정 · 시트 기반 타이머 · 다중 실험 관리</div>
         </div>
         <div class="card-arrow">→</div>
       </div>
       <div class="card-tags">
-        <span class="tag">ID Chip</span>
-        <span class="tag">QC</span>
-        <span class="tag">검수</span>
+        <span class="tag">타이머</span>
+        <span class="tag">실험</span>
+        <span class="tag">시간관리</span>
       </div>
     </a>
 
+    <!-- 3. Sequential Protocol Timer -->
+    <a class="card c-yellow" href="sequential_protocol_timer_v5.html">
+      <span class="card-num">03</span>
+      <div class="card-top">
+        <div class="card-icon">🔢</div>
+        <div class="card-info">
+          <div class="card-title">Sequential Protocol Timer</div>
+          <div class="card-sub">순차적 프로토콜 타이머 · 단계별 시간 관리 · v5</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+      <div class="card-tags">
+        <span class="tag">Protocol</span>
+        <span class="tag">순차 타이머</span>
+        <span class="tag">v5</span>
+      </div>
+    </a>
+
+    <!-- 4. Conjugation 계산기 -->
     <a class="card c-purple" href="conjugation_calculator_final.html">
+      <span class="card-num">04</span>
       <div class="card-top">
         <div class="card-icon">🧪</div>
         <div class="card-info">
@@ -472,7 +374,9 @@ window.addEventListener('DOMContentLoaded', function(){
       </div>
     </a>
 
+    <!-- 5. 생산일정 관리 -->
     <a class="card c-green" href="생산일정 관리 추출_KCM.html">
+      <span class="card-num">05</span>
       <div class="card-top">
         <div class="card-icon">🏭</div>
         <div class="card-info">
@@ -488,27 +392,31 @@ window.addEventListener('DOMContentLoaded', function(){
       </div>
     </a>
 
-    <a class="card c-pink" href="leader_dashboard.html">
+    <!-- 6. IDChip QC -->
+    <a class="card c-orange" href="IDChipQC_v2_dashboard.html">
+      <span class="card-num">06</span>
       <div class="card-top">
-        <div class="card-icon">👤</div>
+        <div class="card-icon">🔬</div>
         <div class="card-info">
-          <div class="card-title">팀장 대시보드</div>
-          <div class="card-sub">팀원 업무량 비교 · 제품별 누적 진행률 · 분기 요약 · 이슈 트래커</div>
+          <div class="card-title">IDChip QC 대시보드</div>
+          <div class="card-sub">ID Chip 검수 관리 · QC 데이터 분석 · v2</div>
         </div>
         <div class="card-arrow">→</div>
       </div>
       <div class="card-tags">
-        <span class="tag">팀장 전용</span>
-        <span class="tag">분기 현황</span>
-        <span class="tag">이슈 관리</span>
+        <span class="tag">ID Chip</span>
+        <span class="tag">QC</span>
+        <span class="tag">검수</span>
       </div>
     </a>
 
-    <a class="card c-teal" href="final-flowchart-generator.html">
+    <!-- 7. Flowchart Generator -->
+    <a class="card c-teal" href="final-flowchart-generator.html" style="--accent-color:#39d3f5;">
+      <span class="card-num">07</span>
       <div class="card-top">
-        <div class="card-icon">🗺️</div>
+        <div class="card-icon" style="background:rgba(57,211,245,0.08);">🗺️</div>
         <div class="card-info">
-          <div class="card-title">Flowchart Generator</div>
+          <div class="card-title" style="color:var(--teal);">Flowchart Generator</div>
           <div class="card-sub">플로우차트 자동 생성 · 프로세스 시각화 · 다이어그램</div>
         </div>
         <div class="card-arrow">→</div>
@@ -524,7 +432,8 @@ window.addEventListener('DOMContentLoaded', function(){
 </main>
 
 <footer>
-  바디텍메드 Cancer팀 업무 허브 &nbsp;·&nbsp; gimcimmim-cpu.github.io
+  <span>바디텍메드 Cancer팀 업무 허브 &nbsp;·&nbsp; gimcimmim-cpu.github.io</span>
+  <button class="footer-hidden-btn" onclick="openPin()" title="">🔒</button>
 </footer>
 
 </body>
