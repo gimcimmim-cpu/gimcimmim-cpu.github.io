@@ -37,29 +37,29 @@
       color: var(--text);
       min-height: 100%;
       height: 100vh;
-      padding: 10px;
+      padding: 8px;
       overflow: hidden;
     }
 
     .wrap {
       max-width: 1500px;
       margin: 0 auto;
-      height: calc(100vh - 20px);
+      height: calc(100vh - 16px);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
     }
 
     h1 {
-      margin: 0 0 4px;
-      font-size: clamp(1.2rem, 2.2vw, 1.9rem);
+      margin: 0 0 2px;
+      font-size: clamp(1rem, 1.8vw, 1.45rem);
     }
 
     .top-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 6px;
       flex-wrap: wrap;
     }
 
@@ -68,21 +68,21 @@
     }
 
     .sub {
-      margin: 0 0 10px;
+      margin: 0 0 4px;
       color: var(--muted);
-      font-size: 0.93rem;
+      font-size: 0.78rem;
     }
 
     .ticker-clock {
-      min-width: 320px;
-      border-radius: 10px;
+      min-width: 250px;
+      border-radius: 8px;
       border: 1px solid #0f2b12;
       background: linear-gradient(180deg, #0c1710, #142219);
       color: #b9ff66;
-      padding: 6px 10px;
+      padding: 4px 8px;
       font-family: "Consolas", "Courier New", monospace;
       font-weight: 900;
-      letter-spacing: 1px;
+      letter-spacing: 0.6px;
       box-shadow: inset 0 0 12px rgba(120, 255, 130, 0.12), 0 4px 10px rgba(0, 0, 0, 0.18);
       text-align: center;
       text-shadow: 0 0 8px rgba(165, 255, 92, 0.6);
@@ -92,15 +92,15 @@
     }
 
     .ticker-clock .ticker-line {
-      font-size: clamp(0.88rem, 1.2vw, 1.08rem);
-      line-height: 1.1;
+      font-size: clamp(0.74rem, 0.95vw, 0.9rem);
+      line-height: 1.05;
     }
 
     .panel {
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 8px;
+      border-radius: 10px;
+      padding: 6px;
       box-shadow: var(--shadow);
       margin-bottom: 0;
       flex: 0 0 auto;
@@ -108,27 +108,27 @@
 
     .controls {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 6px;
       align-items: end;
     }
 
     .field {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
     }
 
     .row {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 4px;
       align-items: center;
     }
 
     label {
       color: var(--muted);
-      font-size: 0.82rem;
+      font-size: 0.74rem;
       font-weight: 700;
     }
 
@@ -136,10 +136,10 @@
     input[type="text"],
     select {
       border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 7px 9px;
-      font-size: 0.95rem;
-      min-width: 72px;
+      border-radius: 6px;
+      padding: 4px 6px;
+      font-size: 0.82rem;
+      min-width: 56px;
       background: #fff;
     }
 
@@ -150,13 +150,13 @@
 
     button {
       border: none;
-      border-radius: 8px;
-      padding: 6px 9px;
+      border-radius: 6px;
+      padding: 4px 7px;
       color: #fff;
       background: var(--primary);
       font-weight: 700;
       cursor: pointer;
-      font-size: 0.8rem;
+      font-size: 0.72rem;
     }
 
     button.secondary {
@@ -173,7 +173,7 @@
 
     button.tab {
       background: #64748b;
-      padding: 6px 10px;
+      padding: 4px 8px;
     }
 
     button.tab.active {
@@ -186,18 +186,18 @@
     }
 
     .preset-row {
-      margin-top: 4px;
-      gap: 8px;
+      margin-top: 2px;
+      gap: 4px;
     }
 
     button.preset-icon {
-      width: 60px;
-      height: 60px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       padding: 0;
-      font-size: 0.92rem;
+      font-size: 0.72rem;
       font-weight: 900;
-      letter-spacing: 0.2px;
+      letter-spacing: 0.1px;
       background: radial-gradient(circle at 30% 20%, #1d4ed8, #1e3a8a);
       box-shadow: 0 4px 10px rgba(30, 58, 138, 0.32);
       position: relative;
@@ -210,21 +210,21 @@
     button.preset-icon::before {
       content: "";
       position: absolute;
-      top: 8px;
-      left: 8px;
-      width: 11px;
-      height: 11px;
-      border: 2px solid rgba(255, 255, 255, 0.85);
+      top: 6px;
+      left: 6px;
+      width: 8px;
+      height: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.85);
       border-radius: 50%;
     }
 
     button.preset-icon::after {
       content: "";
       position: absolute;
-      top: 12px;
-      left: 13px;
+      top: 9px;
+      left: 10px;
       width: 2px;
-      height: 6px;
+      height: 5px;
       background: rgba(255, 255, 255, 0.9);
       transform-origin: bottom;
       transform: rotate(25deg);
@@ -232,23 +232,23 @@
     }
 
     .status {
-      margin-top: 6px;
+      margin-top: 3px;
       color: var(--muted);
-      font-size: 0.86rem;
+      font-size: 0.74rem;
     }
 
     .sheet-bar {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 4px;
       align-items: center;
-      margin-top: 6px;
+      margin-top: 3px;
     }
 
     .sheet-meta {
       color: var(--muted);
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.76rem;
     }
 
     .grid {
@@ -397,8 +397,8 @@
         flex: 1;
       }
       button.preset-icon {
-        width: 56px;
-        height: 56px;
+        width: 42px;
+        height: 42px;
         flex: 0 0 auto;
       }
     }
@@ -727,10 +727,17 @@
     }
 
     function renderSheetTabs() {
+      syncSheetDisplayNames();
       sheetTabs.innerHTML = state.sheets.map((sheet, idx) => {
         const active = idx === state.activeSheetIndex ? "active" : "";
         return '<button class="tab ' + active + '" data-sheet-index="' + idx + '">' + escapeHtml(sheet.name) + "</button>";
       }).join("");
+    }
+
+    function syncSheetDisplayNames() {
+      state.sheets.forEach((sheet, idx) => {
+        sheet.name = "시트 " + (idx + 2);
+      });
     }
 
     function syncTopControls() {
@@ -809,6 +816,7 @@
     function renderActiveSheet() {
       const sheet = getActiveSheet();
       if (!sheet) return;
+      syncSheetDisplayNames();
       const deleteBtn = document.getElementById("deleteSheet");
       const undoBtn = document.getElementById("undoArchive");
       if (deleteBtn) {
