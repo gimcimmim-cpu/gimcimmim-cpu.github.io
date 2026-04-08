@@ -3,9 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cancer팀 주간 업무 대시보드</title>
+<title>페이지를 찾을 수 없습니다</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+
+  /* ── 잠금 화면 ── */
+  #lock-screen {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #0d1117;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lock-box {
+    background: #161b22; border: 1px solid #30363d; border-radius: 20px;
+    padding: 38px 42px; text-align: center; width: 340px;
+    box-shadow: 0 24px 80px rgba(0,0,0,.6);
+    animation: lockFadeIn .4s ease;
+  }
+  @keyframes lockFadeIn { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+  .lock-icon { font-size: 42px; margin-bottom: 14px; }
+  .lock-title { font-size: 17px; font-weight: 700; color: #e6edf3; margin-bottom: 5px; }
+  .lock-sub { font-size: 12px; color: #8b949e; margin-bottom: 24px; line-height: 1.6; }
+  .pin-dots { display: flex; justify-content: center; gap: 12px; margin-bottom: 22px; }
+  .pin-dot { width: 14px; height: 14px; border-radius: 50%; background: #21262d; border: 2px solid #30363d; transition: all .2s; }
+  .pin-dot.filled { background: #58a6ff; border-color: #58a6ff; box-shadow: 0 0 8px rgba(88,166,255,.5); }
+  .pin-dot.error  { background: #f85149; border-color: #f85149; animation: shake .3s ease; }
+  @keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
+  .numpad { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 12px; }
+  .num-btn {
+    background: #21262d; border: 1px solid #30363d; border-radius: 12px;
+    padding: 14px 0; font-size: 18px; font-weight: 600; color: #e6edf3;
+    cursor: pointer; transition: all .15s; user-select: none;
+  }
+  .num-btn:hover { background: #2d333b; border-color: #484f58; transform: scale(1.04); }
+  .num-btn:active { transform: scale(.95); }
+  .lock-err { font-size: 12px; color: #f85149; height: 16px; }
+  .lock-hint { font-size: 10px; color: rgba(139,148,158,.3); margin-top: 12px; }
+  .lock-back { font-size: 11px; color: #8b949e; margin-top: 8px; cursor: pointer; opacity: .5; }
+  .lock-back:hover { opacity: 1; }
+
+  #dashboard { display: none; }
+</style>
+
+<script>
+(function(){
+  if(sessionStorage.getItem('weekly_auth')==='1'){
+    document.addEventListener('DOMContentLoaded',function(){
+      document.title='Cancer팀 주간 업무 대시보드';
+      document.getElementById('lock-screen').style.display='none';
+      document.getElementById('dashboard').style.display='block';
+    });
+  }
+})();
+</script>
 
   :root {
     --bg: #0d1117;
@@ -626,6 +675,78 @@
 </head>
 <body>
 
+<!-- 잠금 화면 -->
+<div id="lock-screen">
+  <div class="lock-box">
+    <div class="lock-icon">🔬</div>
+    <div class="lock-title">Cancer팀 주간 대시보드</div>
+    <div class="lock-sub">PIN 번호를 입력하세요</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="wd0"></div>
+      <div class="pin-dot" id="wd1"></div>
+      <div class="pin-dot" id="wd2"></div>
+      <div class="pin-dot" id="wd3"></div>
+    </div>
+    <div class="numpad">
+      <button class="num-btn" onclick="wp('1')">1</button>
+      <button class="num-btn" onclick="wp('2')">2</button>
+      <button class="num-btn" onclick="wp('3')">3</button>
+      <button class="num-btn" onclick="wp('4')">4</button>
+      <button class="num-btn" onclick="wp('5')">5</button>
+      <button class="num-btn" onclick="wp('6')">6</button>
+      <button class="num-btn" onclick="wp('7')">7</button>
+      <button class="num-btn" onclick="wp('8')">8</button>
+      <button class="num-btn" onclick="wp('9')">9</button>
+      <button class="num-btn" onclick="wp('←')" style="font-size:14px;color:#8b949e;">⌫</button>
+      <button class="num-btn" onclick="wp('0')">0</button>
+      <div></div>
+    </div>
+    <div class="lock-err" id="wd-err"></div>
+    <div class="lock-hint">탭을 닫기 전까지 재입력 불필요</div>
+    <div class="lock-back" onclick="history.back()">← 돌아가기</div>
+  </div>
+</div>
+
+<script>
+var wpin='';
+function wp(v){
+  var err=document.getElementById('wd-err'); err.textContent='';
+  if(v==='←'){wpin=wpin.slice(0,-1);}
+  else if(wpin.length<4){wpin+=v;}
+  wdots();
+  if(wpin.length===4){
+    setTimeout(function(){
+      if(wpin==='1400'){
+        sessionStorage.setItem('weekly_auth','1');
+        document.getElementById('lock-screen').style.display='none';
+        document.getElementById('dashboard').style.display='block';
+        document.title='Cancer팀 주간 업무 대시보드';
+      } else {
+        document.querySelectorAll('.pin-dot').forEach(function(d){d.classList.add('error');d.classList.remove('filled');});
+        err.textContent='PIN이 맞지 않습니다';
+        setTimeout(function(){document.querySelectorAll('.pin-dot').forEach(function(d){d.classList.remove('error');});wpin='';wdots();},700);
+      }
+    },120);
+  }
+}
+function wdots(){for(var i=0;i<4;i++){var d=document.getElementById('wd'+i);if(d)d.classList.toggle('filled',i<wpin.length);}}
+document.addEventListener('keydown',function(e){
+  if(document.getElementById('lock-screen').style.display==='none')return;
+  if(e.key>='0'&&e.key<='9')wp(e.key);
+  if(e.key==='Backspace')wp('←');
+});
+window.addEventListener('DOMContentLoaded',function(){
+  if(sessionStorage.getItem('weekly_auth')==='1'){
+    document.getElementById('lock-screen').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    document.title='Cancer팀 주간 업무 대시보드';
+  }
+});
+</script>
+
+<!-- 대시보드 본문 -->
+<div id="dashboard">
+
 <!-- ── HEADER ── -->
 <header class="header">
   <div class="header-left">
@@ -1156,6 +1277,6 @@
     Cancer팀 주간 대시보드 &nbsp;·&nbsp; 바디텍메드 &nbsp;·&nbsp; 2026년 3월 30일 ~ 4월 3일 &nbsp;·&nbsp; 노션 자동 연동
   </div>
 
-</div>
+</div><!-- /dashboard -->
 </body>
 </html>
