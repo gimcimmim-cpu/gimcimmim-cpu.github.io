@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sequential Protocol Timer</title>
+<style>
+:root{
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #5a6a85;
+  --color-text-tertiary: #8fa0b8;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f0f4fa;
+  --color-border-secondary: #b8c9e0;
+  --color-border-tertiary: #d4e0ef;
+}
+
+body{
+  background: #dce8f5;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  font-family: var(--font-sans);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+.app{
+  padding:16px;
+  font-family:var(--font-sans);
+  color:var(--color-text-primary);
+  background:#ffffff;
+  border-radius:16px;
+  border:2px solid #a0b8d8;
+  box-shadow:0 4px 20px rgba(24,95,165,0.15);
+  width:100%;
+  max-width:480px;
+}
+
+/* 헤더 타이틀 */
+.app-title{
+  font-size:15px;font-weight:700;color:#185FA5;
+  margin-bottom:12px;padding-bottom:10px;
+  border-bottom:2px solid #c8ddf0;
+  letter-spacing:0.5px;
+}
+
+.cfg{
+  background:#f0f6ff;
+  border-radius:10px;
+  padding:12px 14px;
+  margin-bottom:10px;
+  border:1.5px solid #a8c4e8;
+}
+.cfg-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px;}
+.cfg-row input{
+  width:58px;
+  border:1.5px solid #a0b8d8;
+  border-radius:6px;
+  padding:4px 8px;
+  font-size:13px;
+  background:#fff;
+  color:var(--color-text-primary);
+  font-weight:500;
+}
+.cfg-unit{font-size:12px;color:var(--color-text-secondary);}
+.tab-row{display:flex;gap:6px;}
+.tab{
+  padding:5px 14px;
+  border:1.5px solid #a0b8d8;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  background:#fff;
+  color:#5a6a85;
+  transition:all .15s;
+}
+.tab:hover{background:#e6f0fa;border-color:#185FA5;color:#185FA5;}
+.tab.on{background:#185FA5;color:#fff;border-color:#185FA5;box-shadow:0 2px 6px rgba(24,95,165,0.3);}
+
+/* 전체 세트 현황 */
+.sec-wrap{
+  background:#f8fafd;
+  border:1.5px solid #b8cfe8;
+  border-radius:10px;
+  padding:10px 12px;
+  margin-bottom:10px;
+}
+.sec-lbl{font-size:11px;font-weight:600;color:#185FA5;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
+
+.set-list{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+.set-chip{border-radius:8px;padding:9px 4px;text-align:center;border:1.5px solid #c0d4ea;}
+.set-chip .sc-num{font-size:15px;font-weight:600;}
+.set-chip .sc-st{font-size:10px;margin-top:4px;padding:2px 6px;border-radius:4px;display:inline-block;}
+.set-chip.sc-done{background:#E1F5EE;border-color:#1D9E75;}
+.set-chip.sc-done .sc-num{color:#085041;}
+.set-chip.sc-done .sc-st{background:#1D9E75;color:#fff;}
+.set-chip.sc-active{background:#ddeeff;border-color:#185FA5;border-width:2px;box-shadow:0 2px 8px rgba(24,95,165,0.2);}
+.set-chip.sc-active .sc-num{color:#185FA5;}
+.set-chip.sc-active .sc-st{background:#185FA5;color:#fff;}
+.set-chip.sc-wait{background:#f0f4fa;}
+.set-chip.sc-wait .sc-num{color:#8fa0b8;}
+.set-chip.sc-wait .sc-st{background:#d4e0ef;color:#8fa0b8;}
+
+/* 시계 */
+.clock-wrap{
+  text-align:center;
+  padding:14px;
+  background:linear-gradient(135deg,#1a3a6e 0%,#185FA5 100%);
+  border-radius:12px;
+  margin-bottom:10px;
+  border:2px solid #185FA5;
+  box-shadow:0 4px 12px rgba(24,95,165,0.25);
+}
+.clock{font-size:50px;font-weight:600;letter-spacing:5px;font-variant-numeric:tabular-nums;color:#ffffff;text-shadow:0 2px 4px rgba(0,0,0,0.3);}
+.clock-sub{font-size:11px;color:#a8c8f0;margin-top:4px;}
+
+/* 배속 */
+.speed-wrap{
+  background:#f8fafd;
+  border:1.5px solid #b8cfe8;
+  border-radius:10px;
+  padding:8px 12px;
+  margin-bottom:10px;
+}
+.speed-row{display:flex;align-items:center;justify-content:center;gap:5px;}
+.speed-lbl{font-size:12px;color:var(--color-text-secondary);margin-right:4px;font-weight:500;}
+.sp-btn{
+  padding:5px 11px;
+  border:1.5px solid #b0c8e0;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  background:#fff;
+  color:#5a6a85;
+  transition:all .15s;
+}
+.sp-btn:hover{background:#e6f0fa;border-color:#185FA5;color:#185FA5;}
+.sp-btn.on{background:#185FA5;color:#fff;border-color:#185FA5;box-shadow:0 2px 5px rgba(24,95,165,0.3);}
+.sp-badge{background:#D85A30;color:#fff;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;display:none;border:1px solid #b04020;}
+
+/* 배너 */
+.banner{border-radius:10px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;min-height:66px;border-width:2px;border-style:solid;}
+.banner.idle{background:#f0f4fa;border-color:#b0c8e0;}
+.banner.load{background:#E1F5EE;border-color:#1D9E75;}
+.banner.read{background:#EEEDFE;border-color:#534AB7;}
+.banner.warn{background:#FAECE7;border-color:#D85A30;}
+.banner.done{background:#E1F5EE;border-color:#1D9E75;}
+.b-cd{font-size:28px;font-weight:700;min-width:70px;font-variant-numeric:tabular-nums;text-align:center;}
+.b-tx{font-size:13px;line-height:1.7;}
+.b-tx strong{font-size:15px;display:block;margin-bottom:2px;}
+
+/* 버튼 */
+.btn-row{display:flex;gap:8px;justify-content:center;margin-bottom:10px;}
+.btn{
+  padding:9px 24px;
+  border:1.5px solid #b0c8e0;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  background:#fff;
+  color:var(--color-text-primary);
+  transition:all .15s;
+}
+.btn:hover{background:#f0f4fa;border-color:#185FA5;}
+.btn-go{background:#185FA5;color:#fff;border-color:#185FA5;box-shadow:0 3px 8px rgba(24,95,165,0.3);}
+.btn-go:hover{background:#0C447C;}
+.btn-next{background:#1D9E75;color:#fff;border-color:#1D9E75;display:none;box-shadow:0 3px 8px rgba(29,158,117,0.3);}
+.btn-next:hover{background:#0F6E56;}
+
+/* 현재 세트 */
+.current-set{
+  border:2px solid #185FA5;
+  border-radius:12px;
+  padding:12px 14px;
+  margin-bottom:10px;
+  background:#f5f9ff;
+}
+.cs-header{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;}
+.cs-tp{font-size:19px;font-weight:600;color:#1a1a2e;}
+.cs-sub{font-size:12px;color:var(--color-text-secondary);}
+.cs-phase{font-size:12px;font-weight:600;padding:3px 12px;border-radius:6px;margin-left:auto;border:1px solid rgba(0,0,0,0.08);}
+.phase-mix{background:#FAECE7;color:#712B13;}
+.phase-react{background:#FAEEDA;color:#633806;}
+.phase-read{background:#EEEDFE;color:#3C3489;}
+.phase-done{background:#E1F5EE;color:#085041;}
+
+.rep-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:10px;}
+.rep-cell{border-radius:8px;padding:8px 4px;text-align:center;border:1.5px solid #c0d4ea;}
+.rep-num{font-size:12px;font-weight:600;line-height:1.3;}
+.rep-time{font-size:10px;color:var(--color-text-secondary);margin-top:1px;}
+.rep-st{font-size:10px;margin-top:3px;font-weight:500;}
+.rep-rem{font-size:10px;margin-top:2px;color:var(--color-text-secondary);}
+.rc-wait{background:#f0f4fa;}
+.rc-load{background:#FAECE7;border-color:#D85A30;border-width:2px;}
+.rc-react{background:#FAEEDA;border-color:#BA7517;border-width:2px;}
+.rc-read{background:#EEEDFE;border-color:#534AB7;border-width:2px;}
+.rc-done{background:#E1F5EE;border-color:#1D9E75;border-width:2px;}
+.rc-imm{background:#FAECE7;border-color:#D85A30;border-width:2px;animation:pulse .4s infinite alternate;}
+@keyframes pulse{from{opacity:1}to{opacity:.3}}
+
+.prog-wrap{margin-bottom:4px;}
+.prog-label{display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;font-weight:500;}
+.prog-bar{height:10px;background:#dce8f5;border-radius:5px;overflow:hidden;border:1px solid #b8cfe8;}
+.prog-fill{height:100%;border-radius:5px;transition:width .2s;}
+
+.divider{border:none;border-top:2px solid #c8ddf0;margin:10px 0;}
+
+/* 이벤트 로그 */
+.log-wrap{
+  background:#f0f4fa;
+  border:1.5px solid #b8cfe8;
+  border-radius:10px;
+  padding:10px 12px;
+}
+.log-box{max-height:80px;overflow-y:auto;font-size:11px;line-height:2;color:var(--color-text-secondary);}
+.ev-load{color:#085041;font-weight:600;}
+.ev-read{color:#3C3489;font-weight:600;}
+.ev-sys{color:#8fa0b8;}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="app-title">🧪 Sequential Protocol Timer — Cancer Team</div>
+
+<div class="cfg">
+  <div style="font-size:12px;font-weight:600;margin-bottom:8px;color:#185FA5;">⚙ 반응시간 설정</div>
+  <div class="tab-row" id="reactTabs">
+    <div class="tab on" onclick="setReact(10,this)">반응 10 min</div>
+    <div class="tab" onclick="setReact(12,this)">반응 12 min</div>
+    <div class="tab" onclick="setReact(15,this)">반응 15 min</div>
+  </div>
+  <div class="cfg-row">
+    <span class="cfg-unit">사이클</span>
+    <input type="number" id="cycleSec" value="40" min="20" max="120" oninput="rebuild()">
+    <span class="cfg-unit">초</span>
+    <span id="cycleTag" style="font-size:11px;background:#fff;padding:2px 10px;border-radius:4px;border:1.5px solid #a0b8d8;color:#185FA5;font-weight:600;"></span>
+  </div>
+</div>
+
+<div class="sec-wrap">
+  <div class="sec-lbl">전체 세트 현황</div>
+  <div class="set-list" id="setList"></div>
+</div>
+
+<div class="clock-wrap">
+  <div class="clock" id="clockDisp">00:00</div>
+  <div class="clock-sub" id="clockSub">세트 내 경과 시간</div>
+</div>
+
+<div class="speed-wrap">
+  <div class="speed-row">
+    <span class="speed-lbl">배속</span>
+    <button class="sp-btn on" onclick="setSpeed(1,this)">1×</button>
+    <button class="sp-btn" onclick="setSpeed(2,this)">2×</button>
+    <button class="sp-btn" onclick="setSpeed(5,this)">5×</button>
+    <button class="sp-btn" onclick="setSpeed(10,this)">10×</button>
+    <button class="sp-btn" onclick="setSpeed(30,this)">30×</button>
+    <button class="sp-btn" onclick="setSpeed(60,this)">60×</button>
+    <span class="sp-badge" id="spBadge"></span>
+  </div>
+</div>
+
+<div class="banner idle" id="banner">
+  <div class="b-cd" id="bCd">—</div>
+  <div class="b-tx" id="bTx"><strong>준비</strong>설정 확인 후 시작하세요</div>
+</div>
+
+<div class="btn-row">
+  <button class="btn btn-go" id="btnGo" onclick="startStop()">▶ 세트 시작</button>
+  <button class="btn btn-next" id="btnNext" onclick="nextSet()">다음 세트 ▶</button>
+  <button class="btn" onclick="reset()">↺ 초기화</button>
+</div>
+
+<div class="current-set" id="currentSet" style="display:none;">
+  <div class="cs-header">
+    <div class="cs-tp" id="csTp">—</div>
+    <div class="cs-sub" id="csSub">—</div>
+    <div class="cs-phase phase-react" id="csPhase">대기</div>
+  </div>
+  <div class="rep-grid" id="repGrid"></div>
+  <div class="prog-wrap">
+    <div class="prog-label"><span id="pgLabel">진행</span><span id="pgPct">0%</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="pgFill" style="width:0%;background:#185FA5;"></div></div>
+  </div>
+</div>
+
+<hr class="divider">
+<div class="log-wrap">
+  <div class="sec-lbl" style="margin-bottom:6px;">이벤트 로그</div>
+  <div class="log-box" id="logBox"><div class="ev-sys">프로토콜 시작 전</div></div>
+</div>
+
+</div>
+
+<script>
+const TIMEPOINTS=[
+  {label:'0 min',   loadSec:0},
+  {label:'0.5 min', loadSec:30},
+  {label:'1 min',   loadSec:60},
+  {label:'5 min',   loadSec:300},
+  {label:'10 min',  loadSec:600},
+];
+const REPS=5;
+const REP_LOAD_OFFSETS=[0,30,60,300,600];
+
+let reactMin=10, cycleSec=40, speed=1;
+let running=false, setIdx=0;
+let accumulatedVirtual=0, lastRealTime=null, raf=null;
+let fired=new Set(), setSchedule=[];
+
+function setReact(m,el){
+  reactMin=m;
+  document.querySelectorAll('#reactTabs .tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  rebuild();
+}
+
+function setSpeed(s,el){
+  if(running&&lastRealTime!==null){
+    accumulatedVirtual+=(Date.now()-lastRealTime)/1000*speed;
+    lastRealTime=Date.now();
+  }
+  speed=s;
+  document.querySelectorAll('.sp-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  const badge=document.getElementById('spBadge');
+  if(s>1){badge.style.display='inline-block';badge.textContent=s+'× 모드';}
+  else badge.style.display='none';
+}
+
+function getVirtualElapsed(){
+  if(!running||lastRealTime===null) return accumulatedVirtual;
+  return accumulatedVirtual+(Date.now()-lastRealTime)/1000*speed;
+}
+
+function rebuild(){
+  cycleSec=parseInt(document.getElementById('cycleSec').value)||40;
+  const totalMin=Math.ceil((reactMin*60+REP_LOAD_OFFSETS[REPS-1]+cycleSec)/60);
+  document.getElementById('cycleTag').textContent='세트 소요 약 '+totalMin+'분';
+  buildSetSchedule(setIdx);
+  renderSetList();
+  if(!running) renderCurrentSet(0);
+}
+
+function buildSetSchedule(tpIdx){
+  const reactSec=reactMin*60;
+  setSchedule=[];
+  for(let r=0;r<REPS;r++){
+    const loadAt=REP_LOAD_OFFSETS[r];
+    const readAt=loadAt+reactSec;
+    const doneAt=readAt+cycleSec;
+    setSchedule.push({r, loadAt, readAt, doneAt,
+      repLabel:`#${r+1}(${TIMEPOINTS[r].label})`
+    });
+  }
+}
+
+function fmt(sec){
+  const neg=sec<0,a=Math.abs(Math.round(sec));
+  return (neg?'-':'')+String(Math.floor(a/60)).padStart(2,'0')+':'+String(a%60).padStart(2,'0');
+}
+
+function renderSetList(){
+  let h='';
+  TIMEPOINTS.forEach((tp,i)=>{
+    let cls='sc-wait', st='대기';
+    if(running&&i===setIdx){cls='sc-active'; st='진행중';}
+    else if(i<setIdx){cls='sc-done'; st='완료';}
+    h+=`<div class="set-chip ${cls}">
+      <div class="sc-num">${i+1}세트</div>
+      <div><span class="sc-st">${st}</span></div>
+    </div>`;
+  });
+  document.getElementById('setList').innerHTML=h;
+}
+
+function renderCurrentSet(elapsed){
+  if(setIdx>=TIMEPOINTS.length) return;
+  const tp=TIMEPOINTS[setIdx];
+  document.getElementById('csTp').textContent=`${setIdx+1}세트 — ${tp.label} 시점`;
+  document.getElementById('csSub').textContent=`5회 반복 · 반응 ${reactMin}분`;
+  document.getElementById('currentSet').style.display='block';
+
+  let gh='';
+  setSchedule.forEach(s=>{
+    let cls='rc-wait', st='대기', rem='';
+    const diff=s.loadAt-elapsed;
+    const thresh=5/Math.max(speed,1);
+    if(elapsed>=s.doneAt){cls='rc-done'; st='완료';}
+    else if(elapsed>=s.readAt){cls='rc-read'; st='리딩'; rem=fmt(s.doneAt-elapsed)+' 후';}
+    else if(elapsed>=s.loadAt){cls='rc-react'; st='반응중'; rem=fmt(s.readAt-elapsed)+' 후 리딩';}
+    else if(diff<=thresh&&diff>0){cls='rc-imm'; st='▶로딩!';}
+    else if(diff>0){rem=fmt(diff)+' 후 로딩';}
+
+    gh+=`<div class="rep-cell ${cls}">
+      <div class="rep-num">#${s.r+1}</div>
+      <div class="rep-time">(${TIMEPOINTS[s.r].label})</div>
+      <div class="rep-st">${st}</div>
+      ${rem?`<div class="rep-rem">${rem}</div>`:''}
+    </div>`;
+  });
+  document.getElementById('repGrid').innerHTML=gh;
+
+  const last=setSchedule[REPS-1];
+  const pct=Math.min(100,Math.max(0,elapsed/last.doneAt*100));
+  document.getElementById('pgFill').style.width=pct+'%';
+  document.getElementById('pgPct').textContent=Math.round(pct)+'%';
+
+  const phEl=document.getElementById('csPhase');
+  const allDone=setSchedule.every(s=>elapsed>=s.doneAt);
+  const anyRead=setSchedule.some(s=>elapsed>=s.readAt&&elapsed<s.doneAt);
+  const anyReact=setSchedule.some(s=>elapsed>=s.loadAt&&elapsed<s.readAt);
+  if(allDone){phEl.className='cs-phase phase-done'; phEl.textContent='세트 완료';}
+  else if(anyRead){phEl.className='cs-phase phase-read'; phEl.textContent='리딩 중';}
+  else if(anyReact){phEl.className='cs-phase phase-react'; phEl.textContent='반응 중';}
+  else{phEl.className='cs-phase phase-mix'; phEl.textContent='로딩 대기';}
+
+  const nextLoad=setSchedule.find(s=>elapsed<s.loadAt);
+  const inRead=setSchedule.find(s=>elapsed>=s.loadAt&&elapsed<s.readAt);
+  if(anyRead&&inRead) document.getElementById('pgLabel').textContent=`${inRead.repLabel} 리딩 중 — ${fmt(inRead.doneAt-elapsed)} 후 완료`;
+  else if(nextLoad) document.getElementById('pgLabel').textContent=`${nextLoad.repLabel} 로딩까지 ${fmt(nextLoad.loadAt-elapsed)}`;
+  else if(allDone) document.getElementById('pgLabel').textContent='모든 회차 완료';
+  else document.getElementById('pgLabel').textContent='진행 중';
+}
+
+function updateBanner(elapsed){
+  const ban=document.getElementById('banner');
+  const bCd=document.getElementById('bCd');
+  const bTx=document.getElementById('bTx');
+  const allDone=setSchedule.every(s=>elapsed>=s.doneAt);
+
+  if(allDone){
+    if(setIdx<TIMEPOINTS.length-1){
+      ban.className='banner done';
+      bCd.textContent='완료!';
+      bTx.innerHTML=`<strong>${setIdx+1}세트 완료</strong>다음 버튼 → ${setIdx+2}세트(${TIMEPOINTS[setIdx+1].label})`;
+      document.getElementById('btnNext').style.display='block';
+    } else {
+      ban.className='banner done';
+      bCd.textContent='종료!';
+      bTx.innerHTML='<strong>전체 5세트 완료</strong>25개 측정 완료';
+    }
+    return;
+  }
+
+  const thresh=5/Math.max(speed,1);
+  let next=null, minDiff=Infinity;
+  setSchedule.forEach(s=>{
+    if(elapsed<s.loadAt){const d=s.loadAt-elapsed; if(d<minDiff){minDiff=d; next={type:'load',s,d};}}
+    else if(elapsed>=s.loadAt&&elapsed<s.readAt){const d=s.readAt-elapsed; if(d<minDiff){minDiff=d; next={type:'read',s,d};}}
+  });
+  if(!next) return;
+
+  if(next.type==='load'){
+    ban.className=next.d<=thresh?'banner warn':'banner load';
+    bCd.textContent=fmt(next.d);
+    bTx.innerHTML=next.d<=thresh
+      ?`<strong>${next.s.repLabel} 로딩 — 지금 투입!</strong>카트리지를 장비에 넣으세요`
+      :`<strong>${next.s.repLabel} 로딩까지</strong>로딩 후 ${reactMin}분 반응 → 리딩 ${fmt(next.s.readAt)}`;
+  } else {
+    ban.className=next.d<=thresh?'banner warn':'banner read';
+    bCd.textContent=fmt(next.d);
+    bTx.innerHTML=next.d<=thresh
+      ?`<strong>${next.s.repLabel} 리딩 — 지금 확인!</strong>장비 결과를 읽으세요`
+      :`<strong>${next.s.repLabel} 리딩까지</strong>반응 완료 후 장비 리딩`;
+  }
+}
+
+function addLog(msg,cls){
+  const b=document.getElementById('logBox');
+  const d=document.createElement('div');
+  d.className=cls; d.textContent=msg;
+  b.appendChild(d); b.scrollTop=b.scrollHeight;
+}
+
+function beep(type){
+  if(speed>10) return;
+  try{
+    const ac=new(window.AudioContext||window.webkitAudioContext)();
+    const p={
+      load:[{f:660,t:0},{f:880,t:.22},{f:1100,t:.44}],
+      read:[{f:1100,t:0},{f:880,t:.2},{f:660,t:.4},{f:1100,t:.65}],
+      warn:[{f:880,t:0},{f:880,t:.15}],
+      next:[{f:880,t:0},{f:1100,t:.2},{f:1320,t:.4}]
+    };
+    (p[type]||[]).forEach(({f,t})=>{
+      const o=ac.createOscillator(),g=ac.createGain();
+      o.connect(g); g.connect(ac.destination);
+      o.frequency.value=f;
+      const at=ac.currentTime+t;
+      g.gain.setValueAtTime(.28,at);
+      g.gain.exponentialRampToValueAtTime(.001,at+.16);
+      o.start(at); o.stop(at+.18);
+    });
+  }catch(e){}
+}
+
+function tick(){
+  const elapsed=getVirtualElapsed();
+  document.getElementById('clockDisp').textContent=fmt(elapsed);
+  document.getElementById('clockSub').textContent=
+    speed>1?`${setIdx+1}세트(${TIMEPOINTS[setIdx].label}) 경과 — ${speed}× 배속`:
+    `${setIdx+1}세트(${TIMEPOINTS[setIdx].label}) 경과`;
+
+  const thresh=5/Math.max(speed,1);
+  setSchedule.forEach(s=>{
+    const lk=`${setIdx}_l${s.r}`, rk=`${setIdx}_r${s.r}`;
+    const lw=`${setIdx}_lw${s.r}`, rw=`${setIdx}_rw${s.r}`;
+    const lrem=s.loadAt-elapsed, rrem=s.readAt-elapsed;
+    if(!fired.has(lw)&&lrem<=thresh&&lrem>0){fired.add(lw); beep('warn');}
+    if(!fired.has(lk)&&elapsed>=s.loadAt){
+      fired.add(lk); beep('load');
+      addLog(`[${fmt(elapsed)}] ${setIdx+1}세트 ${s.repLabel} 로딩 → 리딩 ${fmt(s.readAt)} 예정`,'ev-load');
+    }
+    if(!fired.has(rw)&&rrem<=thresh&&rrem>0){fired.add(rw); beep('warn');}
+    if(!fired.has(rk)&&elapsed>=s.readAt){
+      fired.add(rk); beep('read');
+      addLog(`[${fmt(elapsed)}] ${setIdx+1}세트 ${s.repLabel} 리딩 시작`,'ev-read');
+    }
+  });
+
+  renderCurrentSet(elapsed);
+  updateBanner(elapsed);
+  renderSetList();
+
+  const allDone=setSchedule.every(s=>elapsed>=s.doneAt);
+  if(allDone){
+    running=false;
+    document.getElementById('btnGo').textContent='▶ 재시작';
+    beep('next');
+    addLog(`[${fmt(elapsed)}] ${setIdx+1}세트(${TIMEPOINTS[setIdx].label}) 완료`,'ev-sys');
+    return;
+  }
+  raf=requestAnimationFrame(tick);
+}
+
+function startStop(){
+  if(!running){
+    running=true;
+    accumulatedVirtual=0;
+    lastRealTime=Date.now();
+    fired.clear();
+    document.getElementById('btnGo').textContent='■ 정지';
+    document.getElementById('btnNext').style.display='none';
+    addLog(`[00:00] ${setIdx+1}세트(${TIMEPOINTS[setIdx].label}) 시작`,'ev-sys');
+    beep('load');
+    raf=requestAnimationFrame(tick);
+  } else {
+    accumulatedVirtual+=(Date.now()-lastRealTime)/1000*speed;
+    lastRealTime=null;
+    running=false;
+    cancelAnimationFrame(raf);
+    document.getElementById('btnGo').textContent='▶ 재시작';
+  }
+}
+
+function nextSet(){
+  if(setIdx>=TIMEPOINTS.length-1) return;
+  setIdx++;
+  running=false; cancelAnimationFrame(raf);
+  accumulatedVirtual=0; lastRealTime=null; fired.clear();
+  buildSetSchedule(setIdx);
+  document.getElementById('btnGo').textContent='▶ 세트 시작';
+  document.getElementById('btnNext').style.display='none';
+  document.getElementById('clockDisp').textContent='00:00';
+  document.getElementById('banner').className='banner load';
+  document.getElementById('bCd').textContent='준비';
+  document.getElementById('bTx').innerHTML=`<strong>${setIdx+1}세트(${TIMEPOINTS[setIdx].label}) 준비</strong>시작 버튼을 눌러 로딩을 시작하세요`;
+  renderCurrentSet(0); renderSetList();
+  addLog(`--- ${setIdx+1}세트(${TIMEPOINTS[setIdx].label})로 이동 ---`,'ev-sys');
+}
+
+function reset(){
+  running=false; cancelAnimationFrame(raf);
+  setIdx=0; accumulatedVirtual=0; lastRealTime=null; fired.clear();
+  speed=1;
+  document.querySelectorAll('.sp-btn').forEach(b=>b.classList.remove('on'));
+  document.querySelector('.sp-btn').classList.add('on');
+  document.getElementById('spBadge').style.display='none';
+  document.getElementById('clockDisp').textContent='00:00';
+  document.getElementById('clockSub').textContent='세트 내 경과 시간';
+  document.getElementById('btnGo').textContent='▶ 세트 시작';
+  document.getElementById('btnNext').style.display='none';
+  document.getElementById('banner').className='banner idle';
+  document.getElementById('bCd').textContent='—';
+  document.getElementById('bTx').innerHTML='<strong>준비</strong>설정 확인 후 시작하세요';
+  document.getElementById('logBox').innerHTML='<div class="ev-sys">프로토콜 시작 전</div>';
+  buildSetSchedule(0); renderCurrentSet(0); renderSetList();
+}
+
+rebuild(); buildSetSchedule(0); renderCurrentSet(0);
+</script>
+</body>
+</html>

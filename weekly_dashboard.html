@@ -444,6 +444,34 @@
     line-height: 1.4;
   }
 
+  .next-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--other);
+    margin: 6px 0 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  .next-chip {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: rgba(63,185,80,0.07);
+    border: 1px solid rgba(63,185,80,0.2);
+    color: rgba(63,185,80,0.85);
+    line-height: 1.4;
+  }
+
+  .next-chip.none {
+    background: rgba(139,148,158,0.06);
+    border-color: rgba(139,148,158,0.15);
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
   /* ── PROGRESS SECTION ── */
   .progress-grid {
     padding: 16px;
@@ -871,12 +899,11 @@
         <span class="section-count">6명</span>
       </div>
       <div class="team-grid">
+
         <div class="team-member">
           <div class="member-header">
             <div class="member-avatar" style="background:rgba(88,166,255,0.15);color:var(--research);">이다</div>
-            <div>
-              <div class="member-name">이다희</div>
-            </div>
+            <div><div class="member-name">이다희</div></div>
             <span class="member-status status-leave">4/7 연차</span>
           </div>
           <div class="member-tasks">
@@ -884,13 +911,16 @@
             <span class="task-chip">CEA 정전기 거름망</span>
             <span class="task-chip">AFIAS 장비 test</span>
           </div>
+          <div class="next-label">▶ 차주 예정</div>
+          <div class="member-tasks">
+            <span class="next-chip none">추가 실험 일정 없음</span>
+          </div>
         </div>
+
         <div class="team-member">
           <div class="member-header">
             <div class="member-avatar" style="background:rgba(240,136,62,0.15);color:var(--production);">고경</div>
-            <div>
-              <div class="member-name">고경열</div>
-            </div>
+            <div><div class="member-name">고경열</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
@@ -899,13 +929,17 @@
             <span class="task-chip">BR280 연구종료보고서</span>
             <span class="task-chip">C.difficile SDS-PAGE</span>
           </div>
+          <div class="next-label">▶ 차주 예정</div>
+          <div class="member-tasks">
+            <span class="next-chip">C.difficile calibrator 타사장비 측정 (VIDAS, Techlab, SD)</span>
+            <span class="next-chip">PEG20000 Ferritin granule AFIAS test</span>
+          </div>
         </div>
+
         <div class="team-member">
           <div class="member-header">
             <div class="member-avatar" style="background:rgba(63,185,80,0.15);color:var(--other);">김나</div>
-            <div>
-              <div class="member-name">김나연</div>
-            </div>
+            <div><div class="member-name">김나연</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
@@ -913,13 +947,17 @@
             <span class="task-chip">AFP 경쟁사 취합</span>
             <span class="task-chip">PMPF 작성법 회의</span>
           </div>
+          <div class="next-label">▶ 차주 예정</div>
+          <div class="member-tasks">
+            <span class="next-chip">생산팀 실링 완료 후 AFIAS AFP 평가</span>
+            <span class="next-chip">Cyfra21-1 PMPF LSR 3차 수정</span>
+          </div>
         </div>
+
         <div class="team-member">
           <div class="member-header">
             <div class="member-avatar" style="background:rgba(188,140,255,0.15);color:var(--approval);">김수</div>
-            <div>
-              <div class="member-name">김수지</div>
-            </div>
+            <div><div class="member-name">김수지</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
@@ -927,13 +965,17 @@
             <span class="task-chip">CA15-3 가혹 안정성 182일차</span>
             <span class="task-chip">CA15-3 IFU 성능 작성</span>
           </div>
+          <div class="next-label">▶ 차주 예정</div>
+          <div class="member-tasks">
+            <span class="next-chip">CA125 TD 임상전문가 서명본 수령 (4/8)</span>
+            <span class="next-chip">RUO 제품 실시간 안정성 평가 착수</span>
+          </div>
         </div>
+
         <div class="team-member">
           <div class="member-header">
             <div class="member-avatar" style="background:rgba(248,81,73,0.15);color:var(--issue);">박주</div>
-            <div>
-              <div class="member-name">박주연</div>
-            </div>
+            <div><div class="member-name">박주연</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
@@ -941,13 +983,17 @@
             <span class="task-chip">⚠️ Cyfra21-1 데이터 이슈</span>
             <span class="task-chip">재고 실사 1분기</span>
           </div>
+          <div class="next-label">▶ 차주 예정</div>
+          <div class="member-tasks">
+            <span class="next-chip">Ferritin · Cyfra21-1 실검체 측정</span>
+            <span class="next-chip">AFIAS-1 SW 평가</span>
+          </div>
         </div>
+
         <div class="team-member">
           <div class="member-header">
             <div class="member-avatar" style="background:rgba(210,153,34,0.15);color:var(--warning);">임지</div>
-            <div>
-              <div class="member-name">임지은</div>
-            </div>
+            <div><div class="member-name">임지은</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
@@ -955,7 +1001,13 @@
             <span class="task-chip">PSA Neo 수식/반q</span>
             <span class="task-chip">Free PSA 제조</span>
           </div>
+          <div class="next-label">▶ 차주 예정</div>
+          <div class="member-tasks">
+            <span class="next-chip">PSA Calibrator 분주</span>
+            <span class="next-chip">제조사 클레임 회신 대기·후속 조치</span>
+          </div>
         </div>
+
       </div>
     </div>
 
