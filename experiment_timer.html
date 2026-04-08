@@ -1,0 +1,1107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>실험 시트 타이머</title>
+  <style>
+    :root {
+      --bg1: #eef4ff;
+      --bg2: #dde8ff;
+      --card: #ffffff;
+      --line: #ced7eb;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #0f766e;
+      --secondary: #334155;
+      --warn: #b45309;
+      --danger: #b91c1c;
+      --running: #e0f2fe;
+      --done: #ecfdf5;
+      --shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Noto Sans KR", sans-serif;
+      background: linear-gradient(150deg, var(--bg1), var(--bg2));
+      color: var(--text);
+      min-height: 100vh;
+      padding: 14px;
+    }
+
+    .wrap {
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 4px;
+      font-size: clamp(1.2rem, 2.2vw, 1.9rem);
+    }
+
+    .sub {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+      box-shadow: var(--shadow);
+      margin-bottom: 10px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px;
+      align-items: end;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 7px 9px;
+      font-size: 0.95rem;
+      min-width: 72px;
+      background: #fff;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      min-width: 0;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 6px 9px;
+      color: #fff;
+      background: var(--primary);
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    button.secondary {
+      background: var(--secondary);
+    }
+
+    button.warn {
+      background: var(--warn);
+    }
+
+    button.danger {
+      background: var(--danger);
+    }
+
+    button.tab {
+      background: #64748b;
+      padding: 6px 10px;
+    }
+
+    button.tab.active {
+      background: #1d4ed8;
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .preset-row {
+      margin-top: 4px;
+      gap: 8px;
+    }
+
+    button.preset-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      padding: 0;
+      font-size: 0.92rem;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      background: radial-gradient(circle at 30% 20%, #1d4ed8, #1e3a8a);
+      box-shadow: 0 4px 10px rgba(30, 58, 138, 0.32);
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    button.preset-icon::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 11px;
+      height: 11px;
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      border-radius: 50%;
+    }
+
+    button.preset-icon::after {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 13px;
+      width: 2px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.9);
+      transform-origin: bottom;
+      transform: rotate(25deg);
+      border-radius: 1px;
+    }
+
+    .status {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .sheet-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      margin-top: 6px;
+    }
+
+    .sheet-meta {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .timer-card {
+      background: var(--card);
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      padding: 8px;
+      display: grid;
+      gap: 5px;
+      box-shadow: var(--shadow);
+      min-height: 240px;
+    }
+
+    .timer-card .row {
+      gap: 4px;
+    }
+
+    .timer-card.running {
+      background: var(--running);
+      border-color: #0ea5e9;
+    }
+
+    .timer-card.done {
+      background: var(--done);
+      border-color: #22c55e;
+    }
+
+    .title {
+      margin: 0;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.56rem;
+      opacity: 0.75;
+    }
+
+    .time {
+      margin: 0;
+      text-align: center;
+      font-size: clamp(2.6rem, 4.8vw, 4.2rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      line-height: 0.95;
+      font-family: "Consolas", "Courier New", monospace;
+      text-shadow: 0 2px 0 rgba(15, 23, 42, 0.08);
+    }
+
+    .state {
+      margin: 0;
+      text-align: center;
+      font-weight: 800;
+      font-size: 0.6rem;
+      color: var(--muted);
+      opacity: 0.85;
+    }
+
+    .state.running {
+      color: #0369a1;
+    }
+
+    .state.done {
+      color: #166534;
+    }
+
+    .timer-card input[type="text"] {
+      font-size: 0.67rem;
+      padding: 4px 6px;
+      border-radius: 6px;
+    }
+
+    .timer-card input[type="number"] {
+      font-size: 0.68rem;
+      padding: 4px 6px;
+      min-width: 54px;
+      border-radius: 6px;
+    }
+
+    .timer-card .control-row button {
+      font-size: 0.66rem;
+      padding: 4px 6px;
+      min-width: 38px;
+    }
+
+    .timer-card .action-row .start-btn {
+      font-size: 1.02rem;
+      padding: 9px 12px;
+      flex: 2;
+    }
+
+    .timer-card .action-row button:not(.start-btn) {
+      font-size: 0.58rem;
+      padding: 4px 6px;
+      flex: 1;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      z-index: 999;
+    }
+
+    .modal.hidden {
+      display: none;
+    }
+
+    .modal-box {
+      width: min(500px, 100%);
+      background: #fff;
+      border: 2px solid #f59e0b;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .modal h2 {
+      margin: 0 0 6px;
+      color: #92400e;
+    }
+
+    .modal p {
+      margin: 0 0 10px;
+    }
+
+    @media (max-width: 1220px) {
+      .grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .timer-card {
+        min-height: 210px;
+      }
+      button {
+        flex: 1;
+      }
+      button.preset-icon {
+        width: 56px;
+        height: 56px;
+        flex: 0 0 auto;
+      }
+      .timer-card .action-row .start-btn {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>실험 시트 타이머</h1>
+    <p class="sub">한 시트 = 10개 고정. 시트 추가 버튼은 새 시트 10개를 만듭니다.</p>
+
+    <section class="panel">
+      <div class="controls">
+        <div class="field">
+          <label>현재 시트 전체 시간 설정 (분/초)</label>
+          <div class="row">
+            <input id="bulkMin" type="number" min="0" max="9999" value="10" aria-label="분">
+            <input id="bulkSec" type="number" min="0" max="59" value="0" aria-label="초">
+            <button id="applyBulk">현재 시트 전체 적용</button>
+          </div>
+          <div id="quickPresetRow" class="row preset-row" aria-label="빠른 시간 프리셋">
+            <button class="preset-icon" data-preset-min="10" title="10분 바로 세팅" aria-label="10분 바로 세팅">10m</button>
+            <button class="preset-icon" data-preset-min="12" title="12분 바로 세팅" aria-label="12분 바로 세팅">12m</button>
+            <button class="preset-icon" data-preset-min="15" title="15분 바로 세팅" aria-label="15분 바로 세팅">15m</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>현재 시트 전체 실행</label>
+          <div class="row">
+            <button id="startAll">현재 시트 시작</button>
+            <button id="pauseAll" class="warn">현재 시트 정지</button>
+            <button id="resetAll" class="danger">현재 시트 리셋</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>시트 관리</label>
+          <div class="row">
+            <button id="prevSheet" class="secondary">이전 시트</button>
+            <button id="nextSheet" class="secondary">다음 시트</button>
+            <button id="addSheet">+10 (새 시트 추가)</button>
+            <button id="deleteSheet" class="danger">현재 시트 보관</button>
+            <button id="undoArchive" class="secondary">최근 보관 복구 (Undo)</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>저장</label>
+          <div class="row">
+            <button id="saveNow" class="secondary">지금 저장</button>
+            <button id="loadNow" class="secondary">저장 불러오기</button>
+            <button id="clearSaved" class="danger">저장 삭제</button>
+          </div>
+        </div>
+      </div>
+      <div class="sheet-bar">
+        <span id="sheetMeta" class="sheet-meta"></span>
+        <div id="sheetTabs" class="row"></div>
+      </div>
+      <div id="status" class="status">준비 완료</div>
+    </section>
+
+    <section id="timerGrid" class="grid" aria-live="polite"></section>
+  </div>
+
+  <div id="alarmModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="alarmTitle">
+    <div class="modal-box">
+      <h2 id="alarmTitle">타이머 종료 알림</h2>
+      <p id="alarmMessage"></p>
+      <button id="closeAlarm">확인</button>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "experiment_sheet_timer_v2";
+    const SETS_PER_SHEET = 10;
+    const DEFAULT_SEC = 600;
+
+    const timerGrid = document.getElementById("timerGrid");
+    const sheetTabs = document.getElementById("sheetTabs");
+    const sheetMeta = document.getElementById("sheetMeta");
+    const statusEl = document.getElementById("status");
+
+    const bulkMinEl = document.getElementById("bulkMin");
+    const bulkSecEl = document.getElementById("bulkSec");
+
+    const alarmModal = document.getElementById("alarmModal");
+    const alarmMessage = document.getElementById("alarmMessage");
+    const closeAlarmBtn = document.getElementById("closeAlarm");
+
+    let state = {
+      nextTimerId: 1,
+      nextSheetId: 1,
+      activeSheetIndex: 0,
+      sheets: [],
+      archivedSheets: []
+    };
+
+    let ticker = null;
+    let alarmQueue = [];
+    let alarmOpen = false;
+
+    function safeInt(value, min = 0, max = Number.MAX_SAFE_INTEGER) {
+      const n = Number.parseInt(value, 10);
+      if (Number.isNaN(n)) return min;
+      return Math.min(max, Math.max(min, n));
+    }
+
+    function nowMs() {
+      return Date.now();
+    }
+
+    function formatTime(sec) {
+      const s = Math.max(0, sec);
+      const m = Math.floor(s / 60);
+      const r = s % 60;
+      return String(m).padStart(2, "0") + ":" + String(r).padStart(2, "0");
+    }
+
+    function getBulkSec() {
+      const m = safeInt(bulkMinEl.value, 0, 9999);
+      const s = safeInt(bulkSecEl.value, 0, 59);
+      return (m * 60) + s;
+    }
+
+    function getActiveSheet() {
+      return state.sheets[state.activeSheetIndex] || null;
+    }
+
+    function createTimer(durationSec, indexInSheet) {
+      const id = state.nextTimerId++;
+      return {
+        id,
+        label: "세트 " + (indexInSheet + 1),
+        durationSec,
+        remainingSec: durationSec,
+        running: false,
+        endAtMs: null,
+        completed: false
+      };
+    }
+
+    function createSheet(durationSec = DEFAULT_SEC) {
+      const sheetId = state.nextSheetId++;
+      const timers = [];
+      for (let i = 0; i < SETS_PER_SHEET; i++) {
+        timers.push(createTimer(durationSec, i));
+      }
+      return {
+        id: sheetId,
+        name: "시트 " + sheetId,
+        timers
+      };
+    }
+
+    function setStatus(text) {
+      const stamp = new Date().toLocaleTimeString("ko-KR");
+      statusEl.textContent = text + " (" + stamp + ")";
+    }
+
+    function ensureTicker() {
+      if (!ticker) ticker = setInterval(tick, 250);
+    }
+
+    function stopTickerIfIdle() {
+      const active = state.sheets.some((sheet) => sheet.timers.some((t) => t.running));
+      if (!active && ticker) {
+        clearInterval(ticker);
+        ticker = null;
+      }
+    }
+
+    function updateRemaining(timer) {
+      if (!timer.running || timer.endAtMs == null) return;
+      timer.remainingSec = Math.max(0, Math.ceil((timer.endAtMs - nowMs()) / 1000));
+      if (timer.remainingSec <= 0) {
+        timer.running = false;
+        timer.endAtMs = null;
+        timer.completed = true;
+        timer.remainingSec = 0;
+      }
+    }
+
+    function startTimer(timer, sheetName) {
+      if (timer.remainingSec <= 0) {
+        timer.remainingSec = timer.durationSec;
+      }
+      timer.running = true;
+      timer.completed = false;
+      timer.endAtMs = nowMs() + (timer.remainingSec * 1000);
+      timer._sheetName = sheetName;
+      ensureTicker();
+    }
+
+    function pauseTimer(timer) {
+      updateRemaining(timer);
+      timer.running = false;
+      timer.endAtMs = null;
+    }
+
+    function resetTimer(timer) {
+      timer.running = false;
+      timer.endAtMs = null;
+      timer.remainingSec = timer.durationSec;
+      timer.completed = false;
+    }
+
+    function applyDuration(timer, sec) {
+      timer.durationSec = sec;
+      timer.remainingSec = sec;
+      timer.running = false;
+      timer.endAtMs = null;
+      timer.completed = false;
+    }
+
+    function queueAlarm(message) {
+      alarmQueue.push(message);
+      playAlarmSound();
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("실험 타이머 종료", { body: message });
+      }
+      openAlarmPopup();
+    }
+
+    function playAlarmSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.frequency.value = 880;
+        gain.gain.value = 0.08;
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.3);
+      } catch (e) {
+        console.warn("alarm sound blocked", e);
+      }
+    }
+
+    function openAlarmPopup() {
+      if (alarmOpen || alarmQueue.length === 0) return;
+      alarmOpen = true;
+      alarmMessage.textContent = alarmQueue.shift();
+      alarmModal.classList.remove("hidden");
+      closeAlarmBtn.focus();
+    }
+
+    function closeAlarmPopup() {
+      alarmModal.classList.add("hidden");
+      alarmOpen = false;
+      if (alarmQueue.length > 0) openAlarmPopup();
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function renderSheetTabs() {
+      sheetTabs.innerHTML = state.sheets.map((sheet, idx) => {
+        const active = idx === state.activeSheetIndex ? "active" : "";
+        return '<button class="tab ' + active + '" data-sheet-index="' + idx + '">' + escapeHtml(sheet.name) + "</button>";
+      }).join("");
+    }
+
+    function renderActiveSheet() {
+      const sheet = getActiveSheet();
+      if (!sheet) return;
+      const deleteBtn = document.getElementById("deleteSheet");
+      const undoBtn = document.getElementById("undoArchive");
+      if (deleteBtn) {
+        deleteBtn.disabled = state.sheets.length <= 1;
+      }
+      if (undoBtn) {
+        undoBtn.disabled = state.archivedSheets.length === 0;
+      }
+      sheetMeta.textContent = "현재: " + sheet.name + " | 총 시트 " + state.sheets.length + "개 | 총 타이머 " + (state.sheets.length * SETS_PER_SHEET) + "개 | 보관 " + state.archivedSheets.length + "개";
+      timerGrid.innerHTML = sheet.timers.map((t, i) => {
+        const stateClass = t.running ? "running" : (t.completed ? "done" : "");
+        const stateText = t.running ? "진행 중" : (t.completed ? "완료" : "대기");
+        return `
+          <article class="timer-card ${stateClass}" data-id="${t.id}">
+            <p class="title">${sheet.name} · ${i + 1}/${SETS_PER_SHEET}</p>
+            <input type="text" value="${escapeHtml(t.label)}" maxlength="24" data-action="label" aria-label="세트 이름">
+            <p class="time" data-role="time">${formatTime(t.remainingSec)}</p>
+            <p class="state ${stateClass}" data-role="state">${stateText}</p>
+            <div class="row control-row">
+              <input type="number" min="0" max="9999" value="${Math.floor(t.durationSec / 60)}" data-role="min" aria-label="분">
+              <input type="number" min="0" max="59" value="${t.durationSec % 60}" data-role="sec" aria-label="초">
+              <button data-action="apply">시간</button>
+            </div>
+            <div class="row action-row">
+              <button class="start-btn" data-action="start">시작</button>
+              <button class="warn" data-action="pause">정지</button>
+              <button class="danger" data-action="reset">리셋</button>
+            </div>
+          </article>
+        `;
+      }).join("");
+      renderSheetTabs();
+    }
+
+    function refreshVisibleCards() {
+      const sheet = getActiveSheet();
+      if (!sheet) return;
+      for (const timer of sheet.timers) {
+        const card = timerGrid.querySelector('[data-id="' + timer.id + '"]');
+        if (!card) continue;
+        const timeEl = card.querySelector('[data-role="time"]');
+        const stateEl = card.querySelector('[data-role="state"]');
+        if (timeEl) timeEl.textContent = formatTime(timer.remainingSec);
+        if (stateEl) {
+          const cls = timer.running ? "running" : (timer.completed ? "done" : "");
+          stateEl.textContent = timer.running ? "진행 중" : (timer.completed ? "완료" : "대기");
+          stateEl.className = "state " + cls;
+        }
+        card.className = "timer-card " + (timer.running ? "running" : (timer.completed ? "done" : ""));
+      }
+    }
+
+    function serializeState() {
+      const sheets = state.sheets.map((sheet) => ({
+        id: sheet.id,
+        name: sheet.name,
+        timers: sheet.timers.map((t) => {
+          const remaining = t.running && t.endAtMs != null
+            ? Math.max(0, Math.ceil((t.endAtMs - nowMs()) / 1000))
+            : t.remainingSec;
+          return {
+            id: t.id,
+            label: t.label,
+            durationSec: t.durationSec,
+            remainingSec: remaining,
+            running: t.running && remaining > 0,
+            completed: t.completed && remaining === 0
+          };
+        })
+      }));
+      const archivedSheets = state.archivedSheets.map((entry) => ({
+        archivedAt: entry.archivedAt,
+        originalIndex: entry.originalIndex,
+        sheet: {
+          id: entry.sheet.id,
+          name: entry.sheet.name,
+          timers: entry.sheet.timers.map((t) => ({
+            id: t.id,
+            label: t.label,
+            durationSec: t.durationSec,
+            remainingSec: t.remainingSec,
+            running: false,
+            completed: t.completed && t.remainingSec === 0
+          }))
+        }
+      }));
+      return {
+        nextTimerId: state.nextTimerId,
+        nextSheetId: state.nextSheetId,
+        activeSheetIndex: state.activeSheetIndex,
+        sheets,
+        archivedSheets
+      };
+    }
+
+    function saveState(manual = false) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(serializeState()));
+      if (manual) setStatus("저장 완료");
+    }
+
+    function loadState(notify = false) {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return false;
+      try {
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed.sheets) || parsed.sheets.length === 0) return false;
+
+        state.nextTimerId = safeInt(parsed.nextTimerId, 1);
+        state.nextSheetId = safeInt(parsed.nextSheetId, 1);
+        state.activeSheetIndex = safeInt(parsed.activeSheetIndex, 0);
+
+        state.sheets = parsed.sheets.map((sheet, sheetIdx) => {
+          const timers = Array.isArray(sheet.timers) ? sheet.timers.slice(0, SETS_PER_SHEET) : [];
+          while (timers.length < SETS_PER_SHEET) {
+            timers.push({
+              id: state.nextTimerId++,
+              label: "세트 " + (timers.length + 1),
+              durationSec: DEFAULT_SEC,
+              remainingSec: DEFAULT_SEC,
+              running: false,
+              endAtMs: null,
+              completed: false
+            });
+          }
+          return {
+            id: safeInt(sheet.id, sheetIdx + 1),
+            name: typeof sheet.name === "string" && sheet.name.trim() ? sheet.name.trim() : ("시트 " + (sheetIdx + 1)),
+            timers: timers.map((t, timerIdx) => {
+              const durationSec = safeInt(t.durationSec, 1, 999999);
+              const remainingSec = safeInt(t.remainingSec, 0, 999999);
+              const running = Boolean(t.running) && remainingSec > 0;
+              return {
+                id: safeInt(t.id, state.nextTimerId++),
+                label: typeof t.label === "string" && t.label.trim() ? t.label.trim() : ("세트 " + (timerIdx + 1)),
+                durationSec,
+                remainingSec,
+                running,
+                endAtMs: running ? (nowMs() + (remainingSec * 1000)) : null,
+                completed: Boolean(t.completed) && remainingSec === 0
+              };
+            })
+          };
+        });
+
+        const parsedArchived = Array.isArray(parsed.archivedSheets) ? parsed.archivedSheets : [];
+        state.archivedSheets = parsedArchived.map((entry, archiveIdx) => {
+          const sourceSheet = entry && entry.sheet ? entry.sheet : entry;
+          const timers = Array.isArray(sourceSheet && sourceSheet.timers) ? sourceSheet.timers.slice(0, SETS_PER_SHEET) : [];
+          while (timers.length < SETS_PER_SHEET) {
+            timers.push({
+              id: state.nextTimerId++,
+              label: "세트 " + (timers.length + 1),
+              durationSec: DEFAULT_SEC,
+              remainingSec: DEFAULT_SEC,
+              running: false,
+              completed: false
+            });
+          }
+          return {
+            archivedAt: safeInt(entry && entry.archivedAt, 0),
+            originalIndex: safeInt(entry && entry.originalIndex, 0, 999999),
+            sheet: {
+              id: safeInt(sourceSheet && sourceSheet.id, state.nextSheetId + archiveIdx),
+              name: (sourceSheet && typeof sourceSheet.name === "string" && sourceSheet.name.trim())
+                ? sourceSheet.name.trim()
+                : ("시트 보관 " + (archiveIdx + 1)),
+              timers: timers.map((t, timerIdx) => {
+                const durationSec = safeInt(t.durationSec, 1, 999999);
+                const remainingSec = safeInt(t.remainingSec, 0, 999999);
+                return {
+                  id: safeInt(t.id, state.nextTimerId++),
+                  label: typeof t.label === "string" && t.label.trim() ? t.label.trim() : ("세트 " + (timerIdx + 1)),
+                  durationSec,
+                  remainingSec,
+                  running: false,
+                  endAtMs: null,
+                  completed: Boolean(t.completed) && remainingSec === 0
+                };
+              })
+            }
+          };
+        });
+
+        const sheetTimerIds = state.sheets.flatMap((s) => s.timers.map((t) => t.id));
+        const archiveTimerIds = state.archivedSheets.flatMap((a) => a.sheet.timers.map((t) => t.id));
+        const maxTimerId = Math.max(...sheetTimerIds, ...archiveTimerIds, 0);
+        const maxSheetId = Math.max(...state.sheets.map((s) => s.id), ...state.archivedSheets.map((a) => a.sheet.id), 0);
+        state.nextTimerId = Math.max(state.nextTimerId, maxTimerId + 1);
+        state.nextSheetId = Math.max(state.nextSheetId, maxSheetId + 1);
+        state.activeSheetIndex = Math.min(state.activeSheetIndex, state.sheets.length - 1);
+
+        renderActiveSheet();
+        if (state.sheets.some((s) => s.timers.some((t) => t.running))) ensureTicker();
+        if (notify) setStatus("저장된 상태 불러오기 완료");
+        return true;
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+    }
+
+    function initDefault() {
+      state = {
+        nextTimerId: 1,
+        nextSheetId: 1,
+        activeSheetIndex: 0,
+        sheets: [createSheet(DEFAULT_SEC)],
+        archivedSheets: []
+      };
+      renderActiveSheet();
+      saveState();
+      setStatus("기본 1시트(10개) 생성");
+    }
+
+    function addSheet() {
+      const sec = getBulkSec();
+      const duration = sec > 0 ? sec : DEFAULT_SEC;
+      state.sheets.push(createSheet(duration));
+      state.activeSheetIndex = state.sheets.length - 1;
+      renderActiveSheet();
+      saveState(true);
+      setStatus("새 시트 10개 추가 완료");
+    }
+
+    function freezeSheetForArchive(sheet) {
+      return {
+        id: sheet.id,
+        name: sheet.name,
+        timers: sheet.timers.map((t, idx) => {
+          const remainingSec = t.running && t.endAtMs != null
+            ? Math.max(0, Math.ceil((t.endAtMs - nowMs()) / 1000))
+            : t.remainingSec;
+          return {
+            id: t.id,
+            label: (typeof t.label === "string" && t.label.trim()) ? t.label.trim() : ("세트 " + (idx + 1)),
+            durationSec: t.durationSec,
+            remainingSec,
+            running: false,
+            endAtMs: null,
+            completed: t.completed || remainingSec === 0
+          };
+        })
+      };
+    }
+
+    function deleteActiveSheet() {
+      if (state.sheets.length <= 1) {
+        setStatus("최소 1개 시트는 유지됩니다");
+        return;
+      }
+      const current = getActiveSheet();
+      if (!current) return;
+
+      const ok = window.confirm(current.name + "를 보관하시겠습니까? (Undo로 복구 가능)");
+      if (!ok) return;
+
+      const removedIndex = state.activeSheetIndex;
+      const [removedSheet] = state.sheets.splice(removedIndex, 1);
+      const archivedEntry = {
+        archivedAt: nowMs(),
+        originalIndex: removedIndex,
+        sheet: freezeSheetForArchive(removedSheet)
+      };
+      state.archivedSheets.unshift(archivedEntry);
+      if (state.activeSheetIndex >= state.sheets.length) {
+        state.activeSheetIndex = state.sheets.length - 1;
+      }
+      renderActiveSheet();
+      saveState(true);
+      setStatus(current.name + " 보관 완료 (Undo 가능)");
+      stopTickerIfIdle();
+    }
+
+    function undoArchive() {
+      if (state.archivedSheets.length === 0) {
+        setStatus("복구할 보관 시트가 없습니다");
+        return;
+      }
+      const entry = state.archivedSheets.shift();
+      const insertIndex = Math.max(0, Math.min(entry.originalIndex, state.sheets.length));
+      state.sheets.splice(insertIndex, 0, entry.sheet);
+      state.activeSheetIndex = insertIndex;
+      renderActiveSheet();
+      saveState(true);
+      setStatus(entry.sheet.name + " 복구 완료");
+    }
+
+    function tick() {
+      let changed = false;
+      for (const sheet of state.sheets) {
+        for (const timer of sheet.timers) {
+          const beforeRemaining = timer.remainingSec;
+          const beforeRunning = timer.running;
+          const beforeCompleted = timer.completed;
+          updateRemaining(timer);
+          if (beforeRemaining !== timer.remainingSec || beforeRunning !== timer.running || beforeCompleted !== timer.completed) {
+            changed = true;
+            if (!timer.running && timer.completed && beforeCompleted === false && beforeRemaining > 0) {
+              const msg = (sheet.name + " / " + timer.label + " 종료");
+              queueAlarm(msg);
+            }
+          }
+        }
+      }
+      if (changed) {
+        refreshVisibleCards();
+        saveState();
+      }
+      stopTickerIfIdle();
+    }
+
+    function findTimerById(id) {
+      const sheet = getActiveSheet();
+      if (!sheet) return null;
+      return sheet.timers.find((t) => t.id === id) || null;
+    }
+
+    function applyBulkToActiveSheet(sec, statusText = "") {
+      if (sec <= 0) {
+        setStatus("시간은 1초 이상이어야 합니다");
+        return false;
+      }
+      const sheet = getActiveSheet();
+      if (!sheet) return false;
+      for (const timer of sheet.timers) applyDuration(timer, sec);
+      renderActiveSheet();
+      saveState(true);
+      setStatus(statusText || (sheet.name + " 전체 시간 적용 완료"));
+      stopTickerIfIdle();
+      return true;
+    }
+
+    document.getElementById("applyBulk").addEventListener("click", () => {
+      applyBulkToActiveSheet(getBulkSec());
+    });
+
+    document.getElementById("quickPresetRow").addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-preset-min]");
+      if (!button) return;
+      const minute = safeInt(button.dataset.presetMin, 0, 9999);
+      if (minute <= 0) return;
+      bulkMinEl.value = String(minute);
+      bulkSecEl.value = "0";
+      applyBulkToActiveSheet(minute * 60, minute + "분 프리셋 바로 적용");
+    });
+
+    document.getElementById("startAll").addEventListener("click", () => {
+      const sheet = getActiveSheet();
+      if (!sheet) return;
+      for (const timer of sheet.timers) startTimer(timer, sheet.name);
+      refreshVisibleCards();
+      saveState(true);
+      setStatus(sheet.name + " 전체 시작");
+    });
+
+    document.getElementById("pauseAll").addEventListener("click", () => {
+      const sheet = getActiveSheet();
+      if (!sheet) return;
+      for (const timer of sheet.timers) pauseTimer(timer);
+      refreshVisibleCards();
+      saveState(true);
+      setStatus(sheet.name + " 전체 정지");
+      stopTickerIfIdle();
+    });
+
+    document.getElementById("resetAll").addEventListener("click", () => {
+      const sheet = getActiveSheet();
+      if (!sheet) return;
+      for (const timer of sheet.timers) resetTimer(timer);
+      refreshVisibleCards();
+      saveState(true);
+      setStatus(sheet.name + " 전체 리셋");
+      stopTickerIfIdle();
+    });
+
+    document.getElementById("addSheet").addEventListener("click", addSheet);
+    document.getElementById("deleteSheet").addEventListener("click", deleteActiveSheet);
+    document.getElementById("undoArchive").addEventListener("click", undoArchive);
+
+    document.getElementById("prevSheet").addEventListener("click", () => {
+      if (state.sheets.length === 0) return;
+      state.activeSheetIndex = (state.activeSheetIndex - 1 + state.sheets.length) % state.sheets.length;
+      renderActiveSheet();
+      saveState();
+      setStatus("이전 시트로 이동");
+    });
+
+    document.getElementById("nextSheet").addEventListener("click", () => {
+      if (state.sheets.length === 0) return;
+      state.activeSheetIndex = (state.activeSheetIndex + 1) % state.sheets.length;
+      renderActiveSheet();
+      saveState();
+      setStatus("다음 시트로 이동");
+    });
+
+    sheetTabs.addEventListener("click", (event) => {
+      const btn = event.target.closest("button[data-sheet-index]");
+      if (!btn) return;
+      const idx = safeInt(btn.dataset.sheetIndex, 0, state.sheets.length - 1);
+      state.activeSheetIndex = idx;
+      renderActiveSheet();
+      saveState();
+      setStatus("시트 전환 완료");
+    });
+
+    timerGrid.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-action]");
+      if (!button) return;
+      const card = button.closest(".timer-card");
+      if (!card) return;
+      const id = safeInt(card.dataset.id, -1);
+      const timer = findTimerById(id);
+      const sheet = getActiveSheet();
+      if (!timer || !sheet) return;
+      const action = button.dataset.action;
+
+      if (action === "start") startTimer(timer, sheet.name);
+      if (action === "pause") pauseTimer(timer);
+      if (action === "reset") resetTimer(timer);
+      if (action === "apply") {
+        const minEl = card.querySelector('[data-role="min"]');
+        const secEl = card.querySelector('[data-role="sec"]');
+        const sec = (safeInt(minEl.value, 0, 9999) * 60) + safeInt(secEl.value, 0, 59);
+        if (sec <= 0) {
+          setStatus("개별 시간은 1초 이상이어야 합니다");
+          return;
+        }
+        applyDuration(timer, sec);
+      }
+
+      refreshVisibleCards();
+      saveState(true);
+      stopTickerIfIdle();
+    });
+
+    timerGrid.addEventListener("change", (event) => {
+      const input = event.target.closest('input[data-action="label"]');
+      if (!input) return;
+      const card = input.closest(".timer-card");
+      if (!card) return;
+      const id = safeInt(card.dataset.id, -1);
+      const timer = findTimerById(id);
+      if (!timer) return;
+      timer.label = input.value.trim() || "세트";
+      saveState();
+      setStatus("세트 이름 저장");
+    });
+
+    document.getElementById("saveNow").addEventListener("click", () => saveState(true));
+    document.getElementById("loadNow").addEventListener("click", () => {
+      if (!loadState(true)) setStatus("저장 데이터 없음");
+    });
+    document.getElementById("clearSaved").addEventListener("click", () => {
+      localStorage.removeItem(STORAGE_KEY);
+      setStatus("저장 데이터 삭제 완료");
+    });
+
+    closeAlarmBtn.addEventListener("click", closeAlarmPopup);
+    alarmModal.addEventListener("click", (event) => {
+      if (event.target === alarmModal) closeAlarmPopup();
+    });
+
+    if ("Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission().catch(() => {});
+    }
+
+    if (!loadState()) {
+      initDefault();
+    } else {
+      setStatus("저장 상태 자동 복원");
+    }
+  </script>
+</body>
+</html>
