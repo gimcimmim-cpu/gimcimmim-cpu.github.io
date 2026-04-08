@@ -21,6 +21,11 @@
       --shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
     }
 
+    html,
+    body {
+      height: 100%;
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -30,18 +35,36 @@
       font-family: "Segoe UI", "Noto Sans KR", sans-serif;
       background: linear-gradient(150deg, var(--bg1), var(--bg2));
       color: var(--text);
-      min-height: 100vh;
-      padding: 14px;
+      min-height: 100%;
+      height: 100vh;
+      padding: 10px;
+      overflow: hidden;
     }
 
     .wrap {
       max-width: 1500px;
       margin: 0 auto;
+      height: calc(100vh - 20px);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
     h1 {
       margin: 0 0 4px;
       font-size: clamp(1.2rem, 2.2vw, 1.9rem);
+    }
+
+    .top-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .title-wrap {
+      min-width: 220px;
     }
 
     .sub {
@@ -50,13 +73,37 @@
       font-size: 0.93rem;
     }
 
+    .ticker-clock {
+      min-width: 320px;
+      border-radius: 10px;
+      border: 1px solid #0f2b12;
+      background: linear-gradient(180deg, #0c1710, #142219);
+      color: #b9ff66;
+      padding: 6px 10px;
+      font-family: "Consolas", "Courier New", monospace;
+      font-weight: 900;
+      letter-spacing: 1px;
+      box-shadow: inset 0 0 12px rgba(120, 255, 130, 0.12), 0 4px 10px rgba(0, 0, 0, 0.18);
+      text-align: center;
+      text-shadow: 0 0 8px rgba(165, 255, 92, 0.6);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ticker-clock .ticker-line {
+      font-size: clamp(0.88rem, 1.2vw, 1.08rem);
+      line-height: 1.1;
+    }
+
     .panel {
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: 14px;
-      padding: 10px;
+      padding: 8px;
       box-shadow: var(--shadow);
-      margin-bottom: 10px;
+      margin-bottom: 0;
+      flex: 0 0 auto;
     }
 
     .controls {
@@ -86,7 +133,8 @@
     }
 
     input[type="number"],
-    input[type="text"] {
+    input[type="text"],
+    select {
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 7px 9px;
@@ -205,19 +253,24 @@
 
     .grid {
       display: grid;
-      gap: 10px;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--grid-gap, 6px);
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      grid-auto-rows: 1fr;
     }
 
     .timer-card {
       background: var(--card);
       border: 2px solid var(--line);
       border-radius: 12px;
-      padding: 8px;
+      padding: var(--card-pad, 4px);
       display: grid;
-      gap: 5px;
+      gap: var(--card-gap, 3px);
       box-shadow: var(--shadow);
-      min-height: 240px;
+      min-height: 0;
+      overflow: hidden;
+      cursor: pointer;
     }
 
     .timer-card .row {
@@ -238,26 +291,27 @@
       margin: 0;
       color: var(--muted);
       font-weight: 700;
-      font-size: 0.56rem;
+      font-size: var(--title-size, 0.48rem);
       opacity: 0.75;
     }
 
     .time {
       margin: 0;
       text-align: center;
-      font-size: clamp(2.6rem, 4.8vw, 4.2rem);
+      font-size: var(--time-size, 1.6rem);
       font-weight: 900;
-      letter-spacing: 2px;
-      line-height: 0.95;
+      letter-spacing: 0.8px;
+      line-height: 1;
       font-family: "Consolas", "Courier New", monospace;
       text-shadow: 0 2px 0 rgba(15, 23, 42, 0.08);
+      white-space: nowrap;
     }
 
     .state {
       margin: 0;
       text-align: center;
       font-weight: 800;
-      font-size: 0.6rem;
+      font-size: var(--state-size, 0.52rem);
       color: var(--muted);
       opacity: 0.85;
     }
@@ -271,33 +325,33 @@
     }
 
     .timer-card input[type="text"] {
-      font-size: 0.67rem;
-      padding: 4px 6px;
+      font-size: var(--input-size, 0.58rem);
+      padding: 2px 4px;
       border-radius: 6px;
     }
 
     .timer-card input[type="number"] {
-      font-size: 0.68rem;
-      padding: 4px 6px;
-      min-width: 54px;
+      font-size: var(--input-size, 0.56rem);
+      padding: 2px 3px;
+      min-width: 36px;
       border-radius: 6px;
     }
 
     .timer-card .control-row button {
-      font-size: 0.66rem;
-      padding: 4px 6px;
-      min-width: 38px;
+      font-size: var(--btn-small-size, 0.54rem);
+      padding: 2px 4px;
+      min-width: 30px;
     }
 
     .timer-card .action-row .start-btn {
-      font-size: 1.02rem;
-      padding: 9px 12px;
+      font-size: var(--start-size, 0.78rem);
+      padding: 3px 6px;
       flex: 2;
     }
 
     .timer-card .action-row button:not(.start-btn) {
-      font-size: 0.58rem;
-      padding: 4px 6px;
+      font-size: var(--btn-small-size, 0.5rem);
+      padding: 2px 3px;
       flex: 1;
     }
 
@@ -334,24 +388,10 @@
       margin: 0 0 10px;
     }
 
-    @media (max-width: 1220px) {
-      .grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 980px) {
-      .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
     @media (max-width: 640px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-      .timer-card {
-        min-height: 210px;
+      .ticker-clock {
+        width: 100%;
+        min-width: 0;
       }
       button {
         flex: 1;
@@ -361,16 +401,25 @@
         height: 56px;
         flex: 0 0 auto;
       }
-      .timer-card .action-row .start-btn {
-        font-size: 0.95rem;
-      }
+    }
+
+    #timerGrid {
+      flex: 1 1 auto;
+      min-height: 0;
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>실험 시트 타이머</h1>
-    <p class="sub">한 시트 = 10개 고정. 시트 추가 버튼은 새 시트 10개를 만듭니다.</p>
+    <div class="top-header">
+      <div class="title-wrap">
+        <h1>실험 시트 타이머</h1>
+        <p class="sub">기본 10개로 시작하며, 10/20/30/40 선택값은 새 시트 추가 시 적용됩니다. 화면은 스크롤 없이 자동 맞춤됩니다.</p>
+      </div>
+      <div class="ticker-clock" aria-live="polite">
+        <div id="tickerDateTime" class="ticker-line">0000-00-00 00:00:00</div>
+      </div>
+    </div>
 
     <section class="panel">
       <div class="controls">
@@ -398,10 +447,20 @@
         <div class="field">
           <label>시트 관리</label>
           <div class="row">
+            <select id="timerCountSelect" aria-label="시트당 타이머 수">
+              <option value="10" selected>10개</option>
+              <option value="20">20개</option>
+              <option value="30">30개</option>
+              <option value="40">40개</option>
+            </select>
+            <button id="applyTimerCount" class="secondary">추가 시 개수 적용</button>
+          </div>
+          <div class="row">
             <button id="prevSheet" class="secondary">이전 시트</button>
             <button id="nextSheet" class="secondary">다음 시트</button>
-            <button id="addSheet">+10 (새 시트 추가)</button>
+            <button id="addSheet">새 시트 추가(10개)</button>
             <button id="deleteSheet" class="danger">현재 시트 보관</button>
+            <button id="deleteAllExceptFirst" class="danger">고정 시트 제외 전체 삭제</button>
             <button id="undoArchive" class="secondary">최근 보관 복구 (Undo)</button>
           </div>
         </div>
@@ -434,16 +493,22 @@
 
   <script>
     const STORAGE_KEY = "experiment_sheet_timer_v2";
-    const SETS_PER_SHEET = 10;
+    const TIMER_COUNT_OPTIONS = [10, 20, 30, 40];
+    const DEFAULT_TIMERS_PER_SHEET = 10;
     const DEFAULT_SEC = 600;
 
     const timerGrid = document.getElementById("timerGrid");
     const sheetTabs = document.getElementById("sheetTabs");
     const sheetMeta = document.getElementById("sheetMeta");
     const statusEl = document.getElementById("status");
+    const tickerDateTimeEl = document.getElementById("tickerDateTime");
 
     const bulkMinEl = document.getElementById("bulkMin");
     const bulkSecEl = document.getElementById("bulkSec");
+    const timerCountSelectEl = document.getElementById("timerCountSelect");
+    const applyTimerCountBtn = document.getElementById("applyTimerCount");
+    const addSheetBtn = document.getElementById("addSheet");
+    const deleteAllExceptFirstBtn = document.getElementById("deleteAllExceptFirst");
 
     const alarmModal = document.getElementById("alarmModal");
     const alarmMessage = document.getElementById("alarmMessage");
@@ -453,6 +518,7 @@
       nextTimerId: 1,
       nextSheetId: 1,
       activeSheetIndex: 0,
+      timersPerSheet: DEFAULT_TIMERS_PER_SHEET,
       sheets: [],
       archivedSheets: []
     };
@@ -460,6 +526,9 @@
     let ticker = null;
     let alarmQueue = [];
     let alarmOpen = false;
+    let cardClickTimeout = null;
+    let sheetTabClickTimeout = null;
+    let headerClockTicker = null;
 
     function safeInt(value, min = 0, max = Number.MAX_SAFE_INTEGER) {
       const n = Number.parseInt(value, 10);
@@ -467,8 +536,44 @@
       return Math.min(max, Math.max(min, n));
     }
 
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function normalizeTimerCount(value) {
+      const parsed = safeInt(value, DEFAULT_TIMERS_PER_SHEET, 999);
+      return TIMER_COUNT_OPTIONS.includes(parsed) ? parsed : DEFAULT_TIMERS_PER_SHEET;
+    }
+
     function nowMs() {
       return Date.now();
+    }
+
+    function getIsoWeekNumber(date) {
+      const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+      const dayNum = utcDate.getUTCDay() || 7;
+      utcDate.setUTCDate(utcDate.getUTCDate() + 4 - dayNum);
+      const yearStart = new Date(Date.UTC(utcDate.getUTCFullYear(), 0, 1));
+      return Math.ceil((((utcDate - yearStart) / 86400000) + 1) / 7);
+    }
+
+    function updateHeaderClock() {
+      if (!tickerDateTimeEl) return;
+      const now = new Date();
+      const datePart = now.toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        weekday: "short"
+      });
+      const timePart = now.toLocaleTimeString("ko-KR", {
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+      const weekNo = String(getIsoWeekNumber(now)).padStart(2, "0");
+      tickerDateTimeEl.textContent = datePart + "  " + timePart + "  작업주 W" + weekNo;
     }
 
     function formatTime(sec) {
@@ -501,10 +606,10 @@
       };
     }
 
-    function createSheet(durationSec = DEFAULT_SEC) {
+    function createSheet(durationSec = DEFAULT_SEC, timerCount = state.timersPerSheet) {
       const sheetId = state.nextSheetId++;
       const timers = [];
-      for (let i = 0; i < SETS_PER_SHEET; i++) {
+      for (let i = 0; i < timerCount; i++) {
         timers.push(createTimer(durationSec, i));
       }
       return {
@@ -628,6 +733,79 @@
       }).join("");
     }
 
+    function syncTopControls() {
+      timerCountSelectEl.value = String(state.timersPerSheet);
+      addSheetBtn.textContent = "새 시트 추가(" + state.timersPerSheet + "개)";
+    }
+
+    function chooseGridLayout(itemCount, widthPx, heightPx) {
+      let best = {
+        cols: 1,
+        rows: itemCount,
+        cellWidth: widthPx,
+        cellHeight: heightPx / Math.max(1, itemCount),
+        score: -Infinity
+      };
+      const gap = 6;
+      for (let cols = 1; cols <= itemCount; cols++) {
+        const rows = Math.ceil(itemCount / cols);
+        const cellWidth = (widthPx - (gap * (cols - 1))) / cols;
+        const cellHeight = (heightPx - (gap * (rows - 1))) / rows;
+        if (cellWidth <= 20 || cellHeight <= 20) continue;
+        const shapePenalty = Math.abs((cellWidth / cellHeight) - 1.2) * 0.08;
+        const score = Math.min(cellWidth / 150, cellHeight / 120) - shapePenalty;
+        if (score > best.score) {
+          best = { cols, rows, cellWidth, cellHeight, score };
+        }
+      }
+      return best;
+    }
+
+    function applyGridLayout() {
+      if (!timerGrid) return;
+      const activeSheet = getActiveSheet();
+      const itemCount = Math.max(1, activeSheet ? activeSheet.timers.length : state.timersPerSheet);
+      const width = timerGrid.clientWidth;
+      const height = timerGrid.clientHeight;
+      if (width < 100 || height < 100) return;
+
+      const layout = chooseGridLayout(itemCount, width, height);
+      timerGrid.style.gridTemplateColumns = "repeat(" + layout.cols + ", minmax(0, 1fr))";
+      timerGrid.style.gridTemplateRows = "repeat(" + layout.rows + ", minmax(0, 1fr))";
+
+      const gapPx = clamp(Math.floor(layout.cellHeight * 0.055), 2, 8);
+      const timePx = clamp(Math.floor(layout.cellHeight * 0.36), 12, 40);
+      const titlePx = clamp(Math.floor(layout.cellHeight * 0.09), 7, 12);
+      const statePx = clamp(Math.floor(layout.cellHeight * 0.1), 7, 13);
+      const inputPx = clamp(Math.floor(layout.cellHeight * 0.11), 7, 13);
+      const startPx = clamp(Math.floor(layout.cellHeight * 0.14), 8, 16);
+      const btnSmallPx = clamp(Math.floor(layout.cellHeight * 0.1), 7, 12);
+      const cardPadPx = clamp(Math.floor(layout.cellHeight * 0.05), 2, 8);
+
+      timerGrid.style.setProperty("--grid-gap", gapPx + "px");
+      timerGrid.style.setProperty("--card-pad", cardPadPx + "px");
+      timerGrid.style.setProperty("--card-gap", clamp(Math.floor(gapPx / 2), 2, 6) + "px");
+      timerGrid.style.setProperty("--time-size", timePx + "px");
+      timerGrid.style.setProperty("--title-size", titlePx + "px");
+      timerGrid.style.setProperty("--state-size", statePx + "px");
+      timerGrid.style.setProperty("--input-size", inputPx + "px");
+      timerGrid.style.setProperty("--start-size", startPx + "px");
+      timerGrid.style.setProperty("--btn-small-size", btnSmallPx + "px");
+    }
+
+    function applyTimersPerSheetChange(newCountRaw, notify = true) {
+      const newCount = normalizeTimerCount(newCountRaw);
+      if (newCount === state.timersPerSheet) {
+        if (notify) setStatus("이미 새 시트 개수가 " + newCount + "개로 설정되어 있습니다");
+        return;
+      }
+
+      state.timersPerSheet = newCount;
+      syncTopControls();
+      saveState(notify);
+      if (notify) setStatus("다음에 추가하는 시트부터 " + newCount + "개로 생성됩니다");
+    }
+
     function renderActiveSheet() {
       const sheet = getActiveSheet();
       if (!sheet) return;
@@ -636,16 +814,21 @@
       if (deleteBtn) {
         deleteBtn.disabled = state.sheets.length <= 1;
       }
+      if (deleteAllExceptFirstBtn) {
+        deleteAllExceptFirstBtn.disabled = state.sheets.length <= 1;
+      }
       if (undoBtn) {
         undoBtn.disabled = state.archivedSheets.length === 0;
       }
-      sheetMeta.textContent = "현재: " + sheet.name + " | 총 시트 " + state.sheets.length + "개 | 총 타이머 " + (state.sheets.length * SETS_PER_SHEET) + "개 | 보관 " + state.archivedSheets.length + "개";
+      syncTopControls();
+      const totalTimers = state.sheets.reduce((sum, s) => sum + s.timers.length, 0);
+      sheetMeta.textContent = "현재: " + sheet.name + " | 현재 시트 타이머 " + sheet.timers.length + "개 | 총 시트 " + state.sheets.length + "개 | 총 타이머 " + totalTimers + "개 | 보관 " + state.archivedSheets.length + "개";
       timerGrid.innerHTML = sheet.timers.map((t, i) => {
         const stateClass = t.running ? "running" : (t.completed ? "done" : "");
         const stateText = t.running ? "진행 중" : (t.completed ? "완료" : "대기");
         return `
           <article class="timer-card ${stateClass}" data-id="${t.id}">
-            <p class="title">${sheet.name} · ${i + 1}/${SETS_PER_SHEET}</p>
+            <p class="title">${sheet.name} · ${i + 1}/${sheet.timers.length}</p>
             <input type="text" value="${escapeHtml(t.label)}" maxlength="24" data-action="label" aria-label="세트 이름">
             <p class="time" data-role="time">${formatTime(t.remainingSec)}</p>
             <p class="state ${stateClass}" data-role="state">${stateText}</p>
@@ -663,6 +846,7 @@
         `;
       }).join("");
       renderSheetTabs();
+      applyGridLayout();
     }
 
     function refreshVisibleCards() {
@@ -721,6 +905,7 @@
         nextTimerId: state.nextTimerId,
         nextSheetId: state.nextSheetId,
         activeSheetIndex: state.activeSheetIndex,
+        timersPerSheet: state.timersPerSheet,
         sheets,
         archivedSheets
       };
@@ -741,10 +926,19 @@
         state.nextTimerId = safeInt(parsed.nextTimerId, 1);
         state.nextSheetId = safeInt(parsed.nextSheetId, 1);
         state.activeSheetIndex = safeInt(parsed.activeSheetIndex, 0);
+        state.timersPerSheet = normalizeTimerCount(parsed.timersPerSheet);
 
         state.sheets = parsed.sheets.map((sheet, sheetIdx) => {
-          const timers = Array.isArray(sheet.timers) ? sheet.timers.slice(0, SETS_PER_SHEET) : [];
-          while (timers.length < SETS_PER_SHEET) {
+          const rawTimers = Array.isArray(sheet.timers) && sheet.timers.length > 0
+            ? sheet.timers
+            : Array.from({ length: state.timersPerSheet }, () => ({
+                durationSec: DEFAULT_SEC,
+                remainingSec: DEFAULT_SEC,
+                running: false,
+                completed: false
+              }));
+          const timers = rawTimers.slice(0, 40);
+          while (timers.length < 1) {
             timers.push({
               id: state.nextTimerId++,
               label: "세트 " + (timers.length + 1),
@@ -778,8 +972,16 @@
         const parsedArchived = Array.isArray(parsed.archivedSheets) ? parsed.archivedSheets : [];
         state.archivedSheets = parsedArchived.map((entry, archiveIdx) => {
           const sourceSheet = entry && entry.sheet ? entry.sheet : entry;
-          const timers = Array.isArray(sourceSheet && sourceSheet.timers) ? sourceSheet.timers.slice(0, SETS_PER_SHEET) : [];
-          while (timers.length < SETS_PER_SHEET) {
+          const rawTimers = Array.isArray(sourceSheet && sourceSheet.timers) && sourceSheet.timers.length > 0
+            ? sourceSheet.timers
+            : Array.from({ length: state.timersPerSheet }, () => ({
+                durationSec: DEFAULT_SEC,
+                remainingSec: DEFAULT_SEC,
+                running: false,
+                completed: false
+              }));
+          const timers = rawTimers.slice(0, 40);
+          while (timers.length < 1) {
             timers.push({
               id: state.nextTimerId++,
               label: "세트 " + (timers.length + 1),
@@ -837,12 +1039,13 @@
         nextTimerId: 1,
         nextSheetId: 1,
         activeSheetIndex: 0,
+        timersPerSheet: normalizeTimerCount(timerCountSelectEl.value),
         sheets: [createSheet(DEFAULT_SEC)],
         archivedSheets: []
       };
       renderActiveSheet();
       saveState();
-      setStatus("기본 1시트(10개) 생성");
+      setStatus("기본 1시트(" + state.timersPerSheet + "개) 생성");
     }
 
     function addSheet() {
@@ -852,7 +1055,7 @@
       state.activeSheetIndex = state.sheets.length - 1;
       renderActiveSheet();
       saveState(true);
-      setStatus("새 시트 10개 추가 완료");
+      setStatus("새 시트 " + state.timersPerSheet + "개 추가 완료");
     }
 
     function freezeSheetForArchive(sheet) {
@@ -876,32 +1079,93 @@
       };
     }
 
-    function deleteActiveSheet() {
+    function archiveSheetByIndex(index, askConfirm = false) {
       if (state.sheets.length <= 1) {
         setStatus("최소 1개 시트는 유지됩니다");
-        return;
+        return false;
       }
-      const current = getActiveSheet();
-      if (!current) return;
 
-      const ok = window.confirm(current.name + "를 보관하시겠습니까? (Undo로 복구 가능)");
-      if (!ok) return;
+      const targetIndex = clamp(index, 0, state.sheets.length - 1);
+      const targetSheet = state.sheets[targetIndex];
+      if (!targetSheet) return false;
 
-      const removedIndex = state.activeSheetIndex;
-      const [removedSheet] = state.sheets.splice(removedIndex, 1);
+      if (askConfirm) {
+        let ok = true;
+        try {
+          ok = window.confirm(targetSheet.name + "를 보관하시겠습니까? (Undo로 복구 가능)");
+        } catch (e) {
+          ok = true;
+        }
+        if (!ok) return false;
+      }
+
+      const [removedSheet] = state.sheets.splice(targetIndex, 1);
       const archivedEntry = {
         archivedAt: nowMs(),
-        originalIndex: removedIndex,
+        originalIndex: targetIndex,
         sheet: freezeSheetForArchive(removedSheet)
       };
       state.archivedSheets.unshift(archivedEntry);
-      if (state.activeSheetIndex >= state.sheets.length) {
-        state.activeSheetIndex = state.sheets.length - 1;
+
+      if (targetIndex < state.activeSheetIndex) {
+        state.activeSheetIndex -= 1;
+      } else if (targetIndex === state.activeSheetIndex) {
+        state.activeSheetIndex = Math.min(targetIndex, state.sheets.length - 1);
       }
+
       renderActiveSheet();
       saveState(true);
-      setStatus(current.name + " 보관 완료 (Undo 가능)");
+      setStatus(targetSheet.name + " 삭제 완료 (Undo 가능)");
       stopTickerIfIdle();
+      return true;
+    }
+
+    function deleteActiveSheet() {
+      archiveSheetByIndex(state.activeSheetIndex, true);
+    }
+
+    function archiveAllExceptFirstSheet() {
+      if (state.sheets.length <= 1) {
+        setStatus("삭제할 시트가 없습니다");
+        return false;
+      }
+
+      const preferredIndex = state.sheets.findIndex((sheet) => sheet.id === 1);
+      const keepIndex = preferredIndex >= 0 ? preferredIndex : 0;
+      const keepSheet = state.sheets[keepIndex];
+      if (!keepSheet) return false;
+
+      const removeCount = state.sheets.length - 1;
+      let ok = true;
+      try {
+        ok = window.confirm("시트 1번을 제외한 " + removeCount + "개 시트를 삭제하시겠습니까? (Undo로 복구 가능)");
+      } catch (e) {
+        ok = true;
+      }
+      if (!ok) return false;
+
+      const archiveEntries = [];
+      for (let idx = 0; idx < state.sheets.length; idx++) {
+        if (idx === keepIndex) continue;
+        const sheet = state.sheets[idx];
+        archiveEntries.push({
+          archivedAt: nowMs(),
+          originalIndex: idx,
+          sheet: freezeSheetForArchive(sheet)
+        });
+      }
+
+      for (let i = archiveEntries.length - 1; i >= 0; i--) {
+        state.archivedSheets.unshift(archiveEntries[i]);
+      }
+
+      state.sheets = [keepSheet];
+      state.activeSheetIndex = 0;
+      renderActiveSheet();
+      saveState(true);
+      setStatus("시트 1번 유지, 나머지 " + removeCount + "개 삭제 완료 (Undo 가능)");
+      stopTickerIfIdle();
+      return true;
     }
 
     function undoArchive() {
@@ -1008,7 +1272,10 @@
 
     document.getElementById("addSheet").addEventListener("click", addSheet);
     document.getElementById("deleteSheet").addEventListener("click", deleteActiveSheet);
+    document.getElementById("deleteAllExceptFirst").addEventListener("click", archiveAllExceptFirstSheet);
     document.getElementById("undoArchive").addEventListener("click", undoArchive);
+    applyTimerCountBtn.addEventListener("click", () => applyTimersPerSheetChange(timerCountSelectEl.value));
+    timerCountSelectEl.addEventListener("change", () => applyTimersPerSheetChange(timerCountSelectEl.value, false));
 
     document.getElementById("prevSheet").addEventListener("click", () => {
       if (state.sheets.length === 0) return;
@@ -1030,21 +1297,78 @@
       const btn = event.target.closest("button[data-sheet-index]");
       if (!btn) return;
       const idx = safeInt(btn.dataset.sheetIndex, 0, state.sheets.length - 1);
-      state.activeSheetIndex = idx;
-      renderActiveSheet();
-      saveState();
-      setStatus("시트 전환 완료");
+      if (sheetTabClickTimeout) {
+        clearTimeout(sheetTabClickTimeout);
+        sheetTabClickTimeout = null;
+      }
+      sheetTabClickTimeout = setTimeout(() => {
+        sheetTabClickTimeout = null;
+        state.activeSheetIndex = idx;
+        renderActiveSheet();
+        saveState();
+        setStatus("시트 전환 완료");
+      }, 180);
+    });
+
+    sheetTabs.addEventListener("dblclick", (event) => {
+      if (sheetTabClickTimeout) {
+        clearTimeout(sheetTabClickTimeout);
+        sheetTabClickTimeout = null;
+      }
+      const btn = event.target.closest("button[data-sheet-index]");
+      if (!btn) return;
+      const idx = safeInt(btn.dataset.sheetIndex, 0, state.sheets.length - 1);
+      archiveSheetByIndex(idx, false);
     });
 
     timerGrid.addEventListener("click", (event) => {
-      const button = event.target.closest("button[data-action]");
-      if (!button) return;
-      const card = button.closest(".timer-card");
+      const card = event.target.closest(".timer-card");
       if (!card) return;
       const id = safeInt(card.dataset.id, -1);
       const timer = findTimerById(id);
       const sheet = getActiveSheet();
       if (!timer || !sheet) return;
+      const button = event.target.closest("button[data-action]");
+
+      if (!button) {
+        const interactive = event.target.closest("input, button, select, label");
+        if (interactive) return;
+
+        if (cardClickTimeout) {
+          clearTimeout(cardClickTimeout);
+          cardClickTimeout = null;
+        }
+
+        if (event.detail >= 2) {
+          event.preventDefault();
+          resetTimer(timer);
+          refreshVisibleCards();
+          saveState(true);
+          stopTickerIfIdle();
+          setStatus(sheet.name + " / " + timer.label + " 초기화");
+          return;
+        }
+
+        cardClickTimeout = setTimeout(() => {
+          cardClickTimeout = null;
+          const currentSheet = getActiveSheet();
+          const currentTimer = findTimerById(id);
+          if (!currentSheet || !currentTimer) return;
+
+          if (currentTimer.running) {
+            pauseTimer(currentTimer);
+            setStatus(currentSheet.name + " / " + currentTimer.label + " 정지");
+          } else {
+            startTimer(currentTimer, currentSheet.name);
+            setStatus(currentSheet.name + " / " + currentTimer.label + " 시작");
+          }
+          refreshVisibleCards();
+          saveState(true);
+          stopTickerIfIdle();
+        }, 220);
+        return;
+      }
+
       const action = button.dataset.action;
 
       if (action === "start") startTimer(timer, sheet.name);
@@ -1097,10 +1421,20 @@
       Notification.requestPermission().catch(() => {});
     }
 
+    updateHeaderClock();
+    if (!headerClockTicker) {
+      headerClockTicker = setInterval(updateHeaderClock, 1000);
+    }
+
+    window.addEventListener("resize", () => {
+      applyGridLayout();
+    });
+
     if (!loadState()) {
       initDefault();
     } else {
       setStatus("저장 상태 자동 복원");
+      applyGridLayout();
     }
   </script>
 </body>
