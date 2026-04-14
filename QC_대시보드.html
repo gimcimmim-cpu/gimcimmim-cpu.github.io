@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QC 합격율 분석 대시보드 — 바디텍메드 Cancer팀</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'맑은 고딕','Malgun Gothic',sans-serif;background:#0f1623;color:#e2e8f0;min-height:100vh}
+:root{--navy:#1a2a4a;--blue:#2563eb;--green:#16a34a;--teal:#0891b2;--amber:#d97706;--red:#dc2626;--purple:#7c3aed;--card:#1e2d47;--border:#2d4163;--muted:#94a3b8}
+.header{background:linear-gradient(135deg,#0f1623 0%,#1a2a4a 60%,#0f2340 100%);padding:22px 32px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.header h1{font-size:22px;font-weight:800;color:#fff}.header h1 span{color:#60a5fa}
+.header .meta{font-size:11px;color:var(--muted);text-align:right;line-height:1.9}
+.main{padding:24px 32px;max-width:1600px;margin:0 auto}
+.sec{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin:26px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0}
+.kpi.blue::before{background:#2563eb}.kpi.green::before{background:#16a34a}
+.kpi.teal::before{background:#0891b2}.kpi.amber::before{background:#d97706}
+.kpi.purple::before{background:#7c3aed}.kpi.red::before{background:#dc2626}
+.kpi-lbl{font-size:10px;color:var(--muted);margin-bottom:5px;font-weight:600}
+.kpi-val{font-size:26px;font-weight:800;color:#fff}
+.kpi-val.g{color:#4ade80}.kpi-val.w{color:#fbbf24}.kpi-val.b{color:#f87171}
+.kpi-sub{font-size:10px;color:var(--muted);margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:2fr 1fr;gap:18px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
+.card-t{font-size:12px;font-weight:700;color:#cbd5e1;margin-bottom:14px}
+canvas{max-height:300px}
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:6px 16px;border-radius:8px;border:1px solid var(--border);background:var(--navy);color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;transition:all .2s}
+.tab:hover,.tab.on{background:#2563eb;color:#fff;border-color:#2563eb}
+.tab.on.g{background:#16a34a;border-color:#16a34a}
+.tab.on.r{background:#dc2626;border-color:#dc2626}
+.tbl-wrap{max-height:380px;overflow-y:auto;border-radius:8px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:#0f1e38;color:var(--muted);padding:7px 9px;text-align:center;font-weight:600;font-size:10px;border-bottom:2px solid var(--border);position:sticky;top:0;z-index:1}
+td{padding:6px 9px;border-bottom:1px solid var(--border);text-align:center;color:#e2e8f0}
+tr:hover td{background:#1a2d47}
+.bar-wrap{display:flex;align-items:center;gap:6px}
+.bar{height:5px;background:#1d3a5f;border-radius:3px;flex:1;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px}
+.inst-row{display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-bottom:1px solid var(--border)}
+.inst-nm{font-size:11px;font-weight:700;width:68px;color:#93c5fd;padding-top:3px}
+.inst-bars{flex:1;display:grid;gap:3px}
+.ibar{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted)}
+.ibar .lbl{width:42px;text-align:right}.ibar .mb{flex:1;height:11px;background:#0f1e38;border-radius:2px;overflow:hidden}
+.ibar .mbf{height:100%;border-radius:2px}.ibar .pct{width:34px;font-weight:700;font-size:10px}
+.footer{text-align:center;padding:20px;font-size:11px;color:var(--muted);border-top:1px solid var(--border);margin-top:28px}
+@media(max-width:800px){.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>🧬 QC 합격율 분석 <span>대시보드</span></h1>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px">바디텍메드 Cancer팀 · 체외진단용 카트리지 QC 성능 분석</div>
+  </div>
+  <div class="meta">정제 완료 데이터 기준 (208건)<br>파일사용금지·보류·재작업·성상 제외 + 중복 제거<br>분석 기간: 2023.03 ~ 2026.04</div>
+</div>
+<div class="main">
+
+<div class="sec">📌 핵심 지표</div>
+<div class="kpi-grid" id="kpiGrid"></div>
+
+<div class="sec" style="margin-top:22px">📊 CV 기준별 합격율 비교</div>
+<div class="tabs" id="tabs">
+  <button class="tab on" onclick="setSc('orig',this)">기존 기준</button>
+  <button class="tab" onclick="setSc('r7',this)">CV ≤ 7%</button>
+  <button class="tab" onclick="setSc('r12',this)">CV ≤ 12%</button>
+</div>
+<div class="grid2">
+  <div class="card">
+    <div class="card-t">📊 아이템별 합격율 — <span id="scLbl" style="color:#4ade80">CV ≤ 9.5%</span></div>
+    <canvas id="itemBar" style="max-height:340px"></canvas>
+  </div>
+  <div class="card" style="border:2px solid #16a34a">
+    <div class="card-t" style="color:#4ade80">🎯 CV ≤ 9.5% 별도 분석 결과</div>
+    <div id="cv95Result"></div>
+  </div>
+</div>
+
+<div class="grid2" style="margin-top:18px">
+  <div class="card">
+    <div class="card-t">📅 연도별 합격율 추이</div>
+    <canvas id="yearChart"></canvas>
+  </div>
+  <div class="card">
+    <div class="card-t">📈 Max CV 분포 히스토그램 <span style="color:var(--muted);font-weight:400;font-size:10px">| 녹색=9% 이하, 노란색=9~10%, 빨간색=10% 초과</span></div>
+    <canvas id="histChart"></canvas>
+  </div>
+</div>
+
+<div class="sec" style="margin-top:22px">🔬 아이템별 상세 합격율</div>
+<div class="tbl-wrap">
+<table id="itemTbl">
+  <thead><tr>
+    <th style="text-align:left;min-width:130px">아이템</th>
+    <th>플랫폼</th><th>N</th><th>CV한계</th><th>중앙CV</th>
+    <th>기존기준</th><th>CV≤7%</th><th>CV≤12%</th>
+  </tr></thead>
+  <tbody id="itemTblBody"></tbody>
+</table>
+</div>
+
+<div class="grid3" style="margin-top:18px">
+  <div class="card">
+    <div class="card-t">🔩 AFIAS 장비 4종 합격율</div>
+    <div id="instBars"></div>
+  </div>
+  <div class="card">
+    <div class="card-t">⚖️ 플랫폼별 비교</div>
+    <canvas id="platChart" style="max-height:200px"></canvas>
+    <div id="platStats" style="margin-top:12px"></div>
+  </div>
+</div>
+
+<div class="sec" style="margin-top:22px">🔵 Max CV vs Bias 산점도</div>
+<div class="card">
+  <div class="card-t">📍 파일별 CV-Bias 분포 · 마우스 오버 시 상세 정보 표시 · 점선 = CV 기준선</div>
+  <canvas id="scatterChart" style="max-height:380px"></canvas>
+</div>
+
+</div>
+<div class="footer">바디텍메드 Cancer팀 QC 분석 대시보드 · 정제 후 208건 · 2026</div>
+
+<script>
+const D = {"kpi": {"total": 208, "afias": 71, "ichroma": 137, "orig": 92.3, "r12": 94.7, "r9_5": 88.0, "r9_0": 82.2, "r7": 53.8, "max_possible": 97.6, "med_cv": 6.79, "items": 18}, "items": [{"platform": "AFIAS", "item": "AFP", "n": 5, "cv_limit": 10.0, "med_cv": 6.0, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 80.0}, {"platform": "AFIAS", "item": "CA125", "n": 9, "cv_limit": 10.0, "med_cv": 7.0, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 55.6}, {"platform": "AFIAS", "item": "CA19-9", "n": 11, "cv_limit": 10.0, "med_cv": 6.3, "orig": 100.0, "r12": 100.0, "r9_5": 72.7, "r9_0": 72.7, "r7": 63.6}, {"platform": "AFIAS", "item": "CEA", "n": 8, "cv_limit": 10.0, "med_cv": 8.75, "orig": 75.0, "r12": 75.0, "r9_5": 75.0, "r9_0": 62.5, "r7": 12.5}, {"platform": "AFIAS", "item": "Calprotectin", "n": 5, "cv_limit": 15.0, "med_cv": 11.5, "orig": 100.0, "r12": 80.0, "r9_5": 40.0, "r9_0": 40.0, "r7": 40.0}, {"platform": "AFIAS", "item": "Cyfra21-1", "n": 10, "cv_limit": 10.0, "med_cv": 6.75, "orig": 70.0, "r12": 70.0, "r9_5": 60.0, "r9_0": 50.0, "r7": 40.0}, {"platform": "AFIAS", "item": "Free PSA", "n": 3, "cv_limit": 10.0, "med_cv": 9.3, "orig": 100.0, "r12": 100.0, "r9_5": 66.7, "r9_0": 33.3, "r7": 33.3}, {"platform": "AFIAS", "item": "H.pylori SA", "n": 7, "cv_limit": 15.0, "med_cv": 6.7, "orig": 100.0, "r12": 85.7, "r9_5": 71.4, "r9_0": 71.4, "r7": 57.1}, {"platform": "AFIAS", "item": "PSA", "n": 2, "cv_limit": 10.0, "med_cv": 5.01, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 100.0}, {"platform": "AFIAS", "item": "PSA Neo", "n": 8, "cv_limit": 10.0, "med_cv": 9.47, "orig": 100.0, "r12": 100.0, "r9_5": 50.0, "r9_0": 37.5, "r7": 0.0}, {"platform": "AFIAS", "item": "iFOB Neo", "n": 3, "cv_limit": 10.0, "med_cv": 7.2, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 33.3}, {"platform": "ichroma", "item": "AFP", "n": 9, "cv_limit": 10.0, "med_cv": 6.59, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 77.8}, {"platform": "ichroma", "item": "AFP Neo", "n": 9, "cv_limit": 10.0, "med_cv": 5.51, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 88.9}, {"platform": "ichroma", "item": "CA125", "n": 5, "cv_limit": 10.0, "med_cv": 5.75, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 60.0}, {"platform": "ichroma", "item": "CA19-9", "n": 8, "cv_limit": 10.0, "med_cv": 7.14, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 37.5}, {"platform": "ichroma", "item": "CEA", "n": 11, "cv_limit": 10.0, "med_cv": 5.4, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 90.9, "r7": 54.5}, {"platform": "ichroma", "item": "CEA Neo", "n": 8, "cv_limit": 10.0, "med_cv": 8.38, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 75.0, "r7": 0.0}, {"platform": "ichroma", "item": "Calprotectin", "n": 16, "cv_limit": 10.0, "med_cv": 6.8, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 81.2, "r7": 50.0}, {"platform": "ichroma", "item": "Cyfra21-1", "n": 6, "cv_limit": 10.0, "med_cv": 6.25, "orig": 83.3, "r12": 83.3, "r9_5": 83.3, "r9_0": 83.3, "r7": 66.7}, {"platform": "ichroma", "item": "Ferritin", "n": 19, "cv_limit": 7.0, "med_cv": 5.28, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 94.7}, {"platform": "ichroma", "item": "Free PSA", "n": 2, "cv_limit": 10.0, "med_cv": 6.33, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 100.0}, {"platform": "ichroma", "item": "H. pylori SA", "n": 10, "cv_limit": 10.0, "med_cv": 8.55, "orig": 0.0, "r12": 70.0, "r9_5": 60.0, "r9_0": 60.0, "r7": 20.0}, {"platform": "ichroma", "item": "PSA", "n": 5, "cv_limit": 10.0, "med_cv": 6.59, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 80.0}, {"platform": "ichroma", "item": "PSA Neo", "n": 7, "cv_limit": 10.0, "med_cv": 7.91, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 85.7, "r7": 28.6}, {"platform": "ichroma", "item": "QDx AFP", "n": 1, "cv_limit": 10.0, "med_cv": 9.22, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 0.0, "r7": 0.0}, {"platform": "ichroma", "item": "QDx Calprotectin", "n": 3, "cv_limit": 10.0, "med_cv": 6.83, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 66.7}, {"platform": "ichroma", "item": "QDx Ferritin", "n": 1, "cv_limit": 10.0, "med_cv": 5.79, "orig": 100.0, "r12": 100.0, "r9_5": 100.0, "r9_0": 100.0, "r7": 100.0}, {"platform": "ichroma", "item": "iFOB Neo", "n": 17, "cv_limit": 10.0, "med_cv": 6.34, "orig": 100.0, "r12": 100.0, "r9_5": 94.1, "r9_0": 94.1, "r7": 64.7}], "years": [{"year": 2023, "n": 3, "orig": 100.0, "r12": 100.0, "r9_5": 66.7, "r9_0": 66.7, "r7": 66.7}, {"year": 2024, "n": 15, "orig": 80.0, "r12": 80.0, "r9_5": 66.7, "r9_0": 66.7, "r7": 40.0}, {"year": 2025, "n": 104, "orig": 98.1, "r12": 97.1, "r9_5": 93.3, "r9_0": 85.6, "r7": 51.9}, {"year": 2026, "n": 86, "orig": 87.2, "r12": 94.2, "r9_5": 86.0, "r9_0": 81.4, "r7": 58.1}], "cv_hist": [{"bin": "0~1", "count": 0}, {"bin": "1~2", "count": 0}, {"bin": "2~3", "count": 2}, {"bin": "3~4", "count": 8}, {"bin": "4~5", "count": 19}, {"bin": "5~6", "count": 40}, {"bin": "6~7", "count": 43}, {"bin": "7~8", "count": 31}, {"bin": "8~9", "count": 32}, {"bin": "9~10", "count": 22}, {"bin": "10~11", "count": 3}, {"bin": "11~12", "count": 1}, {"bin": "12~13", "count": 5}, {"bin": "13~14", "count": 1}, {"bin": "14~15", "count": 1}, {"bin": "15~16", "count": 0}], "platforms": {"AFIAS": {"n": 71, "orig": 93.0, "r9_5": 73.2, "r9_0": 67.6}, "ichroma": {"n": 137, "orig": 92.0, "r9_5": 95.6, "r9_0": 89.8}}, "instruments": {"AFIAS6": {"n": 71, "orig": 97.2, "r9_5": 78.9, "r9_0": 73.2, "r7": 50.7}, "AFIAS1": {"n": 65, "orig": 78.5, "r9_5": 70.8, "r9_0": 61.5, "r7": 40.0}, "AFIAS3": {"n": 65, "orig": 66.2, "r9_5": 50.8, "r9_0": 44.6, "r7": 29.2}, "AFIAS10": {"n": 67, "orig": 64.2, "r9_5": 56.7, "r9_0": 53.7, "r7": 34.3}}, "scatter": [{"item": "Cyfra21-1", "platform": "AFIAS", "cv": 6.0, "bias2": 11.7, "pass": "Pass", "lot": "CYTAA01G", "date": "2023-03-24"}, {"item": "CA19-9", "platform": "AFIAS", "cv": 9.8, "bias2": -10.5, "pass": "Pass", "lot": "CXTGA01G", "date": "2023-07-17"}, {"item": "Cyfra21-1", "platform": "AFIAS", "cv": 6.8, "bias2": 3.3, "pass": "Pass", "lot": "CYTKA02G", "date": "2023-11-28"}, {"item": "CA125", "platform": "AFIAS", "cv": 8.3, "bias2": -1.0, "pass": "Pass", "lot": "C1UAA01G", "date": "2024-01-23"}, {"item": "CA19-9", "platform": "AFIAS", "cv": 7.9, "bias2": -0.8, "pass": "Pass", "lot": "CXUEA02G", "date": "2024-05-24"}, {"item": "CA125", "platform": "AFIAS", "cv": 7.3, "bias2": -4.7, "pass": "Pass", "lot": "C1UFA02G", "date": "2024-07-11"}, {"item": "Cyfra21-1", "platform": "AFIAS", "cv": 5.5, "bias2": -43.5, "pass": "Fail", "lot": "CYUYA03G", "date": "2024-11-21"}, {"item": "Cyfra21-1", "platform": "AFIAS", "cv": 3.6, "bias2": -47.0, "pass": "Fail", "lot": "CYUYA04G", "date": "2024-11-21"}, {"item": "Cyfra21-1", "platform": "AFIAS", "cv": 6.7, "bias2": -48.0, "pass": "Fail", "lot": "CYUYA05G", "date": "2024-11-21"}, {"item": "CA125", "platform": "AFIAS", "cv": 5.9, "bias2": 0.9, "pass": "Pass", "lot": "C1UFA03G", "date": "2024-11-29"}, {"item": "CA125", "platform": "AFIAS", "cv": 6.1, "bias2": -2.3, "pass": "Pass", "lot": "C1UFA04G", "date": "2024-11-29"}, {"item": "Cyfra21-1", "platform": "AFIAS", "cv": 8.4, "bias2": 0.3, "pass": "Pass", "lot": "CYUYA03G", "date": "2024-11-29"}, {"item": "Cyfra21-1", "platform": "AFIAS", "cv": 9.7, "bias2": -2.5, "pass": "Pass", "lot": "CYUYA05G", "date": "2024-11-29"}, {"item": "Cyfra21-1", "platform": "AFIAS", "cv": 7.0, "bias2": -4.1, "pass": "Pass", "lot": "CYUYA04G", "date": "2024-12-02"}, {"item": "CA19-9", "platform": "AFIAS", "cv": 6.3, "bias2": -2.9, "pass": "Pass", "lot": "CXUEA02G", "date": "2024-12-13"}, {"item": "CA19-9", "platform": "AFIAS", "cv": 9.9, "bias2": -11.5, "pass": "Pass", "lot": "CXUEA03G", "date": "2024-12-13"}, {"item": "CA19-9", "platform": "AFIAS", "cv": 5.0, "bias2": -11.3, "pass": "Pass", "lot": "CXUEA03G", "date": "2024-12-13"}, {"item": "CA125", "platform": "AFIAS", "cv": 7.0, "bias2": 2.7, "pass": "Pass", "lot": "C1ULA05G", "date": "2024-12-19"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 9.17, "bias2": 3.2, "pass": "Pass", "lot": "CPULC09Z", "date": "2025-01-02"}, {"item": "QDx AFP", "platform": "ichroma", "cv": 9.22, "bias2": 10.5, "pass": "Pass", "lot": "AFUYA10EXI", "date": "2025-01-15"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 7.5, "bias2": -1.1, "pass": "Pass", "lot": "FOVAD10Z", "date": "2025-01-21"}, {"item": "CEA", "platform": "AFIAS", "cv": 12.3, "bias2": 3.0, "pass": "Fail", "lot": "CEVAA09X", "date": "2025-01-22"}, {"item": "CEA Neo", "platform": "ichroma", "cv": 9.3, "bias2": 4.3, "pass": "Pass", "lot": "CEVAA09EX", "date": "2025-01-31"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 6.14, "bias2": 3.9, "pass": "Pass", "lot": "CPVAC10Z", "date": "2025-02-03"}, {"item": "CA19-9", "platform": "ichroma", "cv": 7.1, "bias2": 11.2, "pass": "Pass", "lot": "CXVAA11EX", "date": "2025-02-10"}, {"item": "CA125", "platform": "ichroma", "cv": 4.59, "bias2": 1.4, "pass": "Pass", "lot": "C1UYA10EX", "date": "2025-02-12"}, {"item": "CA125", "platform": "ichroma", "cv": 5.75, "bias2": 1.2, "pass": "Pass", "lot": "C1UYA09EX", "date": "2025-02-12"}, {"item": "CA19-9", "platform": "AFIAS", "cv": 5.3, "bias2": 3.0, "pass": "Pass", "lot": "CXULA05G", "date": "2025-02-13"}, {"item": "AFP", "platform": "AFIAS", "cv": 6.0, "bias2": -9.7, "pass": "Pass", "lot": "AFVBA23X", "date": "2025-02-14"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 8.03, "bias2": -0.5, "pass": "Pass", "lot": "FOVAD11Z", "date": "2025-02-14"}, {"item": "CEA", "platform": "AFIAS", "cv": 7.4, "bias2": -13.1, "pass": "Pass", "lot": "CEVBA11X", "date": "2025-02-18"}, {"item": "Cyfra21-1", "platform": "ichroma", "cv": 5.29, "bias2": 8.4, "pass": "Pass", "lot": "CYVAA06EX", "date": "2025-02-21"}, {"item": "Cyfra21-1", "platform": "ichroma", "cv": 6.38, "bias2": 19.6, "pass": "Pass", "lot": "CYVAA07EX", "date": "2025-02-21"}, {"item": "Cyfra21-1", "platform": "ichroma", "cv": 6.11, "bias2": 5.5, "pass": "Pass", "lot": "CYVAA08EX", "date": "2025-02-21"}, {"item": "CEA", "platform": "AFIAS", "cv": 6.8, "bias2": 10.1, "pass": "Pass", "lot": "CEVBA10X", "date": "2025-02-24"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 8.43, "bias2": -7.5, "pass": "Pass", "lot": "CPVBC11Z", "date": "2025-02-25"}, {"item": "CA19-9", "platform": "ichroma", "cv": 7.19, "bias2": -2.5, "pass": "Pass", "lot": "CXVAA12EX", "date": "2025-02-26"}, {"item": "CA19-9", "platform": "ichroma", "cv": 7.25, "bias2": 3.5, "pass": "Pass", "lot": "CXVAB01EX", "date": "2025-02-26"}, {"item": "AFP", "platform": "ichroma", "cv": 6.98, "bias2": -4.2, "pass": "Pass", "lot": "AFVBC04", "date": "2025-02-26"}, {"item": "AFP Neo", "platform": "ichroma", "cv": 4.5, "bias2": 1.5, "pass": "Pass", "lot": "AFVBA11EX", "date": "2025-02-26"}, {"item": "CEA", "platform": "ichroma", "cv": 4.6, "bias2": -1.4, "pass": "Pass", "lot": "CEVBC08", "date": "2025-02-27"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 6.38, "bias2": 0.5, "pass": "Pass", "lot": "FOVBD12Z", "date": "2025-02-27"}, {"item": "AFP Neo", "platform": "ichroma", "cv": 5.28, "bias2": -1.6, "pass": "Pass", "lot": "AFVBA12EX", "date": "2025-03-04"}, {"item": "AFP Neo", "platform": "ichroma", "cv": 6.17, "bias2": 0.8, "pass": "Pass", "lot": "AFVBB01EX", "date": "2025-03-04"}, {"item": "CEA", "platform": "ichroma", "cv": 7.43, "bias2": -0.3, "pass": "Pass", "lot": "CEVBC09", "date": "2025-03-06"}, {"item": "CEA", "platform": "ichroma", "cv": 8.28, "bias2": -3.5, "pass": "Pass", "lot": "CEVBC10", "date": "2025-03-06"}, {"item": "AFP", "platform": "AFIAS", "cv": 5.9, "bias2": -5.8, "pass": "Pass", "lot": "AFVBA24X", "date": "2025-03-10"}, {"item": "CEA Neo", "platform": "ichroma", "cv": 7.59, "bias2": 0.6, "pass": "Pass", "lot": "CEVBA10EX", "date": "2025-03-13"}, {"item": "CA19-9", "platform": "ichroma", "cv": 6.61, "bias2": 12.0, "pass": "Pass", "lot": "CXVBB02EX", "date": "2025-03-19"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 9.93, "bias2": -6.1, "pass": "Pass", "lot": "FOVCE01Z", "date": "2025-03-24"}, {"item": "CEA Neo", "platform": "ichroma", "cv": 7.16, "bias2": 8.4, "pass": "Pass", "lot": "CEVBB01EX", "date": "2025-03-25"}, {"item": "CEA", "platform": "ichroma", "cv": 4.83, "bias2": -2.1, "pass": "Pass", "lot": "CEVCC11", "date": "2025-03-25"}, {"item": "H.pylori SA", "platform": "AFIAS", "cv": 12.1, "bias2": null, "pass": "Pass", "lot": "HSUXA04X", "date": "2025-04-03"}, {"item": "Calprotectin", "platform": "AFIAS", "cv": 11.5, "bias2": -0.4, "pass": "Pass", "lot": "CPVCA07X", "date": "2025-04-03"}, {"item": "AFP Neo", "platform": "ichroma", "cv": 5.51, "bias2": 0.3, "pass": "Pass", "lot": "AFVCB02EX", "date": "2025-04-09"}, {"item": "AFP", "platform": "ichroma", "cv": 4.67, "bias2": 8.7, "pass": "Pass", "lot": "AFVCC05", "date": "2025-04-14"}, {"item": "CEA", "platform": "AFIAS", "cv": 8.2, "bias2": -11.6, "pass": "Pass", "lot": "CEVDA12X", "date": "2025-04-18"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 5.17, "bias2": -1.9, "pass": "Pass", "lot": "CPVDC12Z", "date": "2025-04-23"}, {"item": "Cyfra21-1", "platform": "ichroma", "cv": 8.87, "bias2": -0.7, "pass": "Pass", "lot": "CYVDA09EX", "date": "2025-05-08"}, {"item": "CA125", "platform": "ichroma", "cv": 4.97, "bias2": -3.3, "pass": "Pass", "lot": "C1VDA12EX", "date": "2025-05-12"}, {"item": "CA19-9", "platform": "ichroma", "cv": 8.01, "bias2": 2.6, "pass": "Pass", "lot": "CXVDB03EX", "date": "2025-05-12"}, {"item": "CEA Neo", "platform": "ichroma", "cv": 8.42, "bias2": -5.8, "pass": "Pass", "lot": "CEVDB02EX", "date": "2025-05-12"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 5.04, "bias2": 0.9, "pass": "Pass", "lot": "CPVDD01Z", "date": "2025-05-19"}, {"item": "CEA", "platform": "ichroma", "cv": 7.39, "bias2": 5.2, "pass": "Pass", "lot": "CEVEC12", "date": "2025-05-22"}, {"item": "AFP Neo", "platform": "ichroma", "cv": 6.98, "bias2": 3.3, "pass": "Pass", "lot": "AFVDB03EX", "date": "2025-05-26"}, {"item": "AFP", "platform": "ichroma", "cv": 8.05, "bias2": 2.7, "pass": "Pass", "lot": "AFVEC06", "date": "2025-05-27"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 7.81, "bias2": -2.7, "pass": "Pass", "lot": "CPVED02Z", "date": "2025-05-29"}, {"item": "QDx Calprotectin", "platform": "ichroma", "cv": 5.68, "bias2": -1.1, "pass": "Pass", "lot": "CPVDD01ZI", "date": "2025-05-29"}, {"item": "AFP", "platform": "ichroma", "cv": 6.13, "bias2": 6.1, "pass": "Pass", "lot": "AFVFA09E", "date": "2025-06-17"}, {"item": "CA125", "platform": "ichroma", "cv": 8.73, "bias2": 2.8, "pass": "Pass", "lot": "C1VEB01EX", "date": "2025-06-18"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 7.59, "bias2": -7.7, "pass": "Pass", "lot": "FOVEE02Z", "date": "2025-06-20"}, {"item": "H.pylori SA", "platform": "AFIAS", "cv": 4.9, "bias2": null, "pass": "Pass", "lot": "HSVFA05X", "date": "2025-06-24"}, {"item": "CA19-9", "platform": "ichroma", "cv": 7.21, "bias2": 9.6, "pass": "Pass", "lot": "CXVFB04EX", "date": "2025-06-24"}, {"item": "CEA Neo", "platform": "ichroma", "cv": 9.16, "bias2": 9.7, "pass": "Pass", "lot": "CEVFB03EX", "date": "2025-06-24"}, {"item": "Cyfra21-1", "platform": "AFIAS", "cv": 9.3, "bias2": 2.2, "pass": "Pass", "lot": "CYVFA06G", "date": "2025-06-27"}, {"item": "AFP", "platform": "AFIAS", "cv": 7.6, "bias2": -6.2, "pass": "Pass", "lot": "AFVFA25X", "date": "2025-06-30"}, {"item": "CA125", "platform": "AFIAS", "cv": 4.4, "bias2": 7.1, "pass": "Pass", "lot": "C1VFA06G", "date": "2025-07-02"}, {"item": "CA19-9", "platform": "AFIAS", "cv": 9.9, "bias2": -10.1, "pass": "Pass", "lot": "CXVFA06G", "date": "2025-07-02"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 5.98, "bias2": 2.3, "pass": "Pass", "lot": "CPVFD03Z", "date": "2025-07-03"}, {"item": "CEA", "platform": "ichroma", "cv": 7.03, "bias2": -0.8, "pass": "Pass", "lot": "CEVFD01", "date": "2025-07-08"}, {"item": "CA125", "platform": "AFIAS", "cv": 5.6, "bias2": 4.6, "pass": "Pass", "lot": "C1VFA06G", "date": "2025-07-11"}, {"item": "CA19-9", "platform": "AFIAS", "cv": 6.2, "bias2": -6.4, "pass": "Pass", "lot": "CXVFA06G", "date": "2025-07-11"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 6.34, "bias2": 7.0, "pass": "Pass", "lot": "FOVFE03Z", "date": "2025-07-15"}, {"item": "AFP", "platform": "ichroma", "cv": 8.67, "bias2": 3.4, "pass": "Pass", "lot": "AFVFC07", "date": "2025-07-17"}, {"item": "AFP Neo", "platform": "ichroma", "cv": 7.65, "bias2": 0.6, "pass": "Pass", "lot": "AFVFB04EX", "date": "2025-07-17"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 9.16, "bias2": 2.9, "pass": "Pass", "lot": "CPVGD04Z", "date": "2025-07-17"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 6.22, "bias2": -0.1, "pass": "Pass", "lot": "FOVGE04Z", "date": "2025-07-23"}, {"item": "CEA", "platform": "ichroma", "cv": 9.12, "bias2": 4.1, "pass": "Pass", "lot": "CEVFA07E", "date": "2025-08-07"}, {"item": "Calprotectin", "platform": "AFIAS", "cv": 12.0, "bias2": 8.8, "pass": "Pass", "lot": "CPVGA08X", "date": "2025-08-11"}, {"item": "CEA Neo", "platform": "ichroma", "cv": 8.34, "bias2": -5.5, "pass": "Pass", "lot": "CEVGB04EX", "date": "2025-08-14"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 5.43, "bias2": -8.8, "pass": "Pass", "lot": "FOVHE05Z", "date": "2025-08-21"}, {"item": "CEA", "platform": "ichroma", "cv": 5.23, "bias2": 10.1, "pass": "Pass", "lot": "CEVHD02", "date": "2025-08-25"}, {"item": "CEA", "platform": "AFIAS", "cv": 8.6, "bias2": 4.7, "pass": "Pass", "lot": "CEVHA13X", "date": "2025-08-25"}, {"item": "CA125", "platform": "AFIAS", "cv": 7.2, "bias2": -14.3, "pass": "Pass", "lot": "C1VHA07G", "date": "2025-08-26"}, {"item": "CA19-9", "platform": "AFIAS", "cv": 4.7, "bias2": -8.8, "pass": "Pass", "lot": "CXVHA07G", "date": "2025-08-27"}, {"item": "AFP", "platform": "ichroma", "cv": 6.69, "bias2": 2.2, "pass": "Pass", "lot": "AFVHC08", "date": "2025-08-28"}, {"item": "H.pylori SA", "platform": "AFIAS", "cv": 7.7, "bias2": null, "pass": "Pass", "lot": "HSVHA06X", "date": "2025-09-03"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 9.46, "bias2": -8.2, "pass": "Pass", "lot": "CPVHD05Z", "date": "2025-09-04"}, {"item": "QDx Calprotectin", "platform": "ichroma", "cv": 6.83, "bias2": -7.7, "pass": "Pass", "lot": "CPVHD05ZI", "date": "2025-09-04"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 5.88, "bias2": 5.1, "pass": "Pass", "lot": "FOVXE06Z", "date": "2025-09-16"}, {"item": "CA19-9", "platform": "ichroma", "cv": 3.06, "bias2": 19.4, "pass": "Pass", "lot": "CXVHB05EX", "date": "2025-09-23"}, {"item": "H.pylori SA", "platform": "AFIAS", "cv": 6.7, "bias2": null, "pass": "Pass", "lot": "HSVXA07X", "date": "2025-09-25"}, {"item": "CEA", "platform": "ichroma", "cv": 3.14, "bias2": -0.4, "pass": "Pass", "lot": "CEVXD03", "date": "2025-10-01"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 8.73, "bias2": 5.9, "pass": "Pass", "lot": "FOVXE07Z", "date": "2025-10-16"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 4.52, "bias2": 5.6, "pass": "Pass", "lot": "CPVYD06Z", "date": "2025-10-22"}, {"item": "Calprotectin", "platform": "AFIAS", "cv": 6.7, "bias2": -4.9, "pass": "Pass", "lot": "CPVYA09X", "date": "2025-10-29"}, {"item": "H.pylori SA", "platform": "AFIAS", "cv": 6.4, "bias2": null, "pass": "Pass", "lot": "HSVYA08X", "date": "2025-10-29"}, {"item": "CA125", "platform": "AFIAS", "cv": 8.1, "bias2": 9.3, "pass": "Pass", "lot": "C1VYA08G", "date": "2025-11-04"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 7.07, "bias2": -1.4, "pass": "Pass", "lot": "FOVYE08Z", "date": "2025-11-05"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 4.55, "bias2": -0.4, "pass": "Pass", "lot": "FOVYE09Z", "date": "2025-11-10"}, {"item": "Cyfra21-1", "platform": "ichroma", "cv": 8.56, "bias2": 20.6, "pass": "Fail", "lot": "CYVXA10EX", "date": "2025-11-11"}, {"item": "AFP", "platform": "ichroma", "cv": 5.25, "bias2": 2.3, "pass": "Pass", "lot": "AFVYC09", "date": "2025-11-17"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 7.93, "bias2": 1.9, "pass": "Pass", "lot": "CPVKD07Z", "date": "2025-11-18"}, {"item": "Cyfra21-1", "platform": "ichroma", "cv": 4.83, "bias2": -2.5, "pass": "Pass", "lot": "CYVXA10EX", "date": "2025-11-18"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 7.4, "bias2": 9.1, "pass": "Pass", "lot": "CPVKD08Z", "date": "2025-12-01"}, {"item": "H.pylori SA", "platform": "AFIAS", "cv": 4.4, "bias2": null, "pass": "Pass", "lot": "HSVKA09X", "date": "2025-12-05"}, {"item": "AFP Neo", "platform": "ichroma", "cv": 5.61, "bias2": 3.2, "pass": "Pass", "lot": "AFVKB06EX", "date": "2025-12-09"}, {"item": "CA19-9", "platform": "AFIAS", "cv": 5.3, "bias2": 7.3, "pass": "Pass", "lot": "CXVKA08G", "date": "2025-12-10"}, {"item": "CEA Neo", "platform": "ichroma", "cv": 7.74, "bias2": 4.5, "pass": "Pass", "lot": "CEVKB05EX", "date": "2025-12-11"}, {"item": "CEA", "platform": "ichroma", "cv": 5.4, "bias2": 0.8, "pass": "Pass", "lot": "CEVKD04", "date": "2025-12-11"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 5.87, "bias2": -9.8, "pass": "Pass", "lot": "FOVKE10Z", "date": "2025-12-22"}, {"item": "AFP", "platform": "ichroma", "cv": 5.64, "bias2": -3.2, "pass": "Pass", "lot": "AFVLC10", "date": "2025-12-23"}, {"item": "AFP", "platform": "AFIAS", "cv": 6.3, "bias2": 5.0, "pass": "Pass", "lot": "AFVLA26X", "date": "2026-01-06"}, {"item": "PSA", "platform": "ichroma", "cv": 6.59, "bias2": -6.0, "pass": "Pass", "lot": "PSVKS12", "date": "2026-01-06"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 8.58, "bias2": 1.3, "pass": "Pass", "lot": "CPVLD09Z", "date": "2026-01-07"}, {"item": "PSA", "platform": "AFIAS", "cv": 4.86, "bias2": 1.1, "pass": "Pass", "lot": "PSVKA66F", "date": "2026-01-12"}, {"item": "H. pylori SA", "platform": "ichroma", "cv": 7.87, "bias2": null, "pass": "Fail", "lot": "HSVLY06", "date": "2026-01-12"}, {"item": "CEA", "platform": "AFIAS", "cv": 10.9, "bias2": -26.1, "pass": "Fail", "lot": "CEVLA14X", "date": "2026-01-13"}, {"item": "CA125", "platform": "ichroma", "cv": 8.11, "bias2": -8.1, "pass": "Pass", "lot": "C1VLB03EX", "date": "2026-01-13"}, {"item": "Free PSA", "platform": "AFIAS", "cv": 9.8, "bias2": -0.5, "pass": "Pass", "lot": "F1VLA10G", "date": "2026-01-14"}, {"item": "Ferritin", "platform": "ichroma", "cv": 5.66, "bias2": -4.0, "pass": "Pass", "lot": "DFRVLE02", "date": "2026-01-14"}, {"item": "Ferritin", "platform": "ichroma", "cv": 5.32, "bias2": -4.8, "pass": "Pass", "lot": "DFRVLE03", "date": "2026-01-14"}, {"item": "QDx Ferritin", "platform": "ichroma", "cv": 5.79, "bias2": -4.4, "pass": "Pass", "lot": "DFRVLE01I", "date": "2026-01-15"}, {"item": "PSA Neo", "platform": "ichroma", "cv": 5.41, "bias2": -4.5, "pass": "Pass", "lot": "PSVKC06EX", "date": "2026-01-15"}, {"item": "Ferritin", "platform": "ichroma", "cv": 4.55, "bias2": -5.5, "pass": "Pass", "lot": "DFRVLD12", "date": "2026-01-15"}, {"item": "Ferritin", "platform": "ichroma", "cv": 6.84, "bias2": -3.0, "pass": "Pass", "lot": "DFRVLE01", "date": "2026-01-15"}, {"item": "H. pylori SA", "platform": "ichroma", "cv": 12.07, "bias2": null, "pass": "Fail", "lot": "HSVLY07", "date": "2026-01-15"}, {"item": "Free PSA", "platform": "AFIAS", "cv": 6.3, "bias2": 2.7, "pass": "Pass", "lot": "F1VLA10G", "date": "2026-01-19"}, {"item": "PSA", "platform": "ichroma", "cv": 6.83, "bias2": 2.4, "pass": "Pass", "lot": "PSVLT01", "date": "2026-01-19"}, {"item": "PSA Neo", "platform": "AFIAS", "cv": 9.63, "bias2": -10.3, "pass": "Pass", "lot": "PSVLA36X", "date": "2026-01-20"}, {"item": "Ferritin", "platform": "ichroma", "cv": 3.64, "bias2": 7.0, "pass": "Pass", "lot": "DFRVLE04", "date": "2026-01-20"}, {"item": "PSA Neo", "platform": "AFIAS", "cv": 9.82, "bias2": -1.8, "pass": "Pass", "lot": "PSVLA33X", "date": "2026-01-21"}, {"item": "PSA Neo", "platform": "AFIAS", "cv": 9.43, "bias2": 5.7, "pass": "Pass", "lot": "PSVLA35X", "date": "2026-01-21"}, {"item": "PSA Neo", "platform": "AFIAS", "cv": 7.57, "bias2": -4.0, "pass": "Pass", "lot": "PSVLA34X", "date": "2026-01-22"}, {"item": "PSA Neo", "platform": "AFIAS", "cv": 9.52, "bias2": -2.3, "pass": "Pass", "lot": "PSVLA37X", "date": "2026-01-22"}, {"item": "CA19-9", "platform": "ichroma", "cv": 6.26, "bias2": -9.9, "pass": "Pass", "lot": "CXVLB06EX", "date": "2026-01-23"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 6.35, "bias2": -4.1, "pass": "Pass", "lot": "FOWAE11Z", "date": "2026-01-23"}, {"item": "AFP", "platform": "AFIAS", "cv": 3.9, "bias2": 1.8, "pass": "Pass", "lot": "AFWAA27X", "date": "2026-01-28"}, {"item": "Ferritin", "platform": "ichroma", "cv": 4.89, "bias2": 4.7, "pass": "Pass", "lot": "DFRWAE05", "date": "2026-01-29"}, {"item": "Ferritin", "platform": "ichroma", "cv": 5.14, "bias2": 6.5, "pass": "Pass", "lot": "DFRWAE06", "date": "2026-01-29"}, {"item": "Ferritin", "platform": "ichroma", "cv": 8.02, "bias2": 7.7, "pass": "Pass", "lot": "DFRWAE07", "date": "2026-01-29"}, {"item": "Ferritin", "platform": "ichroma", "cv": 5.28, "bias2": 13.1, "pass": "Pass", "lot": "DFRWAE08", "date": "2026-01-29"}, {"item": "Free PSA", "platform": "ichroma", "cv": 6.82, "bias2": -5.3, "pass": "Pass", "lot": "F1VLB04EX", "date": "2026-01-29"}, {"item": "PSA", "platform": "ichroma", "cv": 4.26, "bias2": 1.0, "pass": "Pass", "lot": "PSVLT02", "date": "2026-01-29"}, {"item": "PSA Neo", "platform": "ichroma", "cv": 7.28, "bias2": -4.0, "pass": "Pass", "lot": "PSVLC07EX", "date": "2026-01-29"}, {"item": "iFOB Neo", "platform": "AFIAS", "cv": 7.2, "bias2": -17.0, "pass": "Pass", "lot": "FOVLA01X", "date": "2026-01-30"}, {"item": "iFOB Neo", "platform": "AFIAS", "cv": 6.2, "bias2": -17.7, "pass": "Pass", "lot": "FOVLA02X", "date": "2026-01-30"}, {"item": "iFOB Neo", "platform": "AFIAS", "cv": 8.5, "bias2": -15.8, "pass": "Pass", "lot": "FOVLA03X", "date": "2026-01-30"}, {"item": "H. pylori SA", "platform": "ichroma", "cv": 5.74, "bias2": null, "pass": "Fail", "lot": "HSWAY08", "date": "2026-02-03"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 5.62, "bias2": -10.0, "pass": "Pass", "lot": "CPWAD10Z", "date": "2026-02-03"}, {"item": "AFP Neo", "platform": "ichroma", "cv": 2.17, "bias2": -0.5, "pass": "Pass", "lot": "AFWAB07EX", "date": "2026-02-05"}, {"item": "PSA Neo", "platform": "AFIAS", "cv": 8.8, "bias2": -11.3, "pass": "Pass", "lot": "PSWAA38X", "date": "2026-02-11"}, {"item": "H. pylori SA", "platform": "ichroma", "cv": 13.1, "bias2": null, "pass": "Fail", "lot": "HSWAY09", "date": "2026-02-11"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 3.51, "bias2": -2.5, "pass": "Pass", "lot": "FOWAE12Z", "date": "2026-02-11"}, {"item": "H. pylori SA", "platform": "ichroma", "cv": 6.76, "bias2": null, "pass": "Fail", "lot": "HSWAY10", "date": "2026-02-12"}, {"item": "Calprotectin", "platform": "AFIAS", "cv": 14.6, "bias2": 2.5, "pass": "Pass", "lot": "CPWAA10X", "date": "2026-02-19"}, {"item": "H. pylori SA", "platform": "ichroma", "cv": 10.92, "bias2": null, "pass": "Fail", "lot": "HSWAY11", "date": "2026-02-19"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 6.21, "bias2": -2.5, "pass": "Pass", "lot": "CPWBD11Z", "date": "2026-02-24"}, {"item": "PSA Neo", "platform": "ichroma", "cv": 9.38, "bias2": 8.0, "pass": "Pass", "lot": "PSWAC08EX", "date": "2026-02-24"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 4.37, "bias2": 3.5, "pass": "Pass", "lot": "FOWBF01Z", "date": "2026-02-25"}, {"item": "QDx Calprotectin", "platform": "ichroma", "cv": 8.72, "bias2": -3.4, "pass": "Pass", "lot": "CPWBD11ZI", "date": "2026-02-25"}, {"item": "PSA", "platform": "ichroma", "cv": 8.67, "bias2": -5.0, "pass": "Pass", "lot": "PSWAT03", "date": "2026-02-26"}, {"item": "Free PSA", "platform": "AFIAS", "cv": 9.3, "bias2": -12.7, "pass": "Pass", "lot": "F1WAA11G", "date": "2026-03-03"}, {"item": "Ferritin", "platform": "ichroma", "cv": 5.36, "bias2": 0.1, "pass": "Pass", "lot": "DFRWAE09", "date": "2026-03-03"}, {"item": "Ferritin", "platform": "ichroma", "cv": 4.08, "bias2": 0.6, "pass": "Pass", "lot": "DFRWAE10", "date": "2026-03-03"}, {"item": "Ferritin", "platform": "ichroma", "cv": 5.51, "bias2": -0.3, "pass": "Pass", "lot": "DFRWAE11", "date": "2026-03-03"}, {"item": "Ferritin", "platform": "ichroma", "cv": 6.45, "bias2": 1.2, "pass": "Pass", "lot": "DFRWBE12", "date": "2026-03-05"}, {"item": "Ferritin", "platform": "ichroma", "cv": 3.34, "bias2": -2.9, "pass": "Pass", "lot": "DFRWBF01", "date": "2026-03-05"}, {"item": "Ferritin", "platform": "ichroma", "cv": 6.79, "bias2": 10.9, "pass": "Pass", "lot": "DFRWBF02", "date": "2026-03-05"}, {"item": "H.pylori SA", "platform": "AFIAS", "cv": 10.8, "bias2": null, "pass": "Pass", "lot": "HSWBA10X", "date": "2026-03-06"}, {"item": "CEA", "platform": "AFIAS", "cv": 9.5, "bias2": -3.8, "pass": "Pass", "lot": "CEVLA14X", "date": "2026-03-06"}, {"item": "PSA Neo", "platform": "ichroma", "cv": 7.91, "bias2": 5.9, "pass": "Pass", "lot": "PSWAC10EX", "date": "2026-03-10"}, {"item": "Cyfra21-1", "platform": "AFIAS", "cv": 6.2, "bias2": -8.0, "pass": "Pass", "lot": "CYWBA07G", "date": "2026-03-11"}, {"item": "CEA Neo", "platform": "ichroma", "cv": 8.93, "bias2": 0.9, "pass": "Pass", "lot": "CEWBB06EX", "date": "2026-03-12"}, {"item": "H. pylori SA", "platform": "ichroma", "cv": 12.48, "bias2": null, "pass": "Fail", "lot": "HSWBY12", "date": "2026-03-12"}, {"item": "PSA Neo", "platform": "ichroma", "cv": 8.92, "bias2": -3.5, "pass": "Pass", "lot": "PSWAC09EX", "date": "2026-03-12"}, {"item": "PSA", "platform": "AFIAS", "cv": 5.16, "bias2": 0.4, "pass": "Pass", "lot": "PSWBA67F", "date": "2026-03-17"}, {"item": "AFP", "platform": "ichroma", "cv": 6.59, "bias2": -0.3, "pass": "Pass", "lot": "AFWBC11", "date": "2026-03-19"}, {"item": "AFP Neo", "platform": "ichroma", "cv": 2.44, "bias2": -2.0, "pass": "Pass", "lot": "AFWBB08EX", "date": "2026-03-19"}, {"item": "Calprotectin", "platform": "ichroma", "cv": 6.15, "bias2": -7.5, "pass": "Pass", "lot": "CPWBD12Z", "date": "2026-03-19"}, {"item": "Ferritin", "platform": "ichroma", "cv": 5.0, "bias2": 4.1, "pass": "Pass", "lot": "DFRWBF03", "date": "2026-03-24"}, {"item": "Ferritin", "platform": "ichroma", "cv": 6.56, "bias2": 2.4, "pass": "Pass", "lot": "DFRWBF04", "date": "2026-03-24"}, {"item": "H. pylori SA", "platform": "ichroma", "cv": 8.3, "bias2": null, "pass": "Fail", "lot": "HSWBK01", "date": "2026-03-24"}, {"item": "PSA Neo", "platform": "AFIAS", "cv": 8.27, "bias2": -8.1, "pass": "Pass", "lot": "PSWBA39X", "date": "2026-03-25"}, {"item": "PSA Neo", "platform": "ichroma", "cv": 8.49, "bias2": 2.7, "pass": "Pass", "lot": "PSWBC11EX", "date": "2026-03-26"}, {"item": "iFOB Neo", "platform": "ichroma", "cv": 5.27, "bias2": -13.6, "pass": "Pass", "lot": "FOWCF02Z", "date": "2026-03-30"}, {"item": "H. pylori SA", "platform": "ichroma", "cv": 8.81, "bias2": null, "pass": "Fail", "lot": "HSWCK02", "date": "2026-03-30"}, {"item": "CEA", "platform": "ichroma", "cv": 5.36, "bias2": -6.2, "pass": "Pass", "lot": "CEWCD05", "date": "2026-03-31"}, {"item": "Ferritin", "platform": "ichroma", "cv": 3.38, "bias2": 16.9, "pass": "Pass", "lot": "DFRWCF05", "date": "2026-03-31"}, {"item": "Ferritin", "platform": "ichroma", "cv": 5.21, "bias2": 16.0, "pass": "Pass", "lot": "DFRWCF06", "date": "2026-03-31"}, {"item": "PSA Neo", "platform": "ichroma", "cv": 6.29, "bias2": 0.0, "pass": "Pass", "lot": "PSWBC12EX", "date": "2026-04-01"}, {"item": "CEA", "platform": "AFIAS", "cv": 8.9, "bias2": -5.6, "pass": "Pass", "lot": "CEWCA15X", "date": "2026-04-02"}, {"item": "PSA Neo", "platform": "AFIAS", "cv": 9.93, "bias2": -0.6, "pass": "Pass", "lot": "PSWBA40X", "date": "2026-04-02"}, {"item": "Free PSA", "platform": "ichroma", "cv": 5.85, "bias2": -4.8, "pass": "Pass", "lot": "F1WBB05EX", "date": "2026-04-02"}, {"item": "CA19-9", "platform": "AFIAS", "cv": 6.3, "bias2": 2.3, "pass": "Pass", "lot": "CXWCA09G", "date": "2026-04-03"}, {"item": "H. pylori SA", "platform": "ichroma", "cv": 8.1, "bias2": null, "pass": "Fail", "lot": "HSWCK03", "date": "2026-04-06"}, {"item": "Calprotectin", "platform": "AFIAS", "cv": 7.0, "bias2": -7.2, "pass": "Pass", "lot": "CPWCA11X", "date": "2026-04-09"}, {"item": "PSA", "platform": "ichroma", "cv": 5.36, "bias2": -0.5, "pass": "Pass", "lot": "PSWCT04", "date": "2026-04-09"}]};
+const SL = {orig:'기존 기준',r12:'CV≤12%',r9_5:'CV≤9.5%',r9_0:'CV≤9.0%',r7:'CV≤7%'};
+let itemBarInst;
+
+function rc(v){return v>=90?'#4ade80':v>=80?'#fbbf24':v>=70?'#fb923c':'#f87171'}
+function rb(v){const f=v>=90?'#4ade80':v>=80?'#fbbf24':'#f87171';return `<div class="bar-wrap"><div class="bar"><div class="bar-fill" style="width:${v}%;background:${f}"></div></div><b style="color:${f};min-width:34px;font-size:11px">${v}%</b></div>`}
+
+// KPI
+const k=D.kpi;
+document.getElementById('kpiGrid').innerHTML=[
+  {l:'분석 파일 수',v:k.total+'건',s:`AFIAS ${k.afias} / ichroma ${k.ichroma}`,c:'blue'},
+  {l:'아이템 수',v:k.items+'종',s:'AFIAS + ichroma',c:'teal'},
+  {l:'기존기준 합격율',v:k.orig+'%',s:'현행 CV 한계',c:'blue',r:k.orig},
+  {l:'CV ≤ 9.5% 합격율',v:k.r9_5+'%',s:'🎯 권장 기준',c:'green',r:k.r9_5},
+  {l:'CV ≤ 9.0% 합격율',v:k.r9_0+'%',s:'80% 달성 최소',c:'teal',r:k.r9_0},
+  {l:'CV ≤ 7% 합격율',v:k.r7+'%',s:'강화 시나리오',c:'amber',r:k.r7},
+  {l:'최대 달성 가능',v:k.max_possible+'%',s:'Bias 불합격 제외',c:'purple',r:k.max_possible},
+  {l:'Max CV 중앙값',v:k.med_cv+'%',s:'전체 파일 기준',c:'teal'},
+].map(c=>{const vc=c.r?(c.r>=90?'g':c.r>=80?'w':'b'):'';return`<div class="kpi ${c.c}"><div class="kpi-lbl">${c.l}</div><div class="kpi-val ${vc}">${c.v}</div><div class="kpi-sub">${c.s}</div></div>`}).join('');
+
+// Item Bar
+function renderItemBar(sc){
+  const it=D.items,labs=it.map(i=>(i.platform==='AFIAS'?'🔷':'🔶')+' '+i.item),vals=it.map(i=>i[sc]),cols=vals.map(rc);
+  document.getElementById('scLbl').textContent=SL[sc];
+  if(itemBarInst)itemBarInst.destroy();
+  itemBarInst=new Chart(document.getElementById('itemBar'),{type:'bar',
+    data:{labels:labs,datasets:[{data:vals,backgroundColor:cols,borderRadius:4,borderSkipped:false}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`합격율: ${c.parsed.x}%`}}},
+      scales:{x:{min:0,max:100,grid:{color:'#1d3a5f'},ticks:{color:'#94a3b8',callback:v=>v+'%'}},
+              y:{grid:{display:false},ticks:{color:'#e2e8f0',font:{size:10}}}}}});
+}
+renderItemBar('orig');
+
+// CV 9.5% 별도 결과 카드
+const af=D.platforms['AFIAS'],ic=D.platforms['ichroma'];
+const cv95Items=D.items.map(it=>({...it})).sort((a,b)=>b.r9_5-a.r9_5);
+document.getElementById('cv95Result').innerHTML=`
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+    <div style="background:#0f1e38;border-radius:8px;padding:12px;text-align:center">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:4px">전체 합격율</div>
+      <div style="font-size:32px;font-weight:800;color:${rc(k.r9_5)}">${k.r9_5}%</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:2px">${Math.round(k.r9_5/100*k.total)}/${k.total}건</div>
+    </div>
+    <div style="background:#0f1e38;border-radius:8px;padding:12px">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:6px">플랫폼별</div>
+      <div style="display:flex;justify-content:space-between;margin:4px 0;font-size:11px">
+        <span style="color:#3b82f6">🔷 AFIAS</span><b style="color:${rc(af.r9_5)}">${af.r9_5}%</b>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin:4px 0;font-size:11px">
+        <span style="color:#a855f7">🔶 ichroma</span><b style="color:${rc(ic.r9_5)}">${ic.r9_5}%</b>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:6px">아이템별 합격율 (높은순)</div>
+  <div style="max-height:200px;overflow-y:auto">
+  ${cv95Items.map(it=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--border)">
+      <span style="font-size:10px;width:130px;color:#e2e8f0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${it.platform==='AFIAS'?'🔷':'🔶'} ${it.item}</span>
+      <div class="bar" style="flex:1"><div class="bar-fill" style="width:${it.r9_5}%;background:${rc(it.r9_5)}"></div></div>
+      <b style="font-size:11px;color:${rc(it.r9_5)};min-width:36px;text-align:right">${it.r9_5}%</b>
+    </div>`).join('')}
+  </div>`;
+
+// Year trend
+const yd=D.years;
+new Chart(document.getElementById('yearChart'),{type:'line',
+  data:{labels:yd.map(y=>`${y.year}년(${y.n}건)`),
+    datasets:[
+      {label:'기존기준',data:yd.map(y=>y.orig),borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',fill:true,tension:0.4,pointRadius:5},
+      {label:'CV≤9.5%',data:yd.map(y=>y.r9_5),borderColor:'#22c55e',backgroundColor:'rgba(34,197,94,0.08)',fill:true,tension:0.4,pointRadius:5},
+      {label:'CV≤9.0%',data:yd.map(y=>y.r9_0),borderColor:'#10b981',borderDash:[5,3],tension:0.4,pointRadius:4},
+      {label:'CV≤7%',data:yd.map(y=>y.r7),borderColor:'#ef4444',borderDash:[3,5],tension:0.4,pointRadius:4},
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#94a3b8',font:{size:10}}}},
+    scales:{y:{min:0,max:105,grid:{color:'#1d3a5f'},ticks:{color:'#94a3b8',callback:v=>v+'%'}},
+            x:{grid:{color:'#1d3a5f'},ticks:{color:'#e2e8f0',font:{size:10}}}}}});
+
+// Histogram
+const h=D.cv_hist;
+new Chart(document.getElementById('histChart'),{type:'bar',
+  data:{labels:h.map(b=>b.bin+'%'),datasets:[{data:h.map(b=>b.count),
+    backgroundColor:h.map(b=>{const m=parseInt(b.bin);return m<=7?'#4ade80':m<=9?'#fbbf24':m<=10?'#fb923c':'#f87171'}),
+    borderRadius:4}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{y:{grid:{color:'#1d3a5f'},ticks:{color:'#94a3b8'}},x:{grid:{display:false},ticks:{color:'#e2e8f0',font:{size:9}}}}}});
+
+// Item Table
+document.getElementById('itemTblBody').innerHTML=D.items.map(it=>`<tr>
+  <td style="text-align:left;font-weight:600">${it.item}</td>
+  <td style="font-size:10px;color:var(--muted)">${it.platform==='AFIAS'?'🔷':'🔶'} ${it.platform}</td>
+  <td>${it.n}</td>
+  <td style="color:#d97706">${it.cv_limit}%</td>
+  <td>${it.med_cv}%</td>
+  <td>${rb(it.orig)}</td><td>${rb(it.r7)}</td><td>${rb(it.r12)}</td>
+</tr>`).join('');
+
+// Instrument Bars
+const instC={AFIAS6:'#3b82f6',AFIAS1:'#06b6d4',AFIAS3:'#8b5cf6',AFIAS10:'#ec4899'};
+document.getElementById('instBars').innerHTML=Object.entries(D.instruments).map(([nm,d])=>`
+<div class="inst-row">
+  <div class="inst-nm">${nm}</div>
+  <div class="inst-bars">
+    ${[['기존',d.orig],['9.5%',d.r9_5],['9.0%',d.r9_0],['7%',d.r7]].map(([lbl,val])=>`
+    <div class="ibar">
+      <span class="lbl">${lbl}</span>
+      <div class="mb"><div class="mbf" style="width:${val}%;background:${rc(val)}"></div></div>
+      <span class="pct" style="color:${rc(val)}">${val}%</span>
+    </div>`).join('')}
+  </div>
+</div>`).join('');
+
+// Platform Chart
+new Chart(document.getElementById('platChart'),{type:'bar',
+  data:{labels:['기존기준','CV≤9.5%','CV≤9.0%'],
+    datasets:[
+      {label:'AFIAS',data:[af.orig,af.r9_5,af.r9_0],backgroundColor:'rgba(59,130,246,0.8)',borderRadius:5},
+      {label:'ichroma',data:[ic.orig,ic.r9_5,ic.r9_0],backgroundColor:'rgba(168,85,247,0.8)',borderRadius:5},
+    ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#94a3b8',font:{size:10}}}},
+    scales:{y:{min:0,max:100,grid:{color:'#1d3a5f'},ticks:{color:'#94a3b8',callback:v=>v+'%'}},
+            x:{grid:{color:'#1d3a5f'},ticks:{color:'#e2e8f0',font:{size:10}}}}}});
+
+document.getElementById('platStats').innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px">
+${['AFIAS','ichroma'].map((p,pi)=>`<div style="background:#0f1e38;border-radius:8px;padding:10px">
+  <div style="color:${pi?'#a855f7':'#3b82f6'};font-weight:700;margin-bottom:5px">${pi?'🔶':'🔷'} ${p} (${D.platforms[p].n}건)</div>
+  ${[['기존',D.platforms[p].orig],['CV≤9.5%',D.platforms[p].r9_5],['CV≤9.0%',D.platforms[p].r9_0]].map(([l,v])=>`
+  <div style="display:flex;justify-content:space-between;padding:2px 0"><span style="color:var(--muted)">${l}</span><b style="color:${rc(v)}">${v}%</b></div>`).join('')}
+</div>`).join('')}</div>`;
+
+// Scatter
+const sc=D.scatter;
+const items=[...new Set(sc.map(d=>d.item))].sort();
+const pal=['#3b82f6','#22c55e','#f59e0b','#ef4444','#a855f7','#06b6d4','#ec4899','#84cc16','#f97316','#14b8a6','#8b5cf6','#0ea5e9','#d946ef','#10b981','#6366f1','#f43f5e','#64748b','#78716c'];
+const datasets=items.map((item,i)=>{
+  const pts=sc.filter(d=>d.item===item);
+  return{label:item,data:pts.map(d=>({x:d.cv,y:d.bias2||0,pass:d.pass,lot:d.lot,date:d.date,item:d.item})),
+    backgroundColor:pts.map(d=>d.pass==='Pass'?pal[i%pal.length]+'bb':'#f87171bb'),pointRadius:5,pointHoverRadius:8};
+});
+const scChart=new Chart(document.getElementById('scatterChart'),{type:'scatter',data:{datasets},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#94a3b8',font:{size:10},boxWidth:10}},
+      tooltip:{callbacks:{label:c=>{const d=c.raw;return[`${d.item} | ${d.lot}`,`CV: ${d.cv}%  Bias: ${d.y}%`,`판정: ${d.pass} | ${d.date}`];}}}},
+    scales:{x:{title:{display:true,text:'Max CV (%)',color:'#94a3b8'},grid:{color:'#1d3a5f'},ticks:{color:'#94a3b8'},min:0,max:16},
+            y:{title:{display:true,text:'Bias STD2 (%)',color:'#94a3b8'},grid:{color:'#1d3a5f'},ticks:{color:'#94a3b8'}}}}});
+
+Chart.register({id:'refL',afterDraw(chart){
+  if(chart.canvas.id!=='scatterChart')return;
+  const{ctx,scales:{x,y}}=chart;
+  [[9.0,'#10b981','9.0%'],[9.5,'#22c55e','9.5%'],[10.0,'#f59e0b','10%']].forEach(([xv,col,lbl])=>{
+    const px=x.getPixelForValue(xv);
+    ctx.save();ctx.setLineDash([5,4]);ctx.strokeStyle=col;ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(px,y.top);ctx.lineTo(px,y.bottom);ctx.stroke();
+    ctx.setLineDash([]);ctx.fillStyle=col;ctx.font='10px Malgun Gothic';ctx.fillText(lbl,px+3,y.top+14);
+    ctx.restore();});
+}});
+
+// Tab switch
+function setSc(sc,el){
+  document.querySelectorAll('.tab').forEach(b=>b.className='tab');
+  el.className='tab on'+(sc==='r7'?' r':'');
+  renderItemBar(sc);
+}
+</script>
+</body></html>
