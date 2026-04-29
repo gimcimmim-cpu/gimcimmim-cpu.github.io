@@ -6,43 +6,23 @@
 <title>페이지를 찾을 수 없습니다</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
-
-  /* ── 잠금 화면 ── */
-  #lock-screen {
-    position: fixed; inset: 0; z-index: 9999;
-    background: #0d1117;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .lock-box {
-    background: #161b22; border: 1px solid #30363d; border-radius: 20px;
-    padding: 38px 42px; text-align: center; width: 340px;
-    box-shadow: 0 24px 80px rgba(0,0,0,.6);
-    animation: lockFadeIn .4s ease;
-  }
-  @keyframes lockFadeIn { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
-  .lock-icon { font-size: 42px; margin-bottom: 14px; }
-  .lock-title { font-size: 17px; font-weight: 700; color: #e6edf3; margin-bottom: 5px; }
-  .lock-sub { font-size: 12px; color: #8b949e; margin-bottom: 24px; line-height: 1.6; }
-  .pin-dots { display: flex; justify-content: center; gap: 12px; margin-bottom: 22px; }
-  .pin-dot { width: 14px; height: 14px; border-radius: 50%; background: #21262d; border: 2px solid #30363d; transition: all .2s; }
-  .pin-dot.filled { background: #58a6ff; border-color: #58a6ff; box-shadow: 0 0 8px rgba(88,166,255,.5); }
-  .pin-dot.error  { background: #f85149; border-color: #f85149; animation: shake .3s ease; }
-  @keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
-  .numpad { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 12px; }
-  .num-btn {
-    background: #21262d; border: 1px solid #30363d; border-radius: 12px;
-    padding: 14px 0; font-size: 18px; font-weight: 600; color: #e6edf3;
-    cursor: pointer; transition: all .15s; user-select: none;
-  }
-  .num-btn:hover { background: #2d333b; border-color: #484f58; transform: scale(1.04); }
-  .num-btn:active { transform: scale(.95); }
-  .lock-err { font-size: 12px; color: #f85149; height: 16px; }
-  .lock-hint { font-size: 10px; color: rgba(139,148,158,.3); margin-top: 12px; }
-  .lock-back { font-size: 11px; color: #8b949e; margin-top: 8px; cursor: pointer; opacity: .5; }
-  .lock-back:hover { opacity: 1; }
-  #dashboard { display: none; }
+  #lock-screen { position:fixed;inset:0;z-index:9999;background:#0d1117;display:flex;align-items:center;justify-content:center; }
+  .lock-box { background:#161b22;border:1px solid #30363d;border-radius:20px;padding:38px 42px;text-align:center;width:340px;box-shadow:0 24px 80px rgba(0,0,0,.6);animation:lockFadeIn .4s ease; }
+  @keyframes lockFadeIn { from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);} }
+  .lock-icon{font-size:42px;margin-bottom:14px;} .lock-title{font-size:17px;font-weight:700;color:#e6edf3;margin-bottom:5px;}
+  .lock-sub{font-size:12px;color:#8b949e;margin-bottom:24px;line-height:1.6;}
+  .pin-dots{display:flex;justify-content:center;gap:12px;margin-bottom:22px;}
+  .pin-dot{width:14px;height:14px;border-radius:50%;background:#21262d;border:2px solid #30363d;transition:all .2s;}
+  .pin-dot.filled{background:#58a6ff;border-color:#58a6ff;box-shadow:0 0 8px rgba(88,166,255,.5);}
+  .pin-dot.error{background:#f85149;border-color:#f85149;animation:shake .3s ease;}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-5px);}75%{transform:translateX(5px);}}
+  .numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;}
+  .num-btn{background:#21262d;border:1px solid #30363d;border-radius:12px;padding:14px 0;font-size:18px;font-weight:600;color:#e6edf3;cursor:pointer;transition:all .15s;user-select:none;}
+  .num-btn:hover{background:#2d333b;border-color:#484f58;transform:scale(1.04);} .num-btn:active{transform:scale(.95);}
+  .lock-err{font-size:12px;color:#f85149;height:16px;} .lock-hint{font-size:10px;color:rgba(139,148,158,.3);margin-top:12px;}
+  .lock-back{font-size:11px;color:#8b949e;margin-top:8px;cursor:pointer;opacity:.5;} .lock-back:hover{opacity:1;}
+  #dashboard{display:none;}
 </style>
-
 <script>
 (function(){
   if(sessionStorage.getItem('weekly_auth')==='1'){
@@ -54,148 +34,90 @@
   }
 })();
 </script>
-
 <style>
-  :root {
-    --bg: #0d1117; --bg2: #161b22; --bg3: #21262d;
-    --border: #30363d; --text: #e6edf3; --text-muted: #8b949e;
-    --research: #58a6ff; --production: #f0883e; --approval: #bc8cff;
-    --other: #3fb950; --issue: #f85149; --warning: #d29922; --card-hover: #1c2128;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', sans-serif; font-size: 13px; line-height: 1.6; }
-
-  .header {
-    background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1a1f2e 100%);
-    border-bottom: 1px solid var(--border); padding: 24px 32px;
-    display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px);
-  }
-  .header-left h1 {
-    font-size: 20px; font-weight: 700;
-    background: linear-gradient(90deg, #58a6ff, #bc8cff);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -0.3px;
-  }
-  .header-left .subtitle { color: var(--text-muted); font-size: 12px; margin-top: 2px; }
-  .header-right { display: flex; gap: 12px; align-items: center; }
-  .badge { background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: var(--text-muted); }
-  .badge.live { border-color: #3fb950; color: #3fb950; }
-  .badge.live::before { content: '●'; margin-right: 5px; animation: pulse 2s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-  .container { max-width: 1400px; margin: 0 auto; padding: 24px 32px; }
-
-  .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
-  .kpi-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.15s; }
-  .kpi-card:hover { transform: translateY(-2px); border-color: #484f58; }
-  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 12px 12px 0 0; }
-  .kpi-card.research::before { background: var(--research); }
-  .kpi-card.production::before { background: var(--production); }
-  .kpi-card.approval::before { background: var(--approval); }
-  .kpi-card.other::before { background: var(--other); }
-  .kpi-card.issue::before { background: var(--issue); }
-  .kpi-label { color: var(--text-muted); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-  .kpi-number { font-size: 32px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
-  .kpi-card.research .kpi-number { color: var(--research); }
-  .kpi-card.production .kpi-number { color: var(--production); }
-  .kpi-card.approval .kpi-number { color: var(--approval); }
-  .kpi-card.other .kpi-number { color: var(--other); }
-  .kpi-card.issue .kpi-number { color: var(--issue); }
-  .kpi-sub { color: var(--text-muted); font-size: 11px; }
-
-  .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-  .full-width { grid-column: 1 / -1; }
-
-  .section-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .section-header { padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
-  .section-title { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; }
-  .section-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .dot-research { background: var(--research); box-shadow: 0 0 8px var(--research); }
-  .dot-production { background: var(--production); box-shadow: 0 0 8px var(--production); }
-  .dot-approval { background: var(--approval); box-shadow: 0 0 8px var(--approval); }
-  .dot-other { background: var(--other); box-shadow: 0 0 8px var(--other); }
-  .section-count { background: var(--bg3); border: 1px solid var(--border); border-radius: 20px; padding: 2px 10px; font-size: 11px; color: var(--text-muted); }
-
-  .item-list { padding: 8px 0; max-height: 320px; overflow-y: auto; }
-  .item-list::-webkit-scrollbar { width: 4px; }
-  .item-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-  .item-row { padding: 10px 18px; border-bottom: 1px solid rgba(48,54,61,0.5); transition: background 0.15s; }
-  .item-row:last-child { border-bottom: none; }
-  .item-row:hover { background: var(--card-hover); }
-  .item-name { font-weight: 600; font-size: 12px; color: var(--text); margin-bottom: 3px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .item-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
-  .item-next { font-size: 11px; color: #58a6ff; margin-top: 3px; padding-left: 10px; border-left: 2px solid rgba(88,166,255,0.3); }
-  .item-tag { font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 500; }
-  .tag-exp { background: rgba(88,166,255,0.15); color: #58a6ff; }
-  .tag-doc { background: rgba(188,140,255,0.15); color: #bc8cff; }
-  .tag-mfg { background: rgba(240,136,62,0.15); color: #f0883e; }
-
-  .accent-research { color: var(--research); }
-  .accent-production { color: var(--production); }
-  .accent-approval { color: var(--approval); }
-  .accent-other { color: var(--other); }
-
-  .issue-list { padding: 12px 18px; display: flex; flex-direction: column; gap: 10px; }
-  .issue-card { background: var(--bg3); border-radius: 10px; padding: 12px 14px; border-left: 3px solid; }
-  .issue-card.critical { border-color: var(--issue); }
-  .issue-card.warning  { border-color: var(--warning); }
-  .issue-top { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; flex-wrap: wrap; }
-  .issue-icon { font-size: 14px; }
-  .issue-title { font-weight: 600; font-size: 12px; color: var(--text); flex: 1; }
-  .issue-person { font-size: 10px; padding: 2px 8px; border-radius: 10px; background: rgba(248,81,73,0.15); color: var(--issue); border: 1px solid rgba(248,81,73,0.3); white-space: nowrap; }
-  .issue-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
-
-  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 14px; }
-  .team-member { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 14px; transition: border-color 0.2s, transform 0.15s; }
-  .team-member:hover { border-color: #484f58; transform: translateY(-1px); }
-  .member-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .member-avatar { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-  .member-name { font-weight: 600; font-size: 13px; }
-  .member-status { margin-left: auto; font-size: 10px; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
-  .status-active { background: rgba(63,185,80,0.15); color: #3fb950; border: 1px solid rgba(63,185,80,0.3); }
-  .status-leave  { background: rgba(210,153,34,0.15); color: var(--warning); border: 1px solid rgba(210,153,34,0.3); }
-  .status-exit   { background: rgba(248,81,73,0.15); color: var(--issue); border: 1px solid rgba(248,81,73,0.3); }
-  .member-tasks { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 4px; }
-  .task-chip { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; font-size: 10px; color: var(--text-muted); }
-  .next-label { font-size: 10px; color: #58a6ff; margin: 7px 0 4px; font-weight: 600; opacity: 0.8; }
-  .next-chip { background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 6px; padding: 3px 8px; font-size: 10px; color: #79b8ff; }
-  .next-chip.none { background: rgba(139,148,158,0.08); border-color: rgba(139,148,158,0.2); color: var(--text-muted); }
-
-  .chart-section { display: flex; align-items: center; justify-content: center; gap: 28px; padding: 20px; }
-  .donut-wrap { position: relative; flex-shrink: 0; }
-  .donut-wrap svg { transform: rotate(-90deg); }
-  .donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .donut-num { font-size: 22px; font-weight: 700; color: var(--text); }
-  .donut-sub { font-size: 10px; color: var(--text-muted); }
-  .legend { display: flex; flex-direction: column; gap: 8px; }
-  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .legend-label { color: var(--text-muted); flex: 1; }
-  .legend-count { font-weight: 600; font-size: 11px; }
-
-  .progress-grid { padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; }
-  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-  .progress-name { font-size: 12px; color: var(--text); }
-  .progress-pct { font-size: 12px; font-weight: 600; }
-  .progress-bar { height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
-  .fill-research  { background: linear-gradient(90deg, #58a6ff, #79b8ff); }
-  .fill-production{ background: linear-gradient(90deg, #f0883e, #ffa563); }
-  .fill-approval  { background: linear-gradient(90deg, #bc8cff, #d2a8ff); }
-  .fill-other     { background: linear-gradient(90deg, #3fb950, #56d364); }
-
-  @media (max-width: 900px) {
-    .kpi-row { grid-template-columns: repeat(3, 1fr); }
-    .main-grid { grid-template-columns: 1fr; }
-    .team-grid { grid-template-columns: repeat(2, 1fr); }
-    .container { padding: 16px; }
-    .header { padding: 16px; }
-  }
+  :root{--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--border:#30363d;--text:#e6edf3;--text-muted:#8b949e;--research:#58a6ff;--production:#f0883e;--approval:#bc8cff;--other:#3fb950;--issue:#f85149;--warning:#d29922;--card-hover:#1c2128;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:13px;line-height:1.6;}
+  .header{background:linear-gradient(135deg,#0d1117 0%,#161b22 50%,#1a1f2e 100%);border-bottom:1px solid var(--border);padding:24px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px);}
+  .header-left h1{font-size:20px;font-weight:700;background:linear-gradient(90deg,#58a6ff,#bc8cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.3px;}
+  .header-left .subtitle{color:var(--text-muted);font-size:12px;margin-top:2px;}
+  .header-right{display:flex;gap:12px;align-items:center;}
+  .badge{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--text-muted);}
+  .badge.live{border-color:#3fb950;color:#3fb950;} .badge.live::before{content:'●';margin-right:5px;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+  .container{max-width:1400px;margin:0 auto;padding:24px 32px;}
+  .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
+  .kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;transition:border-color .2s,transform .15s;}
+  .kpi-card:hover{transform:translateY(-2px);border-color:#484f58;}
+  .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:12px 12px 0 0;}
+  .kpi-card.research::before{background:var(--research);} .kpi-card.production::before{background:var(--production);}
+  .kpi-card.approval::before{background:var(--approval);} .kpi-card.other::before{background:var(--other);}
+  .kpi-card.issue::before{background:var(--issue);}
+  .kpi-label{color:var(--text-muted);font-size:11px;font-weight:500;letter-spacing:.8px;margin-bottom:8px;}
+  .kpi-number{font-size:32px;font-weight:700;line-height:1;margin-bottom:4px;}
+  .kpi-card.research .kpi-number{color:var(--research);} .kpi-card.production .kpi-number{color:var(--production);}
+  .kpi-card.approval .kpi-number{color:var(--approval);} .kpi-card.other .kpi-number{color:var(--other);}
+  .kpi-card.issue .kpi-number{color:var(--issue);}
+  .kpi-sub{color:var(--text-muted);font-size:11px;}
+  .main-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .full-width{grid-column:1/-1;}
+  .section-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  .section-header{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
+  .section-title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;}
+  .section-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .dot-research{background:var(--research);box-shadow:0 0 8px var(--research);} .dot-production{background:var(--production);box-shadow:0 0 8px var(--production);}
+  .dot-approval{background:var(--approval);box-shadow:0 0 8px var(--approval);} .dot-other{background:var(--other);box-shadow:0 0 8px var(--other);}
+  .section-count{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:2px 10px;font-size:11px;color:var(--text-muted);}
+  .item-list{padding:8px 0;max-height:320px;overflow-y:auto;}
+  .item-list::-webkit-scrollbar{width:4px;} .item-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+  .item-row{padding:10px 18px;border-bottom:1px solid rgba(48,54,61,.5);transition:background .15s;}
+  .item-row:last-child{border-bottom:none;} .item-row:hover{background:var(--card-hover);}
+  .item-name{font-weight:600;font-size:12px;color:var(--text);margin-bottom:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .item-desc{font-size:11px;color:var(--text-muted);line-height:1.5;}
+  .item-next{font-size:11px;color:#58a6ff;margin-top:3px;padding-left:10px;border-left:2px solid rgba(88,166,255,.3);}
+  .item-tag{font-size:10px;padding:1px 6px;border-radius:4px;font-weight:500;}
+  .tag-exp{background:rgba(88,166,255,.15);color:#58a6ff;} .tag-doc{background:rgba(188,140,255,.15);color:#bc8cff;} .tag-mfg{background:rgba(240,136,62,.15);color:#f0883e;}
+  .accent-research{color:var(--research);} .accent-production{color:var(--production);} .accent-approval{color:var(--approval);} .accent-other{color:var(--other);}
+  .issue-list{padding:12px 18px;display:flex;flex-direction:column;gap:10px;}
+  .issue-card{background:var(--bg3);border-radius:10px;padding:12px 14px;border-left:3px solid;}
+  .issue-card.critical{border-color:var(--issue);} .issue-card.warning{border-color:var(--warning);} .issue-card.done{border-color:var(--other);}
+  .issue-top{display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap;}
+  .issue-icon{font-size:14px;} .issue-title{font-weight:600;font-size:12px;color:var(--text);flex:1;}
+  .issue-person{font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(248,81,73,.15);color:var(--issue);border:1px solid rgba(248,81,73,.3);white-space:nowrap;}
+  .issue-desc{font-size:11px;color:var(--text-muted);line-height:1.5;}
+  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:14px;}
+  .team-member{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;transition:border-color .2s,transform .15s;}
+  .team-member:hover{border-color:#484f58;transform:translateY(-1px);}
+  .member-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .member-avatar{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+  .member-name{font-weight:600;font-size:13px;} .member-status{margin-left:auto;font-size:10px;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+  .status-active{background:rgba(63,185,80,.15);color:#3fb950;border:1px solid rgba(63,185,80,.3);}
+  .status-leave{background:rgba(210,153,34,.15);color:var(--warning);border:1px solid rgba(210,153,34,.3);}
+  .status-exit{background:rgba(248,81,73,.15);color:var(--issue);border:1px solid rgba(248,81,73,.3);}
+  .member-tasks{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px;}
+  .task-chip{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:10px;color:var(--text-muted);}
+  .next-label{font-size:10px;color:#58a6ff;margin:7px 0 4px;font-weight:600;opacity:.8;}
+  .next-chip{background:rgba(88,166,255,.08);border:1px solid rgba(88,166,255,.2);border-radius:6px;padding:3px 8px;font-size:10px;color:#79b8ff;}
+  .next-chip.none{background:rgba(139,148,158,.08);border-color:rgba(139,148,158,.2);color:var(--text-muted);}
+  .chart-section{display:flex;align-items:center;justify-content:center;gap:28px;padding:20px;}
+  .donut-wrap{position:relative;flex-shrink:0;} .donut-wrap svg{transform:rotate(-90deg);}
+  .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .donut-num{font-size:22px;font-weight:700;color:var(--text);} .donut-sub{font-size:10px;color:var(--text-muted);}
+  .legend{display:flex;flex-direction:column;gap:8px;}
+  .legend-item{display:flex;align-items:center;gap:8px;font-size:12px;}
+  .legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;} .legend-label{color:var(--text-muted);flex:1;} .legend-count{font-weight:600;font-size:11px;}
+  .progress-grid{padding:14px 18px;display:flex;flex-direction:column;gap:10px;}
+  .progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+  .progress-name{font-size:12px;color:var(--text);} .progress-pct{font-size:12px;font-weight:600;}
+  .progress-bar{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+  .progress-fill{height:100%;border-radius:3px;transition:width .8s ease;}
+  .fill-research{background:linear-gradient(90deg,#58a6ff,#79b8ff);} .fill-production{background:linear-gradient(90deg,#f0883e,#ffa563);}
+  .fill-approval{background:linear-gradient(90deg,#bc8cff,#d2a8ff);} .fill-other{background:linear-gradient(90deg,#3fb950,#56d364);}
+  @media(max-width:900px){.kpi-row{grid-template-columns:repeat(3,1fr);}.main-grid{grid-template-columns:1fr;}.team-grid{grid-template-columns:repeat(2,1fr);}.container{padding:16px;}.header{padding:16px;}}
 </style>
 </head>
 <body>
 
-<!-- 잠금 화면 -->
 <div id="lock-screen">
   <div class="lock-box">
     <div class="lock-icon">🔬</div>
@@ -206,18 +128,10 @@
       <div class="pin-dot" id="wd2"></div><div class="pin-dot" id="wd3"></div>
     </div>
     <div class="numpad">
-      <button class="num-btn" onclick="wp('1')">1</button>
-      <button class="num-btn" onclick="wp('2')">2</button>
-      <button class="num-btn" onclick="wp('3')">3</button>
-      <button class="num-btn" onclick="wp('4')">4</button>
-      <button class="num-btn" onclick="wp('5')">5</button>
-      <button class="num-btn" onclick="wp('6')">6</button>
-      <button class="num-btn" onclick="wp('7')">7</button>
-      <button class="num-btn" onclick="wp('8')">8</button>
-      <button class="num-btn" onclick="wp('9')">9</button>
-      <button class="num-btn" onclick="wp('←')" style="font-size:14px;color:#8b949e;">⌫</button>
-      <button class="num-btn" onclick="wp('0')">0</button>
-      <div></div>
+      <button class="num-btn" onclick="wp('1')">1</button><button class="num-btn" onclick="wp('2')">2</button><button class="num-btn" onclick="wp('3')">3</button>
+      <button class="num-btn" onclick="wp('4')">4</button><button class="num-btn" onclick="wp('5')">5</button><button class="num-btn" onclick="wp('6')">6</button>
+      <button class="num-btn" onclick="wp('7')">7</button><button class="num-btn" onclick="wp('8')">8</button><button class="num-btn" onclick="wp('9')">9</button>
+      <button class="num-btn" onclick="wp('←')" style="font-size:14px;color:#8b949e;">⌫</button><button class="num-btn" onclick="wp('0')">0</button><div></div>
     </div>
     <div class="lock-err" id="wd-err"></div>
     <div class="lock-hint">탭을 닫기 전까지 재입력 불필요</div>
@@ -228,47 +142,25 @@
 <script>
 var wpin='';
 function wp(v){
-  var err=document.getElementById('wd-err'); err.textContent='';
-  if(v==='←'){wpin=wpin.slice(0,-1);}
-  else if(wpin.length<4){wpin+=v;}
+  var err=document.getElementById('wd-err');err.textContent='';
+  if(v==='←'){wpin=wpin.slice(0,-1);}else if(wpin.length<4){wpin+=v;}
   wdots();
-  if(wpin.length===4){
-    setTimeout(function(){
-      if(wpin==='1400'){
-        sessionStorage.setItem('weekly_auth','1');
-        document.getElementById('lock-screen').style.display='none';
-        document.getElementById('dashboard').style.display='block';
-        document.title='Cancer팀 주간 업무 대시보드';
-      } else {
-        document.querySelectorAll('.pin-dot').forEach(function(d){d.classList.add('error');d.classList.remove('filled');});
-        err.textContent='PIN이 맞지 않습니다';
-        setTimeout(function(){document.querySelectorAll('.pin-dot').forEach(function(d){d.classList.remove('error');});wpin='';wdots();},700);
-      }
-    },120);
-  }
+  if(wpin.length===4){setTimeout(function(){
+    if(wpin==='1400'){sessionStorage.setItem('weekly_auth','1');document.getElementById('lock-screen').style.display='none';document.getElementById('dashboard').style.display='block';document.title='Cancer팀 주간 업무 대시보드';}
+    else{document.querySelectorAll('.pin-dot').forEach(function(d){d.classList.add('error');d.classList.remove('filled');});err.textContent='PIN이 맞지 않습니다';setTimeout(function(){document.querySelectorAll('.pin-dot').forEach(function(d){d.classList.remove('error');});wpin='';wdots();},700);}
+  },120);}
 }
 function wdots(){for(var i=0;i<4;i++){var d=document.getElementById('wd'+i);if(d)d.classList.toggle('filled',i<wpin.length);}}
-document.addEventListener('keydown',function(e){
-  if(document.getElementById('lock-screen').style.display==='none')return;
-  if(e.key>='0'&&e.key<='9')wp(e.key);
-  if(e.key==='Backspace')wp('←');
-});
-window.addEventListener('DOMContentLoaded',function(){
-  if(sessionStorage.getItem('weekly_auth')==='1'){
-    document.getElementById('lock-screen').style.display='none';
-    document.getElementById('dashboard').style.display='block';
-    document.title='Cancer팀 주간 업무 대시보드';
-  }
-});
+document.addEventListener('keydown',function(e){if(document.getElementById('lock-screen').style.display==='none')return;if(e.key>='0'&&e.key<='9')wp(e.key);if(e.key==='Backspace')wp('←');});
+window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem('weekly_auth')==='1'){document.getElementById('lock-screen').style.display='none';document.getElementById('dashboard').style.display='block';document.title='Cancer팀 주간 업무 대시보드';}});
 </script>
 
-<!-- 대시보드 본문 -->
 <div id="dashboard">
 
 <header class="header">
   <div class="header-left">
     <h1>🔬 Cancer팀 주간 대시보드</h1>
-    <div class="subtitle">보고 기간: 2026년 4월 13일(월) ~ 4월 17일(금) &nbsp;|&nbsp; 16주차 &nbsp;|&nbsp; 차주: 4월 20일(월) ~ 4월 24일(금)</div>
+    <div class="subtitle">보고 기간: 2026년 4월 20일(월) ~ 4월 24일(금) &nbsp;|&nbsp; 17주차 &nbsp;|&nbsp; 차주: 4월 27일(월) ~ 5월 1일(금)</div>
   </div>
   <div class="header-right">
     <span class="badge live">이번 주</span>
@@ -278,36 +170,15 @@ window.addEventListener('DOMContentLoaded',function(){
 
 <div class="container">
 
-  <!-- KPI -->
   <div class="kpi-row">
-    <div class="kpi-card research">
-      <div class="kpi-label">🔬 연구</div>
-      <div class="kpi-number">7</div>
-      <div class="kpi-sub">진행 아이템</div>
-    </div>
-    <div class="kpi-card production">
-      <div class="kpi-label">🏭 생산</div>
-      <div class="kpi-number">9</div>
-      <div class="kpi-sub">진행 아이템</div>
-    </div>
-    <div class="kpi-card approval">
-      <div class="kpi-label">📋 허가</div>
-      <div class="kpi-number">4</div>
-      <div class="kpi-sub">진행 아이템</div>
-    </div>
-    <div class="kpi-card other">
-      <div class="kpi-label">📌 기타</div>
-      <div class="kpi-number">4</div>
-      <div class="kpi-sub">진행 아이템</div>
-    </div>
-    <div class="kpi-card issue">
-      <div class="kpi-label">⚠️ 이슈</div>
-      <div class="kpi-number">4</div>
-      <div class="kpi-sub">처리 필요</div>
-    </div>
+    <div class="kpi-card research"><div class="kpi-label">🔬 연구</div><div class="kpi-number">7</div><div class="kpi-sub">진행 아이템</div></div>
+    <div class="kpi-card production"><div class="kpi-label">🏭 생산</div><div class="kpi-number">5</div><div class="kpi-sub">진행 아이템</div></div>
+    <div class="kpi-card approval"><div class="kpi-label">📋 허가</div><div class="kpi-number">5</div><div class="kpi-sub">진행 아이템</div></div>
+    <div class="kpi-card other"><div class="kpi-label">📌 기타</div><div class="kpi-number">5</div><div class="kpi-sub">진행 아이템</div></div>
+    <div class="kpi-card issue"><div class="kpi-label">⚠️ 이슈</div><div class="kpi-number">5</div><div class="kpi-sub">처리 필요</div></div>
   </div>
 
-  <!-- ROW 1: 연구 + 생산 -->
+  <!-- ROW 1: 연구 + 생산/허가 -->
   <div class="main-grid">
 
     <!-- 연구 -->
@@ -318,192 +189,170 @@ window.addEventListener('DOMContentLoaded',function(){
       </div>
       <div class="item-list">
         <div class="item-row">
-          <div class="item-name">AFIAS CEA 재현성 개선 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">반응시간 15min→12min 변경 / CEWCA15X CV 9.6%→Pass, CEWCA16X CV 7.3%→Pass / AFIAS-10 Lv1 CV 12%→3.2% 대폭 개선 ✅</div>
-          <div class="item-next">추가 배치(1배치) 생산 후 최종 보고서 작성</div>
+          <div class="item-name">Calprotectin i50 SW 평가 <span class="item-tag tag-exp">실험</span></div>
+          <div class="item-desc">i50 EB 제조·실링·매거진 포장 완료(100T) → 1차 구동: Lv1·Lv2 CV&gt;10% ⚠️ (자석 맞물림 불량 추정) → 재포장 후 금요일 재진행 / AFIAS-10 Emergency vs General mode ✅ Bias ±5% 이내</div>
+          <div class="item-next">i50 SW 재평가 (믹싱 30회) 완료 후 안정성 평가 착수</div>
         </div>
         <div class="item-row">
-          <div class="item-name">Calprotectin AFIAS-10 평가 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">Emergency vs General mode 비교 → bias 5% 이내, 차이 없음 ✅ / Emergency mode 수식 작성 가능 확인</div>
-          <div class="item-next">i50 SW 업데이트 후 Control Lv1/2 각 50회 SW 평가</div>
+          <div class="item-name">HE4 <span class="item-tag tag-exp">실험</span></div>
+          <div class="item-desc">37℃ 건조 조건 NC (3 line) 재현성 평가 / 2 line: eu·biotin 농도 비율 조정 진행 중</div>
+          <div class="item-next">3 line (37℃ 3일 건조 NC) 추가 평가 / Eu 농도 1.5μg/mL 조정 재시험 / HE4 이원결과보고서 완료</div>
         </div>
         <div class="item-row">
-          <div class="item-name">HE4 GDDB Tris base 재현성 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">3 line: Anti ratio CV&lt;5% 만족, Ratio CV&gt;10% 불만족 / 2 line: ichroma 9%, AFIAS 16% → 기준 불만족 ❌ / eu·biotin 비율 재조정 필요</div>
-          <div class="item-next">eu·biotin 비율 재조정 후 granule 재생산 및 재시험 / HE4 이원결과보고서 작성</div>
+          <div class="item-name">CEA Granule 가혹 안정성 <span class="item-tag tag-exp">실험</span></div>
+          <div class="item-desc">PEG 0%, 1% 가혹 안정성 → 45℃ 70일차 기준 (45℃ 환산일: 280일) 진행 중</div>
         </div>
         <div class="item-row">
           <div class="item-name">AFIAS CA15-3 신규 개발 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">AFIAS CA15-3 구동 시나리오 확인 시험 (김수지)</div>
-          <div class="item-next">CA15-3 AFIAS 구동 확인 계속</div>
+          <div class="item-desc">AFIAS CA15-3 구동 시나리오 확인 시험 진행 (김수지)</div>
+          <div class="item-next">ichroma CA15-3 구동 확인 계속</div>
         </div>
         <div class="item-row">
-          <div class="item-name">Cyfra21-1 배치별 재현성 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">CYCOVH08/09 배치 ichroma vs AFIAS 편차: Lv1 85%, Lv2 77~83% → 편차 증가 ⚠️ / 대조장비 시약 구매·항체 견적 요청 (박영서)</div>
-          <div class="item-next">상관성 확인 및 Control assign 값 검토 / 연구용 EUNP Conjugation</div>
+          <div class="item-name">Cyfra21-1 상관성 평가 <span class="item-tag tag-exp">실험</span></div>
+          <div class="item-desc">검체 38종 vs Roche COBAS 비교 → 저농도 이상 없음 / 고농도(10ng/mL↑): ichroma bias 최대 226%, AFIAS 190% ❌ / 원인: Cal 보정값 누적 과다 확인 (박영서)</div>
+          <div class="item-next">차기 배치부터 Cal값 5~7%씩 점진 하향 조정 (ichroma 30~40%, AFIAS 20~30%)</div>
+        </div>
+        <div class="item-row">
+          <div class="item-name">AFIAS Free PSA 재현성 개선 <span class="item-tag tag-exp">실험</span></div>
+          <div class="item-desc">AFIAS-10 일반 모드 vs stepmixing 모드 차이 확인 (임지은) / 5일차 진행 중</div>
+          <div class="item-next">stepmixing 조건 설정 / TN_G 라인분주 조건 설정</div>
         </div>
         <div class="item-row">
           <div class="item-name">iFOB Neo / Stool 자동화 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">ichroma-50 plus 카트리지 안정성 Day 0~3 (개봉 후 실온 vs 지퍼백 비교) / AFIAS-10 Emergency/General mode → 차이 없음 ✅ (장혜지)</div>
-          <div class="item-next">ichroma-50 plus 정규버전 평가 100회 / 안정성 6·10일차</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">CA125 IVDR TD 개정 <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">ichroma/AFIAS CA125 IVDR TD – APR 개정에 의한 개발완료보고서 수정 작성 (김수지)</div>
+          <div class="item-desc">ichroma-50 plus 정규버전 SW(Fix gain) 평가 ✅ CV&lt;10% / 카트리지 안정성 10일차 → 실온 6일차부터 불안정 ❌ / 지퍼백+실리카겔 전 기간 안정 ✅ / Stool EB tube 중국 비교 → recovery 94%, drop 양 차이 ⚠️ (장혜지)</div>
+          <div class="item-next">안정성 14일차(4/28) / 28일차(5/12) 완료 후 최종 방향 결정</div>
         </div>
       </div>
     </div>
 
-    <!-- 생산 -->
+    <!-- 생산+허가 -->
     <div class="section-card">
       <div class="section-header">
-        <div class="section-title"><span class="section-dot dot-production"></span><span class="accent-production">🏭 생산</span></div>
-        <span class="section-count">9건</span>
+        <div class="section-title"><span class="section-dot dot-production"></span><span class="accent-production">🏭 생산</span> &nbsp;<span style="color:var(--text-muted);font-size:12px;">/</span>&nbsp; <span class="accent-approval">📋 허가</span></div>
+        <span class="section-count">10건</span>
       </div>
       <div class="item-list">
         <div class="item-row">
-          <div class="item-name">Calprotectin <span class="item-tag tag-mfg">제조</span></div>
-          <div class="item-desc">CP_EB_260415 50L 생산</div>
-          <div class="item-next">CPWDE02Z 수식 작성</div>
+          <div class="item-name">AFP 수식 이관 ✅ <span class="item-tag tag-doc">수식</span></div>
+          <div class="item-desc">AFWCC12, AFWCB09EX, AFWCB09EXI 수식 작성 완료 및 id chip 이관 (김나연)</div>
         </div>
         <div class="item-row">
-          <div class="item-name">AFP <span class="item-tag tag-doc">수식</span></div>
-          <div class="item-desc">AFWCC12, AFWCB09EX, AFWCB09EXI 수식 작성 (김나연)</div>
+          <div class="item-name">Ferritin 인수인계·제조 <span class="item-tag tag-mfg">제조</span></div>
+          <div class="item-desc">FR Conjugator 20mg 제조(ratio 2.68) / DFR_Diluent 50L / ichroma 수식(DFRWDF07/08), AFIAS 수식(FRWDA90X/91X) 인수인계 병행 (고경열→박영서/박주연) 완료 ✅</div>
+          <div class="item-next">페리틴 라인분주 14roll (SPCN024_260428) / A3 뉴플랫폼 Ferritin 튐 현상 비교 / 벨기에 임상 출하 Control 평가</div>
         </div>
         <div class="item-row">
-          <div class="item-name">H. Pylori SA <span class="item-tag tag-doc">수식/품질</span></div>
-          <div class="item-desc">AFIAS 수식(HSWDA11X) / ichroma 수식(HSWCK07) 검수 완료 / 성상 부적합 2건(HSWCK04, HSWCK05) / 브라질 라벨·Insert 신규등록 RA팀 결재 요청 / 인수인계서 작성 중 (이다희 5/12 퇴사)</div>
-          <div class="item-next">AFIAS 출하 전 검사 (HSWDA11X) → 4/22까지 id chip 이관</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">Ferritin <span class="item-tag tag-doc">검사/수식</span></div>
-          <div class="item-desc">AFIAS Ferritin 출하 전 검사 2배치 완료 (FRWDA90X, FRWDA91X) / ichroma Ferritin 수식(DFRWDF07/08), AFIAS 수식(FRWDA90X/91X) 작성 (고경열)</div>
-          <div class="item-next">FR/Biotin-BSA Conjugation 제조 / DFR_Diluent 50L 제조</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">PSA Neo / Free PSA <span class="item-tag tag-doc">수식/제조</span></div>
-          <div class="item-desc">Granule 성상·성능 이상 없음 ✅ / ichroma PSA 수식(PSVCT05, PSVCT06) / PS_EX_Diluent 50L 제조·필터 / PS_EX 라인분주 5 roll (임지은)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">CEA Control assign <span class="item-tag tag-doc">검사</span></div>
-          <div class="item-desc">Boditech Tumor marker Control [TMCOWD28] Exp.2027.04 assign 완료 / Bio-rad Lyphochek Immunoassay Plus [40490] assign (박주연 보조)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">Cyfra21-1 <span class="item-tag tag-exp">검사</span></div>
-          <div class="item-desc">배치별 재현성 확인 및 장비간 Control 값 비교 (박영서)</div>
-          <div class="item-next">CYWDA10EX 수식 (재작업품)</div>
+          <div class="item-name">Cyfra21-1 제조·Conjugation <span class="item-tag tag-mfg">제조</span></div>
+          <div class="item-desc">Diluent 제조 / 연구용 EuNP·Biotin Conjugation (박영서)</div>
+          <div class="item-next">EuNP·Biotin 비율 최적화 재검토 / CYWDA11EX 수식 작성</div>
         </div>
         <div class="item-row">
           <div class="item-name">iFOB Neo / CA19-9 <span class="item-tag tag-mfg">제조</span></div>
-          <div class="item-desc">FO_EB_260416 25L 제조 (FOWDF05Z)</div>
-          <div class="item-next">ichroma CA19-9 (CXWDB07EX) 수식 / ichroma iFOB Neo (FOWCF04Z) 수식</div>
+          <div class="item-desc">FO_EB_260423 25L 제조 (FOWEF06Z)</div>
+          <div class="item-next">ichroma CA19-9(CXWDB07EX) 수식 / ichroma iFOB Neo(FOWCF04Z) 수식</div>
         </div>
         <div class="item-row">
-          <div class="item-name">기타 보조 <span class="item-tag tag-mfg">보조</span></div>
-          <div class="item-desc">AFIAS-1 SW 평가 카트리지 기타 출고 / Tumor marker·Bio-rad Control assign 보조 (박주연)</div>
+          <div class="item-name">Cancer Marker 뉴플랫폼 <span class="item-tag tag-exp">검사</span></div>
+          <div class="item-desc">AFIAS CEA 뉴플랫폼 장비 test 보조 (박주연)</div>
+          <div class="item-next">AFIAS-1 SW 평가 12종 (04.28~05.04, 박주연)</div>
+        </div>
+        <div class="item-row" style="border-top:2px dashed var(--border);margin-top:4px;">
+          <div class="item-name">Calprotectin IVDR PMPF ✅ <span class="item-tag tag-doc">허가</span></div>
+          <div class="item-desc">QDx ichroma Calprotectin PMPF Plan 작성 완료 (IVDR용, 김나연)</div>
+          <div class="item-next">Calprotectin Control (국내 RUO) Insert 수정</div>
+        </div>
+        <div class="item-row">
+          <div class="item-name">iFOB Neo ichroma-50 Plus 성능 자료 <span class="item-tag tag-doc">허가</span></div>
+          <div class="item-desc">IVDD·IVDR 성능 자료 작성 (4/30까지 완료 목표, 장혜지) / Stool 자동화 회의 자료 준비 완료</div>
+          <div class="item-next">ichroma-50 Plus 성능 자료(IVDD·IVDR) 완료</div>
+        </div>
+        <div class="item-row">
+          <div class="item-name">Ferritin 허가 서류 ✅ <span class="item-tag tag-doc">허가</span></div>
+          <div class="item-desc">인수인계서 수정·보완 완료 (고경열) / ichroma Ferritin 변경허가 신청서 검토 완료</div>
+          <div class="item-next">BOM 수정 관련 서류 (Ferritin 전혈 아이템 변경)</div>
+        </div>
+        <div class="item-row">
+          <div class="item-name">HE4 이원결과보고서 ✅ <span class="item-tag tag-doc">허가</span></div>
+          <div class="item-desc">이원의료재단 HE4 종료보고서 작성 완료 (김나연)</div>
+        </div>
+        <div class="item-row">
+          <div class="item-name">H.pylori SA 종료보고서 <span class="item-tag tag-doc">허가</span></div>
+          <div class="item-desc">IRB BR280 H.pylori 종료보고서 내용 수정 (고경열)</div>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ROW 2: 이슈 + 허가/기타 -->
+  <!-- ROW 2: 이슈 + 기타 -->
   <div class="main-grid">
 
     <!-- 이슈 -->
     <div class="section-card">
       <div class="section-header">
-        <div class="section-title">
-          <span class="section-dot" style="background:var(--issue);box-shadow:0 0 8px var(--issue);"></span>
-          <span style="color:var(--issue);">⚠️ 주요 이슈</span>
-        </div>
-        <span class="section-count">4건</span>
+        <div class="section-title"><span class="section-dot" style="background:var(--issue);box-shadow:0 0 8px var(--issue);"></span><span style="color:var(--issue);">⚠️ 주요 이슈 / 클레임</span></div>
+        <span class="section-count">5건</span>
       </div>
       <div class="issue-list">
         <div class="issue-card critical">
-          <div class="issue-top">
-            <span class="issue-icon">🚨</span>
-            <span class="issue-title">ichroma-2 bias 30~40% 차이 발생</span>
-            <span class="issue-person">김수지</span>
-          </div>
-          <div class="issue-desc">Control QC 시 ichroma-2에서 bias 30~40% 차이 발생 → 원인 파악 중</div>
+          <div class="issue-top"><span class="issue-icon">🚨</span><span class="issue-title">Cyfra21-1 고농도 Cal 보정 과다</span><span class="issue-person">박영서</span></div>
+          <div class="issue-desc">ichroma bias 최대 226%, AFIAS 190% → Cal 보정값 누적 과다가 원인 / 차기 배치부터 5~7%씩 점진 하향 조정 계획</div>
         </div>
         <div class="issue-card critical">
-          <div class="issue-top">
-            <span class="issue-icon">⚠️</span>
-            <span class="issue-title">Cyfra21-1 배치 편차 증가</span>
-            <span class="issue-person">박영서</span>
-          </div>
-          <div class="issue-desc">CYCOVH08/09 배치 ichroma vs AFIAS 편차: Lv2 77~83% → Control assign 값 검토 필요 / 대조장비 시약 구매 및 항체 견적 요청</div>
+          <div class="issue-top"><span class="issue-icon">⚠️</span><span class="issue-title">Calprotectin i50 CV&gt;10% (자석 불량)</span><span class="issue-person">김나연</span></div>
+          <div class="issue-desc">1차 구동 시 Lv1·Lv2 CV 기준 초과 → 자석 맞물림 불량 추정 / 재포장 후 재진행 예정</div>
         </div>
         <div class="issue-card warning">
-          <div class="issue-top">
-            <span class="issue-icon">📋</span>
-            <span class="issue-title">H.pylori SA 성상 부적합 + 인수인계</span>
-            <span class="issue-person" style="background:rgba(210,153,34,0.15);color:var(--warning);border-color:rgba(210,153,34,0.3);">이다희</span>
-          </div>
-          <div class="issue-desc">HSWCK04, HSWCK05 성상 부적합 2건 / <strong style="color:var(--issue);">이다희 사원 5/12 퇴사 예정</strong> → 유다연(인수), 김수지 대리(보완) 인수인계 진행 중</div>
+          <div class="issue-top"><span class="issue-icon">🌍</span><span class="issue-title">독일 Hitado AFIAS CEA CEVHA13X QC Fail</span><span class="issue-person" style="background:rgba(210,153,34,.15);color:var(--warning);border-color:rgba(210,153,34,.3);">김수지</span></div>
+          <div class="issue-desc">AFIAS-3 독일 장비 vs 연구소 장비 bias 약 30% → TMCOWC27 assign 값 보정 + 전용 별지 제작·전달 ✅ 처리완료</div>
         </div>
         <div class="issue-card warning">
-          <div class="issue-top">
-            <span class="issue-icon">🌏</span>
-            <span class="issue-title">과테말라 AFIAS PSA 클레임</span>
-            <span class="issue-person" style="background:rgba(210,153,34,0.15);color:var(--warning);border-color:rgba(210,153,34,0.3);">임지은</span>
-          </div>
-          <div class="issue-desc">자사 검체·control 이상 없음, 과테말라 업체 대조장비 결과 상이 → 대응 진행 중</div>
+          <div class="issue-top"><span class="issue-icon">🌍</span><span class="issue-title">튀니지 Biotop CEA CEVLA14X Invalid-34</span><span class="issue-person" style="background:rgba(210,153,34,.15);color:var(--warning);border-color:rgba(210,153,34,.3);">김수지</span></div>
+          <div class="issue-desc">팁 막힘·펌프 오류·조립 불량 가능성 안내 → 추가 유저 확인 후 피드백 예정 ⚠️ 진행중</div>
+        </div>
+        <div class="issue-card done">
+          <div class="issue-top"><span class="issue-icon">✅</span><span class="issue-title">에콰도르 PSA Neo PSWAC10EX Invalid-06</span><span class="issue-person" style="background:rgba(63,185,80,.15);color:#3fb950;border-color:rgba(63,185,80,.3);">임지은</span></div>
+          <div class="issue-desc">Strip 혼용(T3) 원인 확인 → 해당 Lot 전량 교체 완료 ✅ 종결</div>
         </div>
       </div>
     </div>
 
-    <!-- 허가 + 기타 -->
+    <!-- 기타 -->
     <div class="section-card">
       <div class="section-header">
-        <div class="section-title"><span class="section-dot dot-other"></span><span class="accent-other">📋 허가 / 📌 기타</span></div>
-        <span class="section-count">8건</span>
+        <div class="section-title"><span class="section-dot dot-other"></span><span class="accent-other">📌 기타 / 공지 / 인수인계</span></div>
+        <span class="section-count">5건</span>
       </div>
       <div class="item-list" style="max-height:260px;">
         <div class="item-row">
-          <div class="item-name">iFOB Neo / CA19-9 허가 <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">AFIAS iFOB Neo IFU 검토·수정 / 개발완료보고서 최종 검토 / IVDD Technical file 검토·수정 / AFIAS iFOB Neo IVDD IFU 제출(4/17) 완료</div>
+          <div class="item-name">인수인계 완료 ✅ <span class="item-tag tag-doc">관리</span></div>
+          <div class="item-desc">Ferritin: 고경열→박영서(정)/박주연(부) 수식·Diluent·Conjugator 인수인계 완료 (4/21) / H.pylori SA: 이다희→유다연/김수지 Conjugator·DDB·수식이관 완료</div>
+          <div class="item-next">급성감염팀 업무 인계 (고경열) / 업무분장 서류 작성 (박영서)</div>
         </div>
         <div class="item-row">
-          <div class="item-name">CA125 IVDR TD <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">APR 개정에 의한 개발완료보고서 수정 작성 (김수지)</div>
+          <div class="item-name">AFIAS A3 SW 공지 <span class="item-tag tag-doc">공지</span></div>
+          <div class="item-desc">Rev.5 업데이트 – ID칩 쇼트 버그 수정 / 후지필름 전용 SW(107.24): 파라미터 변경 전 임의 변경 금지 / AFIAS 세대별 측정값 차이 이슈 – 기계팀 논의 중</div>
         </div>
         <div class="item-row">
-          <div class="item-name">H. Pylori SA 내수허가 <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">관련 서류 확인 (박영서)</div>
-          <div class="item-next">업무분장에 따른 인수인계 (박영서)</div>
+          <div class="item-name">규제·임상 공지 <span class="item-tag tag-doc">공지</span></div>
+          <div class="item-desc">신규 IVDR 기한 등록 – 해당 아이템 취합 후 4/30까지 (김철민 팀장) / 전남대 임상 H.pylori AFIAS 파일럿(~100건) 선행, 결과 양호 시 Calprotectin 착수 / PSA 유럽 MPT 시장 진입 검토 계획서 작성 중</div>
+          <div class="item-next">IVDR 기한 등록 완료(4/30) / 전남대 임상 방향 최종 협의</div>
         </div>
         <div class="item-row">
-          <div class="item-name">PSA / Free PSA 허가 <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">Bio-rad control value assign 진행 (임지은)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">클레임 대응 <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">과테말라 AFIAS PSA 클레임 대응 (임지은) / 중국 Calprotectin + 혈액 실험 클레임 처리 (김나연)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">인수인계 <span class="item-tag tag-doc">관리</span></div>
-          <div class="item-desc">이다희(H.pylori SA) → 유다연/김수지 / 고경열(Ferritin) → 박영서(정)/박주연(부) / 인수인계서 작성 진행 중</div>
-          <div class="item-next">박영서 신입 Ferritin 인수인계 진행 (4/20~)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">HE4 이원결과보고서 <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">이원의료재단 종료보고서 작성 예정</div>
-          <div class="item-next">김나연 작성 예정</div>
+          <div class="item-name">중국 AFP 클레임 <span class="item-tag tag-doc">서류</span></div>
+          <div class="item-desc">중국 허군의 차장님 AFP 별지 생성 처리 완료 (김나연)</div>
         </div>
         <div class="item-row">
           <div class="item-name">회의 <span class="item-tag tag-doc">회의</span></div>
-          <div class="item-desc">Cancer팀 주간회의(4/16) / 월간회의 비대면(4/13) / 실적설명회(4/16)</div>
-          <div class="item-next">Cancer팀 주간회의(4/23) / Stool 자동화 회의(4/23)</div>
+          <div class="item-desc">Cancer팀 주간회의(4/23) / Stool 자동화 회의(4/23)</div>
+          <div class="item-next">Cancer팀 주간회의(4/30) / CA125 인수인계 회의 (→장혜지, 4/27)</div>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- TEAM ROW -->
+  <!-- 팀원 현황 -->
   <div class="main-grid" style="margin-top:0;">
     <div class="section-card full-width">
       <div class="section-header">
@@ -514,166 +363,168 @@ window.addEventListener('DOMContentLoaded',function(){
 
         <div class="team-member">
           <div class="member-header">
-            <div class="member-avatar" style="background:rgba(88,166,255,0.15);color:var(--research);">다희</div>
+            <div class="member-avatar" style="background:rgba(88,166,255,.15);color:var(--research);">다희</div>
             <div><div class="member-name">이다희</div></div>
             <span class="member-status status-exit">5/12 퇴사</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">AFIAS H.pylori SA 수식(HSWDA11X)</span>
-            <span class="task-chip">ichroma 수식(HSWCK07/08)</span>
-            <span class="task-chip">브라질 라벨 온도 변경</span>
-            <span class="task-chip">인수인계서 작성 중</span>
-            <span class="task-chip">⚠️ 연차 4/15, 4/16 오전반차</span>
+            <span class="task-chip">H.pylori SA 인수인계 완료 ✅</span>
+            <span class="task-chip">HP_1D·SA-FPR conjugator 제조</span>
+            <span class="task-chip">HS_DDB 4.6L 제조</span>
+            <span class="task-chip" style="color:var(--issue);">연차 4/21~23 + 4/24 오후반차</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">유다연에 인수인계 진행</span>
-            <span class="next-chip">4/20 Conjugator·DDB 제조</span>
-            <span class="next-chip" style="background:rgba(248,81,73,0.08);border-color:rgba(248,81,73,0.2);color:#ff7b72;">연차 4/21~23 (3일)</span>
+            <span class="next-chip">ichroma-50 plus 100T 진행</span>
+            <span class="next-chip">HS_EB 25L 1배치 제조 (인수인계 병행)</span>
           </div>
         </div>
 
         <div class="team-member">
           <div class="member-header">
-            <div class="member-avatar" style="background:rgba(240,136,62,0.15);color:var(--production);">경열</div>
+            <div class="member-avatar" style="background:rgba(240,136,62,.15);color:var(--production);">경열</div>
             <div><div class="member-name">고경열</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">Ferritin 수식 4건 작성</span>
-            <span class="task-chip">DFRWDF08 재현성 이상 확인 ⚠️</span>
-            <span class="task-chip">인수인계 준비 (→박영서)</span>
+            <span class="task-chip">Ferritin 수식 4건 인수인계 완료 ✅</span>
+            <span class="task-chip">ichroma Ferritin 전혈 허가 서류 완료 ✅</span>
+            <span class="task-chip">H.pylori BR280 종료보고서 수정</span>
+            <span class="task-chip">CRP 라인분주 (clone 3B21, 조건 1~4)</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">수식 마무리·ID chip 전달</span>
-            <span class="next-chip">DFR Diluent 50L 제조</span>
-            <span class="next-chip">FR/BSA-biotin Conjugator 제조</span>
-            <span class="next-chip">Stool 자동화 회의 (4/23)</span>
+            <span class="next-chip">Ferritin 라인분주 14roll</span>
+            <span class="next-chip">CRP 인수인계 (정장미→고경열)</span>
+            <span class="next-chip">자사항체 Detector(7F69) 4lot Conjugation</span>
           </div>
         </div>
 
         <div class="team-member">
           <div class="member-header">
-            <div class="member-avatar" style="background:rgba(63,185,80,0.15);color:var(--other);">나연</div>
+            <div class="member-avatar" style="background:rgba(63,185,80,.15);color:var(--other);">나연</div>
             <div><div class="member-name">김나연</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">HE4 Tris 재현성 ❌</span>
-            <span class="task-chip">Calprotectin AFIAS-10 ✅</span>
-            <span class="task-chip">AFP 수식 3건</span>
-            <span class="task-chip">CP_EB 50L 제조</span>
-            <span class="task-chip">중국 CP 클레임 처리</span>
+            <span class="task-chip">CP i50 SW 1차 CV&gt;10% ⚠️</span>
+            <span class="task-chip">HE4 37℃ 건조 NC 개선 확인</span>
+            <span class="task-chip">AFP 수식 이관 ✅</span>
+            <span class="task-chip">CP PMPF Plan 완료 ✅</span>
+            <span class="task-chip">HE4 종료보고서 완료 ✅</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">i50 SW 평가 50회</span>
-            <span class="next-chip">Calprotectin 허가 data 준비</span>
-            <span class="next-chip">HE4 종료보고서 작성</span>
-            <span class="next-chip">Stool 자동화 회의 (4/23)</span>
+            <span class="next-chip">CP i50 SW 재평가 (믹싱 30회)</span>
+            <span class="next-chip">HE4 희석비 변경 실험</span>
+            <span class="next-chip">CP_EB 50L / Control 30번 assign</span>
           </div>
         </div>
 
         <div class="team-member">
           <div class="member-header">
-            <div class="member-avatar" style="background:rgba(188,140,255,0.15);color:var(--approval);">수지</div>
+            <div class="member-avatar" style="background:rgba(188,140,255,.15);color:var(--approval);">수지</div>
             <div><div class="member-name">김수지</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">AFIAS CEA 재현성 개선 ✅</span>
-            <span class="task-chip">CA15-3 AFIAS 신규 개발</span>
-            <span class="task-chip">CA15-3 성능자료·개발완료보고서</span>
-            <span class="task-chip">CA125 IVDR TD 개정</span>
-            <span class="task-chip">H.pylori SA 인수인계 진행</span>
+            <span class="task-chip">H.pylori SA 인수인계 교육</span>
+            <span class="task-chip">CA15-3 AFIAS 구동 시험</span>
+            <span class="task-chip">CEA 가혹 안정성 70일차</span>
+            <span class="task-chip">독일 CEA 클레임 처리 ✅</span>
+            <span class="task-chip">튀니지 CEA 클레임 대응 ⚠️</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">H.pylori SA Conjugator·DDB·EB 제조</span>
-            <span class="next-chip">수식·id chip (HS, C1WDA09G)</span>
-            <span class="next-chip">CEA PEG 가혹 안정성 70일차</span>
+            <span class="next-chip">AFIAS CA125(C1WDA09G) 수식·ID chip</span>
+            <span class="next-chip">HS_EB 50L 제조</span>
+            <span class="next-chip">CA15-3 개발완료보고서(Rev.01)</span>
+            <span class="next-chip">CA125 인수인계 회의(→장혜지, 4/27)</span>
           </div>
         </div>
 
         <div class="team-member">
           <div class="member-header">
-            <div class="member-avatar" style="background:rgba(248,81,73,0.15);color:var(--issue);">주연</div>
+            <div class="member-avatar" style="background:rgba(248,81,73,.15);color:var(--issue);">주연</div>
             <div><div class="member-name">박주연</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">AFIAS Ferritin 출하검사 완료 ✅</span>
-            <span class="task-chip">CEA/Bio-rad Control assign 보조</span>
-            <span class="task-chip">PS_EX_Diluent 50L 제조</span>
+            <span class="task-chip">FR Conjugator 20mg 제조 ✅</span>
+            <span class="task-chip">DFR_Diluent 50L 제조 ✅</span>
+            <span class="task-chip">PS_EX_DDB 5L 제조</span>
+            <span class="task-chip">CEA 뉴플랫폼 test 보조</span>
             <span class="task-chip">Ferritin 인수인계(부)</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">AFIAS 출하전검사</span>
-            <span class="next-chip">FR·BSA-biotin Conjugation</span>
-            <span class="next-chip">DFR_Diluent 50L 제조</span>
+            <span class="next-chip">PSA Neo·Ferritin 출하전 검사</span>
+            <span class="next-chip">AFIAS-1 SW 평가 12종</span>
+            <span class="next-chip">A3 뉴플랫폼 Ferritin 튐 원인 분석</span>
           </div>
         </div>
 
         <div class="team-member">
           <div class="member-header">
-            <div class="member-avatar" style="background:rgba(210,153,34,0.15);color:var(--warning);">지은</div>
+            <div class="member-avatar" style="background:rgba(210,153,34,.15);color:var(--warning);">지은</div>
             <div><div class="member-name">임지은</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">ichroma PSA 수식(PSVCT05/06)</span>
-            <span class="task-chip">PS_EX 라인분주 5 roll</span>
-            <span class="task-chip">Control assign 완료</span>
-            <span class="task-chip">⚠️ 과테말라 PSA 클레임 대응</span>
+            <span class="task-chip">ichroma PSA 수식 3건</span>
+            <span class="task-chip">AFIAS PSA Neo 수식 2건</span>
+            <span class="task-chip">PS-FPR Conjugation 30mg</span>
+            <span class="task-chip">PSA Neo 클레임 전량 교체 ✅</span>
+            <span class="task-chip">Free PSA stepmixing 5일차</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">PSA FPR conjugation</span>
-            <span class="next-chip">AFIAS Free PSA 재현성 개선 실험</span>
-            <span class="next-chip">PE-1 Control 면적 에러 개선</span>
+            <span class="next-chip">AFIAS PSA Neo 1배치 수식</span>
+            <span class="next-chip">PSA Neo DB 3배치</span>
+            <span class="next-chip">Free PSA stepmixing 조건 설정</span>
+            <span class="next-chip">PE-1 개발</span>
           </div>
         </div>
 
         <div class="team-member">
           <div class="member-header">
-            <div class="member-avatar" style="background:rgba(88,166,255,0.12);color:#79b8ff;">혜지</div>
+            <div class="member-avatar" style="background:rgba(88,166,255,.12);color:#79b8ff;">혜지</div>
             <div><div class="member-name">장혜지</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">iFOB Neo AFIAS-10 mode ✅</span>
-            <span class="task-chip">ichroma-50 안정성 Day 0~3</span>
-            <span class="task-chip">EB 분주·카트리지 조립</span>
+            <span class="task-chip">ichroma-50 정규버전 SW ✅</span>
+            <span class="task-chip">카트리지 안정성 10일차 (실온 ❌ 지퍼백 ✅)</span>
+            <span class="task-chip">EB tube 중국 비교 ⚠️</span>
             <span class="task-chip">FO_EB 25L 제조</span>
-            <span class="task-chip">IVDD IFU 제출(4/17) ✅</span>
+            <span class="task-chip">iFOB Neo 5000T 예외출고 기안</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">ichroma-50 plus 정규버전 100회</span>
-            <span class="next-chip">안정성 6·10일차</span>
+            <span class="next-chip">안정성 14일차 (4/28)</span>
             <span class="next-chip">FOWDF04Z·CXWDB07EX 수식</span>
-            <span class="next-chip">Stool 자동화 회의 (4/23)</span>
+            <span class="next-chip">AFIAS CA125 출하전 검사</span>
+            <span class="next-chip">CA125 인수인계 회의 (4/27)</span>
           </div>
         </div>
 
         <div class="team-member">
           <div class="member-header">
-            <div class="member-avatar" style="background:rgba(63,185,80,0.10);color:#56d364;">영서</div>
+            <div class="member-avatar" style="background:rgba(63,185,80,.10);color:#56d364;">영서</div>
             <div><div class="member-name">박영서</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">Cyfra21-1 배치 재현성 비교 ⚠️</span>
-            <span class="task-chip">ichroma Ferritin 수식 보조</span>
-            <span class="task-chip">Cyfra21-1 항체 견적 요청</span>
+            <span class="task-chip">Cyfra21-1 상관성 38종 평가 ⚠️</span>
+            <span class="task-chip">EuNP·Biotin Conjugation</span>
+            <span class="task-chip">Ferritin 인수인계 회의 (4/21)</span>
+            <span class="task-chip">FRWDA91X 수식 1건</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">CYDWA11EX Diluent 제조</span>
-            <span class="next-chip">코바스 검체 측정</span>
-            <span class="next-chip">Ferritin 인수인계 진행</span>
+            <span class="next-chip">Cyfra21-1 Cal값 점진 조정·CYWDA11EX 수식</span>
+            <span class="next-chip">Ferritin PEG 평가용 DB·granule 생산</span>
+            <span class="next-chip">Ferritin BOM 변경 서류</span>
           </div>
         </div>
 
@@ -682,44 +533,35 @@ window.addEventListener('DOMContentLoaded',function(){
   </div>
 
   <!-- CHART ROW -->
-  <div class="main-grid" style="grid-template-columns: 1fr 1fr; margin-top: 16px;">
+  <div class="main-grid" style="grid-template-columns:1fr 1fr;margin-top:16px;">
 
-    <!-- 업무 분포 도넛 -->
     <div class="section-card">
       <div class="section-header"><div class="section-title">📊 업무 분포</div></div>
       <div class="chart-section">
         <div class="donut-wrap">
-          <!-- Total: 7+9+4+4 = 24건, circumference = 2π×40 = 251.33 -->
+          <!-- Total: 7+5+5+5 = 22건, circumference=251.33 -->
           <svg width="100" height="100" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="40" fill="none" stroke="#21262d" stroke-width="12"/>
-            <!-- 연구 7/24 = 29.2% = 73.2 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#58a6ff" stroke-width="12"
-              stroke-dasharray="73.2 178.1" stroke-dashoffset="0"/>
-            <!-- 생산 9/24 = 37.5% = 94.2 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#f0883e" stroke-width="12"
-              stroke-dasharray="94.2 157.1" stroke-dashoffset="-73.2"/>
-            <!-- 허가 4/24 = 16.7% = 41.9 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#bc8cff" stroke-width="12"
-              stroke-dasharray="41.9 209.4" stroke-dashoffset="-167.4"/>
-            <!-- 기타 4/24 = 16.7% = 41.9 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#3fb950" stroke-width="12"
-              stroke-dasharray="41.9 209.4" stroke-dashoffset="-209.3"/>
+            <!-- 연구 7/22=31.8%=79.9 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#58a6ff" stroke-width="12" stroke-dasharray="79.9 171.4" stroke-dashoffset="0"/>
+            <!-- 생산 5/22=22.7%=57.1 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#f0883e" stroke-width="12" stroke-dasharray="57.1 194.2" stroke-dashoffset="-79.9"/>
+            <!-- 허가 5/22=22.7%=57.1 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#bc8cff" stroke-width="12" stroke-dasharray="57.1 194.2" stroke-dashoffset="-137.0"/>
+            <!-- 기타 5/22=22.7%=57.1 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#3fb950" stroke-width="12" stroke-dasharray="57.1 194.2" stroke-dashoffset="-194.1"/>
           </svg>
-          <div class="donut-center">
-            <div class="donut-num">24</div>
-            <div class="donut-sub">총 아이템</div>
-          </div>
+          <div class="donut-center"><div class="donut-num">22</div><div class="donut-sub">총 아이템</div></div>
         </div>
         <div class="legend">
-          <div class="legend-item"><div class="legend-dot" style="background:var(--research);"></div><span class="legend-label">연구</span><span class="legend-count accent-research">7건 (29%)</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--production);"></div><span class="legend-label">생산</span><span class="legend-count accent-production">9건 (38%)</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--approval);"></div><span class="legend-label">허가</span><span class="legend-count accent-approval">4건 (17%)</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--other);"></div><span class="legend-label">기타</span><span class="legend-count accent-other">4건 (17%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--research);"></div><span class="legend-label">연구</span><span class="legend-count accent-research">7건 (32%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--production);"></div><span class="legend-label">생산</span><span class="legend-count accent-production">5건 (23%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--approval);"></div><span class="legend-label">허가</span><span class="legend-count accent-approval">5건 (23%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--other);"></div><span class="legend-label">기타</span><span class="legend-count accent-other">5건 (23%)</span></div>
         </div>
       </div>
     </div>
 
-    <!-- 주요 제품 진행률 -->
     <div class="section-card">
       <div class="section-header"><div class="section-title">📈 주요 제품 진행률</div></div>
       <div class="progress-grid">
@@ -728,44 +570,43 @@ window.addEventListener('DOMContentLoaded',function(){
           <div class="progress-bar"><div class="progress-fill fill-research" style="width:97%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">iFOB Neo (허가)</span><span class="progress-pct accent-approval">85%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:85%"></div></div>
+          <div class="progress-top"><span class="progress-name">CEA AFIAS (재현성 개선)</span><span class="progress-pct accent-production">95%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-production" style="width:95%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">CEA AFIAS (재현성 개선)</span><span class="progress-pct accent-production">92%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-production" style="width:92%"></div></div>
+          <div class="progress-top"><span class="progress-name">iFOB Neo (허가·Stool)</span><span class="progress-pct accent-approval">88%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:88%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">PSA Neo / Free PSA</span><span class="progress-pct accent-approval">82%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:82%"></div></div>
+          <div class="progress-top"><span class="progress-name">PSA Neo / Free PSA</span><span class="progress-pct accent-approval">83%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:83%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">H. Pylori SA (인수인계)</span><span class="progress-pct accent-production">72%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-production" style="width:72%"></div></div>
+          <div class="progress-top"><span class="progress-name">H. Pylori SA (인수인계)</span><span class="progress-pct accent-production">82%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-production" style="width:82%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">CA125 IVDR</span><span class="progress-pct accent-approval">73%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:73%"></div></div>
+          <div class="progress-top"><span class="progress-name">Ferritin (인수인계 완료)</span><span class="progress-pct accent-production">85%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-production" style="width:85%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">Cyfra21-1 허가</span><span class="progress-pct accent-approval">60%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:60%"></div></div>
+          <div class="progress-top"><span class="progress-name">Cyfra21-1 (Cal 보정 이슈)</span><span class="progress-pct accent-approval">52%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:52%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">HE4 (연구)</span><span class="progress-pct accent-research">30%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-research" style="width:30%"></div></div>
+          <div class="progress-top"><span class="progress-name">HE4 (연구)</span><span class="progress-pct accent-research">32%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-research" style="width:32%"></div></div>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- FOOTER -->
-  <div style="text-align:center; padding:20px 0 8px; color:var(--text-muted); font-size:11px;">
-    Cancer팀 주간 대시보드 &nbsp;·&nbsp; 바디텍메드 &nbsp;·&nbsp; 2026년 4월 13일 ~ 4월 17일 (16주차) &nbsp;·&nbsp; 노션 자동 연동
+  <div style="text-align:center;padding:20px 0 8px;color:var(--text-muted);font-size:11px;">
+    Cancer팀 주간 대시보드 &nbsp;·&nbsp; 바디텍메드 &nbsp;·&nbsp; 2026년 4월 20일 ~ 4월 24일 (17주차) &nbsp;·&nbsp; 노션 자동 연동
   </div>
 
-</div><!-- /container -->
-</div><!-- /dashboard -->
+</div>
+</div>
 </body>
 </html>
