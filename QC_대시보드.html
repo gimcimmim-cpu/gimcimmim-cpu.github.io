@@ -680,6 +680,26 @@ function filterLots(){
   </select>
 </div>
 
+<!-- 차트 영역 -->
+<div class="sec">📊 장비별 Pass율 / 평균CV 그래프</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px">
+  <!-- Pass율 막대 차트 -->
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px">
+    <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:14px;letter-spacing:.8px">PASS 율 (%) — 아이템별 × 장비</div>
+    <div style="position:relative;height:340px"><canvas id="instPassChart"></canvas></div>
+  </div>
+  <!-- 평균 CV 막대 차트 -->
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px">
+    <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:14px;letter-spacing:.8px">평균 Max CV (%) — 아이템별 × 장비</div>
+    <div style="position:relative;height:340px"><canvas id="instCvChart"></canvas></div>
+  </div>
+</div>
+<!-- CV 분포 박스형 차트 (장비별) -->
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:28px">
+  <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:14px;letter-spacing:.8px">장비별 Max CV 분포 (Dot Plot)</div>
+  <div style="position:relative;height:220px"><canvas id="instDotChart"></canvas></div>
+</div>
+
 <!-- 요약 테이블 -->
 <div class="sec">📋 아이템별 장비 Pass 율 요약</div>
 <div style="overflow-x:auto;margin-bottom:28px">
@@ -724,8 +744,9 @@ function buildInstrumentTab(){
   items.forEach(it=>{ const o=document.createElement('option'); o.value=it; o.textContent=it; itemSel.appendChild(o); });
   years.forEach(yr=>{ const o=document.createElement('option'); o.value=yr; o.textContent=yr; yearSel.appendChild(o); });
 
-  // ── 요약 테이블 렌더 ────────────────────
+  // ── 요약 테이블 + 차트 렌더 ─────────────
   renderInstSummary(instList);
+  renderInstCharts(instList);
   renderInstDetail();
 }
 
@@ -736,6 +757,160 @@ function cvColor(cv, limit){
   return '#f87171';
 }
 function passColor(p){ return p==='Pass'?'#4ade80':'#f87171'; }
+
+// 장비별 차트 인스턴스 관리
+const _instCharts = {};
+
+function destroyInstChart(id){
+  if(_instCharts[id]){ _instCharts[id].destroy(); delete _instCharts[id]; }
+}
+
+function renderInstCharts(instList){
+  // 필터 읽기
+  const itemFilt = document.getElementById('instItemFilter').value;
+  const yearFilt = document.getElementById('instYearFilter').value;
+
+  let lots = D.instruments.lots || [];
+  if(itemFilt) lots = lots.filter(r=>r.item===itemFilt);
+  if(yearFilt) lots = lots.filter(r=>String(r.year)===String(yearFilt));
+
+  // 아이템 목록 (정렬)
+  const items = [...new Set(lots.map(r=>r.item))].sort();
+
+  // 집계: item × inst → {n, pass, cv_sum, cvs[]}
+  const agg = {};
+  items.forEach(it=>{ agg[it]={}; instList.forEach(inst=>{ agg[it][inst]={n:0,pass:0,cv_sum:0,cvs:[]}; }); });
+  lots.forEach(row=>{
+    const it = row.item;
+    instList.forEach(inst=>{
+      const d = row[inst];
+      if(d && d.max_cv!=null){
+        agg[it][inst].n++;
+        if(d.pass==='Pass') agg[it][inst].pass++;
+        agg[it][inst].cv_sum += d.max_cv;
+        agg[it][inst].cvs.push(d.max_cv);
+      }
+    });
+  });
+
+  const INST_COLORS = {
+    'A-6':  {bg:'rgba(74,222,128,0.75)', border:'#4ade80'},
+    'A-1':  {bg:'rgba(96,165,250,0.75)', border:'#60a5fa'},
+    'A-3':  {bg:'rgba(251,191,36,0.75)', border:'#fbbf24'},
+    'A-10': {bg:'rgba(192,132,252,0.75)',border:'#c084fc'},
+  };
+
+  const tickC = '#94a3b8';
+  const gridC = 'rgba(255,255,255,0.05)';
+
+  // ── Pass율 막대 차트 ─────────────────────────────────────
+  destroyInstChart('pass');
+  const passCtx = document.getElementById('instPassChart');
+  if(passCtx){
+    const passDatasets = instList.map(inst=>({
+      label: inst,
+      data: items.map(it=>{
+        const d = agg[it][inst];
+        return d.n>0 ? Math.round(d.pass/d.n*1000)/10 : null;
+      }),
+      backgroundColor: INST_COLORS[inst].bg,
+      borderColor: INST_COLORS[inst].border,
+      borderWidth: 1,
+      borderRadius: 4,
+    }));
+    _instCharts['pass'] = new Chart(passCtx, {
+      type:'bar',
+      data:{labels: items.map(it=>it.length>10?it.slice(0,10)+'…':it), datasets: passDatasets},
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{labels:{color:tickC,font:{size:10}}},
+          tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y!=null?ctx.parsed.y+'%':'-'}`}}
+        },
+        scales:{
+          x:{ticks:{color:tickC,font:{size:9}},grid:{color:gridC}},
+          y:{min:0,max:100,ticks:{color:tickC,callback:v=>v+'%'},grid:{color:gridC},
+             title:{display:true,text:'Pass율 (%)',color:tickC,font:{size:10}}},
+        }
+      }
+    });
+  }
+
+  // ── 평균CV 막대 차트 ─────────────────────────────────────
+  destroyInstChart('cv');
+  const cvCtx = document.getElementById('instCvChart');
+  if(cvCtx){
+    const cvDatasets = instList.map(inst=>({
+      label: inst,
+      data: items.map(it=>{
+        const d = agg[it][inst];
+        return d.n>0 ? Math.round(d.cv_sum/d.n*10)/10 : null;
+      }),
+      backgroundColor: INST_COLORS[inst].bg,
+      borderColor: INST_COLORS[inst].border,
+      borderWidth: 1,
+      borderRadius: 4,
+    }));
+    _instCharts['cv'] = new Chart(cvCtx, {
+      type:'bar',
+      data:{labels: items.map(it=>it.length>10?it.slice(0,10)+'…':it), datasets: cvDatasets},
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{labels:{color:tickC,font:{size:10}}},
+          tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.parsed.y!=null?ctx.parsed.y+'%':'-'}`}}
+        },
+        scales:{
+          x:{ticks:{color:tickC,font:{size:9}},grid:{color:gridC}},
+          y:{min:0,ticks:{color:tickC,callback:v=>v+'%'},grid:{color:gridC},
+             title:{display:true,text:'평균 Max CV (%)',color:tickC,font:{size:10}}},
+        }
+      }
+    });
+  }
+
+  // ── Dot Plot (장비별 CV 분포) ────────────────────────────
+  destroyInstChart('dot');
+  const dotCtx = document.getElementById('instDotChart');
+  if(dotCtx){
+    // scatter: x=instrument index, y=cv값
+    const dotDatasets = instList.map((inst,instIdx)=>({
+      label: inst,
+      data: lots.flatMap(row=>{
+        const d = row[inst];
+        return (d && d.max_cv!=null) ? [{x: instIdx + (Math.random()-0.5)*0.3, y: d.max_cv, item:row.item, lot:row.cartridge_lot}] : [];
+      }),
+      backgroundColor: INST_COLORS[inst].bg,
+      borderColor: INST_COLORS[inst].border,
+      pointRadius: 5,
+      pointHoverRadius: 7,
+    }));
+    _instCharts['dot'] = new Chart(dotCtx,{
+      type:'scatter',
+      data:{datasets: dotDatasets},
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{
+          legend:{labels:{color:tickC,font:{size:10}}},
+          tooltip:{callbacks:{label:ctx=>`${ctx.raw.item} (${ctx.raw.lot}): CV ${ctx.parsed.y.toFixed(1)}%`}}
+        },
+        scales:{
+          x:{
+            min:-0.5, max:instList.length-0.5,
+            ticks:{color:tickC, callback:(v)=>instList[Math.round(v)]||'', stepSize:1},
+            grid:{color:gridC}
+          },
+          y:{
+            min:0,
+            ticks:{color:tickC, callback:v=>v+'%'},
+            grid:{color:gridC},
+            title:{display:true,text:'Max CV (%)',color:tickC,font:{size:10}}
+          }
+        }
+      }
+    });
+  }
+}
 
 function renderInstSummary(instList){
   // 필터 값 읽기
@@ -807,8 +982,9 @@ function renderInstDetail(){
   const itemFilt = document.getElementById('instItemFilter').value;
   const yearFilt = document.getElementById('instYearFilter').value;
 
-  // 요약도 필터 반영
+  // 요약 + 차트 필터 반영
   renderInstSummary(instList);
+  renderInstCharts(instList);
 
   let rows = lots;
   if(itemFilt) rows = rows.filter(r=>r.item===itemFilt);
