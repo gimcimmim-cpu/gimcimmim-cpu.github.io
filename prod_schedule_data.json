@@ -294,24 +294,6 @@
             "qty": "5,000",
             "note": "해외, ez-Tracker",
             "cancer": false
-          },
-          {
-            "lot": "DDWCC75F",
-            "qty": "1,920",
-            "note": "80 Box",
-            "cancer": false
-          },
-          {
-            "lot": "MYWDA64F",
-            "qty": "120",
-            "note": "5 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PCWCB15F",
-            "qty": "6,000",
-            "note": "250 Box",
-            "cancer": false
           }
         ]
       },
@@ -568,12 +550,6 @@
             "qty": "20,000",
             "note": "해외, 혈장(FPCC1152)",
             "cancer": false
-          },
-          {
-            "lot": "ILWBA23G",
-            "qty": "1,200",
-            "note": "40 Box",
-            "cancer": false
           }
         ]
       },
@@ -806,12 +782,6 @@
             "qty": "22,000",
             "note": "국내",
             "cancer": false
-          },
-          {
-            "lot": "T4WDA47X",
-            "qty": "21,320",
-            "note": "888 Box",
-            "cancer": false
           }
         ]
       },
@@ -1000,54 +970,6 @@
             "qty": "840",
             "note": "해외",
             "cancer": false
-          },
-          {
-            "lot": "AFWBC11",
-            "qty": "1,500",
-            "note": "60BOX",
-            "cancer": true
-          },
-          {
-            "lot": "ACWCE07E",
-            "qty": "3,000",
-            "note": "120BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CEWCD05",
-            "qty": "1,500",
-            "note": "60BOX",
-            "cancer": true
-          },
-          {
-            "lot": "CKWAB12",
-            "qty": "2,250",
-            "note": "90BOX",
-            "cancer": false
-          },
-          {
-            "lot": "DDWCG06",
-            "qty": "1,700",
-            "note": "68BOX",
-            "cancer": false
-          },
-          {
-            "lot": "MAWCX08EX",
-            "qty": "1,025",
-            "note": "41BOX",
-            "cancer": false
-          },
-          {
-            "lot": "MYVLB11",
-            "qty": "750",
-            "note": "30BOX",
-            "cancer": false
-          },
-          {
-            "lot": "BVWCB11",
-            "qty": "1,500",
-            "note": "60BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -1091,150 +1013,6 @@
             "lot": "AVWEA40G",
             "qty": "22,000",
             "note": "국내",
-            "cancer": false
-          },
-          {
-            "lot": "AFWAA27X",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": true
-          },
-          {
-            "lot": "ACWCA39G",
-            "qty": "960",
-            "note": "40 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CEWCA15X",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": true
-          },
-          {
-            "lot": "COWCA16X",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CRWBD40X",
-            "qty": "2,400",
-            "note": "100 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CRWBD50X",
-            "qty": "960",
-            "note": "40 Box",
-            "cancer": false
-          },
-          {
-            "lot": "DDWCC75F",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "FRWCA86X",
-            "qty": "1,440",
-            "note": "60 Box",
-            "cancer": true
-          },
-          {
-            "lot": "F1WAA11G",
-            "qty": "2,016",
-            "note": "84 Box",
-            "cancer": true
-          },
-          {
-            "lot": "FSWCA32X",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "INWBA11G",
-            "qty": "3,432",
-            "note": "143 Box",
-            "cancer": false
-          },
-          {
-            "lot": "LHWCA24X",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "MYWDA64F",
-            "qty": "240",
-            "note": "10 Box",
-            "cancer": false
-          },
-          {
-            "lot": "NBWCD30G",
-            "qty": "1,920",
-            "note": "80 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PCWBA26X",
-            "qty": "3,360",
-            "note": "140 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PLWBA42X",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PSWBA67F",
-            "qty": "1,920",
-            "note": "80 Box",
-            "cancer": true
-          },
-          {
-            "lot": "TNWCE22X",
-            "qty": "2,400",
-            "note": "100 Box",
-            "cancer": false
-          },
-          {
-            "lot": "HCWBA72X",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "DGWBA05G",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "ILWAA22G",
-            "qty": "120",
-            "note": "5 Box",
-            "cancer": false
-          },
-          {
-            "lot": "MAWCA40X",
-            "qty": "3,360",
-            "note": "140 Box",
-            "cancer": false
-          },
-          {
-            "lot": "RAWCA19G",
-            "qty": "2,040",
-            "note": "85 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TTWCA27X",
-            "qty": "720",
-            "note": "30 Box",
             "cancer": false
           }
         ]
@@ -1449,24 +1227,6 @@
             "lot": "AAWGE18F",
             "qty": "22,000",
             "note": "스위스1T(2개월Aging)",
-            "cancer": false
-          },
-          {
-            "lot": "PPWDB69G",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "AVWDA39G",
-            "qty": "2,400",
-            "note": "100 Box",
-            "cancer": false
-          },
-          {
-            "lot": "T3WBA64X",
-            "qty": "2,400",
-            "note": "100 Box",
             "cancer": false
           }
         ]
@@ -1712,30 +1472,6 @@
             "qty": "22,000",
             "note": "이라크",
             "cancer": false
-          },
-          {
-            "lot": "AAWBE18F",
-            "qty": "18,936",
-            "note": "789 Box",
-            "cancer": false
-          },
-          {
-            "lot": "AAWBE21F",
-            "qty": "20,424",
-            "note": "851 Box",
-            "cancer": false
-          },
-          {
-            "lot": "AAWCE23F",
-            "qty": "20,592",
-            "note": "858 Box",
-            "cancer": false
-          },
-          {
-            "lot": "AAWED03F",
-            "qty": "21,138",
-            "note": "881 Box",
-            "cancer": false
           }
         ]
       },
@@ -1923,30 +1659,6 @@
             "qty": "840",
             "note": "해외",
             "cancer": false
-          },
-          {
-            "lot": "ACWCE06E",
-            "qty": "50",
-            "note": "2 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CTWCB10E",
-            "qty": "1,750",
-            "note": "70 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CRWCY03",
-            "qty": "1,250",
-            "note": "50 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CHWAD10",
-            "qty": "2,000",
-            "note": "80 Box",
-            "cancer": false
           }
         ],
         "afi": [
@@ -1978,78 +1690,6 @@
             "lot": "AAWEE42F",
             "qty": "22,000",
             "note": "이라크",
-            "cancer": false
-          },
-          {
-            "lot": "AAWCE25F",
-            "qty": "21,456",
-            "note": "894 Box",
-            "cancer": false
-          },
-          {
-            "lot": "AAVLE02F",
-            "qty": "21,168",
-            "note": "882 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CTWCA35G",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "KCWBA11X",
-            "qty": "840",
-            "note": "35 Box",
-            "cancer": false
-          },
-          {
-            "lot": "COWCA16X",
-            "qty": "72",
-            "note": "3 Box",
-            "cancer": false
-          },
-          {
-            "lot": "SFWAA53G",
-            "qty": "120",
-            "note": "5 Box",
-            "cancer": false
-          },
-          {
-            "lot": "KDWCA58X",
-            "qty": "3,360",
-            "note": "140 Box",
-            "cancer": false
-          },
-          {
-            "lot": "AAWCB94X",
-            "qty": "120",
-            "note": "5 Box",
-            "cancer": false
-          },
-          {
-            "lot": "FMWCA30G",
-            "qty": "72",
-            "note": "3 Box",
-            "cancer": false
-          },
-          {
-            "lot": "KMWAA07X",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "HCWBA72X",
-            "qty": "1,680",
-            "note": "70 Box",
-            "cancer": false
-          },
-          {
-            "lot": "DNVXA05G",
-            "qty": "480",
-            "note": "20 Box",
             "cancer": false
           }
         ]
@@ -2313,18 +1953,6 @@
             "qty": "22,000",
             "note": "해외",
             "cancer": false
-          },
-          {
-            "lot": "PEWAA14G",
-            "qty": "9,864",
-            "note": "411 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PEWAA14G",
-            "qty": "2,400",
-            "note": "100 Box",
-            "cancer": false
           }
         ]
       },
@@ -2452,24 +2080,6 @@
             "qty": "200",
             "note": "해외",
             "cancer": false
-          },
-          {
-            "lot": "ACWCE06E",
-            "qty": "225",
-            "note": "9 Box",
-            "cancer": false
-          },
-          {
-            "lot": "MAWBX05EX",
-            "qty": "450",
-            "note": "18 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PSVLT02",
-            "qty": "2,650",
-            "note": "106 Box",
-            "cancer": true
           }
         ],
         "afi": [
@@ -2513,42 +2123,6 @@
             "lot": "TTWEA30X",
             "qty": "22,000",
             "note": "해외",
-            "cancer": false
-          },
-          {
-            "lot": "VEWCC83X",
-            "qty": "21,348",
-            "note": "890 Box",
-            "cancer": false
-          },
-          {
-            "lot": "F4WDA59G",
-            "qty": "2,928",
-            "note": "122 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TSWCB30X",
-            "qty": "9,168",
-            "note": "382 Box",
-            "cancer": false
-          },
-          {
-            "lot": "HSWDA11X",
-            "qty": "3,840",
-            "note": "160 Box",
-            "cancer": true
-          },
-          {
-            "lot": "PPWCB65X",
-            "qty": "1,200",
-            "note": "50 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PGWDA15X",
-            "qty": "240",
-            "note": "10 Box",
             "cancer": false
           }
         ]
@@ -2660,18 +2234,6 @@
             "qty": "840",
             "note": "해외",
             "cancer": false
-          },
-          {
-            "lot": "TNVLG11",
-            "qty": "1,750",
-            "note": "70BOX",
-            "cancer": false
-          },
-          {
-            "lot": "MAWBX05EX",
-            "qty": "500",
-            "note": "20BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -2703,78 +2265,6 @@
             "lot": "INWEA14G",
             "qty": "22,000",
             "note": "해외",
-            "cancer": false
-          },
-          {
-            "lot": "AAWCB96X",
-            "qty": "720",
-            "note": "30 Box",
-            "cancer": false
-          },
-          {
-            "lot": "KDWCA57X",
-            "qty": "192",
-            "note": "8 Box",
-            "cancer": false
-          },
-          {
-            "lot": "F4WDA59G",
-            "qty": "240",
-            "note": "10 Box",
-            "cancer": false
-          },
-          {
-            "lot": "HCVLA66X",
-            "qty": "120",
-            "note": "5 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TNWCE20X",
-            "qty": "336",
-            "note": "14 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CHWAD10",
-            "qty": "96",
-            "note": "4 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CXVLB06EX",
-            "qty": "24",
-            "note": "1 Box",
-            "cancer": true
-          },
-          {
-            "lot": "C1VLB03EX",
-            "qty": "24",
-            "note": "1 Box",
-            "cancer": true
-          },
-          {
-            "lot": "C1COWD12",
-            "qty": "24",
-            "note": "1 Box",
-            "cancer": true
-          },
-          {
-            "lot": "CXCOVK07",
-            "qty": "24",
-            "note": "1 Box",
-            "cancer": true
-          },
-          {
-            "lot": "PCWBA26X",
-            "qty": "1,920",
-            "note": "80 Box",
-            "cancer": false
-          },
-          {
-            "lot": "MAWBA39X",
-            "qty": "720",
-            "note": "30 Box",
             "cancer": false
           },
           {
@@ -2942,24 +2432,6 @@
             "qty": "22,000",
             "note": "국내",
             "cancer": false
-          },
-          {
-            "lot": "NBWDD51G",
-            "qty": "2,160",
-            "note": "90 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PPWCB65X",
-            "qty": "960",
-            "note": "40 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TSWCB31X",
-            "qty": "336",
-            "note": "14 Box",
-            "cancer": false
           }
         ]
       },
@@ -3113,12 +2585,6 @@
             "qty": "22,000",
             "note": "국내",
             "cancer": false
-          },
-          {
-            "lot": "VEWBC77X",
-            "qty": "3,936",
-            "note": "164 Box",
-            "cancer": false
           }
         ]
       },
@@ -3258,12 +2724,6 @@
             "qty": "22,000",
             "note": "해외",
             "cancer": true
-          },
-          {
-            "lot": "CRWDY08",
-            "qty": "5,000",
-            "note": "200BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -3295,90 +2755,6 @@
             "lot": "BVWEA41G",
             "qty": "22,000",
             "note": "해외",
-            "cancer": false
-          },
-          {
-            "lot": "AFWAA27X",
-            "qty": "120",
-            "note": "5 Box",
-            "cancer": true
-          },
-          {
-            "lot": "CTWCA35G",
-            "qty": "240",
-            "note": "10 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CKWBB15F",
-            "qty": "240",
-            "note": "10 Box",
-            "cancer": false
-          },
-          {
-            "lot": "COWCA16X",
-            "qty": "120",
-            "note": "5 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CHWDA10X",
-            "qty": "240",
-            "note": "10 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TBWCA36G",
-            "qty": "2,400",
-            "note": "100 Box",
-            "cancer": false
-          },
-          {
-            "lot": "ILWAA22G",
-            "qty": "240",
-            "note": "10 Box",
-            "cancer": false
-          },
-          {
-            "lot": "INWAA10G",
-            "qty": "240",
-            "note": "10 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PPWBB61G",
-            "qty": "240",
-            "note": "10 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PLWBA42X",
-            "qty": "720",
-            "note": "30 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PHWCA13G",
-            "qty": "120",
-            "note": "5 Box",
-            "cancer": false
-          },
-          {
-            "lot": "T3WBA64X",
-            "qty": "1,200",
-            "note": "50 Box",
-            "cancer": false
-          },
-          {
-            "lot": "T4WBA44X",
-            "qty": "1,200",
-            "note": "50 Box",
-            "cancer": false
-          },
-          {
-            "lot": "HCWBA72X",
-            "qty": "1,200",
-            "note": "50 Box",
             "cancer": false
           }
         ]
@@ -3616,18 +2992,6 @@
             "qty": "21,250",
             "note": "해외",
             "cancer": true
-          },
-          {
-            "lot": "MAVKX02EX",
-            "qty": "750",
-            "note": "30BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CKWAB12",
-            "qty": "1,250",
-            "note": "50BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -3677,54 +3041,6 @@
             "lot": "NBWDD40G",
             "qty": "22,000",
             "note": "체코",
-            "cancer": false
-          },
-          {
-            "lot": "CTWBA34G",
-            "qty": "48",
-            "note": "2 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CRWAD33X",
-            "qty": "1,200",
-            "note": "50 Box",
-            "cancer": false
-          },
-          {
-            "lot": "AAWCB93X",
-            "qty": "8,400",
-            "note": "350 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TAWCA29G",
-            "qty": "3,600",
-            "note": "150 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TSWBA58G",
-            "qty": "2,400",
-            "note": "100 Box",
-            "cancer": false
-          },
-          {
-            "lot": "VEWBC78X",
-            "qty": "2,400",
-            "note": "100 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CTWBA34G",
-            "qty": "1,680",
-            "note": "70 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PEWAA16G",
-            "qty": "2,400",
-            "note": "100 Box",
             "cancer": false
           }
         ]
@@ -3925,12 +3241,6 @@
             "qty": "5,000",
             "note": "해외\r\nRACK 포장&단푸라박스\r\n라벨인쇄 필요X 랏구분만",
             "cancer": true
-          },
-          {
-            "lot": "CTWBB09E",
-            "qty": "500",
-            "note": "20",
-            "cancer": false
           }
         ],
         "afi": [
@@ -3987,78 +3297,6 @@
             "qty": "3,000",
             "note": "해외, cNT-ProBNP",
             "cancer": false
-          },
-          {
-            "lot": "CTWBA34G",
-            "qty": "360",
-            "note": "15BOX",
-            "cancer": false
-          },
-          {
-            "lot": "KDWCA57X",
-            "qty": "960",
-            "note": "40BOX",
-            "cancer": false
-          },
-          {
-            "lot": "NBWCD28G",
-            "qty": "1,920",
-            "note": "80BOX",
-            "cancer": false
-          },
-          {
-            "lot": "C1VYA08G",
-            "qty": "48",
-            "note": "2BOX",
-            "cancer": true
-          },
-          {
-            "lot": "CXVKA08G",
-            "qty": "48",
-            "note": "2BOX",
-            "cancer": true
-          },
-          {
-            "lot": "COVKA15X",
-            "qty": "72",
-            "note": "3BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CRWBD34X",
-            "qty": "96",
-            "note": "4BOX",
-            "cancer": false
-          },
-          {
-            "lot": "KDWCA57X",
-            "qty": "24",
-            "note": "1BOX",
-            "cancer": false
-          },
-          {
-            "lot": "FRVLA80X",
-            "qty": "96",
-            "note": "4BOX",
-            "cancer": true
-          },
-          {
-            "lot": "NBWAD16G",
-            "qty": "24",
-            "note": "1BOX",
-            "cancer": false
-          },
-          {
-            "lot": "HCVLA67X",
-            "qty": "96",
-            "note": "4BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PSWBA67F",
-            "qty": "3,600",
-            "note": "150BOX",
-            "cancer": true
           }
         ]
       },
@@ -4325,18 +3563,6 @@
             "qty": "840",
             "note": "해외",
             "cancer": false
-          },
-          {
-            "lot": "CRVLX08",
-            "qty": "5,000",
-            "note": "200BOX",
-            "cancer": false
-          },
-          {
-            "lot": "MAVXH11EX",
-            "qty": "500",
-            "note": "20BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -4374,60 +3600,6 @@
             "lot": "T3WDA65X",
             "qty": "22,000",
             "note": "해외",
-            "cancer": false
-          },
-          {
-            "lot": "F4WCA55G",
-            "qty": "1,008",
-            "note": "42BOX",
-            "cancer": false
-          },
-          {
-            "lot": "FSWBA30X",
-            "qty": "5,520",
-            "note": "230BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CPWCA11X",
-            "qty": "3,096",
-            "note": "129BOX",
-            "cancer": true
-          },
-          {
-            "lot": "CTWBA34G",
-            "qty": "384",
-            "note": "16BOX",
-            "cancer": false
-          },
-          {
-            "lot": "MRWCA23X",
-            "qty": "624",
-            "note": "26BOX",
-            "cancer": false
-          },
-          {
-            "lot": "NBWCD32G",
-            "qty": "2,136",
-            "note": "89BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PPWCB63X",
-            "qty": "360",
-            "note": "15BOX",
-            "cancer": false
-          },
-          {
-            "lot": "VEWCC84X",
-            "qty": "2,592",
-            "note": "108BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PPWBB61G",
-            "qty": "216",
-            "note": "5BOX",
             "cancer": false
           }
         ]
@@ -4678,54 +3850,6 @@
             "lot": "TQWDB16G",
             "qty": "22,000",
             "note": "기기",
-            "cancer": false
-          },
-          {
-            "lot": "MHWBA29G",
-            "qty": "3,840",
-            "note": "160BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PLWBA42X",
-            "qty": "1,920",
-            "note": "80BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PGWCA14X",
-            "qty": "2,064",
-            "note": "83BOX",
-            "cancer": false
-          },
-          {
-            "lot": "C1VYA08G",
-            "qty": "480",
-            "note": "20BOX",
-            "cancer": true
-          },
-          {
-            "lot": "LHWCA24X",
-            "qty": "3,840",
-            "note": "160BOX",
-            "cancer": false
-          },
-          {
-            "lot": "ILWAA22G",
-            "qty": "2,880",
-            "note": "120BOX",
-            "cancer": false
-          },
-          {
-            "lot": "TTWCA27X",
-            "qty": "9,600",
-            "note": "400BOX",
-            "cancer": false
-          },
-          {
-            "lot": "MAWBA39X",
-            "qty": "3,840",
-            "note": "160BOX",
             "cancer": false
           }
         ]
@@ -5001,30 +4125,6 @@
             "qty": "22,000",
             "note": "해외",
             "cancer": false
-          },
-          {
-            "lot": "VEWBC78X",
-            "qty": "1,872",
-            "note": "78 Box",
-            "cancer": false
-          },
-          {
-            "lot": "AAWAB82X",
-            "qty": "전량",
-            "note": null,
-            "cancer": false
-          },
-          {
-            "lot": "F4WCA55G",
-            "qty": "전량",
-            "note": null,
-            "cancer": false
-          },
-          {
-            "lot": "F4WCA54G",
-            "qty": "전량",
-            "note": null,
-            "cancer": false
           }
         ]
       },
@@ -5255,18 +4355,6 @@
             "qty": "21,250",
             "note": "해외",
             "cancer": true
-          },
-          {
-            "lot": "DDWBG04",
-            "qty": "2,500",
-            "note": "100BOX",
-            "cancer": false
-          },
-          {
-            "lot": "TNWCH01",
-            "qty": "2,500",
-            "note": "100BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -5334,66 +4422,6 @@
             "lot": "CHWDA10X",
             "qty": "480",
             "note": "인도법인 BDTI",
-            "cancer": false
-          },
-          {
-            "lot": "AFVLA26X",
-            "qty": "48",
-            "note": "2BOX",
-            "cancer": true
-          },
-          {
-            "lot": "KDWCA57X",
-            "qty": "72",
-            "note": "3BOX",
-            "cancer": false
-          },
-          {
-            "lot": "TBWBA34G",
-            "qty": "384",
-            "note": "16BOX",
-            "cancer": false
-          },
-          {
-            "lot": "NBVKD11G",
-            "qty": "240",
-            "note": "10BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PCWAA23X",
-            "qty": "48",
-            "note": "2BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PSVKA66F",
-            "qty": "72",
-            "note": "3BOX",
-            "cancer": true
-          },
-          {
-            "lot": "HCWBA72X",
-            "qty": "216",
-            "note": "9BOX",
-            "cancer": false
-          },
-          {
-            "lot": "TSWCB28X",
-            "qty": "768",
-            "note": "32BOX",
-            "cancer": false
-          },
-          {
-            "lot": "VEWAC66X",
-            "qty": "216",
-            "note": "9BOX",
-            "cancer": false
-          },
-          {
-            "lot": "TNWCE21X",
-            "qty": "24",
-            "note": "1BOX",
             "cancer": false
           }
         ]
@@ -5643,48 +4671,6 @@
             "qty": "206",
             "note": "인도Qdx",
             "cancer": false
-          },
-          {
-            "lot": "CHVKD09",
-            "qty": "125",
-            "note": "5BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PSVLT01",
-            "qty": "3,750",
-            "note": "150BOX",
-            "cancer": true
-          },
-          {
-            "lot": "AFVLC10",
-            "qty": "250",
-            "note": "10BOX",
-            "cancer": true
-          },
-          {
-            "lot": "DDVXF12",
-            "qty": "2,000",
-            "note": "80BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CKWAB12",
-            "qty": "1,875",
-            "note": "75BOX",
-            "cancer": false
-          },
-          {
-            "lot": "ACVLE05E",
-            "qty": "3,750",
-            "note": "150BOX",
-            "cancer": false
-          },
-          {
-            "lot": "MAVKX02EX",
-            "qty": "250",
-            "note": "10BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -5746,18 +4732,6 @@
             "lot": "CVWDA46G",
             "qty": "11,000",
             "note": "해외",
-            "cancer": false
-          },
-          {
-            "lot": "RUWCA04G",
-            "qty": "144",
-            "note": "6BOX",
-            "cancer": false
-          },
-          {
-            "lot": "ILVKA21G",
-            "qty": "120",
-            "note": "5BOX",
             "cancer": false
           }
         ]
@@ -5997,24 +4971,6 @@
             "cancer": false
           },
           {
-            "lot": "ACVLE04E",
-            "qty": "150",
-            "note": "6BOX",
-            "cancer": false
-          },
-          {
-            "lot": "MAVLX03EX",
-            "qty": "2,000",
-            "note": "80BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PSVLT02",
-            "qty": "1,750",
-            "note": "70BOX",
-            "cancer": true
-          },
-          {
             "lot": "LHWDA01H",
             "qty": "3,150",
             "note": "50T/PACK, EXP 12개월",
@@ -6092,30 +5048,6 @@
             "lot": "F4WDA59G",
             "qty": "120",
             "note": "스페인설명서",
-            "cancer": false
-          },
-          {
-            "lot": "CTWCA35G",
-            "qty": "936",
-            "note": "39BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CTWCA35G",
-            "qty": "1,080",
-            "note": "45BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CTWCA35G",
-            "qty": "552",
-            "note": "23BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CTWCA35G",
-            "qty": "2,640",
-            "note": "110BOX",
             "cancer": false
           }
         ]
@@ -6391,30 +5323,6 @@
             "cancer": false
           },
           {
-            "lot": "CTWCB09E",
-            "qty": "250",
-            "note": "10BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CRWAX10",
-            "qty": "5,000",
-            "note": "200BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CHWAD10",
-            "qty": "125",
-            "note": "5BOX",
-            "cancer": false
-          },
-          {
-            "lot": "TNVLG11",
-            "qty": "1,250",
-            "note": "50BOX",
-            "cancer": false
-          },
-          {
             "lot": "PLWDA01H",
             "qty": "4,500",
             "note": "50T/PACK, EXP 12개월",
@@ -6486,12 +5394,6 @@
             "lot": "CCWDA02X",
             "qty": "5,600",
             "note": "해외",
-            "cancer": false
-          },
-          {
-            "lot": "T3WAA61X",
-            "qty": "2,592",
-            "note": "108BOX",
             "cancer": false
           }
         ]
@@ -6724,24 +5626,6 @@
             "lot": "HCWDA76X",
             "qty": "22,000",
             "note": "국내",
-            "cancer": false
-          },
-          {
-            "lot": "HCVGA38G",
-            "qty": "3,600",
-            "note": "150BOX",
-            "cancer": false
-          },
-          {
-            "lot": "HCVGA38G",
-            "qty": "2,880",
-            "note": "120BOX",
-            "cancer": false
-          },
-          {
-            "lot": "HCVGA38G",
-            "qty": "14,736",
-            "note": "614BOX",
             "cancer": false
           },
           {
@@ -7015,18 +5899,6 @@
             "qty": "21,250",
             "note": "해외",
             "cancer": true
-          },
-          {
-            "lot": "CKWCC01",
-            "qty": "2,500",
-            "note": "100BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CRWCY03",
-            "qty": "2,500",
-            "note": "100BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -7095,30 +5967,6 @@
             "qty": "22,000",
             "note": "스위스1T",
             "cancer": false
-          },
-          {
-            "lot": "AAWCB93X",
-            "qty": "1,625",
-            "note": "65BOX",
-            "cancer": false
-          },
-          {
-            "lot": "TBWCA37G",
-            "qty": "11,712",
-            "note": "488BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CEWCA16X",
-            "qty": "9,408",
-            "note": "392BOX",
-            "cancer": true
-          },
-          {
-            "lot": "CEWCA16X",
-            "qty": "10,992",
-            "note": "458BOX",
-            "cancer": true
           }
         ]
       },
@@ -7355,30 +6203,6 @@
             "qty": "840",
             "note": "해외",
             "cancer": false
-          },
-          {
-            "lot": "PSWCT06",
-            "qty": "15,000",
-            "note": "600BOX",
-            "cancer": true
-          },
-          {
-            "lot": "AFWBC11",
-            "qty": "750",
-            "note": "30BOX",
-            "cancer": true
-          },
-          {
-            "lot": "CEWCD05",
-            "qty": "1,250",
-            "note": "50BOX",
-            "cancer": true
-          },
-          {
-            "lot": "MAWBX05EX",
-            "qty": "500",
-            "note": "20BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -7428,84 +6252,6 @@
             "lot": "AAWDE35F",
             "qty": "22,000",
             "note": "스위스1T",
-            "cancer": false
-          },
-          {
-            "lot": "AFVLA26X",
-            "qty": "120",
-            "note": "5BOX",
-            "cancer": true
-          },
-          {
-            "lot": "ACVLA37G",
-            "qty": "240",
-            "note": "10BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CKWBB15F",
-            "qty": "240",
-            "note": "10BOX",
-            "cancer": false
-          },
-          {
-            "lot": "COVKA15X",
-            "qty": "240",
-            "note": "10BOX",
-            "cancer": false
-          },
-          {
-            "lot": "FMWCA30G",
-            "qty": "240",
-            "note": "10BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PPWBB61G",
-            "qty": "1,200",
-            "note": "50BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PLVLA41X",
-            "qty": "480",
-            "note": "20BOX",
-            "cancer": false
-          },
-          {
-            "lot": "PGWCA14X",
-            "qty": "240",
-            "note": "10BOX",
-            "cancer": false
-          },
-          {
-            "lot": "T3WAA61X",
-            "qty": "1,920",
-            "note": "80BOX",
-            "cancer": false
-          },
-          {
-            "lot": "T4WBA44X",
-            "qty": "1,680",
-            "note": "70BOX",
-            "cancer": false
-          },
-          {
-            "lot": "TTWCA27X",
-            "qty": "120",
-            "note": "5BOX",
-            "cancer": false
-          },
-          {
-            "lot": "TEVLA16X",
-            "qty": "240",
-            "note": "10BOX",
-            "cancer": false
-          },
-          {
-            "lot": "HCWBA72X",
-            "qty": "1,440",
-            "note": "60BOX",
             "cancer": false
           }
         ]
@@ -7773,12 +6519,6 @@
             "qty": "21,250",
             "note": "해외",
             "cancer": true
-          },
-          {
-            "lot": "TNVLG12",
-            "qty": "2,500",
-            "note": "100BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -7846,78 +6586,6 @@
             "lot": "FIWDA20G",
             "qty": "1,800",
             "note": "이탈리아",
-            "cancer": false
-          },
-          {
-            "lot": "AFVLA26X",
-            "qty": "408",
-            "note": "17 Box",
-            "cancer": true
-          },
-          {
-            "lot": "HCWDA43G",
-            "qty": "2,400",
-            "note": "100 Box",
-            "cancer": false
-          },
-          {
-            "lot": "VZVLA14X",
-            "qty": "600",
-            "note": "25 Box",
-            "cancer": false
-          },
-          {
-            "lot": "GMVKA17G",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "MRWCA23X",
-            "qty": "4,080",
-            "note": "170 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CKWBB15F",
-            "qty": "672",
-            "note": "28 Box",
-            "cancer": false
-          },
-          {
-            "lot": "HCWBA72X",
-            "qty": "1,032",
-            "note": "43 Box",
-            "cancer": false
-          },
-          {
-            "lot": "MHWBA29G",
-            "qty": "912",
-            "note": "38 Box",
-            "cancer": false
-          },
-          {
-            "lot": "KMWCA08X",
-            "qty": "744",
-            "note": "31 Box",
-            "cancer": false
-          },
-          {
-            "lot": "USVLA12X",
-            "qty": "1,800",
-            "note": "75 Box",
-            "cancer": false
-          },
-          {
-            "lot": "MYWDA64F",
-            "qty": "528",
-            "note": "22 Box",
-            "cancer": false
-          },
-          {
-            "lot": "FSWCA31X",
-            "qty": "480",
-            "note": "20 Box",
             "cancer": false
           }
         ]
@@ -8131,54 +6799,6 @@
             "lot": "CTWDA36G",
             "qty": "624",
             "note": "이탈리아",
-            "cancer": false
-          },
-          {
-            "lot": "PPWCB65X",
-            "qty": "1,200",
-            "note": "50 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TEWBA17X",
-            "qty": "672",
-            "note": "28 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TAWCA28G",
-            "qty": "768",
-            "note": "32 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TSWCB30X",
-            "qty": "720",
-            "note": "30 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TTWCA27X",
-            "qty": "48",
-            "note": "2BOX",
-            "cancer": false
-          },
-          {
-            "lot": "TNWBE12X",
-            "qty": "120",
-            "note": "5BOX",
-            "cancer": false
-          },
-          {
-            "lot": "FMWCA30G",
-            "qty": "24",
-            "note": "1BOX",
-            "cancer": false
-          },
-          {
-            "lot": "TAWAA26G",
-            "qty": "3,600",
-            "note": "150BOX",
             "cancer": false
           }
         ]
@@ -8410,42 +7030,6 @@
             "lot": "AAWDE38F",
             "qty": "22,000",
             "note": "스위스1T",
-            "cancer": false
-          },
-          {
-            "lot": "BBVKA12G",
-            "qty": "1,440",
-            "note": "60 Box",
-            "cancer": false
-          },
-          {
-            "lot": "CPWCA11X",
-            "qty": "1,200",
-            "note": "50 Box",
-            "cancer": true
-          },
-          {
-            "lot": "KDWCA58X",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
-          },
-          {
-            "lot": "SAWAA08G",
-            "qty": "240",
-            "note": "30 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TSWCB29X",
-            "qty": "12,000",
-            "note": "500 Box",
-            "cancer": false
-          },
-          {
-            "lot": "F4VLA50G",
-            "qty": "120",
-            "note": "5 Box",
             "cancer": false
           }
         ]
@@ -8684,24 +7268,6 @@
             "lot": "SYWDA06G",
             "qty": "1,100",
             "note": "System Check Cartridge\r\n기준일 : 2026.04.24",
-            "cancer": false
-          },
-          {
-            "lot": "DDWCC75F",
-            "qty": "1,032",
-            "note": "43 Box",
-            "cancer": false
-          },
-          {
-            "lot": "UAVLA14G",
-            "qty": "48",
-            "note": "2 Box",
-            "cancer": false
-          },
-          {
-            "lot": "NBWDD41G",
-            "qty": "3,360",
-            "note": "140 Box",
             "cancer": false
           }
         ]
@@ -8953,12 +7519,6 @@
             "qty": "3,120",
             "note": "이탈리아",
             "cancer": false
-          },
-          {
-            "lot": "LHWCA24X",
-            "qty": "480",
-            "note": "20 Box",
-            "cancer": false
           }
         ]
       },
@@ -9111,36 +7671,6 @@
             "qty": "1,680",
             "note": "이라크",
             "cancer": false
-          },
-          {
-            "lot": "ACWCE06E",
-            "qty": "750",
-            "note": "30BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CEVKD04",
-            "qty": "750",
-            "note": "30BOX",
-            "cancer": true
-          },
-          {
-            "lot": "CRWCY06",
-            "qty": "3,000",
-            "note": "120BOX",
-            "cancer": false
-          },
-          {
-            "lot": "AAWBD08",
-            "qty": "750",
-            "note": "30BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CHVKD09",
-            "qty": "500",
-            "note": "20BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -9190,18 +7720,6 @@
             "lot": "T3WDA67X",
             "qty": "22,000",
             "note": "국내",
-            "cancer": false
-          },
-          {
-            "lot": "FSWCA32X",
-            "qty": "4,800",
-            "note": "200 Box",
-            "cancer": false
-          },
-          {
-            "lot": "WAWDA45F",
-            "qty": "4,000",
-            "note": "40 Box",
             "cancer": false
           }
         ]
@@ -9348,24 +7866,6 @@
             "qty": "840",
             "note": "해외",
             "cancer": false
-          },
-          {
-            "lot": "DDWCG07",
-            "qty": "2,500",
-            "note": "100BOX",
-            "cancer": false
-          },
-          {
-            "lot": "CHWDD11",
-            "qty": "1,250",
-            "note": "50BOX",
-            "cancer": false
-          },
-          {
-            "lot": "MAWDX09EX",
-            "qty": "750",
-            "note": "30BOX",
-            "cancer": false
           }
         ],
         "afi": [
@@ -9427,12 +7927,6 @@
             "lot": "F4WDA61G",
             "qty": "22,000",
             "note": "국내",
-            "cancer": false
-          },
-          {
-            "lot": "AAVLE02F",
-            "qty": "21,168",
-            "note": "882 Box",
             "cancer": false
           }
         ]
@@ -37711,48 +36205,6 @@
             "cancer": false
           },
           {
-            "lot": "CRWDD69X",
-            "qty": "7,200",
-            "note": "300 Box",
-            "cancer": false
-          },
-          {
-            "lot": "AAWDA01X",
-            "qty": "4,800",
-            "note": "200 Box",
-            "cancer": false
-          },
-          {
-            "lot": "NBWDD51G",
-            "qty": "2,400",
-            "note": "100 Box",
-            "cancer": false
-          },
-          {
-            "lot": "PGWDA15X",
-            "qty": "240",
-            "note": "10 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TAWDA31G",
-            "qty": "2,400",
-            "note": "100 Box",
-            "cancer": false
-          },
-          {
-            "lot": "TSWDA60G",
-            "qty": "7,200",
-            "note": "300 Box",
-            "cancer": false
-          },
-          {
-            "lot": "VEWDC85X",
-            "qty": "7,200",
-            "note": "300 Box",
-            "cancer": false
-          },
-          {
             "lot": "F4WEA65G",
             "qty": "22,000",
             "note": "해외",
@@ -38080,12 +36532,6 @@
             "lot": "NBWFD62G",
             "qty": "22,000",
             "note": "독일",
-            "cancer": false
-          },
-          {
-            "lot": "DDWDC79F",
-            "qty": "2,400",
-            "note": "100 Box",
             "cancer": false
           }
         ]
@@ -42530,6 +40976,6 @@
     }
   },
   "curMon": "2026-05-11",
-  "savedAt": "2026-05-11T23:03:31.400Z",
+  "savedAt": "2026-05-11T23:58:47.499Z",
   "version": 1
 }
