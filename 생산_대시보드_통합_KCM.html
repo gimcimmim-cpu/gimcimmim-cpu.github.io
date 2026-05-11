@@ -217,6 +217,17 @@ const NON_GRAN=['tn-i','t-qi','t4','t3','tsh','insulin','estradiol','progesteron
 function isLot(s){ return !s.includes(' ')&&s.length>=6&&/[A-Z]/.test(s); }
 function isKoreanOnly(s){ return /^[가-힣\s·]+$/.test(s); }
 
+// ─── 재작업 판별 ─────────────────────────────────────────
+// lot명 또는 note에 재작업 키워드가 있으면 true
+const REWORK_KW=['재작업','rework','재작업분','재 작업','재작업)','(재작업'];
+function isRework(lot, note){
+  const targets=[lot, note].filter(Boolean).map(v=>String(v).toLowerCase().trim());
+  for(const t of targets){
+    for(const k of REWORK_KW){ if(t.includes(k)) return true; }
+  }
+  return false;
+}
+
 function isCancer(lot,isGran=false){
   if(!lot) return false;
   const raw=String(lot).trim(); const s=raw.toLowerCase();
@@ -372,6 +383,7 @@ function parseStd(wb){
             ensD(d);
             const qty=row[qi]!=null?String(row[qi]).trim():null;
             const note=row[ni]!=null?String(row[ni]).trim():null;
+            if(isRework(ls,note)) return;  // 재작업 제외
             allData[d].std[cat].push({lot:ls,qty,note,cancer:isCancer(ls)});
           });
           i++;
@@ -386,7 +398,7 @@ function parseStd(wb){
 //        data cols: [lot=1,qty=2,note=3], [4,5,6], [7,8,9], [10,11,12], [13,14,15]
 const SHEETS_ICH=['태현ichroma_생산계획','ichroma_분주계획'];
 const SHEETS_AFI=['AFIAS_생산계획','태현AFIAS_생산계획','AFIAS 생산'];
-const SKIP_TXT=['→','작업내용','까지 입고','후수식','창고','이탈리아','브라질','과테말라','인도','독일','어린이날','대체 공휴일','지방선거','변경 :','기존 :','인서트 개정','해외 재작업','해외 ','영국 '];
+const SKIP_TXT=['→','작업내용','까지 입고','후수식','창고','이탈리아','브라질','과테말라','인도','독일','어린이날','대체 공휴일','지방선거','변경 :','기존 :','인서트 개정','해외 재작업','재작업','rework','해외 ','영국 '];
 
 function parseProdSheet(wb,sheets,plat){
   for(const d of Object.keys(allData)) allData[d].prod[plat]=[];
@@ -414,6 +426,7 @@ function parseProdSheet(wb,sheets,plat){
             ensD(d);
             const qty=row[qi]!=null?String(row[qi]).trim():null;
             const note=row[ni]!=null?String(row[ni]).trim():null;
+            if(isRework(ls,note)) return;  // 재작업 제외 (note 기반 포함)
             allData[d].prod[plat].push({lot:ls,qty,note,cancer:isCancer(ls)});
           });
           i++;
@@ -484,6 +497,7 @@ function parseGran(wb){
             ensD(d);
             const qty=row[qi]!=null?String(row[qi]).trim():null;
             const note=row[bi]!=null?String(row[bi]).trim():null;
+            if(isRework(nms,note)) return;  // 재작업 제외 (note 기반 포함)
             allData[d].gran.push({lot:nms,qty,note,cancer:isCancer(nms,true)});
           });
           i++;
