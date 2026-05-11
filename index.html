@@ -128,6 +128,46 @@
   .c-yellow .tag { background:rgba(210,153,34,0.1);  color:var(--yellow); border:1px solid rgba(210,153,34,0.25); }
   .c-red    .tag { background:rgba(240,136,62,0.1);  color:var(--orange); border:1px solid rgba(240,136,62,0.25); }
 
+  /* Cancer 헤더 위젯 */
+  .cancer-hdr-widget {
+    margin-top:18px;
+    width:100%; max-width:900px;
+    text-align:left;
+  }
+  .cancer-hdr-label {
+    font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:1px;
+    color:var(--text-muted); margin-bottom:10px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .cancer-hdr-label::after { content:''; flex:1; height:1px; background:var(--border); }
+  .cancer-hdr-grid {
+    display:grid; grid-template-columns:repeat(5,1fr); gap:8px;
+  }
+  .cancer-day-col {
+    background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:9px;
+  }
+  .cancer-day-col.is-today {
+    background:rgba(88,166,255,0.07); border-color:var(--blue);
+  }
+  .cancer-day-hd {
+    font-size:11px; font-weight:700; text-align:center; margin-bottom:5px; color:var(--text-muted);
+  }
+  .cancer-day-col.is-today .cancer-day-hd { color:var(--blue); }
+  .cancer-item {
+    font-size:10px; padding:3px 5px; margin-bottom:2px;
+    background:rgba(6,182,212,0.08); border:1px solid rgba(6,182,212,0.2);
+    border-left:2px solid #06b6d4; border-radius:5px; color:#e6edf3; word-break:break-all;
+  }
+  .cancer-item-lot { font-weight:600; }
+  .cancer-item-qty { color:#fbbf24; font-size:9px; }
+  .cancer-empty { color:var(--text-muted); font-size:10px; text-align:center; padding:4px 0; }
+  .cancer-meta { font-size:10px; color:var(--text-muted); text-align:right; margin-top:6px; }
+  .cancer-placeholder {
+    background:var(--bg2); border:1px solid var(--border); border-radius:10px;
+    padding:14px; text-align:center; color:var(--text-muted); font-size:12px;
+  }
+  @media(max-width:600px) { .cancer-hdr-grid { grid-template-columns:repeat(2,1fr); } }
+
   /* FOOTER */
   footer {
     position:relative; z-index:1; text-align:center;
@@ -202,7 +242,63 @@ window.addEventListener('DOMContentLoaded',function(){
   mon.setDate(now.getDate()-(dn===0?6:dn-1));fri.setDate(mon.getDate()+4);
   document.getElementById('dt-range').textContent=(mon.getMonth()+1)+'/'+mon.getDate()+' ~ '+(fri.getMonth()+1)+'/'+fri.getDate();
   updateClock();setInterval(updateClock,1000);
+  loadCancerWidget();
 });
+
+/* ── Cancer팀 이번 주 생산 일정 위젯 ── */
+function loadCancerWidget(){
+  var el=document.getElementById('cancer-widget');
+  if(!el) return;
+  var raw=null;
+  try{ raw=localStorage.getItem('cancer_prod_schedule_v1'); }catch(e){}
+  if(!raw){
+    el.innerHTML='<div class="cancer-placeholder">💡 생산 대시보드(09번)에서 파일 업로드 후 <b>💾 저장</b>을 누르면 이곳에 Cancer팀 일정이 자동으로 표시됩니다</div>';
+    return;
+  }
+  try{
+    var payload=JSON.parse(raw);
+    var allData=payload.allData||{};
+    var now=new Date();
+    var day=now.getDay();
+    var mon=new Date(now); mon.setDate(now.getDate()-(day===0?6:day-1));
+    function ds(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+    var days=[]; for(var i=0;i<5;i++){ var tmp=new Date(mon); tmp.setDate(mon.getDate()+i); days.push(ds(tmp)); }
+    var dayNames=['월','화','수','목','금'];
+    var todayStr=ds(now);
+    var totalCancer=0;
+    var cols='';
+    days.forEach(function(date,di){
+      var dd=allData[date];
+      var items=[];
+      if(dd){
+        var all=[].concat(dd.std&&dd.std.pack?dd.std.pack:[]).concat(dd.std&&dd.std.dry?dd.std.dry:[]).concat(dd.prod&&dd.prod.ich?dd.prod.ich:[]).concat(dd.prod&&dd.prod.afi?dd.prod.afi:[]).concat(dd.gran||[]);
+        for(var j=0;j<all.length;j++){ if(all[j].cancer) items.push(all[j]); }
+        totalCancer+=items.length;
+      }
+      var dt=new Date(date);
+      var isToday=(date===todayStr);
+      cols+='<div class="cancer-day-col'+(isToday?' is-today':'')+'">';
+      cols+='<div class="cancer-day-hd">'+dayNames[di]+' '+(dt.getMonth()+1)+'/'+dt.getDate()+'</div>';
+      if(items.length===0){
+        cols+='<div class="cancer-empty">-</div>';
+      } else {
+        for(var k=0;k<items.length;k++){
+          var it=items[k];
+          cols+='<div class="cancer-item"><div class="cancer-item-lot">'+it.lot+'</div>';
+          if(it.qty) cols+='<div class="cancer-item-qty">📦 '+it.qty+'</div>';
+          cols+='</div>';
+        }
+      }
+      cols+='</div>';
+    });
+    var savedAt=payload.savedAt?new Date(payload.savedAt):null;
+    var meta='';
+    if(savedAt) meta='<div class="cancer-meta">최종 저장: '+(savedAt.getMonth()+1)+'/'+savedAt.getDate()+' '+savedAt.getHours()+':'+pad(savedAt.getMinutes())+'&nbsp;·&nbsp;🧬 이번 주 Cancer '+totalCancer+'건</div>';
+    el.innerHTML='<div class="cancer-hdr-grid">'+cols+'</div>'+meta;
+  }catch(e){
+    el.innerHTML='<div class="cancer-placeholder">위젯 로드 오류</div>';
+  }
+}
 
 /* ── PIN 모달 ── */
 var pin='';
@@ -294,10 +390,16 @@ document.addEventListener('keydown',function(e){
       <div class="dt-sub" id="dt-range">—</div>
     </div>
   </div>
+
+  <!-- Cancer팀 이번 주 생산 일정 위젯 -->
+  <div class="cancer-hdr-widget">
+    <div class="cancer-hdr-label">🧬 Cancer팀 이번 주 생산 일정</div>
+    <div id="cancer-widget"></div>
+  </div>
 </header>
 
 <main>
-  <div class="section-label">프로그램 목록 · 8개</div>
+  <div class="section-label">프로그램 목록 · 9개</div>
 
   <div class="card-grid">
 
@@ -447,7 +549,27 @@ document.addEventListener('keydown',function(e){
       </div>
     </a>
 
+    <!-- 9. 생산 대시보드 통합 -->
+    <a class="card" href="생산_대시보드_통합_KCM.html" style="--accent-color:#06b6d4;grid-column:1/-1">
+      <span class="card-num">09</span>
+      <div class="card-top">
+        <div class="card-icon" style="background:rgba(6,182,212,0.12);font-size:22px;">🏭</div>
+        <div class="card-info">
+          <div class="card-title" style="color:#22d3ee;">생산 대시보드 통합 KCM</div>
+          <div class="card-sub">표준물질 · 실제생산 · 그래뉼 통합 주간 뷰 · Cancer팀 자동 감지 · 데이터 저장 지원 (localStorage / JSON)</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+      <div class="card-tags">
+        <span class="tag" style="background:rgba(6,182,212,0.1);color:#22d3ee;border:1px solid rgba(6,182,212,0.3)">생산 대시보드</span>
+        <span class="tag" style="background:rgba(6,182,212,0.1);color:#22d3ee;border:1px solid rgba(6,182,212,0.3)">💾 저장 지원</span>
+        <span class="tag" style="background:rgba(6,182,212,0.1);color:#22d3ee;border:1px solid rgba(6,182,212,0.3)">🧬 Cancer팀</span>
+        <span class="tag" style="background:rgba(6,182,212,0.1);color:#22d3ee;border:1px solid rgba(6,182,212,0.3)">KCM</span>
+      </div>
+    </a>
+
   </div>
+
 </main>
 
 <footer>
