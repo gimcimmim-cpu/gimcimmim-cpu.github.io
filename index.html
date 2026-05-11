@@ -264,17 +264,12 @@ window.addEventListener('DOMContentLoaded',function(){
 });
 
 /* ── Cancer팀 이번 주 생산 일정 위젯 ── */
-function loadCancerWidget(){
+var GITHUB_DATA_URL_IDX='https://gimcimmim-cpu.github.io/prod_schedule_data.json';
+
+function renderCancerWidget(payload){
   var el=document.getElementById('cancer-widget');
-  if(!el) return;
-  var raw=null;
-  try{ raw=localStorage.getItem('cancer_prod_schedule_v1'); }catch(e){}
-  if(!raw){
-    el.innerHTML='<div class="cancer-placeholder">💡 생산 대시보드(09번)에서 파일 업로드 후 <b>💾 저장</b>을 누르면 이곳에 Cancer팀 일정이 자동으로 표시됩니다</div>';
-    return;
-  }
+  if(!el||!payload) return;
   try{
-    var payload=JSON.parse(raw);
     var allData=payload.allData||{};
     var now=new Date();
     var day=now.getDay();
@@ -335,6 +330,25 @@ function loadCancerWidget(){
   }catch(e){
     el.innerHTML='<div class="cancer-placeholder">위젯 로드 오류</div>';
   }
+}
+
+function loadCancerWidget(){
+  var el=document.getElementById('cancer-widget');
+  if(!el) return;
+  el.innerHTML='<div class="cancer-placeholder" style="color:var(--text-muted)">⏳ 데이터 로드 중...</div>';
+  // 1) GitHub에서 먼저 시도
+  fetch(GITHUB_DATA_URL_IDX+'?t='+Date.now())
+    .then(function(r){ if(!r.ok) throw new Error('not found'); return r.json(); })
+    .then(function(payload){ renderCancerWidget(payload); })
+    .catch(function(){
+      // 2) GitHub 실패 시 localStorage 폴백
+      var raw=null;
+      try{ raw=localStorage.getItem('cancer_prod_schedule_v1'); }catch(e){}
+      if(raw){
+        try{ renderCancerWidget(JSON.parse(raw)); return; }catch(e){}
+      }
+      el.innerHTML='<div class="cancer-placeholder">💡 <b>prod_schedule_data.json</b> 파일을 GitHub repo 루트에 업로드하면 모든 기기에서 자동으로 표시됩니다<br><span style="font-size:10px;opacity:.7">또는 생산 대시보드(09번)에서 파일 업로드 후 💾 저장</span></div>';
+    });
 }
 
 /* ── PIN 모달 ── */
