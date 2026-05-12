@@ -1,0 +1,39 @@
+{
+  "name": "Cancer팀 업무 허브",
+  "short_name": "Cancer Hub",
+  "description": "바디텍메드 Cancer팀 업무 허브 - 생산일정, 공지사항, CV 현황",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "공지사항 편집기",
+      "url": "./notice_editor.html",
+      "description": "공지사항 작성 및 편집"
+    },
+    {
+      "name": "QC 대시보드",
+      "url": "./QC_대시보드.html",
+      "description": "IDChip QC 대시보드"
+    }
+  ]
+}
