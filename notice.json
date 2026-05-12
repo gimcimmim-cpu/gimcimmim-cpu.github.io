@@ -41,6 +41,18 @@
       "type": "schedule",
       "date": "신규",
       "content": "팀 내 신규 아이템 추가 — H.pylori IgG 개발 착수 예정"
+    },
+    {
+      "badge": "중요",
+      "type": "important",
+      "date": "신규",
+      "content": "제조기록서 내용 기본적으로 즉시 작성하여 제출할것"
+    },
+    {
+      "badge": "중요",
+      "type": "important",
+      "date": "신규",
+      "content": "생산오류, 혼입 등 클레임 발생시 연구소 소장님과 우선 논의할것"
     }
   ],
   "updatedAt": "2026-05-12"
