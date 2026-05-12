@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>공지사항 편집기 · Cancer팀</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg:#0d1117; --bg2:#161b22; --bg3:#21262d;
+    --border:#30363d; --text:#e6edf3; --text-muted:#8b949e;
+    --blue:#58a6ff; --orange:#f0883e; --purple:#bc8cff;
+    --green:#3fb950; --red:#f85149; --yellow:#d29922;
+    --imp:#f85149; --info:#58a6ff; --sched:#f0883e; --done:#3fb950;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Noto Sans KR',sans-serif; min-height:100vh; }
+
+  /* ── White 테마 ── */
+  body.theme-white {
+    --bg:#f5f7fa; --bg2:#ffffff; --bg3:#eaecf0;
+    --border:#c8cdd5; --text:#1a1e26; --text-muted:#5a6375;
+    --blue:#0969da; --orange:#953800; --purple:#7535c5;
+    --green:#1a7f37; --red:#cf222e; --yellow:#7d4e00;
+    --imp:#cf222e; --info:#0969da; --sched:#953800; --done:#1a7f37;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background:var(--bg2); border-bottom:1px solid var(--border);
+    padding:16px 28px; display:flex; align-items:center; justify-content:space-between;
+    position:sticky; top:0; z-index:100;
+  }
+  .hdr-left { display:flex; align-items:center; gap:14px; }
+  .hdr-logo {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:11px; color:var(--text-muted);
+    background:var(--bg3); border:1px solid var(--border); border-radius:20px;
+    padding:4px 12px 4px 8px;
+  }
+  .logo-dot { width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 6px var(--green); animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+  .hdr-title { font-size:17px; font-weight:700; }
+  .hdr-right { display:flex; align-items:center; gap:10px; }
+
+  /* 테마 토글 */
+  .theme-toggle {
+    background:var(--bg3); border:1px solid var(--border); border-radius:20px;
+    padding:5px 13px; font-size:12px; cursor:pointer;
+    color:var(--text-muted); transition:all .2s;
+    display:flex; align-items:center; gap:7px; font-family:inherit;
+  }
+  .theme-toggle:hover { border-color:var(--blue); color:var(--blue); }
+
+  /* ── MAIN LAYOUT ── */
+  .wrap { display:grid; grid-template-columns:1fr 380px; gap:0; height:calc(100vh - 57px); }
+
+  /* ── LEFT PANEL: 공지 목록 ── */
+  .panel-left {
+    overflow-y:auto; padding:24px 28px;
+    border-right:1px solid var(--border);
+  }
+  .panel-left::-webkit-scrollbar { width:4px; }
+  .panel-left::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+  .section-hd {
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px;
+    color:var(--text-muted); margin-bottom:14px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .section-hd::after { content:''; flex:1; height:1px; background:var(--border); margin-left:12px; }
+  .count-badge {
+    background:var(--bg3); border:1px solid var(--border); border-radius:20px;
+    padding:2px 9px; font-size:10px; color:var(--text-muted);
+    margin-left:8px; flex-shrink:0;
+  }
+
+  /* 공지 카드 */
+  .notice-card {
+    background:var(--bg2); border:1px solid var(--border); border-radius:12px;
+    padding:14px 16px; margin-bottom:10px;
+    display:flex; align-items:flex-start; gap:12px;
+    transition:border-color .15s;
+  }
+  .notice-card:hover { border-color:#484f58; }
+  .nc-main { flex:1; min-width:0; }
+  .nc-top { display:flex; align-items:center; gap:7px; margin-bottom:6px; flex-wrap:wrap; }
+  .nc-badge {
+    font-size:9px; font-weight:700; padding:2px 7px; border-radius:3px; letter-spacing:.3px; flex-shrink:0;
+  }
+  .nb-important { background:rgba(248,81,73,.18); color:var(--imp); border:1px solid rgba(248,81,73,.3); }
+  .nb-schedule  { background:rgba(240,136,62,.18); color:var(--sched); border:1px solid rgba(240,136,62,.3); }
+  .nb-info      { background:rgba(88,166,255,.18); color:var(--info); border:1px solid rgba(88,166,255,.3); }
+  .nb-done      { background:rgba(63,185,80,.18);  color:var(--done); border:1px solid rgba(63,185,80,.3); }
+  body.theme-white .nb-important { background:rgba(207,34,46,.1);  border-color:rgba(207,34,46,.25); }
+  body.theme-white .nb-schedule  { background:rgba(149,56,0,.1);   border-color:rgba(149,56,0,.25); }
+  body.theme-white .nb-info      { background:rgba(9,105,218,.1);  border-color:rgba(9,105,218,.25); }
+  body.theme-white .nb-done      { background:rgba(26,127,55,.1);  border-color:rgba(26,127,55,.25); }
+  .nc-date { font-size:10px; color:rgba(139,148,158,.55); }
+  .nc-content { font-size:12px; color:var(--text-muted); line-height:1.6; word-break:keep-all; }
+
+  /* 카드 액션 버튼 */
+  .nc-actions { display:flex; flex-direction:column; gap:5px; flex-shrink:0; }
+  .nc-btn {
+    background:var(--bg3); border:1px solid var(--border); border-radius:7px;
+    padding:5px 9px; font-size:10px; color:var(--text-muted);
+    cursor:pointer; font-family:inherit; transition:all .15s; white-space:nowrap;
+  }
+  .nc-btn:hover { border-color:var(--blue); color:var(--blue); }
+  .nc-btn.del:hover { border-color:var(--red); color:var(--red); }
+  .nc-btn.edit-active { border-color:var(--orange); color:var(--orange); background:rgba(240,136,62,.1); }
+
+  .nc-order { display:flex; gap:4px; }
+
+  /* 빈 상태 */
+  .empty-state {
+    text-align:center; padding:48px 20px;
+    color:var(--text-muted); font-size:13px;
+  }
+  .empty-icon { font-size:36px; margin-bottom:12px; }
+
+  /* 툴바 (로드/저장) */
+  .toolbar {
+    display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;
+  }
+  .tb-btn {
+    background:var(--bg3); border:1px solid var(--border); border-radius:9px;
+    padding:7px 14px; font-size:12px; color:var(--text-muted);
+    cursor:pointer; font-family:inherit; transition:all .15s;
+    display:flex; align-items:center; gap:6px;
+  }
+  .tb-btn:hover { border-color:var(--blue); color:var(--blue); }
+  .tb-btn.primary { background:rgba(88,166,255,.1); border-color:var(--blue); color:var(--blue); font-weight:600; }
+  .tb-btn.primary:hover { background:rgba(88,166,255,.2); }
+  .tb-btn.success { background:rgba(63,185,80,.1); border-color:var(--green); color:var(--green); font-weight:600; }
+  .tb-btn.success:hover { background:rgba(63,185,80,.2); }
+  .tb-btn.danger { background:rgba(248,81,73,.1); border-color:var(--red); color:var(--red); }
+  .tb-btn.danger:hover { background:rgba(248,81,73,.2); }
+
+  /* ── RIGHT PANEL: 편집 폼 ── */
+  .panel-right {
+    overflow-y:auto; padding:24px 24px;
+    display:flex; flex-direction:column; gap:20px;
+  }
+  .panel-right::-webkit-scrollbar { width:4px; }
+  .panel-right::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+  /* 폼 */
+  .form-box {
+    background:var(--bg2); border:1px solid var(--border); border-radius:14px;
+    padding:18px;
+  }
+  .form-box-title {
+    font-size:12px; font-weight:700; color:var(--text-muted);
+    margin-bottom:14px; display:flex; align-items:center; gap:7px;
+  }
+  .form-row { margin-bottom:13px; }
+  .form-label {
+    font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.8px;
+    color:var(--text-muted); margin-bottom:5px; display:block;
+  }
+  .form-select, .form-input, .form-textarea {
+    width:100%; background:var(--bg3); border:1px solid var(--border); border-radius:8px;
+    padding:9px 11px; font-size:12px; color:var(--text); font-family:inherit;
+    transition:border-color .15s; outline:none;
+  }
+  .form-select:focus, .form-input:focus, .form-textarea:focus { border-color:var(--blue); }
+  .form-textarea { resize:vertical; min-height:80px; line-height:1.6; }
+  .form-select option { background:var(--bg3); }
+
+  /* 배지 미리보기 */
+  .badge-preview {
+    display:inline-flex; align-items:center; gap:6px;
+    margin-top:8px; font-size:10px; color:var(--text-muted);
+  }
+
+  /* 타입별 색상 라디오 선택 */
+  .type-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+  .type-opt {
+    border:1px solid var(--border); border-radius:8px; padding:8px 10px;
+    cursor:pointer; transition:all .15s; text-align:center;
+    font-size:11px; font-weight:600;
+  }
+  .type-opt:hover { border-color:#484f58; }
+  .type-opt.selected-important { background:rgba(248,81,73,.15); border-color:var(--imp); color:var(--imp); }
+  .type-opt.selected-info      { background:rgba(88,166,255,.15); border-color:var(--info); color:var(--info); }
+  .type-opt.selected-schedule  { background:rgba(240,136,62,.15); border-color:var(--sched); color:var(--sched); }
+  .type-opt.selected-done      { background:rgba(63,185,80,.15); border-color:var(--done); color:var(--done); }
+
+  /* 저장/취소 버튼 */
+  .form-actions { display:flex; gap:8px; margin-top:4px; }
+  .fa-save {
+    flex:1; background:rgba(88,166,255,.15); border:1px solid var(--blue);
+    border-radius:9px; padding:9px; font-size:13px; font-weight:700;
+    color:var(--blue); cursor:pointer; font-family:inherit; transition:all .15s;
+  }
+  .fa-save:hover { background:rgba(88,166,255,.25); }
+  .fa-save.is-edit { background:rgba(240,136,62,.15); border-color:var(--orange); color:var(--orange); }
+  .fa-save.is-edit:hover { background:rgba(240,136,62,.25); }
+  .fa-cancel {
+    background:var(--bg3); border:1px solid var(--border); border-radius:9px;
+    padding:9px 14px; font-size:12px; color:var(--text-muted);
+    cursor:pointer; font-family:inherit; transition:all .15s;
+  }
+  .fa-cancel:hover { border-color:var(--red); color:var(--red); }
+
+  /* JSON 미리보기 */
+  .json-box {
+    background:var(--bg2); border:1px solid var(--border); border-radius:14px;
+    overflow:hidden;
+  }
+  .json-hd {
+    padding:10px 14px; border-bottom:1px solid var(--border);
+    font-size:11px; font-weight:700; color:var(--text-muted);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .json-pre {
+    padding:12px 14px; font-size:10px; color:var(--text-muted);
+    font-family:'Courier New',monospace; white-space:pre; overflow-x:auto;
+    max-height:200px; overflow-y:auto; line-height:1.5;
+  }
+  .json-pre::-webkit-scrollbar { height:3px; width:3px; }
+  .json-pre::-webkit-scrollbar-thumb { background:var(--border); }
+
+  /* 안내 박스 */
+  .guide-box {
+    background:var(--bg2); border:1px solid var(--border); border-radius:14px;
+    padding:16px 18px;
+  }
+  .guide-title { font-size:11px; font-weight:700; color:var(--text-muted); margin-bottom:10px; }
+  .guide-step {
+    display:flex; align-items:flex-start; gap:10px;
+    font-size:11px; color:var(--text-muted); line-height:1.6; margin-bottom:7px;
+  }
+  .guide-num {
+    width:18px; height:18px; border-radius:50%; border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-size:9px; font-weight:700; flex-shrink:0; margin-top:1px;
+  }
+
+  /* 토스트 알림 */
+  .toast {
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(60px);
+    background:var(--bg2); border:1px solid var(--border); border-radius:12px;
+    padding:10px 20px; font-size:12px; color:var(--text);
+    box-shadow:0 8px 32px rgba(0,0,0,.4);
+    transition:transform .3s ease, opacity .3s;
+    opacity:0; z-index:999; white-space:nowrap;
+  }
+  .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+
+  /* 업데이트 날짜 행 */
+  .updated-row {
+    display:flex; align-items:center; gap:8px;
+    font-size:11px; color:var(--text-muted); margin-bottom:8px;
+  }
+  .updated-row input {
+    background:var(--bg3); border:1px solid var(--border); border-radius:6px;
+    padding:4px 9px; font-size:11px; color:var(--text); font-family:inherit; outline:none;
+  }
+  .updated-row input:focus { border-color:var(--blue); }
+
+  @media(max-width:900px){
+    .wrap { grid-template-columns:1fr; height:auto; }
+    .panel-left { border-right:none; border-bottom:1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="hdr-left">
+    <div class="hdr-logo">
+      <div class="logo-dot"></div> 바디텍메드 · Cancer팀
+    </div>
+    <div class="hdr-title">📢 공지사항 편집기</div>
+  </div>
+  <div class="hdr-right">
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <span id="theme-icon">☀️</span>
+      <span id="theme-label">White</span>
+    </button>
+  </div>
+</header>
+
+<!-- ── MAIN ── -->
+<div class="wrap">
+
+  <!-- ── LEFT: 공지 목록 ── -->
+  <div class="panel-left">
+
+    <!-- 툴바 -->
+    <div class="toolbar">
+      <button class="tb-btn" onclick="loadFromGitHub()">☁️ GitHub에서 불러오기</button>
+      <button class="tb-btn" onclick="loadFromLocal()">💾 임시 저장본 불러오기</button>
+      <button class="tb-btn danger" onclick="clearAll()">🗑 전체 초기화</button>
+    </div>
+
+    <!-- 업데이트 날짜 -->
+    <div class="updated-row">
+      <span>업데이트 날짜</span>
+      <input type="date" id="updatedAt" />
+      <span style="color:rgba(139,148,158,.4);font-size:10px">(JSON에 포함)</span>
+    </div>
+
+    <!-- 섹션 헤더 -->
+    <div class="section-hd">
+      공지사항 목록
+      <span class="count-badge" id="count-badge">0개</span>
+      <span></span>
+    </div>
+
+    <!-- 내보내기 버튼 -->
+    <div class="toolbar" style="margin-bottom:16px">
+      <button class="tb-btn success" onclick="exportJSON()">⬇️ notice.json 다운로드</button>
+      <button class="tb-btn primary" onclick="copyJSON()">📋 JSON 클립보드 복사</button>
+      <button class="tb-btn" onclick="saveDraft()">📝 임시 저장</button>
+    </div>
+
+    <!-- 공지 목록 -->
+    <div id="notice-list">
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <div>공지사항이 없습니다</div>
+        <div style="font-size:11px;margin-top:6px;color:rgba(139,148,158,.5)">우측 폼에서 추가하거나 GitHub에서 불러오세요</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── RIGHT: 편집 폼 + 안내 ── -->
+  <div class="panel-right">
+
+    <!-- 추가/편집 폼 -->
+    <div class="form-box">
+      <div class="form-box-title">
+        <span id="form-mode-icon">➕</span>
+        <span id="form-mode-label">새 공지사항 추가</span>
+      </div>
+
+      <!-- 유형 선택 -->
+      <div class="form-row">
+        <label class="form-label">유형</label>
+        <div class="type-grid" id="type-grid">
+          <div class="type-opt" id="opt-important" onclick="selectType('important')">🔴 중요</div>
+          <div class="type-opt" id="opt-info"      onclick="selectType('info')">🔵 안내</div>
+          <div class="type-opt" id="opt-schedule"  onclick="selectType('schedule')">🟠 일정</div>
+          <div class="type-opt" id="opt-done"      onclick="selectType('done')">🟢 완료</div>
+        </div>
+      </div>
+
+      <!-- 배지 텍스트 -->
+      <div class="form-row">
+        <label class="form-label">배지 문구 <span style="font-weight:400;text-transform:none;letter-spacing:0">(자동 입력됨, 수정 가능)</span></label>
+        <input class="form-input" id="f-badge" type="text" placeholder="예: 중요, 안내, 일정, 완료" maxlength="10" />
+      </div>
+
+      <!-- 날짜/기한 -->
+      <div class="form-row">
+        <label class="form-label">날짜 / 기한</label>
+        <input class="form-input" id="f-date" type="text" placeholder="예: ~5/13, 5/18, 진행중, 신규" />
+      </div>
+
+      <!-- 내용 -->
+      <div class="form-row">
+        <label class="form-label">공지 내용</label>
+        <textarea class="form-textarea" id="f-content" placeholder="공지 내용을 입력하세요..."></textarea>
+      </div>
+
+      <!-- 액션 -->
+      <div class="form-actions">
+        <button class="fa-save" id="save-btn" onclick="saveNotice()">➕ 추가</button>
+        <button class="fa-cancel" id="cancel-btn" onclick="cancelEdit()" style="display:none">취소</button>
+      </div>
+    </div>
+
+    <!-- JSON 미리보기 -->
+    <div class="json-box">
+      <div class="json-hd">
+        <span>📄 JSON 미리보기</span>
+        <span style="font-size:10px;color:rgba(139,148,158,.4)">실시간 업데이트</span>
+      </div>
+      <div class="json-pre" id="json-preview">{
+  "notices": [],
+  "updatedAt": ""
+}</div>
+    </div>
+
+    <!-- GitHub 업로드 안내 -->
+    <div class="guide-box">
+      <div class="guide-title">📌 적용 방법 (GitHub Pages)</div>
+      <div class="guide-step">
+        <div class="guide-num">1</div>
+        <div>편집 완료 후 <b>notice.json 다운로드</b> 클릭</div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-num">2</div>
+        <div>GitHub → <b>gimcimmim-cpu</b> 저장소 접속</div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-num">3</div>
+        <div><b>notice.json</b> 파일 선택 → ✏️ 편집 또는 파일 교체 업로드</div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-num">4</div>
+        <div>Commit 후 <b>1~2분 대기</b> → 인덱스 페이지 새로고침</div>
+      </div>
+      <div style="margin-top:10px;padding:8px 10px;background:var(--bg3);border-radius:8px;font-size:10px;color:var(--text-muted);line-height:1.7">
+        🔗 URL: <span style="color:var(--blue)">https://gimcimmim-cpu.github.io/notice.json</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 토스트 -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── 상태 ── */
+var notices = [];
+var editIdx = -1;  // -1 = 추가 모드, 0+ = 편집 모드
+var selectedType = 'important';
+var GITHUB_URL = 'https://gimcimmim-cpu.github.io/notice.json';
+var LS_KEY = 'notice_editor_draft_v1';
+
+var TYPE_META = {
+  important: { badge:'중요', cls:'nb-important', selCls:'selected-important' },
+  info:      { badge:'안내', cls:'nb-info',      selCls:'selected-info' },
+  schedule:  { badge:'일정', cls:'nb-schedule',  selCls:'selected-schedule' },
+  done:      { badge:'완료', cls:'nb-done',      selCls:'selected-done' }
+};
+
+/* ── 테마 ── */
+var isDark = true;
+function toggleTheme(){
+  isDark = !isDark;
+  document.body.classList.toggle('theme-white', !isDark);
+  document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+  document.getElementById('theme-label').textContent = isDark ? 'White' : 'Dark';
+  try{ localStorage.setItem('notice_editor_theme', isDark?'dark':'white'); }catch(e){}
+}
+
+/* ── 초기화 ── */
+window.addEventListener('DOMContentLoaded', function(){
+  // 오늘 날짜 기본값
+  var today = new Date();
+  document.getElementById('updatedAt').value = today.toISOString().slice(0,10);
+
+  // 테마 복원
+  var t; try{ t=localStorage.getItem('notice_editor_theme'); }catch(e){}
+  if(t==='white'){ isDark=false; document.body.classList.add('theme-white');
+    document.getElementById('theme-icon').textContent='🌙';
+    document.getElementById('theme-label').textContent='Dark'; }
+
+  // 유형 기본 선택
+  selectType('important');
+
+  // 임시 저장본 자동 불러오기
+  var raw; try{ raw=localStorage.getItem(LS_KEY); }catch(e){}
+  if(raw){
+    try{
+      var d = JSON.parse(raw);
+      notices = d.notices || [];
+      if(d.updatedAt) document.getElementById('updatedAt').value = d.updatedAt;
+      render();
+      toast('💾 임시 저장본을 불러왔습니다');
+    }catch(e){}
+  }
+});
+
+/* ── 유형 선택 ── */
+function selectType(type){
+  selectedType = type;
+  ['important','info','schedule','done'].forEach(function(t){
+    var el = document.getElementById('opt-'+t);
+    el.className = 'type-opt';
+    if(t === type) el.className += ' ' + TYPE_META[t].selCls;
+  });
+  // 배지 자동 입력
+  var badgeEl = document.getElementById('f-badge');
+  if(!badgeEl.dataset.manual || badgeEl.dataset.manual==='false'){
+    badgeEl.value = TYPE_META[type].badge;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('f-badge').addEventListener('input', function(){
+    this.dataset.manual = 'true';
+  });
+});
+
+/* ── 렌더링 ── */
+function render(){
+  var list = document.getElementById('notice-list');
+  var badge = document.getElementById('count-badge');
+  badge.textContent = notices.length + '개';
+
+  if(notices.length === 0){
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><div>공지사항이 없습니다</div><div style="font-size:11px;margin-top:6px;color:rgba(139,148,158,.4)">우측 폼에서 추가하거나 GitHub에서 불러오세요</div></div>';
+    updateJSONPreview();
+    return;
+  }
+
+  var html = '';
+  notices.forEach(function(n, i){
+    var meta = TYPE_META[n.type] || TYPE_META['info'];
+    html += '<div class="notice-card" id="nc-'+i+'">';
+    html += '<div class="nc-main">';
+    html += '<div class="nc-top">';
+    html += '<span class="nc-badge '+meta.cls+'">'+(n.badge||meta.badge)+'</span>';
+    if(n.date) html += '<span class="nc-date">'+escHtml(n.date)+'</span>';
+    html += '</div>';
+    html += '<div class="nc-content">'+escHtml(n.content)+'</div>';
+    html += '</div>';
+    html += '<div class="nc-actions">';
+    html += '<div class="nc-order">';
+    html += '<button class="nc-btn" onclick="moveUp('+i+')" title="위로"'+(i===0?' disabled style="opacity:.3;cursor:default"':'')+'>▲</button>';
+    html += '<button class="nc-btn" onclick="moveDown('+i+')" title="아래로"'+(i===notices.length-1?' disabled style="opacity:.3;cursor:default"':'')+'>▼</button>';
+    html += '</div>';
+    html += '<button class="nc-btn '+(editIdx===i?'edit-active':'')+'" onclick="startEdit('+i+')">'+(editIdx===i?'✏️ 편집중':'✏️ 편집')+'</button>';
+    html += '<button class="nc-btn del" onclick="deleteNotice('+i+')">🗑 삭제</button>';
+    html += '</div>';
+    html += '</div>';
+  });
+  list.innerHTML = html;
+  updateJSONPreview();
+}
+
+/* ── 공지 추가/저장 ── */
+function saveNotice(){
+  var badge   = document.getElementById('f-badge').value.trim();
+  var date    = document.getElementById('f-date').value.trim();
+  var content = document.getElementById('f-content').value.trim();
+  if(!content){ toast('⚠️ 공지 내용을 입력해주세요', true); return; }
+
+  var item = {
+    badge:   badge || TYPE_META[selectedType].badge,
+    type:    selectedType,
+    date:    date,
+    content: content
+  };
+
+  if(editIdx >= 0){
+    notices[editIdx] = item;
+    toast('✅ 공지사항이 수정됐습니다');
+    cancelEdit();
+  } else {
+    notices.push(item);
+    toast('✅ 공지사항이 추가됐습니다');
+    clearForm();
+  }
+  render();
+  saveDraftSilent();
+}
+
+/* ── 편집 시작 ── */
+function startEdit(idx){
+  editIdx = idx;
+  var n = notices[idx];
+  selectType(n.type || 'important');
+  var badgeEl = document.getElementById('f-badge');
+  badgeEl.value = n.badge || '';
+  badgeEl.dataset.manual = 'true';
+  document.getElementById('f-date').value = n.date || '';
+  document.getElementById('f-content').value = n.content || '';
+
+  // 폼 UI 업데이트
+  document.getElementById('form-mode-icon').textContent = '✏️';
+  document.getElementById('form-mode-label').textContent = '공지사항 수정 중';
+  var saveBtn = document.getElementById('save-btn');
+  saveBtn.textContent = '💾 수정 저장';
+  saveBtn.className = 'fa-save is-edit';
+  document.getElementById('cancel-btn').style.display = '';
+
+  // 폼으로 스크롤
+  document.querySelector('.panel-right').scrollTo({top:0, behavior:'smooth'});
+  render();
+}
+
+/* ── 편집 취소 ── */
+function cancelEdit(){
+  editIdx = -1;
+  clearForm();
+  document.getElementById('form-mode-icon').textContent = '➕';
+  document.getElementById('form-mode-label').textContent = '새 공지사항 추가';
+  var saveBtn = document.getElementById('save-btn');
+  saveBtn.textContent = '➕ 추가';
+  saveBtn.className = 'fa-save';
+  document.getElementById('cancel-btn').style.display = 'none';
+  render();
+}
+
+function clearForm(){
+  document.getElementById('f-badge').value = TYPE_META[selectedType].badge;
+  document.getElementById('f-badge').dataset.manual = 'false';
+  document.getElementById('f-date').value = '';
+  document.getElementById('f-content').value = '';
+}
+
+/* ── 삭제 / 순서 변경 ── */
+function deleteNotice(idx){
+  if(!confirm('"'+notices[idx].content.slice(0,30)+'..." 을(를) 삭제하시겠습니까?')) return;
+  if(editIdx === idx) cancelEdit();
+  notices.splice(idx, 1);
+  render();
+  saveDraftSilent();
+  toast('🗑 삭제됐습니다');
+}
+
+function moveUp(idx){
+  if(idx === 0) return;
+  var tmp = notices[idx-1]; notices[idx-1] = notices[idx]; notices[idx] = tmp;
+  if(editIdx === idx) editIdx = idx-1;
+  else if(editIdx === idx-1) editIdx = idx;
+  render();
+  saveDraftSilent();
+}
+
+function moveDown(idx){
+  if(idx === notices.length-1) return;
+  var tmp = notices[idx+1]; notices[idx+1] = notices[idx]; notices[idx] = tmp;
+  if(editIdx === idx) editIdx = idx+1;
+  else if(editIdx === idx+1) editIdx = idx;
+  render();
+  saveDraftSilent();
+}
+
+/* ── 전체 초기화 ── */
+function clearAll(){
+  if(!confirm('공지사항을 전체 삭제하시겠습니까?')) return;
+  notices = [];
+  cancelEdit();
+  render();
+  toast('🗑 전체 초기화됐습니다');
+}
+
+/* ── GitHub 불러오기 ── */
+function loadFromGitHub(){
+  toast('☁️ GitHub에서 불러오는 중...', false, 3000);
+  fetch(GITHUB_URL + '?t=' + Date.now())
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(function(d){
+      notices = (d.notices || []).slice(0, 20);
+      if(d.updatedAt) document.getElementById('updatedAt').value = d.updatedAt;
+      render();
+      saveDraftSilent();
+      toast('✅ GitHub에서 '+notices.length+'개 불러왔습니다');
+    })
+    .catch(function(e){
+      toast('⚠️ 불러오기 실패 — GitHub 연결 확인 필요', true);
+    });
+}
+
+/* ── 임시 저장본 불러오기 ── */
+function loadFromLocal(){
+  var raw; try{ raw=localStorage.getItem(LS_KEY); }catch(e){}
+  if(!raw){ toast('💾 저장된 임시 저장본이 없습니다', true); return; }
+  try{
+    var d = JSON.parse(raw);
+    notices = d.notices || [];
+    if(d.updatedAt) document.getElementById('updatedAt').value = d.updatedAt;
+    render();
+    toast('💾 임시 저장본 불러왔습니다 ('+notices.length+'개)');
+  }catch(e){ toast('⚠️ 임시 저장본 파싱 오류', true); }
+}
+
+/* ── 임시 저장 ── */
+function saveDraft(){
+  saveDraftSilent();
+  toast('📝 브라우저에 임시 저장됐습니다');
+}
+function saveDraftSilent(){
+  try{
+    var d = buildData();
+    localStorage.setItem(LS_KEY, JSON.stringify(d));
+  }catch(e){}
+}
+
+/* ── JSON 생성 ── */
+function buildData(){
+  return {
+    notices: notices,
+    updatedAt: document.getElementById('updatedAt').value || new Date().toISOString().slice(0,10)
+  };
+}
+
+/* ── JSON 다운로드 ── */
+function exportJSON(){
+  if(notices.length === 0){ toast('⚠️ 공지사항이 없습니다', true); return; }
+  var json = JSON.stringify(buildData(), null, 2);
+  var blob = new Blob([json], {type:'application/json'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'notice.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('⬇️ notice.json 다운로드 완료');
+}
+
+/* ── 클립보드 복사 ── */
+function copyJSON(){
+  var json = JSON.stringify(buildData(), null, 2);
+  navigator.clipboard.writeText(json)
+    .then(function(){ toast('📋 클립보드에 복사됐습니다'); })
+    .catch(function(){ toast('⚠️ 복사 실패 — 브라우저 권한 확인', true); });
+}
+
+/* ── JSON 미리보기 업데이트 ── */
+function updateJSONPreview(){
+  var d = buildData();
+  var json = JSON.stringify(d, null, 2);
+  // 길면 앞부분만 표시
+  if(json.length > 800) json = json.slice(0,800) + '\n  ...\n}';
+  document.getElementById('json-preview').textContent = json;
+}
+
+/* ── 업데이트 날짜 변경 시 미리보기 갱신 ── */
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('updatedAt').addEventListener('change', updateJSONPreview);
+});
+
+/* ── 유틸 ── */
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+var toastTimer;
+function toast(msg, isWarn, dur){
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.borderColor = isWarn ? 'var(--red)' : 'var(--border)';
+  el.classList.add('show');
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ el.classList.remove('show'); }, dur||2200);
+}
+</script>
+</body>
+</html>

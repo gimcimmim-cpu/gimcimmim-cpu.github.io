@@ -945,7 +945,7 @@ document.addEventListener('keydown',function(e){
         </div>
         <div class="notice-footer-bar">
           <span id="notice-updated"></span>
-          <span class="notice-click-hint">클릭 → 정지/재생</span>
+          <a href="notice_editor.html" style="font-size:9px;color:rgba(88,166,255,.55);text-decoration:none;">✏️ 편집기</a>
         </div>
       </div>
 
@@ -1001,44 +1001,49 @@ document.addEventListener('keydown',function(e){
           <span class="sl-num">01</span><span class="sl-ico">🧬</span><span class="sl-nm">QC 합격율 분석 대시보드</span>
         </a>
       </li>
+      <li class="sl-item c-cyan">
+        <a href="생산_대시보드_통합_KCM.html">
+          <span class="sl-num">02</span><span class="sl-ico">🏭</span><span class="sl-nm">생산 대시보드 통합 KCM</span>
+        </a>
+      </li>
       <li class="sl-item c-blue">
         <a href="weekly_dashboard.html">
-          <span class="sl-num">02</span><span class="sl-ico">📊</span><span class="sl-nm">주간 업무 대시보드</span>
+          <span class="sl-num">03</span><span class="sl-ico">📊</span><span class="sl-nm">주간 업무 대시보드</span>
         </a>
       </li>
       <li class="sl-item c-teal">
         <a href="experiment_timer.html">
-          <span class="sl-num">03</span><span class="sl-ico">⏱️</span><span class="sl-nm">실험 시트 타이머</span>
+          <span class="sl-num">04</span><span class="sl-ico">⏱️</span><span class="sl-nm">실험 시트 타이머</span>
         </a>
       </li>
       <li class="sl-item c-yellow">
         <a href="sequential_protocol_timer_v5.html">
-          <span class="sl-num">04</span><span class="sl-ico">🔢</span><span class="sl-nm">Sequential Protocol Timer</span>
+          <span class="sl-num">05</span><span class="sl-ico">🔢</span><span class="sl-nm">Sequential Protocol Timer</span>
         </a>
       </li>
       <li class="sl-item c-purple">
         <a href="conjugation_calculator_final.html">
-          <span class="sl-num">05</span><span class="sl-ico">🧪</span><span class="sl-nm">Conjugation 계산기</span>
+          <span class="sl-num">06</span><span class="sl-ico">🧪</span><span class="sl-nm">Conjugation 계산기</span>
         </a>
       </li>
       <li class="sl-item c-green">
         <a href="생산일정 관리 추출_KCM.html">
-          <span class="sl-num">06</span><span class="sl-ico">🏭</span><span class="sl-nm">생산일정 관리</span>
+          <span class="sl-num">07</span><span class="sl-ico">🏭</span><span class="sl-nm">생산일정 관리</span>
         </a>
       </li>
       <li class="sl-item c-orange">
         <a href="IDChipQC_v2_dashboard.html">
-          <span class="sl-num">07</span><span class="sl-ico">🔬</span><span class="sl-nm">IDChip QC 대시보드</span>
+          <span class="sl-num">08</span><span class="sl-ico">🔬</span><span class="sl-nm">IDChip QC 대시보드</span>
         </a>
       </li>
       <li class="sl-item c-teal">
         <a href="final-flowchart-generator.html">
-          <span class="sl-num">08</span><span class="sl-ico">🗺️</span><span class="sl-nm">Flowchart Generator</span>
+          <span class="sl-num">09</span><span class="sl-ico">🗺️</span><span class="sl-nm">Flowchart Generator</span>
         </a>
       </li>
-      <li class="sl-item c-cyan">
-        <a href="생산_대시보드_통합_KCM.html">
-          <span class="sl-num">09</span><span class="sl-ico">🏭</span><span class="sl-nm">생산 대시보드 통합 KCM</span>
+      <li class="sl-item c-orange">
+        <a href="notice_editor.html">
+          <span class="sl-num">10</span><span class="sl-ico">📢</span><span class="sl-nm">공지사항 편집기</span>
         </a>
       </li>
     </ul>
@@ -1051,7 +1056,7 @@ document.addEventListener('keydown',function(e){
   <main class="main-wrap">
 
     <div class="section-controls">
-      <div class="section-label">프로그램 목록 · 9개</div>
+      <div class="section-label">프로그램 목록 · 10개</div>
       <div class="ctrl-btns">
         <button class="ctrl-btn" onclick="toggleSidebar()">☰ 사이드바</button>
         <button class="ctrl-btn" id="toggle-all-btn" onclick="expandAll()">▼ 모두 펼치기</button>
@@ -1077,10 +1082,29 @@ document.addEventListener('keydown',function(e){
         </div>
       </div>
 
-      <!-- 02. 주간 업무 대시보드 -->
-      <div class="card-wrap c-blue" id="cw-2">
+      <!-- 02. 생산 대시보드 통합 KCM -->
+      <div class="card-wrap c-cyan" id="cw-2">
         <div class="card-hd" onclick="toggleCard('cw-2')">
           <span class="card-hd-num">02</span>
+          <div class="card-hd-icon">🏭</div>
+          <div class="card-hd-title">생산 대시보드 통합 KCM</div>
+          <div class="card-hd-chevron">▼</div>
+        </div>
+        <div class="card-body">
+          <div class="card-body-inner">
+            <div class="card-body-sub">표준물질 · 실제생산 · 그래뉼 통합 주간 뷰 · Cancer팀 자동 감지 · 데이터 저장 지원 (localStorage / JSON)</div>
+            <div class="card-body-tags">
+              <span class="tag">생산 대시보드</span><span class="tag">💾 저장 지원</span><span class="tag">🧬 Cancer팀</span><span class="tag">KCM</span>
+            </div>
+            <a href="생산_대시보드_통합_KCM.html" class="card-open-btn">열기 →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03. 주간 업무 대시보드 -->
+      <div class="card-wrap c-blue" id="cw-3">
+        <div class="card-hd" onclick="toggleCard('cw-3')">
+          <span class="card-hd-num">03</span>
           <div class="card-hd-icon">📊</div>
           <div class="card-hd-title">주간 업무 대시보드</div>
           <div class="card-hd-chevron">▼</div>
@@ -1094,10 +1118,10 @@ document.addEventListener('keydown',function(e){
         </div>
       </div>
 
-      <!-- 03. 실험 시트 타이머 -->
-      <div class="card-wrap c-teal" id="cw-3">
-        <div class="card-hd" onclick="toggleCard('cw-3')">
-          <span class="card-hd-num">03</span>
+      <!-- 04. 실험 시트 타이머 -->
+      <div class="card-wrap c-teal" id="cw-4">
+        <div class="card-hd" onclick="toggleCard('cw-4')">
+          <span class="card-hd-num">04</span>
           <div class="card-hd-icon">⏱️</div>
           <div class="card-hd-title">실험 시트 타이머</div>
           <div class="card-hd-chevron">▼</div>
@@ -1111,10 +1135,10 @@ document.addEventListener('keydown',function(e){
         </div>
       </div>
 
-      <!-- 04. Sequential Protocol Timer -->
-      <div class="card-wrap c-yellow" id="cw-4">
-        <div class="card-hd" onclick="toggleCard('cw-4')">
-          <span class="card-hd-num">04</span>
+      <!-- 05. Sequential Protocol Timer -->
+      <div class="card-wrap c-yellow" id="cw-5">
+        <div class="card-hd" onclick="toggleCard('cw-5')">
+          <span class="card-hd-num">05</span>
           <div class="card-hd-icon">🔢</div>
           <div class="card-hd-title">Sequential Protocol Timer</div>
           <div class="card-hd-chevron">▼</div>
@@ -1128,10 +1152,10 @@ document.addEventListener('keydown',function(e){
         </div>
       </div>
 
-      <!-- 05. Conjugation 계산기 -->
-      <div class="card-wrap c-purple" id="cw-5">
-        <div class="card-hd" onclick="toggleCard('cw-5')">
-          <span class="card-hd-num">05</span>
+      <!-- 06. Conjugation 계산기 -->
+      <div class="card-wrap c-purple" id="cw-6">
+        <div class="card-hd" onclick="toggleCard('cw-6')">
+          <span class="card-hd-num">06</span>
           <div class="card-hd-icon">🧪</div>
           <div class="card-hd-title">Conjugation 계산기</div>
           <div class="card-hd-chevron">▼</div>
@@ -1145,10 +1169,10 @@ document.addEventListener('keydown',function(e){
         </div>
       </div>
 
-      <!-- 06. 생산일정 관리 -->
-      <div class="card-wrap c-green" id="cw-6">
-        <div class="card-hd" onclick="toggleCard('cw-6')">
-          <span class="card-hd-num">06</span>
+      <!-- 07. 생산일정 관리 -->
+      <div class="card-wrap c-green" id="cw-7">
+        <div class="card-hd" onclick="toggleCard('cw-7')">
+          <span class="card-hd-num">07</span>
           <div class="card-hd-icon">🏭</div>
           <div class="card-hd-title">생산일정 관리</div>
           <div class="card-hd-chevron">▼</div>
@@ -1162,10 +1186,10 @@ document.addEventListener('keydown',function(e){
         </div>
       </div>
 
-      <!-- 07. IDChip QC 대시보드 -->
-      <div class="card-wrap c-orange" id="cw-7">
-        <div class="card-hd" onclick="toggleCard('cw-7')">
-          <span class="card-hd-num">07</span>
+      <!-- 08. IDChip QC 대시보드 -->
+      <div class="card-wrap c-orange" id="cw-8">
+        <div class="card-hd" onclick="toggleCard('cw-8')">
+          <span class="card-hd-num">08</span>
           <div class="card-hd-icon">🔬</div>
           <div class="card-hd-title">IDChip QC 대시보드</div>
           <div class="card-hd-chevron">▼</div>
@@ -1179,10 +1203,10 @@ document.addEventListener('keydown',function(e){
         </div>
       </div>
 
-      <!-- 08. Flowchart Generator -->
-      <div class="card-wrap c-teal" id="cw-8">
-        <div class="card-hd" onclick="toggleCard('cw-8')">
-          <span class="card-hd-num">08</span>
+      <!-- 09. Flowchart Generator -->
+      <div class="card-wrap c-teal" id="cw-9">
+        <div class="card-hd" onclick="toggleCard('cw-9')">
+          <span class="card-hd-num">09</span>
           <div class="card-hd-icon">🗺️</div>
           <div class="card-hd-title">Flowchart Generator</div>
           <div class="card-hd-chevron">▼</div>
@@ -1196,24 +1220,19 @@ document.addEventListener('keydown',function(e){
         </div>
       </div>
 
-      <!-- 09. 생산 대시보드 통합 (full width) -->
-      <div class="card-wrap c-cyan card-full" id="cw-9">
-        <div class="card-hd" onclick="toggleCard('cw-9')">
-          <span class="card-hd-num">09</span>
-          <div class="card-hd-icon">🏭</div>
-          <div class="card-hd-title">생산 대시보드 통합 KCM</div>
+      <!-- 10. 공지사항 편집기 -->
+      <div class="card-wrap c-orange" id="cw-10">
+        <div class="card-hd" onclick="toggleCard('cw-10')">
+          <span class="card-hd-num">10</span>
+          <div class="card-hd-icon">📢</div>
+          <div class="card-hd-title">공지사항 편집기</div>
           <div class="card-hd-chevron">▼</div>
         </div>
         <div class="card-body">
           <div class="card-body-inner">
-            <div class="card-body-sub">표준물질 · 실제생산 · 그래뉼 통합 주간 뷰 · Cancer팀 자동 감지 · 데이터 저장 지원 (localStorage / JSON)</div>
-            <div class="card-body-tags">
-              <span class="tag">생산 대시보드</span>
-              <span class="tag">💾 저장 지원</span>
-              <span class="tag">🧬 Cancer팀</span>
-              <span class="tag">KCM</span>
-            </div>
-            <a href="생산_대시보드_통합_KCM.html" class="card-open-btn">열기 →</a>
+            <div class="card-body-sub">공지사항 추가·수정·삭제 · notice.json 생성 및 다운로드 · GitHub 업로드 후 인덱스 자동 반영</div>
+            <div class="card-body-tags"><span class="tag">공지사항</span><span class="tag">편집기</span><span class="tag">JSON</span></div>
+            <a href="notice_editor.html" class="card-open-btn">열기 →</a>
           </div>
         </div>
       </div>
