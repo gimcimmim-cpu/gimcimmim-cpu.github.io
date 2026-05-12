@@ -668,24 +668,30 @@ function loadCancerWidget(){
 
 /* ── 공지사항 ── */
 var NOTICE_URL='https://gimcimmim-cpu.github.io/notice.json';
-var NOTICE_MAX=7;
+var NOTICE_MAX=20;
 var noticeCurIdx=0;
 var noticePaused=false;
 var noticeTimerRef=null;
 var noticeTotalItems=0;
 
 function loadNotice(){
-  fetch(NOTICE_URL+'?t='+Date.now())
-    .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
-    .then(function(d){ renderNotice(d); })
+  // GitHub CDN 캐시 우회: cache:'no-store' + 타임스탬프
+  fetch(NOTICE_URL+'?t='+Date.now(), {cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(function(d){
+      // GitHub에서 성공적으로 로드 → 캐시 갱신 후 렌더
+      try{ localStorage.setItem('notice_data_v1', JSON.stringify(d)); }catch(e){}
+      renderNotice(d, '☁️');
+    })
     .catch(function(){
+      // GitHub 실패 → 로컬 캐시 사용
       var raw; try{ raw=localStorage.getItem('notice_data_v1'); }catch(e){}
-      if(raw){ try{ renderNotice(JSON.parse(raw)); return; }catch(e){} }
+      if(raw){ try{ renderNotice(JSON.parse(raw), '💾'); return; }catch(e){} }
       renderNotice(null);
     });
 }
 
-function renderNotice(data){
+function renderNotice(data, src){
   var area=document.getElementById('notice-scroll-area');
   var ft=document.getElementById('notice-updated');
   if(!area) return;
@@ -708,10 +714,12 @@ function renderNotice(data){
     html+='</div>';
   });
   area.innerHTML=html;
-  if(ft&&data&&data.updatedAt) ft.textContent='업데이트: '+data.updatedAt;
-  try{ localStorage.setItem('notice_data_v1', JSON.stringify(data)); }catch(e){}
+  // 업데이트 날짜 + 출처 표시
+  if(ft){
+    var srcTxt = src ? ' · '+src : '';
+    ft.textContent = (data&&data.updatedAt) ? '업데이트: '+data.updatedAt+srcTxt : srcTxt;
+  }
   noticeStartTimer();
-  // 클릭: 정지/재생
   area.onclick=function(){ toggleNoticePause(); };
 }
 
@@ -732,6 +740,16 @@ function noticeAdvance(){
     cur.classList.add('is-active');
     cur.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
+}
+
+function reloadNotice(){
+  // 로컬 캐시 삭제 후 GitHub에서 강제 재로드
+  try{ localStorage.removeItem('notice_data_v1'); }catch(e){}
+  var area=document.getElementById('notice-scroll-area');
+  var ft=document.getElementById('notice-updated');
+  if(area) area.innerHTML='<div class="notice-empty-row">⏳ 다시 불러오는 중...</div>';
+  if(ft) ft.textContent='';
+  loadNotice();
 }
 
 function toggleNoticePause(){
@@ -943,7 +961,10 @@ document.addEventListener('keydown',function(e){
         </div>
         <div class="notice-footer-bar">
           <span id="notice-updated"></span>
-          <a href="notice_editor.html" style="font-size:9px;color:rgba(88,166,255,.55);text-decoration:none;">✏️ 편집기</a>
+          <span style="display:flex;gap:8px;align-items:center">
+            <span onclick="reloadNotice()" style="font-size:9px;color:rgba(139,148,158,.45);cursor:pointer;" title="캐시 지우고 다시 불러오기">🔄</span>
+            <a href="notice_editor.html" style="font-size:9px;color:rgba(88,166,255,.55);text-decoration:none;">✏️ 편집기</a>
+          </span>
         </div>
       </div>
 
