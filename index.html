@@ -93,6 +93,60 @@
   .cancer-meta { font-size:10px; color:var(--text-muted); text-align:right; margin-top:6px; }
   .cancer-placeholder { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:14px; text-align:center; color:var(--text-muted); font-size:12px; }
 
+  /* ── 헤더 하단 2단 레이아웃 ── */
+  .hdr-bottom {
+    display:flex; gap:14px; align-items:flex-start;
+    width:100%; max-width:1200px; align-self:center;
+    margin-top:18px; padding:0 8px; text-align:left;
+  }
+
+  /* ── 공지사항 박스 ── */
+  .notice-box {
+    width:270px; flex-shrink:0;
+    background:var(--bg2); border:1px solid var(--border); border-radius:12px;
+    overflow:hidden; display:flex; flex-direction:column;
+  }
+  .notice-box-hd {
+    padding:10px 14px 9px;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+    flex-shrink:0;
+  }
+  .notice-box-title {
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted);
+    display:flex; align-items:center; gap:6px;
+  }
+  .notice-box-meta { font-size:10px; color:rgba(139,148,158,.4); }
+  .notice-scroll { overflow-y:auto; max-height:180px; padding:6px 0 4px; }
+  .notice-scroll::-webkit-scrollbar { width:3px; }
+  .notice-scroll::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+  .notice-item {
+    padding:8px 14px; border-bottom:1px solid rgba(48,54,61,.5); display:flex; flex-direction:column; gap:3px;
+  }
+  .notice-item:last-child { border-bottom:none; }
+  .notice-item-top { display:flex; align-items:center; gap:6px; }
+  .notice-badge {
+    font-size:9px; font-weight:700; padding:1px 6px; border-radius:4px; flex-shrink:0; letter-spacing:.3px;
+  }
+  .nb-important { background:rgba(248,81,73,.18); color:#f85149; border:1px solid rgba(248,81,73,.3); }
+  .nb-schedule  { background:rgba(240,136,62,.18); color:#f0883e; border:1px solid rgba(240,136,62,.3); }
+  .nb-info      { background:rgba(88,166,255,.18); color:#58a6ff; border:1px solid rgba(88,166,255,.3); }
+  .nb-done      { background:rgba(63,185,80,.18);  color:#3fb950; border:1px solid rgba(63,185,80,.3); }
+  .notice-date { font-size:10px; color:rgba(139,148,158,.5); }
+  .notice-text { font-size:11px; color:var(--text-muted); line-height:1.55; }
+  .notice-footer {
+    padding:6px 14px; font-size:9px; color:rgba(139,148,158,.35);
+    border-top:1px solid var(--border); flex-shrink:0;
+  }
+  .notice-empty { padding:14px; text-align:center; font-size:11px; color:rgba(139,148,158,.4); }
+  .notice-hint {
+    font-size:9px; color:rgba(139,148,158,.3); padding:4px 14px 6px;
+    text-align:right; flex-shrink:0;
+  }
+
+  /* cancer-hdr-widget (우측, flex:1) */
+  .cancer-hdr-widget { flex:1; min-width:0; }
+
   /* ── CONTENT WRAPPER (sidebar + main) ── */
   .content-wrap { flex:1; display:flex; position:relative; z-index:1; overflow:hidden; }
 
@@ -285,6 +339,7 @@
 
   /* ── RESPONSIVE ── */
   @media(max-width:1100px) { .card-grid { grid-template-columns:1fr; } }
+  @media(max-width:900px) { .hdr-bottom { flex-direction:column; } .notice-box { width:100%; } }
   @media(max-width:768px) {
     .sidebar { position:fixed; z-index:200; height:100vh; top:0; left:0; }
     .sidebar.collapsed { width:0; }
@@ -318,6 +373,7 @@ window.addEventListener('DOMContentLoaded',function(){
   document.getElementById('dt-range').textContent=(mon.getMonth()+1)+'/'+mon.getDate()+' ~ '+(fri.getMonth()+1)+'/'+fri.getDate();
   updateClock();setInterval(updateClock,1000);
   loadCancerWidget();
+  loadNotice();
 });
 
 /* ── Accordion ── */
@@ -425,6 +481,44 @@ function loadCancerWidget(){
     });
 }
 
+/* ── 공지사항 ── */
+var NOTICE_URL='https://gimcimmim-cpu.github.io/notice.json';
+function loadNotice(){
+  fetch(NOTICE_URL+'?t='+Date.now())
+    .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+    .then(function(d){ renderNotice(d); })
+    .catch(function(){
+      var raw; try{ raw=localStorage.getItem('notice_data_v1'); }catch(e){}
+      if(raw){ try{ renderNotice(JSON.parse(raw)); return; }catch(e){} }
+      renderNotice(null);
+    });
+}
+function renderNotice(data){
+  var el=document.getElementById('notice-content');
+  var ft=document.getElementById('notice-footer');
+  if(!el) return;
+  if(!data||!data.notices||data.notices.length===0){
+    el.innerHTML='<div class="notice-empty">📭 공지사항 없음</div>';
+    return;
+  }
+  var badgeClass={'important':'nb-important','schedule':'nb-schedule','info':'nb-info','done':'nb-done'};
+  var html='';
+  data.notices.forEach(function(n){
+    var bc=badgeClass[n.type]||'nb-info';
+    html+='<div class="notice-item">';
+    html+='<div class="notice-item-top">';
+    if(n.badge) html+='<span class="notice-badge '+bc+'">'+n.badge+'</span>';
+    if(n.date)  html+='<span class="notice-date">'+n.date+'</span>';
+    html+='</div>';
+    html+='<div class="notice-text">'+n.content+'</div>';
+    html+='</div>';
+  });
+  el.innerHTML=html;
+  if(ft&&data.updatedAt) ft.textContent='업데이트: '+data.updatedAt;
+  // localStorage 캐시
+  try{ localStorage.setItem('notice_data_v1', JSON.stringify(data)); }catch(e){}
+}
+
 /* ── PIN 모달 ── */
 var pin='';
 function openPin(){document.getElementById('pin-overlay').classList.add('show');pin='';updatePinDots();document.getElementById('pin-err').textContent='';}
@@ -500,16 +594,34 @@ document.addEventListener('keydown',function(e){
     </div>
   </div>
 
-  <div class="cancer-hdr-widget">
-    <div class="cancer-hdr-label">🧬 Cancer팀 이번 주 생산 일정</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;justify-content:flex-start">
-      <span class="cancer-item-type ct-std-pack" style="padding:2px 8px;border-radius:4px;font-size:9px">📦 표준물질 포장</span>
-      <span class="cancer-item-type ct-std-dry"  style="padding:2px 8px;border-radius:4px;font-size:9px">🧪 표준물질 분주</span>
-      <span class="cancer-item-type ct-ich"      style="padding:2px 8px;border-radius:4px;font-size:9px">🔬 카트리지 ichroma</span>
-      <span class="cancer-item-type ct-afi"      style="padding:2px 8px;border-radius:4px;font-size:9px">⚙️ 카트리지 AFIAS</span>
-      <span class="cancer-item-type ct-gran"     style="padding:2px 8px;border-radius:4px;font-size:9px">🌿 그래뉼</span>
+  <!-- 헤더 하단: 공지사항(좌) + 생산일정(우) 2단 -->
+  <div class="hdr-bottom">
+
+    <!-- 공지사항 박스 -->
+    <div class="notice-box">
+      <div class="notice-box-hd">
+        <span class="notice-box-title">📢 공지사항</span>
+        <span class="notice-box-meta" id="notice-footer"></span>
+      </div>
+      <div class="notice-scroll" id="notice-content">
+        <div class="notice-empty">⏳ 로드 중...</div>
+      </div>
+      <div class="notice-hint">notice.json → GitHub 업로드로 수정</div>
     </div>
-    <div id="cancer-widget"></div>
+
+    <!-- Cancer팀 이번 주 생산 일정 -->
+    <div class="cancer-hdr-widget">
+      <div class="cancer-hdr-label">🧬 Cancer팀 이번 주 생산 일정</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;justify-content:flex-start">
+        <span class="cancer-item-type ct-std-pack" style="padding:2px 8px;border-radius:4px;font-size:9px">📦 표준물질 포장</span>
+        <span class="cancer-item-type ct-std-dry"  style="padding:2px 8px;border-radius:4px;font-size:9px">🧪 표준물질 분주</span>
+        <span class="cancer-item-type ct-ich"      style="padding:2px 8px;border-radius:4px;font-size:9px">🔬 카트리지 ichroma</span>
+        <span class="cancer-item-type ct-afi"      style="padding:2px 8px;border-radius:4px;font-size:9px">⚙️ 카트리지 AFIAS</span>
+        <span class="cancer-item-type ct-gran"     style="padding:2px 8px;border-radius:4px;font-size:9px">🌿 그래뉼</span>
+      </div>
+      <div id="cancer-widget"></div>
+    </div>
+
   </div>
 </header>
 
