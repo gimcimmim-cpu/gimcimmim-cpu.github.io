@@ -595,15 +595,13 @@ function toggleSidebar(){
   var isCollapsed=sb.classList.contains('collapsed');
   if(tab) tab.style.display=isCollapsed?'flex':'none';
   // 상태 저장
-  try{ localStorage.setItem('sidebar_state', isCollapsed?'closed':'open'); }catch(e){}
 }
 window.addEventListener('DOMContentLoaded',function(){
   // sidebar 상태 복원
-  var state; try{ state=localStorage.getItem('sidebar_state'); }catch(e){}
   var sb=document.getElementById('sidebar');
   var tab=document.getElementById('sb-tab');
-  if(state==='closed'&&sb){ sb.classList.add('collapsed'); if(tab) tab.style.display='flex'; }
-  else { if(tab) tab.style.display='none'; }
+  if(sb) sb.classList.add('collapsed');
+  if(tab) tab.style.display='flex';
 });
 
 /* ── Cancer 위젯 ── */
