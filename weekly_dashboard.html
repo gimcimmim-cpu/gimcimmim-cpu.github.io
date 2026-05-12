@@ -85,7 +85,7 @@
   .issue-icon{font-size:14px;} .issue-title{font-weight:600;font-size:12px;color:var(--text);flex:1;}
   .issue-person{font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(248,81,73,.15);color:var(--issue);border:1px solid rgba(248,81,73,.3);white-space:nowrap;}
   .issue-desc{font-size:11px;color:var(--text-muted);line-height:1.5;}
-  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:14px;}
+  .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:14px;}
   .team-member{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;transition:border-color .2s,transform .15s;}
   .team-member:hover{border-color:#484f58;transform:translateY(-1px);}
   .member-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
@@ -160,7 +160,7 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
 <header class="header">
   <div class="header-left">
     <h1>🔬 Cancer팀 주간 대시보드</h1>
-    <div class="subtitle">보고 기간: 2026년 4월 20일(월) ~ 4월 24일(금) &nbsp;|&nbsp; 17주차 &nbsp;|&nbsp; 차주: 4월 27일(월) ~ 5월 1일(금)</div>
+    <div class="subtitle">보고 기간: 2026년 5월 4일(월) ~ 5월 8일(금) &nbsp;|&nbsp; 19주차 &nbsp;|&nbsp; 차주: 5월 11일(월) ~ 5월 15일(금)</div>
   </div>
   <div class="header-right">
     <span class="badge live">이번 주</span>
@@ -170,12 +170,13 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
 
 <div class="container">
 
+  <!-- KPI: 연구5 생산7 허가2 기타3 이슈4 -->
   <div class="kpi-row">
-    <div class="kpi-card research"><div class="kpi-label">🔬 연구</div><div class="kpi-number">7</div><div class="kpi-sub">진행 아이템</div></div>
-    <div class="kpi-card production"><div class="kpi-label">🏭 생산</div><div class="kpi-number">5</div><div class="kpi-sub">진행 아이템</div></div>
-    <div class="kpi-card approval"><div class="kpi-label">📋 허가</div><div class="kpi-number">5</div><div class="kpi-sub">진행 아이템</div></div>
-    <div class="kpi-card other"><div class="kpi-label">📌 기타</div><div class="kpi-number">5</div><div class="kpi-sub">진행 아이템</div></div>
-    <div class="kpi-card issue"><div class="kpi-label">⚠️ 이슈</div><div class="kpi-number">5</div><div class="kpi-sub">처리 필요</div></div>
+    <div class="kpi-card research"><div class="kpi-label">🔬 연구</div><div class="kpi-number">5</div><div class="kpi-sub">진행 아이템</div></div>
+    <div class="kpi-card production"><div class="kpi-label">🏭 생산</div><div class="kpi-number">7</div><div class="kpi-sub">진행 아이템</div></div>
+    <div class="kpi-card approval"><div class="kpi-label">📋 허가</div><div class="kpi-number">2</div><div class="kpi-sub">진행 아이템</div></div>
+    <div class="kpi-card other"><div class="kpi-label">📌 기타</div><div class="kpi-number">3</div><div class="kpi-sub">진행 아이템</div></div>
+    <div class="kpi-card issue"><div class="kpi-label">⚠️ 이슈</div><div class="kpi-number">4</div><div class="kpi-sub">처리 필요</div></div>
   </div>
 
   <!-- ROW 1: 연구 + 생산/허가 -->
@@ -185,42 +186,32 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
     <div class="section-card">
       <div class="section-header">
         <div class="section-title"><span class="section-dot dot-research"></span><span class="accent-research">🔬 연구</span></div>
-        <span class="section-count">7건</span>
+        <span class="section-count">5건</span>
       </div>
       <div class="item-list">
         <div class="item-row">
-          <div class="item-name">Calprotectin i50 SW 평가 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">i50 EB 제조·실링·매거진 포장 완료(100T) → 1차 구동: Lv1·Lv2 CV&gt;10% ⚠️ (자석 맞물림 불량 추정) → 재포장 후 금요일 재진행 / AFIAS-10 Emergency vs General mode ✅ Bias ±5% 이내</div>
-          <div class="item-next">i50 SW 재평가 (믹싱 30회) 완료 후 안정성 평가 착수</div>
+          <div class="item-name">AFIAS PSA 68F 혜구 분리 원인 분석 ✅ <span class="item-tag tag-exp">실험</span></div>
+          <div class="item-desc">시험기간 05.04~05.06 | 교차시험(DB·NC·하우징 변경) 결과: 원인은 AFIAS 조립 하우징 차수 변경. WB 10종 peak·rawdata 이상 없음 → 수식작성·판매 문제없음. 차기 Lot: DDB NaCl 농도 변경·Sample pad 소재 검토 필요 (임지은)</div>
+          <div class="item-next">PSA Neo PSWDA45X/46X 수식 / PSA Cal 원료 검토(Biosynth) / GSA line 농도 조정</div>
         </div>
         <div class="item-row">
-          <div class="item-name">HE4 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">37℃ 건조 조건 NC (3 line) 재현성 평가 / 2 line: eu·biotin 농도 비율 조정 진행 중</div>
-          <div class="item-next">3 line (37℃ 3일 건조 NC) 추가 평가 / Eu 농도 1.5μg/mL 조정 재시험 / HE4 이원결과보고서 완료</div>
+          <div class="item-name">ichroma-50 plus Calprotectin 4차 SW 평가 ✅ <span class="item-tag tag-exp">실험</span></div>
+          <div class="item-desc">평가 경과: 1~3차(A동 기기) CV 21~35% ❌ → 4차(연구동 기기 교체) 00버전 CV 9%(Lv1)~5%(Lv2) ✅. 01버전: Lv1 값 횈(역치 60~110mg/kg) 제거 후 CV 8% ✅. A동 기기 문제 확인 (김나연)</div>
+          <div class="item-next">01버전 Lv1 값 횈 원인 재평가 / AFP PEG granule 평가 / CV 개선 현황 발표</div>
         </div>
         <div class="item-row">
-          <div class="item-name">CEA Granule 가혹 안정성 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">PEG 0%, 1% 가혹 안정성 → 45℃ 70일차 기준 (45℃ 환산일: 280일) 진행 중</div>
+          <div class="item-name">AFIAS CA15-3 구동 시나리오 확인 <span class="item-tag tag-exp">실험</span></div>
+          <div class="item-desc">AFIAS CA15-3 구동 시나리오 확인 시험 진행 중 (김수지)</div>
+          <div class="item-next">ichroma CA15-3 개발완료보고서 작성</div>
         </div>
         <div class="item-row">
-          <div class="item-name">AFIAS CA15-3 신규 개발 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">AFIAS CA15-3 구동 시나리오 확인 시험 진행 (김수지)</div>
-          <div class="item-next">ichroma CA15-3 구동 확인 계속</div>
+          <div class="item-name">AFIAS CEA AFIAS-3 1세대/3세대 bias 비교 <span class="item-tag tag-exp">실험</span></div>
+          <div class="item-desc">수식작성(1세대 A-3) vs 완제품 QC(3세대 뉴플랫폼 A-3) 측정값 차이 확인 → 1세대/3세대 bias 비교 시험 진행중 (김수지·박주연 공동)</div>
+          <div class="item-next">데이터 정리 후 bias 보고서 작성</div>
         </div>
         <div class="item-row">
-          <div class="item-name">Cyfra21-1 상관성 평가 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">검체 38종 vs Roche COBAS 비교 → 저농도 이상 없음 / 고농도(10ng/mL↑): ichroma bias 최대 226%, AFIAS 190% ❌ / 원인: Cal 보정값 누적 과다 확인 (박영서)</div>
-          <div class="item-next">차기 배치부터 Cal값 5~7%씩 점진 하향 조정 (ichroma 30~40%, AFIAS 20~30%)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">AFIAS Free PSA 재현성 개선 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">AFIAS-10 일반 모드 vs stepmixing 모드 차이 확인 (임지은) / 5일차 진행 중</div>
-          <div class="item-next">stepmixing 조건 설정 / TN_G 라인분주 조건 설정</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">iFOB Neo / Stool 자동화 <span class="item-tag tag-exp">실험</span></div>
-          <div class="item-desc">ichroma-50 plus 정규버전 SW(Fix gain) 평가 ✅ CV&lt;10% / 카트리지 안정성 10일차 → 실온 6일차부터 불안정 ❌ / 지퍼백+실리카겔 전 기간 안정 ✅ / Stool EB tube 중국 비교 → recovery 94%, drop 양 차이 ⚠️ (장혜지)</div>
-          <div class="item-next">안정성 14일차(4/28) / 28일차(5/12) 완료 후 최종 방향 결정</div>
+          <div class="item-name">CEA PEG 가혹 안정성 86일차 <span class="item-tag tag-exp">실험</span></div>
+          <div class="item-desc">PEG 0%/1% 가혹 안정성 진행 중 | 45℃ 86일차 (344일 환산) (김수지)</div>
         </div>
       </div>
     </div>
@@ -229,55 +220,51 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
     <div class="section-card">
       <div class="section-header">
         <div class="section-title"><span class="section-dot dot-production"></span><span class="accent-production">🏭 생산</span> &nbsp;<span style="color:var(--text-muted);font-size:12px;">/</span>&nbsp; <span class="accent-approval">📋 허가</span></div>
-        <span class="section-count">10건</span>
+        <span class="section-count">9건</span>
       </div>
       <div class="item-list">
         <div class="item-row">
-          <div class="item-name">AFP 수식 이관 ✅ <span class="item-tag tag-doc">수식</span></div>
-          <div class="item-desc">AFWCC12, AFWCB09EX, AFWCB09EXI 수식 작성 완료 및 id chip 이관 (김나연)</div>
+          <div class="item-name">AFIAS-1 SW 평가 11종 완료 ⚠️ <span class="item-tag tag-mfg">검사</span></div>
+          <div class="item-desc">SW 평가 11종 완료 후 수정 필요 2건 확인: ① H.pylori SA NP 장비 QC mode COI값 미출력 ② AFIAS iFOB 구동 HWO→HWB 수정 필요. 수정 SW 수신 후 추가 테스트 예정 (박주연)</div>
+          <div class="item-next">H.pylori SA NP COI값·iFOB HWO→HWB 수정 SW 추가 평가</div>
         </div>
         <div class="item-row">
-          <div class="item-name">Ferritin 인수인계·제조 <span class="item-tag tag-mfg">제조</span></div>
-          <div class="item-desc">FR Conjugator 20mg 제조(ratio 2.68) / DFR_Diluent 50L / ichroma 수식(DFRWDF07/08), AFIAS 수식(FRWDA90X/91X) 인수인계 병행 (고경열→박영서/박주연) 완료 ✅</div>
-          <div class="item-next">페리틴 라인분주 14roll (SPCN024_260428) / A3 뉴플랫폼 Ferritin 튐 현상 비교 / 벨기에 임상 출하 Control 평가</div>
+          <div class="item-name">Ferritin Diluent 분주 완료 ✅ <span class="item-tag tag-mfg">제조</span></div>
+          <div class="item-desc">DFRWEF09 5L(해외) / FRWEA92X 14L(이라크) 분주 완료 (박주연)</div>
         </div>
         <div class="item-row">
-          <div class="item-name">Cyfra21-1 제조·Conjugation <span class="item-tag tag-mfg">제조</span></div>
-          <div class="item-desc">Diluent 제조 / 연구용 EuNP·Biotin Conjugation (박영서)</div>
-          <div class="item-next">EuNP·Biotin 비율 최적화 재검토 / CYWDA11EX 수식 작성</div>
+          <div class="item-name">AFIAS Calprotectin 러시아 출하전검사 ✅ <span class="item-tag tag-mfg">검사</span></div>
+          <div class="item-desc">출하전 검사 완료 (김나연)</div>
         </div>
         <div class="item-row">
-          <div class="item-name">iFOB Neo / CA19-9 <span class="item-tag tag-mfg">제조</span></div>
-          <div class="item-desc">FO_EB_260423 25L 제조 (FOWEF06Z)</div>
-          <div class="item-next">ichroma CA19-9(CXWDB07EX) 수식 / ichroma iFOB Neo(FOWCF04Z) 수식</div>
+          <div class="item-name">CP_EB 25L 제조 / CPWDE03Z 수식완료 <span class="item-tag tag-mfg">제조</span></div>
+          <div class="item-desc">CP_EB 25L 제조 및 CPWDE03Z 수식 완료 (김나연)</div>
+          <div class="item-next">CP_EB 100L 제조 / id chip 이관</div>
         </div>
         <div class="item-row">
-          <div class="item-name">Cancer Marker 뉴플랫폼 <span class="item-tag tag-exp">검사</span></div>
-          <div class="item-desc">AFIAS CEA 뉴플랫폼 장비 test 보조 (박주연)</div>
-          <div class="item-next">AFIAS-1 SW 평가 12종 (04.28~05.04, 박주연)</div>
+          <div class="item-name">ichroma iFOB Neo FOWDE04Z 수식 완료 <span class="item-tag tag-mfg">수식</span></div>
+          <div class="item-desc">iFOB Neo FOWDE04Z 수식 완료 / FO_EB_260508 25L 제조 / Boditech iFOB Neo control assign·별지 등록 (장혜지)</div>
+          <div class="item-next">iFOB Neo FOWDE05Z·FOWDF06Z 수식 / AFIAS iFOB Neo 보완 서류(A-10 상관성·QC 성적서)</div>
+        </div>
+        <div class="item-row">
+          <div class="item-name">CA19-9 CXWDB07EX 수식 진행 <span class="item-tag tag-mfg">수식</span></div>
+          <div class="item-desc">CA19-9 CXWDB07EX 수식 완료 예정 (장혜지)</div>
+          <div class="item-next">CA125 Diluent 10000T 제조</div>
+        </div>
+        <div class="item-row">
+          <div class="item-name">HS_EB 50L 2배치 제조 <span class="item-tag tag-mfg">제조</span></div>
+          <div class="item-desc">HS_EB 50L 2배치 제조·필터(HSWEK12·HSWEL01) / H.pylori SA CV 데이터 정리 (유다연)</div>
+          <div class="item-next">HS_DB 제조(1배치 시험 후 6배치 본 제조)</div>
         </div>
         <div class="item-row" style="border-top:2px dashed var(--border);margin-top:4px;">
-          <div class="item-name">Calprotectin IVDR PMPF ✅ <span class="item-tag tag-doc">허가</span></div>
-          <div class="item-desc">QDx ichroma Calprotectin PMPF Plan 작성 완료 (IVDR용, 김나연)</div>
-          <div class="item-next">Calprotectin Control (국내 RUO) Insert 수정</div>
+          <div class="item-name">IVDR TD 작성 / 원재료 성분 등록 <span class="item-tag tag-doc">허가</span></div>
+          <div class="item-desc">IVDR TD 3건 완료 / IVDD→IVDR 원재료 성분 작성 (김수지)</div>
+          <div class="item-next">IVDR TD 추가 수정</div>
         </div>
         <div class="item-row">
-          <div class="item-name">iFOB Neo ichroma-50 Plus 성능 자료 <span class="item-tag tag-doc">허가</span></div>
-          <div class="item-desc">IVDD·IVDR 성능 자료 작성 (4/30까지 완료 목표, 장혜지) / Stool 자동화 회의 자료 준비 완료</div>
-          <div class="item-next">ichroma-50 Plus 성능 자료(IVDD·IVDR) 완료</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">Ferritin 허가 서류 ✅ <span class="item-tag tag-doc">허가</span></div>
-          <div class="item-desc">인수인계서 수정·보완 완료 (고경열) / ichroma Ferritin 변경허가 신청서 검토 완료</div>
-          <div class="item-next">BOM 수정 관련 서류 (Ferritin 전혈 아이템 변경)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">HE4 이원결과보고서 ✅ <span class="item-tag tag-doc">허가</span></div>
-          <div class="item-desc">이원의료재단 HE4 종료보고서 작성 완료 (김나연)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">H.pylori SA 종료보고서 <span class="item-tag tag-doc">허가</span></div>
-          <div class="item-desc">IRB BR280 H.pylori 종료보고서 내용 수정 (고경열)</div>
+          <div class="item-name">QC 기준강화 회의 자료 준비 <span class="item-tag tag-doc">허가</span></div>
+          <div class="item-desc">QC 기준강화 PPT 작성(김수지·임지은·장혜지) / 회의 자료 제작 완료 (장혜지)</div>
+          <div class="item-next">QC 기준강화 회의 (5/11)</div>
         </div>
       </div>
     </div>
@@ -291,28 +278,24 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
     <div class="section-card">
       <div class="section-header">
         <div class="section-title"><span class="section-dot" style="background:var(--issue);box-shadow:0 0 8px var(--issue);"></span><span style="color:var(--issue);">⚠️ 주요 이슈 / 클레임</span></div>
-        <span class="section-count">5건</span>
+        <span class="section-count">4건</span>
       </div>
       <div class="issue-list">
-        <div class="issue-card critical">
-          <div class="issue-top"><span class="issue-icon">🚨</span><span class="issue-title">Cyfra21-1 고농도 Cal 보정 과다</span><span class="issue-person">박영서</span></div>
-          <div class="issue-desc">ichroma bias 최대 226%, AFIAS 190% → Cal 보정값 누적 과다가 원인 / 차기 배치부터 5~7%씩 점진 하향 조정 계획</div>
-        </div>
-        <div class="issue-card critical">
-          <div class="issue-top"><span class="issue-icon">⚠️</span><span class="issue-title">Calprotectin i50 CV&gt;10% (자석 불량)</span><span class="issue-person">김나연</span></div>
-          <div class="issue-desc">1차 구동 시 Lv1·Lv2 CV 기준 초과 → 자석 맞물림 불량 추정 / 재포장 후 재진행 예정</div>
-        </div>
-        <div class="issue-card warning">
-          <div class="issue-top"><span class="issue-icon">🌍</span><span class="issue-title">독일 Hitado AFIAS CEA CEVHA13X QC Fail</span><span class="issue-person" style="background:rgba(210,153,34,.15);color:var(--warning);border-color:rgba(210,153,34,.3);">김수지</span></div>
-          <div class="issue-desc">AFIAS-3 독일 장비 vs 연구소 장비 bias 약 30% → TMCOWC27 assign 값 보정 + 전용 별지 제작·전달 ✅ 처리완료</div>
-        </div>
-        <div class="issue-card warning">
-          <div class="issue-top"><span class="issue-icon">🌍</span><span class="issue-title">튀니지 Biotop CEA CEVLA14X Invalid-34</span><span class="issue-person" style="background:rgba(210,153,34,.15);color:var(--warning);border-color:rgba(210,153,34,.3);">김수지</span></div>
-          <div class="issue-desc">팁 막힘·펌프 오류·조립 불량 가능성 안내 → 추가 유저 확인 후 피드백 예정 ⚠️ 진행중</div>
-        </div>
         <div class="issue-card done">
-          <div class="issue-top"><span class="issue-icon">✅</span><span class="issue-title">에콰도르 PSA Neo PSWAC10EX Invalid-06</span><span class="issue-person" style="background:rgba(63,185,80,.15);color:#3fb950;border-color:rgba(63,185,80,.3);">임지은</span></div>
-          <div class="issue-desc">Strip 혼용(T3) 원인 확인 → 해당 Lot 전량 교체 완료 ✅ 종결</div>
+          <div class="issue-top"><span class="issue-icon">✅</span><span class="issue-title">AFIAS PSA PSWDA68F 혜구 분리 이상 – 원인 규명 완료</span><span class="issue-person" style="background:rgba(63,185,80,.15);color:#3fb950;border-color:rgba(63,185,80,.3);">임지은</span></div>
+          <div class="issue-desc">AFIAS 조립 하우징 차수 변경이 원인 확인. Peak·rawdata 이상 없음 → 수식작성·판매 문제없음. 차기 Lot 반복 방지를 위해 DDB NaCl 농도 변경·Sample pad 소재 검토 진행 예정</div>
+        </div>
+        <div class="issue-card warning">
+          <div class="issue-top"><span class="issue-icon">⚠️</span><span class="issue-title">AFIAS-1 SW 평가 수정 필요 2건</span><span class="issue-person" style="background:rgba(210,153,34,.15);color:var(--warning);border-color:rgba(210,153,34,.3);">박주연</span></div>
+          <div class="issue-desc">① H.pylori SA NP 장비 QC mode COI값 미출력 ② AFIAS iFOB 구동 HWO→HWB 수정 필요 → 수정 SW 수신 후 차주 추가 테스트 예정</div>
+        </div>
+        <div class="issue-card warning">
+          <div class="issue-top"><span class="issue-icon">⚠️</span><span class="issue-title">AFIAS CEA AFIAS-3 1세대/3세대 측정값 차이</span><span class="issue-person" style="background:rgba(210,153,34,.15);color:var(--warning);border-color:rgba(210,153,34,.3);">김수지</span></div>
+          <div class="issue-desc">수식작성 시 1세대 A-3 vs 완제품 QC 3세대 뉴플랫폼 A-3 측정값 bias 차이 확인. 박주연과 공동 비교 시험 진행중 → 차주 보고서 작성</div>
+        </div>
+        <div class="issue-card critical">
+          <div class="issue-top"><span class="issue-icon">🚨</span><span class="issue-title">CP 01버전 Lv1 값 횈 (60~110 mg/kg 구간)</span><span class="issue-person">김나연</span></div>
+          <div class="issue-desc">4차 평가(연구동 기기) 중 01버전 Lv1 역치(60·110 mg/kg) 구간 값 횈 발생. 제거 후 CV 8% 만족하나 원인 추가 확인 필요 → 차주 재평가</div>
         </div>
       </div>
     </div>
@@ -320,32 +303,23 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
     <!-- 기타 -->
     <div class="section-card">
       <div class="section-header">
-        <div class="section-title"><span class="section-dot dot-other"></span><span class="accent-other">📌 기타 / 공지 / 인수인계</span></div>
-        <span class="section-count">5건</span>
+        <div class="section-title"><span class="section-dot dot-other"></span><span class="accent-other">📌 기타 / 공지 / 회의</span></div>
+        <span class="section-count">3건</span>
       </div>
       <div class="item-list" style="max-height:260px;">
         <div class="item-row">
-          <div class="item-name">인수인계 완료 ✅ <span class="item-tag tag-doc">관리</span></div>
-          <div class="item-desc">Ferritin: 고경열→박영서(정)/박주연(부) 수식·Diluent·Conjugator 인수인계 완료 (4/21) / H.pylori SA: 이다희→유다연/김수지 Conjugator·DDB·수식이관 완료</div>
-          <div class="item-next">급성감염팀 업무 인계 (고경열) / 업무분장 서류 작성 (박영서)</div>
+          <div class="item-name">QC 기준강화 회의 <span class="item-tag tag-doc">회의</span></div>
+          <div class="item-desc">QC 기준강화 관련 PPT 작성 완료 (김수지·임지은·장혜지) / 회의 자료 제작 완료 / Cancer팀 주간회의 병행 (장혜지)</div>
+          <div class="item-next">QC 기준강화 회의 (5/11) / QC 기준강화 회의 결과 공유</div>
         </div>
         <div class="item-row">
-          <div class="item-name">AFIAS A3 SW 공지 <span class="item-tag tag-doc">공지</span></div>
-          <div class="item-desc">Rev.5 업데이트 – ID칩 쇼트 버그 수정 / 후지필름 전용 SW(107.24): 파라미터 변경 전 임의 변경 금지 / AFIAS 세대별 측정값 차이 이슈 – 기계팀 논의 중</div>
+          <div class="item-name">Calprotectin CV 개선 현황 발표 <span class="item-tag tag-doc">보고</span></div>
+          <div class="item-desc">ichroma-50 plus Calprotectin CV 개선 현황 PPT 완성 / 4차 평가 결과 기반 발표 준비 (김나연)</div>
+          <div class="item-next">CV 개선 현황 팀 내 발표</div>
         </div>
         <div class="item-row">
-          <div class="item-name">규제·임상 공지 <span class="item-tag tag-doc">공지</span></div>
-          <div class="item-desc">신규 IVDR 기한 등록 – 해당 아이템 취합 후 4/30까지 (김철민 팀장) / 전남대 임상 H.pylori AFIAS 파일럿(~100건) 선행, 결과 양호 시 Calprotectin 착수 / PSA 유럽 MPT 시장 진입 검토 계획서 작성 중</div>
-          <div class="item-next">IVDR 기한 등록 완료(4/30) / 전남대 임상 방향 최종 협의</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">중국 AFP 클레임 <span class="item-tag tag-doc">서류</span></div>
-          <div class="item-desc">중국 허군의 차장님 AFP 별지 생성 처리 완료 (김나연)</div>
-        </div>
-        <div class="item-row">
-          <div class="item-name">회의 <span class="item-tag tag-doc">회의</span></div>
-          <div class="item-desc">Cancer팀 주간회의(4/23) / Stool 자동화 회의(4/23)</div>
-          <div class="item-next">Cancer팀 주간회의(4/30) / CA125 인수인계 회의 (→장혜지, 4/27)</div>
+          <div class="item-name">부적합 보고서 작성 ✅ <span class="item-tag tag-doc">서류</span></div>
+          <div class="item-desc">부적합 보고서 2건 작성 완료: PSVEA23X / F1VXA09G (임지은)</div>
         </div>
       </div>
     </div>
@@ -357,69 +331,9 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
     <div class="section-card full-width">
       <div class="section-header">
         <div class="section-title">👥 팀원별 업무 현황</div>
-        <span class="section-count">8명</span>
+        <span class="section-count">6명</span>
       </div>
       <div class="team-grid">
-
-        <div class="team-member">
-          <div class="member-header">
-            <div class="member-avatar" style="background:rgba(88,166,255,.15);color:var(--research);">다희</div>
-            <div><div class="member-name">이다희</div></div>
-            <span class="member-status status-exit">5/12 퇴사</span>
-          </div>
-          <div class="member-tasks">
-            <span class="task-chip">H.pylori SA 인수인계 완료 ✅</span>
-            <span class="task-chip">HP_1D·SA-FPR conjugator 제조</span>
-            <span class="task-chip">HS_DDB 4.6L 제조</span>
-            <span class="task-chip" style="color:var(--issue);">연차 4/21~23 + 4/24 오후반차</span>
-          </div>
-          <div class="next-label">▶ 차주 예정</div>
-          <div class="member-tasks">
-            <span class="next-chip">ichroma-50 plus 100T 진행</span>
-            <span class="next-chip">HS_EB 25L 1배치 제조 (인수인계 병행)</span>
-          </div>
-        </div>
-
-        <div class="team-member">
-          <div class="member-header">
-            <div class="member-avatar" style="background:rgba(240,136,62,.15);color:var(--production);">경열</div>
-            <div><div class="member-name">고경열</div></div>
-            <span class="member-status status-active">근무 중</span>
-          </div>
-          <div class="member-tasks">
-            <span class="task-chip">Ferritin 수식 4건 인수인계 완료 ✅</span>
-            <span class="task-chip">ichroma Ferritin 전혈 허가 서류 완료 ✅</span>
-            <span class="task-chip">H.pylori BR280 종료보고서 수정</span>
-            <span class="task-chip">CRP 라인분주 (clone 3B21, 조건 1~4)</span>
-          </div>
-          <div class="next-label">▶ 차주 예정</div>
-          <div class="member-tasks">
-            <span class="next-chip">Ferritin 라인분주 14roll</span>
-            <span class="next-chip">CRP 인수인계 (정장미→고경열)</span>
-            <span class="next-chip">자사항체 Detector(7F69) 4lot Conjugation</span>
-          </div>
-        </div>
-
-        <div class="team-member">
-          <div class="member-header">
-            <div class="member-avatar" style="background:rgba(63,185,80,.15);color:var(--other);">나연</div>
-            <div><div class="member-name">김나연</div></div>
-            <span class="member-status status-active">근무 중</span>
-          </div>
-          <div class="member-tasks">
-            <span class="task-chip">CP i50 SW 1차 CV&gt;10% ⚠️</span>
-            <span class="task-chip">HE4 37℃ 건조 NC 개선 확인</span>
-            <span class="task-chip">AFP 수식 이관 ✅</span>
-            <span class="task-chip">CP PMPF Plan 완료 ✅</span>
-            <span class="task-chip">HE4 종료보고서 완료 ✅</span>
-          </div>
-          <div class="next-label">▶ 차주 예정</div>
-          <div class="member-tasks">
-            <span class="next-chip">CP i50 SW 재평가 (믹싱 30회)</span>
-            <span class="next-chip">HE4 희석비 변경 실험</span>
-            <span class="next-chip">CP_EB 50L / Control 30번 assign</span>
-          </div>
-        </div>
 
         <div class="team-member">
           <div class="member-header">
@@ -428,39 +342,20 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">H.pylori SA 인수인계 교육</span>
-            <span class="task-chip">CA15-3 AFIAS 구동 시험</span>
-            <span class="task-chip">CEA 가혹 안정성 70일차</span>
-            <span class="task-chip">독일 CEA 클레임 처리 ✅</span>
-            <span class="task-chip">튀니지 CEA 클레임 대응 ⚠️</span>
+            <span class="task-chip">AFIAS CA15-3 구동 시나리오 확인</span>
+            <span class="task-chip">CEA AFIAS-3 bias 비교 (박주연 공동)</span>
+            <span class="task-chip">CEA PEG 가혹 86일차 (344일 환산)</span>
+            <span class="task-chip">IVDR TD 3건 완료 ✅</span>
+            <span class="task-chip">IVDD→IVDR 원재료 성분 작성</span>
+            <span class="task-chip">QC 기준강화 PPT 작성</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">AFIAS CA125(C1WDA09G) 수식·ID chip</span>
-            <span class="next-chip">HS_EB 50L 제조</span>
-            <span class="next-chip">CA15-3 개발완료보고서(Rev.01)</span>
-            <span class="next-chip">CA125 인수인계 회의(→장혜지, 4/27)</span>
-          </div>
-        </div>
-
-        <div class="team-member">
-          <div class="member-header">
-            <div class="member-avatar" style="background:rgba(248,81,73,.15);color:var(--issue);">주연</div>
-            <div><div class="member-name">박주연</div></div>
-            <span class="member-status status-active">근무 중</span>
-          </div>
-          <div class="member-tasks">
-            <span class="task-chip">FR Conjugator 20mg 제조 ✅</span>
-            <span class="task-chip">DFR_Diluent 50L 제조 ✅</span>
-            <span class="task-chip">PS_EX_DDB 5L 제조</span>
-            <span class="task-chip">CEA 뉴플랫폼 test 보조</span>
-            <span class="task-chip">Ferritin 인수인계(부)</span>
-          </div>
-          <div class="next-label">▶ 차주 예정</div>
-          <div class="member-tasks">
-            <span class="next-chip">PSA Neo·Ferritin 출하전 검사</span>
-            <span class="next-chip">AFIAS-1 SW 평가 12종</span>
-            <span class="next-chip">A3 뉴플랫폼 Ferritin 튐 원인 분석</span>
+            <span class="next-chip">H.pylori SA Granule DB 5.4L</span>
+            <span class="next-chip">CEA 라인분주 용액 2관</span>
+            <span class="next-chip">ichroma CA15-3 개발완료보고서</span>
+            <span class="next-chip">AFIAS CEA bias 보고서</span>
+            <span class="next-chip">IVDR TD 추가 수정</span>
           </div>
         </div>
 
@@ -471,18 +366,61 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">ichroma PSA 수식 3건</span>
-            <span class="task-chip">AFIAS PSA Neo 수식 2건</span>
-            <span class="task-chip">PS-FPR Conjugation 30mg</span>
-            <span class="task-chip">PSA Neo 클레임 전량 교체 ✅</span>
-            <span class="task-chip">Free PSA stepmixing 5일차</span>
+            <span class="task-chip">AFIAS PSA 68F 혜구분리 원인분석 ✅</span>
+            <span class="task-chip">PSA Neo·PEG granule 건조 성상·성능 확인</span>
+            <span class="task-chip">수식작성 진행</span>
+            <span class="task-chip">부적합 보고서 2건 완료 ✅</span>
+            <span class="task-chip">QC 현황 PPT 작성</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">AFIAS PSA Neo 1배치 수식</span>
-            <span class="next-chip">PSA Neo DB 3배치</span>
-            <span class="next-chip">Free PSA stepmixing 조건 설정</span>
-            <span class="next-chip">PE-1 개발</span>
+            <span class="next-chip">PSA Neo PSWDA45X/46X 수식</span>
+            <span class="next-chip">PSA Cal 원료 검토(Biosynth)</span>
+            <span class="next-chip">PSA-C dialysis</span>
+            <span class="next-chip">GSA line 농도 조정</span>
+          </div>
+        </div>
+
+        <div class="team-member">
+          <div class="member-header">
+            <div class="member-avatar" style="background:rgba(248,81,73,.15);color:var(--issue);">주연</div>
+            <div><div class="member-name">박주연</div></div>
+            <span class="member-status status-active">근무 중</span>
+          </div>
+          <div class="member-tasks">
+            <span class="task-chip">AFIAS-3 뉴플랫폼 CEA 구동 확인</span>
+            <span class="task-chip">AFIAS-1 SW 평가 11종 완료 ⚠️</span>
+            <span class="task-chip">Ferritin Diluent 분주 3배치 ✅</span>
+            <span class="task-chip">CEA bias 비교 시험 (김수지 공동)</span>
+          </div>
+          <div class="next-label">▶ 차주 예정</div>
+          <div class="member-tasks">
+            <span class="next-chip">AFIAS-1 SW 추가 평가 2건</span>
+            <span class="next-chip">AFIAS CEA bias 데이터 정리</span>
+            <span class="next-chip">QC 기준강화 회의</span>
+          </div>
+        </div>
+
+        <div class="team-member">
+          <div class="member-header">
+            <div class="member-avatar" style="background:rgba(63,185,80,.15);color:var(--other);">나연</div>
+            <div><div class="member-name">김나연</div></div>
+            <span class="member-status status-active">근무 중</span>
+          </div>
+          <div class="member-tasks">
+            <span class="task-chip">CP i50 4차 평가 ✅ (CV&lt;10%)</span>
+            <span class="task-chip">01버전 Lv1 값 횈 원인 확인 ⚠️</span>
+            <span class="task-chip">AFIAS CP 러시아 출하전검사 ✅</span>
+            <span class="task-chip">CP_EB 25L / CPWDE03Z 수식 ✅</span>
+            <span class="task-chip">CV 개선 현황 PPT 작성</span>
+          </div>
+          <div class="next-label">▶ 차주 예정</div>
+          <div class="member-tasks">
+            <span class="next-chip">01버전 Lv1 값 횈 재평가</span>
+            <span class="next-chip">AFIAS CP A-10 상관성·QC 성적서</span>
+            <span class="next-chip">AFP PEG granule 평가</span>
+            <span class="next-chip">CP_EB 100L / id chip 이관</span>
+            <span class="next-chip">CV 개선 현황 발표</span>
           </div>
         </div>
 
@@ -493,38 +431,37 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">ichroma-50 정규버전 SW ✅</span>
-            <span class="task-chip">카트리지 안정성 10일차 (실온 ❌ 지퍼백 ✅)</span>
-            <span class="task-chip">EB tube 중국 비교 ⚠️</span>
-            <span class="task-chip">FO_EB 25L 제조</span>
-            <span class="task-chip">iFOB Neo 5000T 예외출고 기안</span>
+            <span class="task-chip">iFOB Neo FOWDE04Z 수식 완료 ✅</span>
+            <span class="task-chip">FO_EB_260508 25L 제조</span>
+            <span class="task-chip">CA19-9 CXWDB07EX 수식 진행</span>
+            <span class="task-chip">Boditech iFOB control assign·별지 등록</span>
+            <span class="task-chip">QC 강화 회의 자료 제작 ✅</span>
+            <span class="task-chip" style="color:var(--warning);">연차 5/4</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">안정성 14일차 (4/28)</span>
-            <span class="next-chip">FOWDF04Z·CXWDB07EX 수식</span>
-            <span class="next-chip">AFIAS CA125 출하전 검사</span>
-            <span class="next-chip">CA125 인수인계 회의 (4/27)</span>
+            <span class="next-chip">iFOB Neo FOWDE05Z·FOWDF06Z 수식</span>
+            <span class="next-chip">CA125 Diluent 10000T 제조</span>
+            <span class="next-chip">AFIAS iFOB Neo 보완 서류</span>
+            <span class="next-chip">QC 강화 회의 (5/11)</span>
           </div>
         </div>
 
         <div class="team-member">
           <div class="member-header">
-            <div class="member-avatar" style="background:rgba(63,185,80,.10);color:#56d364;">영서</div>
-            <div><div class="member-name">박영서</div></div>
+            <div class="member-avatar" style="background:rgba(63,185,80,.10);color:#56d364;">다연</div>
+            <div><div class="member-name">유다연</div></div>
             <span class="member-status status-active">근무 중</span>
           </div>
           <div class="member-tasks">
-            <span class="task-chip">Cyfra21-1 상관성 38종 평가 ⚠️</span>
-            <span class="task-chip">EuNP·Biotin Conjugation</span>
-            <span class="task-chip">Ferritin 인수인계 회의 (4/21)</span>
-            <span class="task-chip">FRWDA91X 수식 1건</span>
+            <span class="task-chip">HS_EB 50L 2배치 제조 ✅</span>
+            <span class="task-chip">필터 HSWEK12·HSWEL01</span>
+            <span class="task-chip">H.pylori SA CV 데이터 정리</span>
           </div>
           <div class="next-label">▶ 차주 예정</div>
           <div class="member-tasks">
-            <span class="next-chip">Cyfra21-1 Cal값 점진 조정·CYWDA11EX 수식</span>
-            <span class="next-chip">Ferritin PEG 평가용 DB·granule 생산</span>
-            <span class="next-chip">Ferritin BOM 변경 서류</span>
+            <span class="next-chip">HS_DB 1배치 시험 후 6배치 본 제조</span>
+            <span class="next-chip">QC 기준강화 회의</span>
           </div>
         </div>
 
@@ -533,31 +470,31 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
   </div>
 
   <!-- CHART ROW -->
+  <!-- Total: 연구5 + 생산7 + 허가2 + 기타3 = 17건 | circumference=251.33 -->
   <div class="main-grid" style="grid-template-columns:1fr 1fr;margin-top:16px;">
 
     <div class="section-card">
       <div class="section-header"><div class="section-title">📊 업무 분포</div></div>
       <div class="chart-section">
         <div class="donut-wrap">
-          <!-- Total: 7+5+5+5 = 22건, circumference=251.33 -->
           <svg width="100" height="100" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="40" fill="none" stroke="#21262d" stroke-width="12"/>
-            <!-- 연구 7/22=31.8%=79.9 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#58a6ff" stroke-width="12" stroke-dasharray="79.9 171.4" stroke-dashoffset="0"/>
-            <!-- 생산 5/22=22.7%=57.1 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#f0883e" stroke-width="12" stroke-dasharray="57.1 194.2" stroke-dashoffset="-79.9"/>
-            <!-- 허가 5/22=22.7%=57.1 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#bc8cff" stroke-width="12" stroke-dasharray="57.1 194.2" stroke-dashoffset="-137.0"/>
-            <!-- 기타 5/22=22.7%=57.1 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#3fb950" stroke-width="12" stroke-dasharray="57.1 194.2" stroke-dashoffset="-194.1"/>
+            <!-- 연구 5/17=29.4%=73.9 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#58a6ff" stroke-width="12" stroke-dasharray="73.9 177.4" stroke-dashoffset="0"/>
+            <!-- 생산 7/17=41.2%=103.5 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#f0883e" stroke-width="12" stroke-dasharray="103.5 147.8" stroke-dashoffset="-73.9"/>
+            <!-- 허가 2/17=11.8%=29.6 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#bc8cff" stroke-width="12" stroke-dasharray="29.6 221.7" stroke-dashoffset="-177.4"/>
+            <!-- 기타 3/17=17.6%=44.3 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#3fb950" stroke-width="12" stroke-dasharray="44.3 207.0" stroke-dashoffset="-207.0"/>
           </svg>
-          <div class="donut-center"><div class="donut-num">22</div><div class="donut-sub">총 아이템</div></div>
+          <div class="donut-center"><div class="donut-num">17</div><div class="donut-sub">총 아이템</div></div>
         </div>
         <div class="legend">
-          <div class="legend-item"><div class="legend-dot" style="background:var(--research);"></div><span class="legend-label">연구</span><span class="legend-count accent-research">7건 (32%)</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--production);"></div><span class="legend-label">생산</span><span class="legend-count accent-production">5건 (23%)</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--approval);"></div><span class="legend-label">허가</span><span class="legend-count accent-approval">5건 (23%)</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--other);"></div><span class="legend-label">기타</span><span class="legend-count accent-other">5건 (23%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--research);"></div><span class="legend-label">연구</span><span class="legend-count accent-research">5건 (29%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--production);"></div><span class="legend-label">생산</span><span class="legend-count accent-production">7건 (41%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--approval);"></div><span class="legend-label">허가</span><span class="legend-count accent-approval">2건 (12%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--other);"></div><span class="legend-label">기타</span><span class="legend-count accent-other">3건 (18%)</span></div>
         </div>
       </div>
     </div>
@@ -566,36 +503,36 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
       <div class="section-header"><div class="section-title">📈 주요 제품 진행률</div></div>
       <div class="progress-grid">
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">Calprotectin (내수허가)</span><span class="progress-pct accent-research">97%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-research" style="width:97%"></div></div>
+          <div class="progress-top"><span class="progress-name">Calprotectin (i50 SW·IVDR 허가)</span><span class="progress-pct accent-research">80%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-research" style="width:80%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">CEA AFIAS (재현성 개선)</span><span class="progress-pct accent-production">95%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-production" style="width:95%"></div></div>
+          <div class="progress-top"><span class="progress-name">iFOB Neo (수식·허가)</span><span class="progress-pct accent-production">88%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-production" style="width:88%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">iFOB Neo (허가·Stool)</span><span class="progress-pct accent-approval">88%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:88%"></div></div>
+          <div class="progress-top"><span class="progress-name">AFIAS PSA (혜구분리 해결·수식)</span><span class="progress-pct accent-approval">72%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:72%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">PSA Neo / Free PSA</span><span class="progress-pct accent-approval">83%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:83%"></div></div>
+          <div class="progress-top"><span class="progress-name">CEA AFIAS (1세대/3세대 bias 비교)</span><span class="progress-pct accent-production">62%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-production" style="width:62%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">H. Pylori SA (인수인계)</span><span class="progress-pct accent-production">82%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-production" style="width:82%"></div></div>
-        </div>
-        <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">Ferritin (인수인계 완료)</span><span class="progress-pct accent-production">85%</span></div>
+          <div class="progress-top"><span class="progress-name">H.pylori SA (HS_EB·HS_DB 제조)</span><span class="progress-pct accent-production">85%</span></div>
           <div class="progress-bar"><div class="progress-fill fill-production" style="width:85%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">Cyfra21-1 (Cal 보정 이슈)</span><span class="progress-pct accent-approval">52%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:52%"></div></div>
+          <div class="progress-top"><span class="progress-name">CA15-3 AFIAS (개발완료보고서)</span><span class="progress-pct accent-research">78%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-research" style="width:78%"></div></div>
         </div>
         <div class="progress-item">
-          <div class="progress-top"><span class="progress-name">HE4 (연구)</span><span class="progress-pct accent-research">32%</span></div>
-          <div class="progress-bar"><div class="progress-fill fill-research" style="width:32%"></div></div>
+          <div class="progress-top"><span class="progress-name">AFIAS-1 SW 검증 (11종 완료·2건 수정)</span><span class="progress-pct accent-approval">75%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-approval" style="width:75%"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-top"><span class="progress-name">CEA PEG 가혹 (86일차 / 344일 환산)</span><span class="progress-pct accent-research">40%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-research" style="width:40%"></div></div>
         </div>
       </div>
     </div>
@@ -603,7 +540,7 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
   </div>
 
   <div style="text-align:center;padding:20px 0 8px;color:var(--text-muted);font-size:11px;">
-    Cancer팀 주간 대시보드 &nbsp;·&nbsp; 바디텍메드 &nbsp;·&nbsp; 2026년 4월 20일 ~ 4월 24일 (17주차) &nbsp;·&nbsp; 노션 자동 연동
+    Cancer팀 주간 대시보드 &nbsp;·&nbsp; 바디텍메드 &nbsp;·&nbsp; 2026년 5월 4일 ~ 5월 8일 (19주차) &nbsp;·&nbsp; 노션 자동 연동
   </div>
 
 </div>
