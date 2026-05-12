@@ -1,0 +1,47 @@
+{
+  "notices": [
+    {
+      "badge": "중요",
+      "type": "important",
+      "date": "~5/13",
+      "content": "2026 1Q 점검사항(공유폴더) 작성 요청 — 5/13(수) 퇴근 전 각 담당자 작성 완료"
+    },
+    {
+      "badge": "중요",
+      "type": "important",
+      "date": "~5/14",
+      "content": "UAE 운송 온도 이탈 관련 자료 요청 — RA팀 이동훈 담당자 제출 기한 5/14(목)"
+    },
+    {
+      "badge": "중요",
+      "type": "important",
+      "date": "5/18",
+      "content": "연구소 월간 보고 5/18(월) 예정 — QC 강화 회의 자료 외 개발 관련 자료 없을 시 생략 가능"
+    },
+    {
+      "badge": "안내",
+      "type": "info",
+      "date": "5/12",
+      "content": "제니(Jenny) 요청 메일 확인 후 회신 요청"
+    },
+    {
+      "badge": "안내",
+      "type": "info",
+      "date": "5/12",
+      "content": "생성형 AI — 웍스 AI(Works AI) 가입 후 사용 권장"
+    },
+    {
+      "badge": "일정",
+      "type": "schedule",
+      "date": "진행중",
+      "content": "A-1 AFIAS iFOB Neo 정규 버전 탑재 가능하도록 일정 관리"
+    },
+    {
+      "badge": "일정",
+      "type": "schedule",
+      "date": "신규",
+      "content": "팀 내 신규 아이템 추가 — H.pylori IgG 개발 착수 예정"
+    }
+  ],
+  "updatedAt": "2026-05-12"
+}
