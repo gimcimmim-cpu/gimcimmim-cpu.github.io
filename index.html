@@ -100,9 +100,15 @@
     margin-top:18px; padding:0 8px; text-align:left;
   }
 
+  /* ── 헤더 좌측 컬럼 (공지 + CV 세로 스택) ── */
+  .hdr-left-col {
+    width:300px; flex-shrink:0;
+    display:flex; flex-direction:column; gap:10px;
+  }
+
   /* ── 공지사항 박스 ── */
   .notice-box {
-    width:300px; flex-shrink:0;
+    width:100%; flex-shrink:0;
     background:var(--bg2); border:1px solid var(--border); border-radius:12px;
     overflow:hidden; display:flex; flex-direction:column;
   }
@@ -161,6 +167,67 @@
   }
   .notice-click-hint { font-size:9px; color:rgba(139,148,158,.25); }
   .notice-empty-row { padding:14px 12px; font-size:11px; color:rgba(139,148,158,.4); text-align:center; }
+
+  /* ── CV 7% 달성 현황 위젯 ── */
+  .cv-box {
+    width:100%; flex-shrink:0;
+    background:var(--bg2); border:1px solid var(--border); border-radius:12px;
+    overflow:hidden; display:flex; flex-direction:column;
+  }
+  .cv-box-hd {
+    padding:9px 12px 8px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+  }
+  .cv-box-title {
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px;
+    color:var(--text-muted); display:flex; align-items:center; gap:6px;
+  }
+  .cv-play-ind {
+    font-size:9px; color:var(--green); display:flex; align-items:center; gap:4px; cursor:pointer;
+  }
+  .cv-play-dot {
+    width:5px; height:5px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; flex-shrink:0;
+  }
+  .cv-play-ind.paused .cv-play-dot { background:var(--yellow); animation:none; }
+  .cv-play-ind.paused { color:var(--yellow); }
+
+  /* 카드 3개 보이는 뷰포트 (60px × 3 = 180px) */
+  .cv-viewport {
+    height:180px; overflow:hidden; position:relative; flex-shrink:0; cursor:pointer;
+  }
+  /* 슬라이딩 트랙 */
+  .cv-track { display:flex; flex-direction:column; }
+
+  /* 카드 1개 = 60px */
+  .cv-card {
+    height:60px; flex-shrink:0;
+    display:flex; align-items:center; gap:10px;
+    padding:0 12px; border-bottom:1px solid rgba(48,54,61,.35);
+    transition:background .15s;
+  }
+  .cv-card:hover { background:rgba(255,255,255,.02); }
+  .cv-card-plat { font-size:16px; flex-shrink:0; line-height:1; }
+  .cv-card-info { flex:1; min-width:0; }
+  .cv-card-name { font-size:11.5px; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .cv-card-sub  { font-size:9px; color:var(--text-muted); margin-top:2px; }
+  .cv-card-stat { text-align:right; flex-shrink:0; min-width:52px; }
+  .cv-stat-pct  { font-size:14px; font-weight:700; line-height:1; }
+  .cv-stat-bar  { height:3px; border-radius:2px; background:var(--bg3); margin-top:4px; width:52px; }
+  .cv-stat-fill { height:100%; border-radius:2px; transition:width .4s; }
+  .cv-stat-lbl  { font-size:8px; color:rgba(139,148,158,.5); margin-top:2px; }
+  .cv-footer-bar {
+    padding:5px 12px; font-size:9px; color:rgba(139,148,158,.3);
+    border-top:1px solid var(--border); flex-shrink:0;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+
+  /* ── White: CV 위젯 ── */
+  body.theme-white .cv-card:hover { background:rgba(0,0,0,.02); }
+  body.theme-white .cv-card { border-bottom-color:rgba(200,205,213,.5); }
+  body.theme-white .cv-play-ind { color:#1a7f37; }
+  body.theme-white .cv-play-dot { background:#1a7f37; }
+  body.theme-white .cv-play-ind.paused { color:#7d4e00; }
+  body.theme-white .cv-play-ind.paused .cv-play-dot { background:#7d4e00; }
 
   /* cancer-hdr-widget (우측, flex:1) */
   .cancer-hdr-widget { flex:1; min-width:0; }
@@ -440,7 +507,7 @@
 
   /* ── RESPONSIVE ── */
   @media(max-width:1100px) { .card-grid { grid-template-columns:1fr; } }
-  @media(max-width:900px) { .hdr-bottom { flex-direction:column; } .notice-box { width:100%; } }
+  @media(max-width:900px) { .hdr-bottom { flex-direction:column; } .hdr-left-col { width:100%; } }
   @media(max-width:768px) {
     .sidebar { position:fixed; z-index:200; height:100vh; top:0; left:0; }
     .sidebar.collapsed { width:0; }
@@ -489,6 +556,7 @@ window.addEventListener('DOMContentLoaded',function(){
   updateClock();setInterval(updateClock,1000);
   loadCancerWidget();
   loadNotice();
+  initCvWidget();
   // 테마 복원
   var savedTheme; try{ savedTheme=localStorage.getItem('hub_theme'); }catch(e){}
   if(savedTheme==='white'){ isDark=false; document.body.classList.add('theme-white'); var tb=document.getElementById('theme-toggle'); if(tb){ tb.querySelector('.theme-toggle-icon').textContent='🌙'; tb.querySelector('.theme-toggle-label').textContent='Dark'; } }
@@ -679,6 +747,103 @@ function toggleNoticePause(){
   }
 }
 
+/* ── CV 7% 달성 현황 위젯 ── */
+var CV_ITEMS=[
+  /* r7 내림차순 정렬 — QC_대시보드.html D.items 기준 */
+  {platform:'AFIAS',   item:'PSA',             n:2,  med_cv:5.0,  r7:100.0},
+  {platform:'ichroma', item:'Free PSA',         n:2,  med_cv:6.3,  r7:100.0},
+  {platform:'ichroma', item:'QDx Ferritin',     n:1,  med_cv:5.8,  r7:100.0},
+  {platform:'ichroma', item:'Ferritin',         n:19, med_cv:5.3,  r7:94.7},
+  {platform:'ichroma', item:'AFP Neo',          n:9,  med_cv:5.5,  r7:88.9},
+  {platform:'AFIAS',   item:'AFP',              n:5,  med_cv:6.0,  r7:80.0},
+  {platform:'ichroma', item:'PSA',              n:5,  med_cv:6.6,  r7:80.0},
+  {platform:'ichroma', item:'AFP',              n:9,  med_cv:6.6,  r7:77.8},
+  {platform:'ichroma', item:'Cyfra21-1',        n:6,  med_cv:6.3,  r7:66.7},
+  {platform:'ichroma', item:'QDx Calprotectin', n:3,  med_cv:6.8,  r7:66.7},
+  {platform:'ichroma', item:'iFOB Neo',         n:17, med_cv:6.3,  r7:64.7},
+  {platform:'AFIAS',   item:'CA19-9',           n:11, med_cv:6.3,  r7:63.6},
+  {platform:'ichroma', item:'CA125',            n:5,  med_cv:5.8,  r7:60.0},
+  {platform:'AFIAS',   item:'H.pylori SA',      n:7,  med_cv:6.7,  r7:57.1},
+  {platform:'AFIAS',   item:'CA125',            n:9,  med_cv:7.0,  r7:55.6},
+  {platform:'ichroma', item:'CEA',              n:11, med_cv:5.4,  r7:54.5},
+  {platform:'ichroma', item:'Calprotectin',     n:16, med_cv:6.8,  r7:50.0},
+  {platform:'AFIAS',   item:'Calprotectin',     n:5,  med_cv:11.5, r7:40.0},
+  {platform:'AFIAS',   item:'Cyfra21-1',        n:10, med_cv:6.8,  r7:40.0},
+  {platform:'ichroma', item:'CA19-9',           n:8,  med_cv:7.1,  r7:37.5},
+  {platform:'AFIAS',   item:'iFOB Neo',         n:3,  med_cv:7.2,  r7:33.3},
+  {platform:'AFIAS',   item:'Free PSA',         n:3,  med_cv:9.3,  r7:33.3},
+  {platform:'ichroma', item:'PSA Neo',          n:7,  med_cv:7.9,  r7:28.6},
+  {platform:'ichroma', item:'H. pylori SA',     n:10, med_cv:8.6,  r7:20.0},
+  {platform:'AFIAS',   item:'CEA',              n:8,  med_cv:8.8,  r7:12.5},
+  {platform:'AFIAS',   item:'PSA Neo',          n:8,  med_cv:9.5,  r7:0.0},
+  {platform:'ichroma', item:'CEA Neo',          n:8,  med_cv:8.4,  r7:0.0},
+  {platform:'ichroma', item:'QDx AFP',          n:1,  med_cv:9.2,  r7:0.0}
+];
+var cvPaused=false;
+var cvTimerRef=null;
+var cvTransitioning=false;
+var CV_CARD_H=60;
+
+function cvColor(r7){ return r7>=80?'#3fb950':r7>=60?'#d29922':r7>=40?'#f0883e':'#f85149'; }
+
+function initCvWidget(){
+  var track=document.getElementById('cv-track');
+  var vp=document.getElementById('cv-viewport');
+  if(!track||!vp) return;
+  var html='';
+  CV_ITEMS.forEach(function(it){
+    var col=cvColor(it.r7);
+    var ico=it.platform==='AFIAS'?'🔷':'🔶';
+    html+='<div class="cv-card">';
+    html+='<div class="cv-card-plat">'+ico+'</div>';
+    html+='<div class="cv-card-info">';
+    html+='<div class="cv-card-name">'+it.item+'</div>';
+    html+='<div class="cv-card-sub">'+it.platform+' · N='+it.n+' · Med '+it.med_cv.toFixed(1)+'%</div>';
+    html+='</div>';
+    html+='<div class="cv-card-stat">';
+    html+='<div class="cv-stat-pct" style="color:'+col+'">'+it.r7.toFixed(1)+'%</div>';
+    html+='<div class="cv-stat-bar"><div class="cv-stat-fill" style="width:'+it.r7+'%;background:'+col+'"></div></div>';
+    html+='<div class="cv-stat-lbl">CV≤7%</div>';
+    html+='</div>';
+    html+='</div>';
+  });
+  track.innerHTML=html;
+  track.style.transform='translateY(0)';
+  track.style.transition='none';
+  vp.onclick=function(){ toggleCvPause(); };
+  if(cvTimerRef) clearInterval(cvTimerRef);
+  cvTimerRef=setInterval(cvAdvance,10000);
+}
+
+function cvAdvance(){
+  if(cvPaused||cvTransitioning) return;
+  var track=document.getElementById('cv-track');
+  if(!track||track.children.length===0) return;
+  cvTransitioning=true;
+  track.style.transition='transform 0.55s cubic-bezier(0.4,0,0.2,1)';
+  track.style.transform='translateY(-'+CV_CARD_H+'px)';
+  setTimeout(function(){
+    var first=track.firstElementChild;
+    if(first) track.appendChild(first);
+    track.style.transition='none';
+    track.style.transform='translateY(0)';
+    /* reflow 강제 */
+    void track.offsetHeight;
+    cvTransitioning=false;
+  },600);
+}
+
+function toggleCvPause(e){
+  if(e) e.stopPropagation();
+  var ind=document.getElementById('cv-play-ind');
+  cvPaused=!cvPaused;
+  if(ind){
+    ind.classList.toggle('paused',cvPaused);
+    var txt=ind.querySelector('.cv-ind-txt');
+    if(txt) txt.textContent=cvPaused?' 정지':' 자동';
+  }
+}
+
 /* ── PIN 모달 ── */
 var pin='';
 function openPin(){document.getElementById('pin-overlay').classList.add('show');pin='';updatePinDots();document.getElementById('pin-err').textContent='';}
@@ -760,28 +925,51 @@ document.addEventListener('keydown',function(e){
     </div>
   </div>
 
-  <!-- 헤더 하단: 공지사항(좌) + 생산일정(우) 2단 -->
+  <!-- 헤더 하단: 좌측컬럼(공지+CV) + 생산일정(메인) -->
   <div class="hdr-bottom">
 
-    <!-- 공지사항 박스 -->
-    <div class="notice-box">
-      <div class="notice-box-hd">
-        <span class="notice-box-title">📢 공지사항</span>
-        <span class="notice-play-ind" id="notice-play-ind">
-          <span class="notice-play-dot"></span><span class="notice-ind-txt"> 자동</span>
-        </span>
-      </div>
-      <!-- 공지 목록: 전체 내용 표시, 10초마다 자동 하이라이트 이동 -->
-      <div class="notice-scroll-area" id="notice-scroll-area">
-        <div class="notice-empty-row">⏳ 로드 중...</div>
-      </div>
-      <div class="notice-footer-bar">
-        <span id="notice-updated"></span>
-        <span class="notice-click-hint">클릭 → 정지/재생</span>
-      </div>
-    </div>
+    <!-- ── 좌측 세로 컬럼: 공지사항 위 + CV위젯 아래 ── -->
+    <div class="hdr-left-col">
 
-    <!-- Cancer팀 이번 주 생산 일정 -->
+      <!-- 공지사항 박스 -->
+      <div class="notice-box">
+        <div class="notice-box-hd">
+          <span class="notice-box-title">📢 공지사항</span>
+          <span class="notice-play-ind" id="notice-play-ind">
+            <span class="notice-play-dot"></span><span class="notice-ind-txt"> 자동</span>
+          </span>
+        </div>
+        <div class="notice-scroll-area" id="notice-scroll-area">
+          <div class="notice-empty-row">⏳ 로드 중...</div>
+        </div>
+        <div class="notice-footer-bar">
+          <span id="notice-updated"></span>
+          <span class="notice-click-hint">클릭 → 정지/재생</span>
+        </div>
+      </div>
+
+      <!-- CV 7% 달성 현황 위젯 (공지사항 바로 아래) -->
+      <div class="cv-box">
+        <div class="cv-box-hd">
+          <span class="cv-box-title">🎯 CV 7% 달성 현황</span>
+          <span class="cv-play-ind" id="cv-play-ind" onclick="toggleCvPause(event)">
+            <span class="cv-play-dot"></span><span class="cv-ind-txt"> 자동</span>
+          </span>
+        </div>
+        <div class="cv-viewport" id="cv-viewport">
+          <div class="cv-track" id="cv-track">
+            <div class="cv-card"><div style="color:var(--text-muted);font-size:11px;margin:auto">⏳ 로드 중...</div></div>
+          </div>
+        </div>
+        <div class="cv-footer-bar">
+          <span style="font-size:9px;color:rgba(139,148,158,.4)">QC 대시보드 기준 · 28종 아이템</span>
+          <span style="font-size:9px;color:rgba(139,148,158,.25)">클릭 → 정지/재개</span>
+        </div>
+      </div>
+
+    </div><!-- /hdr-left-col -->
+
+    <!-- Cancer팀 이번 주 생산 일정 (메인) -->
     <div class="cancer-hdr-widget">
       <div class="cancer-hdr-label">🧬 Cancer팀 이번 주 생산 일정</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;justify-content:flex-start">
