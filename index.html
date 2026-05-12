@@ -102,47 +102,77 @@
 
   /* ── 공지사항 박스 ── */
   .notice-box {
-    width:270px; flex-shrink:0;
+    width:300px; flex-shrink:0;
     background:var(--bg2); border:1px solid var(--border); border-radius:12px;
     overflow:hidden; display:flex; flex-direction:column;
   }
   .notice-box-hd {
-    padding:10px 14px 9px;
-    border-bottom:1px solid var(--border);
-    display:flex; align-items:center; justify-content:space-between;
-    flex-shrink:0;
+    padding:9px 12px 8px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
   }
   .notice-box-title {
-    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted);
-    display:flex; align-items:center; gap:6px;
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px;
+    color:var(--text-muted); display:flex; align-items:center; gap:6px;
   }
-  .notice-box-meta { font-size:10px; color:rgba(139,148,158,.4); }
-  .notice-scroll { overflow-y:auto; max-height:180px; padding:6px 0 4px; }
-  .notice-scroll::-webkit-scrollbar { width:3px; }
-  .notice-scroll::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
-  .notice-item {
-    padding:8px 14px; border-bottom:1px solid rgba(48,54,61,.5); display:flex; flex-direction:column; gap:3px;
+  .notice-play-ind {
+    font-size:9px; color:var(--green); display:flex; align-items:center; gap:4px; cursor:pointer;
   }
-  .notice-item:last-child { border-bottom:none; }
-  .notice-item-top { display:flex; align-items:center; gap:6px; }
-  .notice-badge {
-    font-size:9px; font-weight:700; padding:1px 6px; border-radius:4px; flex-shrink:0; letter-spacing:.3px;
+  .notice-play-dot {
+    width:5px; height:5px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; flex-shrink:0;
+  }
+  .notice-play-ind.paused .notice-play-dot { background:var(--yellow); animation:none; }
+  .notice-play-ind.paused { color:var(--yellow); }
+
+  /* 티커 래퍼 */
+  .notice-ticker-wrap {
+    position:relative; overflow:hidden; flex:1;
+    cursor:pointer; user-select:none;
+  }
+  .notice-ticker-wrap.paused { overflow-y:auto; cursor:default; }
+  .notice-ticker-wrap.paused::-webkit-scrollbar { width:3px; }
+  .notice-ticker-wrap.paused::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+  /* 티커 슬라이드 내부 */
+  .notice-ticker-inner { transition:transform .6s cubic-bezier(.4,0,.2,1); }
+  .notice-ticker-wrap.paused .notice-ticker-inner { transform:translateY(0) !important; transition:none; }
+
+  /* 공지 한 줄 */
+  .notice-row {
+    height:36px; display:flex; align-items:center; gap:6px;
+    padding:0 12px; border-bottom:1px solid rgba(48,54,61,.4);
+    overflow:hidden; flex-shrink:0;
+  }
+  .notice-row:last-child { border-bottom:none; }
+  .notice-row-badge {
+    font-size:9px; font-weight:700; padding:1px 5px; border-radius:3px; flex-shrink:0; letter-spacing:.3px;
+    white-space:nowrap;
   }
   .nb-important { background:rgba(248,81,73,.18); color:#f85149; border:1px solid rgba(248,81,73,.3); }
   .nb-schedule  { background:rgba(240,136,62,.18); color:#f0883e; border:1px solid rgba(240,136,62,.3); }
   .nb-info      { background:rgba(88,166,255,.18); color:#58a6ff; border:1px solid rgba(88,166,255,.3); }
   .nb-done      { background:rgba(63,185,80,.18);  color:#3fb950; border:1px solid rgba(63,185,80,.3); }
-  .notice-date { font-size:10px; color:rgba(139,148,158,.5); }
-  .notice-text { font-size:11px; color:var(--text-muted); line-height:1.55; }
-  .notice-footer {
-    padding:6px 14px; font-size:9px; color:rgba(139,148,158,.35);
+  .notice-row-date {
+    font-size:9px; color:rgba(139,148,158,.45); white-space:nowrap; flex-shrink:0;
+  }
+  .notice-sep { font-size:9px; color:rgba(139,148,158,.25); flex-shrink:0; }
+  .notice-row-text {
+    font-size:11px; color:var(--text-muted); flex:1;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  /* 정지 시 좌측 파란 테두리 */
+  .notice-ticker-wrap::before {
+    content:''; position:absolute; left:0; top:0; bottom:0; width:2px;
+    background:var(--blue); opacity:0; transition:opacity .2s; pointer-events:none;
+  }
+  .notice-ticker-wrap.paused::before { opacity:1; }
+
+  .notice-footer-bar {
+    padding:5px 12px; font-size:9px; color:rgba(139,148,158,.3);
     border-top:1px solid var(--border); flex-shrink:0;
+    display:flex; justify-content:space-between; align-items:center;
   }
-  .notice-empty { padding:14px; text-align:center; font-size:11px; color:rgba(139,148,158,.4); }
-  .notice-hint {
-    font-size:9px; color:rgba(139,148,158,.3); padding:4px 14px 6px;
-    text-align:right; flex-shrink:0;
-  }
+  .notice-click-hint { font-size:9px; color:rgba(139,148,158,.25); }
+  .notice-empty-row { height:36px; display:flex; align-items:center; padding:0 12px; font-size:11px; color:rgba(139,148,158,.4); }
 
   /* cancer-hdr-widget (우측, flex:1) */
   .cancer-hdr-widget { flex:1; min-width:0; }
@@ -481,8 +511,16 @@ function loadCancerWidget(){
     });
 }
 
-/* ── 공지사항 ── */
+/* ── 공지사항 티커 ── */
 var NOTICE_URL='https://gimcimmim-cpu.github.io/notice.json';
+var NOTICE_MAX=7;
+var NOTICE_ITEM_H=36;
+var NOTICE_VISIBLE=4;
+var noticeCurIdx=0;
+var noticePaused=false;
+var noticeTimerRef=null;
+var noticeTotalItems=0;
+
 function loadNotice(){
   fetch(NOTICE_URL+'?t='+Date.now())
     .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
@@ -493,30 +531,113 @@ function loadNotice(){
       renderNotice(null);
     });
 }
+
 function renderNotice(data){
-  var el=document.getElementById('notice-content');
-  var ft=document.getElementById('notice-footer');
-  if(!el) return;
-  if(!data||!data.notices||data.notices.length===0){
-    el.innerHTML='<div class="notice-empty">📭 공지사항 없음</div>';
+  var wrap=document.getElementById('notice-ticker-wrap');
+  var inner=document.getElementById('notice-ticker-inner');
+  var ft=document.getElementById('notice-updated');
+  if(!wrap||!inner) return;
+
+  // 최대 7개
+  var items=(data&&data.notices)?data.notices.slice(0,NOTICE_MAX):[];
+  noticeTotalItems=items.length;
+
+  if(items.length===0){
+    inner.innerHTML='<div class="notice-empty-row">📭 공지사항 없음</div>';
+    wrap.style.height=(NOTICE_ITEM_H*1)+'px';
     return;
   }
-  var badgeClass={'important':'nb-important','schedule':'nb-schedule','info':'nb-info','done':'nb-done'};
+
+  // 티커 높이 = VISIBLE 수 또는 실제 아이템 수 중 작은 값
+  var vis=Math.min(items.length, NOTICE_VISIBLE);
+  wrap.style.height=(NOTICE_ITEM_H*vis)+'px';
+
+  var badgeClass={important:'nb-important',schedule:'nb-schedule',info:'nb-info',done:'nb-done'};
   var html='';
-  data.notices.forEach(function(n){
+  // 원본 아이템
+  items.forEach(function(n){
     var bc=badgeClass[n.type]||'nb-info';
-    html+='<div class="notice-item">';
-    html+='<div class="notice-item-top">';
-    if(n.badge) html+='<span class="notice-badge '+bc+'">'+n.badge+'</span>';
-    if(n.date)  html+='<span class="notice-date">'+n.date+'</span>';
-    html+='</div>';
-    html+='<div class="notice-text">'+n.content+'</div>';
+    var fullText=(n.badge||'')+' '+(n.date||'')+' '+n.content;
+    html+='<div class="notice-row" title="'+fullText.trim()+'">';
+    if(n.badge) html+='<span class="notice-row-badge '+bc+'">'+n.badge+'</span>';
+    if(n.date)  html+='<span class="notice-row-date">'+n.date+'</span>';
+    if(n.badge||n.date) html+='<span class="notice-sep">|</span>';
+    html+='<span class="notice-row-text">'+n.content+'</span>';
     html+='</div>';
   });
-  el.innerHTML=html;
-  if(ft&&data.updatedAt) ft.textContent='업데이트: '+data.updatedAt;
-  // localStorage 캐시
+  // 루프를 위해 첫 VISIBLE개 복제 (끝에서 처음으로 자연스럽게)
+  items.slice(0,NOTICE_VISIBLE).forEach(function(n){
+    var bc=badgeClass[n.type]||'nb-info';
+    html+='<div class="notice-row" title="'+n.content+'">';
+    if(n.badge) html+='<span class="notice-row-badge '+bc+'">'+n.badge+'</span>';
+    if(n.date)  html+='<span class="notice-row-date">'+n.date+'</span>';
+    if(n.badge||n.date) html+='<span class="notice-sep">|</span>';
+    html+='<span class="notice-row-text">'+n.content+'</span>';
+    html+='</div>';
+  });
+  inner.innerHTML=html;
+  inner.style.transform='translateY(0)';
+  noticeCurIdx=0;
+
+  if(ft&&data&&data.updatedAt) ft.textContent='업데이트: '+data.updatedAt;
   try{ localStorage.setItem('notice_data_v1', JSON.stringify(data)); }catch(e){}
+
+  // 타이머 시작
+  noticeStartTimer();
+}
+
+function noticeStartTimer(){
+  if(noticeTimerRef) clearInterval(noticeTimerRef);
+  if(noticeTotalItems<=1) return;
+  noticeTimerRef=setInterval(noticeAdvance, 10000);
+}
+
+function noticeAdvance(){
+  if(noticePaused||noticeTotalItems<=1) return;
+  var inner=document.getElementById('notice-ticker-inner');
+  if(!inner) return;
+  noticeCurIdx++;
+  if(noticeCurIdx>=noticeTotalItems){
+    // 복제 구간으로 이동 후 순간 리셋
+    inner.style.transform='translateY(-'+(noticeCurIdx*NOTICE_ITEM_H)+'px)';
+    setTimeout(function(){
+      inner.style.transition='none';
+      inner.style.transform='translateY(0)';
+      noticeCurIdx=0;
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          inner.style.transition='transform .6s cubic-bezier(.4,0,.2,1)';
+        });
+      });
+    },650);
+  } else {
+    inner.style.transform='translateY(-'+(noticeCurIdx*NOTICE_ITEM_H)+'px)';
+  }
+}
+
+function toggleNoticePause(){
+  var wrap=document.getElementById('notice-ticker-wrap');
+  var ind=document.getElementById('notice-play-ind');
+  var dot=ind?ind.querySelector('.notice-play-dot'):null;
+  noticePaused=!noticePaused;
+  if(noticePaused){
+    wrap.classList.add('paused');
+    // 수동 스크롤 가능하도록 overflow-y auto 전환
+    var inner=document.getElementById('notice-ticker-inner');
+    if(inner){ inner.style.transition='none'; inner.style.transform='translateY(0)'; }
+    if(ind){ ind.classList.add('paused'); ind.childNodes[1]&&(ind.childNodes[1].nodeValue=' 정지'); }
+  } else {
+    wrap.classList.remove('paused');
+    wrap.scrollTop=0;
+    var inner=document.getElementById('notice-ticker-inner');
+    if(inner){
+      requestAnimationFrame(function(){
+        inner.style.transition='transform .6s cubic-bezier(.4,0,.2,1)';
+        inner.style.transform='translateY(-'+(noticeCurIdx*NOTICE_ITEM_H)+'px)';
+      });
+    }
+    if(ind){ ind.classList.remove('paused'); ind.childNodes[1]&&(ind.childNodes[1].nodeValue=' 자동'); }
+  }
 }
 
 /* ── PIN 모달 ── */
@@ -601,12 +722,20 @@ document.addEventListener('keydown',function(e){
     <div class="notice-box">
       <div class="notice-box-hd">
         <span class="notice-box-title">📢 공지사항</span>
-        <span class="notice-box-meta" id="notice-footer"></span>
+        <span class="notice-play-ind" id="notice-play-ind" onclick="toggleNoticePause()">
+          <span class="notice-play-dot"></span> 자동
+        </span>
       </div>
-      <div class="notice-scroll" id="notice-content">
-        <div class="notice-empty">⏳ 로드 중...</div>
+      <!-- 티커 영역: 클릭 = 정지/재생 -->
+      <div class="notice-ticker-wrap" id="notice-ticker-wrap" onclick="toggleNoticePause()">
+        <div class="notice-ticker-inner" id="notice-ticker-inner">
+          <div class="notice-empty-row">⏳ 로드 중...</div>
+        </div>
       </div>
-      <div class="notice-hint">notice.json → GitHub 업로드로 수정</div>
+      <div class="notice-footer-bar">
+        <span id="notice-updated" style="color:rgba(139,148,158,.3);font-size:9px;"></span>
+        <span class="notice-click-hint">클릭 → 정지 / 스크롤</span>
+      </div>
     </div>
 
     <!-- Cancer팀 이번 주 생산 일정 -->
