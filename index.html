@@ -123,56 +123,44 @@
   .notice-play-ind.paused .notice-play-dot { background:var(--yellow); animation:none; }
   .notice-play-ind.paused { color:var(--yellow); }
 
-  /* 티커 래퍼 */
-  .notice-ticker-wrap {
-    position:relative; overflow:hidden; flex:1;
-    cursor:pointer; user-select:none;
+  /* 공지 스크롤 영역 */
+  .notice-scroll-area {
+    overflow-y:auto; max-height:220px;
+    cursor:pointer;
   }
-  .notice-ticker-wrap.paused { overflow-y:auto; cursor:default; }
-  .notice-ticker-wrap.paused::-webkit-scrollbar { width:3px; }
-  .notice-ticker-wrap.paused::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+  .notice-scroll-area::-webkit-scrollbar { width:3px; }
+  .notice-scroll-area::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+  .notice-scroll-area.paused { cursor:default; }
 
-  /* 티커 슬라이드 내부 */
-  .notice-ticker-inner { transition:transform .6s cubic-bezier(.4,0,.2,1); }
-  .notice-ticker-wrap.paused .notice-ticker-inner { transform:translateY(0) !important; transition:none; }
-
-  /* 공지 한 줄 */
-  .notice-row {
-    height:36px; display:flex; align-items:center; gap:6px;
-    padding:0 12px; border-bottom:1px solid rgba(48,54,61,.4);
-    overflow:hidden; flex-shrink:0;
+  /* 공지 한 항목 */
+  .notice-item {
+    padding:8px 12px; border-bottom:1px solid rgba(48,54,61,.4);
+    transition:background .15s;
   }
-  .notice-row:last-child { border-bottom:none; }
+  .notice-item:last-child { border-bottom:none; }
+  .notice-item.is-active { background:rgba(88,166,255,.05); }
+  body.theme-white .notice-item.is-active { background:rgba(9,105,218,.06); }
+  .notice-item-top { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
   .notice-row-badge {
     font-size:9px; font-weight:700; padding:1px 5px; border-radius:3px; flex-shrink:0; letter-spacing:.3px;
-    white-space:nowrap;
   }
   .nb-important { background:rgba(248,81,73,.18); color:#f85149; border:1px solid rgba(248,81,73,.3); }
   .nb-schedule  { background:rgba(240,136,62,.18); color:#f0883e; border:1px solid rgba(240,136,62,.3); }
   .nb-info      { background:rgba(88,166,255,.18); color:#58a6ff; border:1px solid rgba(88,166,255,.3); }
   .nb-done      { background:rgba(63,185,80,.18);  color:#3fb950; border:1px solid rgba(63,185,80,.3); }
-  .notice-row-date {
-    font-size:9px; color:rgba(139,148,158,.45); white-space:nowrap; flex-shrink:0;
-  }
-  .notice-sep { font-size:9px; color:rgba(139,148,158,.25); flex-shrink:0; }
-  .notice-row-text {
-    font-size:11px; color:var(--text-muted); flex:1;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  }
-  /* 정지 시 좌측 파란 테두리 */
-  .notice-ticker-wrap::before {
-    content:''; position:absolute; left:0; top:0; bottom:0; width:2px;
-    background:var(--blue); opacity:0; transition:opacity .2s; pointer-events:none;
-  }
-  .notice-ticker-wrap.paused::before { opacity:1; }
-
+  body.theme-white .nb-important { background:rgba(207,34,46,.1);  color:#cf222e; border-color:rgba(207,34,46,.25); }
+  body.theme-white .nb-schedule  { background:rgba(149,56,0,.1);   color:#953800; border-color:rgba(149,56,0,.25); }
+  body.theme-white .nb-info      { background:rgba(9,105,218,.1);  color:#0969da; border-color:rgba(9,105,218,.25); }
+  body.theme-white .nb-done      { background:rgba(26,127,55,.1);  color:#1a7f37; border-color:rgba(26,127,55,.25); }
+  .notice-row-date { font-size:9px; color:rgba(139,148,158,.55); white-space:nowrap; flex-shrink:0; }
+  .notice-item-text { font-size:11px; color:var(--text-muted); line-height:1.55; word-break:keep-all; }
   .notice-footer-bar {
     padding:5px 12px; font-size:9px; color:rgba(139,148,158,.3);
     border-top:1px solid var(--border); flex-shrink:0;
     display:flex; justify-content:space-between; align-items:center;
   }
   .notice-click-hint { font-size:9px; color:rgba(139,148,158,.25); }
-  .notice-empty-row { height:36px; display:flex; align-items:center; padding:0 12px; font-size:11px; color:rgba(139,148,158,.4); }
+  .notice-empty-row { padding:14px 12px; font-size:11px; color:rgba(139,148,158,.4); text-align:center; }
 
   /* cancer-hdr-widget (우측, flex:1) */
   .cancer-hdr-widget { flex:1; min-width:0; }
@@ -367,6 +355,89 @@
   .pin-close { font-size:11px; color:var(--text-muted); cursor:pointer; margin-top:10px; opacity:.6; }
   .pin-close:hover { opacity:1; }
 
+  /* ── 테마 토글 버튼 ── */
+  .theme-toggle {
+    position:absolute; top:14px; right:18px;
+    background:var(--bg3); border:1px solid var(--border); border-radius:20px;
+    padding:5px 13px; font-size:12px; cursor:pointer; z-index:20;
+    color:var(--text-muted); transition:all .2s;
+    display:flex; align-items:center; gap:7px; user-select:none; font-family:inherit;
+  }
+  .theme-toggle:hover { border-color:var(--blue); color:var(--blue); }
+  .theme-toggle-icon { font-size:14px; line-height:1; }
+
+  /* ── White 테마 오버라이드 ── */
+  body.theme-white {
+    --bg:     #f5f7fa;
+    --bg2:    #ffffff;
+    --bg3:    #eaecf0;
+    --border: #c8cdd5;
+    --text:   #1a1e26;
+    --text-muted: #5a6375;
+    --blue:   #0969da;
+    --orange: #953800;
+    --purple: #7535c5;
+    --green:  #1a7f37;
+    --teal:   #0578b8;
+    --yellow: #7d4e00;
+    --card-hover: #f0f2f5;
+  }
+  body.theme-white .bg-glow { opacity:0; }
+  body.theme-white header {
+    background:linear-gradient(180deg,rgba(9,105,218,0.05) 0%,transparent 100%);
+  }
+  body.theme-white header h1 {
+    background:linear-gradient(135deg,#1a1e26 0%,#5a6375 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  body.theme-white .dt-value.week {
+    background:linear-gradient(90deg,#0969da,#7535c5);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  body.theme-white .card-hd:hover { background:rgba(0,0,0,.03); }
+  body.theme-white .sidebar { box-shadow:2px 0 12px rgba(0,0,0,.08); }
+  body.theme-white .notice-ticker-wrap::before { background:#0969da; }
+  body.theme-white .notice-play-ind { color:#1a7f37; }
+  body.theme-white .notice-play-dot { background:#1a7f37; }
+  body.theme-white .notice-play-ind.paused { color:#7d4e00; }
+  body.theme-white .notice-play-ind.paused .notice-play-dot { background:#7d4e00; }
+  body.theme-white .pin-overlay { background:rgba(255,255,255,.6); }
+  body.theme-white .pin-box { box-shadow:0 24px 80px rgba(0,0,0,.18); }
+
+  /* ── White: 생산 일정 위젯 ── */
+  body.theme-white .cancer-item { color:#1a1e26; }
+  body.theme-white .cancer-item-lot { color:#1a1e26; }
+  body.theme-white .cancer-item-qty { color:#953800; }
+  body.theme-white .cancer-empty { color:#8c959f; }
+  body.theme-white .cancer-meta { color:#8c959f; }
+  body.theme-white .cancer-day-hd { color:#57606a; }
+  body.theme-white .cancer-day-col.is-today .cancer-day-hd { color:#0969da; }
+  body.theme-white .cancer-day-col.is-today { background:rgba(9,105,218,.06); border-color:#0969da; }
+
+  /* 아이템 배경 (흰 배경에 맞게 살짝 진하게) */
+  body.theme-white .ci-std-pack { background:rgba(180,83,9,0.10); border-color:rgba(180,83,9,0.4); }
+  body.theme-white .ci-std-dry  { background:rgba(14,116,144,0.10); border-color:rgba(14,116,144,0.4); }
+  body.theme-white .ci-ich      { background:rgba(124,58,237,0.10); border-color:rgba(124,58,237,0.4); }
+  body.theme-white .ci-afi      { background:rgba(29,78,216,0.10); border-color:rgba(29,78,216,0.4); }
+  body.theme-white .ci-gran     { background:rgba(21,128,61,0.10); border-color:rgba(21,128,61,0.4); }
+
+  /* 타입 뱃지 (범례 + 아이템 내 뱃지) */
+  body.theme-white .ct-std-pack { background:rgba(180,83,9,0.15); color:#7d3a00; }
+  body.theme-white .ct-std-dry  { background:rgba(14,116,144,0.15); color:#0578b8; }
+  body.theme-white .ct-ich      { background:rgba(124,58,237,0.15); color:#6b21c7; }
+  body.theme-white .ct-afi      { background:rgba(29,78,216,0.15); color:#0550ae; }
+  body.theme-white .ct-gran     { background:rgba(21,128,61,0.15); color:#166534; }
+
+  /* 사이드바 */
+  body.theme-white .sl-item a { color:#57606a; }
+  body.theme-white .sl-item a:hover { background:#eaecf0; color:#1a1e26; }
+
+  /* 아코디언 카드 */
+  body.theme-white .card-hd-chevron { border-color:#c8cdd5; color:#57606a; }
+  body.theme-white .card-wrap.open .card-hd-chevron { border-color:#0969da; color:#0969da; }
+  body.theme-white .card-body-inner { border-top-color:#c8cdd5; }
+  body.theme-white .sb-close-btn:hover { background:#eaecf0; }
+
   /* ── RESPONSIVE ── */
   @media(max-width:1100px) { .card-grid { grid-template-columns:1fr; } }
   @media(max-width:900px) { .hdr-bottom { flex-direction:column; } .notice-box { width:100%; } }
@@ -387,6 +458,20 @@
 </style>
 
 <script>
+/* ── 테마 토글 ── */
+var isDark=true;
+function toggleTheme(){
+  isDark=!isDark;
+  document.body.classList.toggle('theme-white',!isDark);
+  var btn=document.getElementById('theme-toggle');
+  if(btn){
+    btn.querySelector('.theme-toggle-icon').textContent=isDark?'☀️':'🌙';
+    btn.querySelector('.theme-toggle-label').textContent=isDark?'White':'Dark';
+  }
+  try{ localStorage.setItem('hub_theme', isDark?'dark':'white'); }catch(e){}
+}
+// 테마 초기화는 아래 DOMContentLoaded 블록에서 통합 처리
+
 /* ── 날짜/시간/주차 ── */
 function getISOWeek(d){var date=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));var dn=date.getUTCDay()||7;date.setUTCDate(date.getUTCDate()+4-dn);var ys=new Date(Date.UTC(date.getUTCFullYear(),0,1));return Math.ceil((((date-ys)/86400000)+1)/7);}
 function getDayKo(d){return['일','월','화','수','목','금','토'][d.getDay()]+'요일';}
@@ -404,6 +489,9 @@ window.addEventListener('DOMContentLoaded',function(){
   updateClock();setInterval(updateClock,1000);
   loadCancerWidget();
   loadNotice();
+  // 테마 복원
+  var savedTheme; try{ savedTheme=localStorage.getItem('hub_theme'); }catch(e){}
+  if(savedTheme==='white'){ isDark=false; document.body.classList.add('theme-white'); var tb=document.getElementById('theme-toggle'); if(tb){ tb.querySelector('.theme-toggle-icon').textContent='🌙'; tb.querySelector('.theme-toggle-label').textContent='Dark'; } }
 });
 
 /* ── Accordion ── */
@@ -511,11 +599,9 @@ function loadCancerWidget(){
     });
 }
 
-/* ── 공지사항 티커 ── */
+/* ── 공지사항 ── */
 var NOTICE_URL='https://gimcimmim-cpu.github.io/notice.json';
 var NOTICE_MAX=7;
-var NOTICE_ITEM_H=36;
-var NOTICE_VISIBLE=4;
 var noticeCurIdx=0;
 var noticePaused=false;
 var noticeTimerRef=null;
@@ -533,110 +619,63 @@ function loadNotice(){
 }
 
 function renderNotice(data){
-  var wrap=document.getElementById('notice-ticker-wrap');
-  var inner=document.getElementById('notice-ticker-inner');
+  var area=document.getElementById('notice-scroll-area');
   var ft=document.getElementById('notice-updated');
-  if(!wrap||!inner) return;
-
-  // 최대 7개
+  if(!area) return;
   var items=(data&&data.notices)?data.notices.slice(0,NOTICE_MAX):[];
   noticeTotalItems=items.length;
-
   if(items.length===0){
-    inner.innerHTML='<div class="notice-empty-row">📭 공지사항 없음</div>';
-    wrap.style.height=(NOTICE_ITEM_H*1)+'px';
+    area.innerHTML='<div class="notice-empty-row">📭 공지사항 없음</div>';
     return;
   }
-
-  // 티커 높이 = VISIBLE 수 또는 실제 아이템 수 중 작은 값
-  var vis=Math.min(items.length, NOTICE_VISIBLE);
-  wrap.style.height=(NOTICE_ITEM_H*vis)+'px';
-
   var badgeClass={important:'nb-important',schedule:'nb-schedule',info:'nb-info',done:'nb-done'};
   var html='';
-  // 원본 아이템
-  items.forEach(function(n){
+  items.forEach(function(n,i){
     var bc=badgeClass[n.type]||'nb-info';
-    var fullText=(n.badge||'')+' '+(n.date||'')+' '+n.content;
-    html+='<div class="notice-row" title="'+fullText.trim()+'">';
+    html+='<div class="notice-item'+(i===0?' is-active':'')+'" id="ni-'+i+'">';
+    html+='<div class="notice-item-top">';
     if(n.badge) html+='<span class="notice-row-badge '+bc+'">'+n.badge+'</span>';
     if(n.date)  html+='<span class="notice-row-date">'+n.date+'</span>';
-    if(n.badge||n.date) html+='<span class="notice-sep">|</span>';
-    html+='<span class="notice-row-text">'+n.content+'</span>';
+    html+='</div>';
+    html+='<div class="notice-item-text">'+n.content+'</div>';
     html+='</div>';
   });
-  // 루프를 위해 첫 VISIBLE개 복제 (끝에서 처음으로 자연스럽게)
-  items.slice(0,NOTICE_VISIBLE).forEach(function(n){
-    var bc=badgeClass[n.type]||'nb-info';
-    html+='<div class="notice-row" title="'+n.content+'">';
-    if(n.badge) html+='<span class="notice-row-badge '+bc+'">'+n.badge+'</span>';
-    if(n.date)  html+='<span class="notice-row-date">'+n.date+'</span>';
-    if(n.badge||n.date) html+='<span class="notice-sep">|</span>';
-    html+='<span class="notice-row-text">'+n.content+'</span>';
-    html+='</div>';
-  });
-  inner.innerHTML=html;
-  inner.style.transform='translateY(0)';
-  noticeCurIdx=0;
-
+  area.innerHTML=html;
   if(ft&&data&&data.updatedAt) ft.textContent='업데이트: '+data.updatedAt;
   try{ localStorage.setItem('notice_data_v1', JSON.stringify(data)); }catch(e){}
-
-  // 타이머 시작
   noticeStartTimer();
+  // 클릭: 정지/재생
+  area.onclick=function(){ toggleNoticePause(); };
 }
 
 function noticeStartTimer(){
   if(noticeTimerRef) clearInterval(noticeTimerRef);
   if(noticeTotalItems<=1) return;
-  noticeTimerRef=setInterval(noticeAdvance, 10000);
+  noticeTimerRef=setInterval(noticeAdvance,10000);
 }
 
 function noticeAdvance(){
   if(noticePaused||noticeTotalItems<=1) return;
-  var inner=document.getElementById('notice-ticker-inner');
-  if(!inner) return;
-  noticeCurIdx++;
-  if(noticeCurIdx>=noticeTotalItems){
-    // 복제 구간으로 이동 후 순간 리셋
-    inner.style.transform='translateY(-'+(noticeCurIdx*NOTICE_ITEM_H)+'px)';
-    setTimeout(function(){
-      inner.style.transition='none';
-      inner.style.transform='translateY(0)';
-      noticeCurIdx=0;
-      requestAnimationFrame(function(){
-        requestAnimationFrame(function(){
-          inner.style.transition='transform .6s cubic-bezier(.4,0,.2,1)';
-        });
-      });
-    },650);
-  } else {
-    inner.style.transform='translateY(-'+(noticeCurIdx*NOTICE_ITEM_H)+'px)';
+  // 이전 활성 해제
+  var prev=document.getElementById('ni-'+noticeCurIdx);
+  if(prev) prev.classList.remove('is-active');
+  noticeCurIdx=(noticeCurIdx+1)%noticeTotalItems;
+  var cur=document.getElementById('ni-'+noticeCurIdx);
+  if(cur){
+    cur.classList.add('is-active');
+    cur.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 }
 
 function toggleNoticePause(){
-  var wrap=document.getElementById('notice-ticker-wrap');
+  var area=document.getElementById('notice-scroll-area');
   var ind=document.getElementById('notice-play-ind');
-  var dot=ind?ind.querySelector('.notice-play-dot'):null;
   noticePaused=!noticePaused;
-  if(noticePaused){
-    wrap.classList.add('paused');
-    // 수동 스크롤 가능하도록 overflow-y auto 전환
-    var inner=document.getElementById('notice-ticker-inner');
-    if(inner){ inner.style.transition='none'; inner.style.transform='translateY(0)'; }
-    if(ind){ ind.classList.add('paused'); ind.childNodes[1]&&(ind.childNodes[1].nodeValue=' 정지'); }
-  } else {
-    wrap.classList.remove('paused');
-    wrap.scrollTop=0;
-    var inner=document.getElementById('notice-ticker-inner');
-    if(inner){
-      requestAnimationFrame(function(){
-        inner.style.transition='transform .6s cubic-bezier(.4,0,.2,1)';
-        inner.style.transform='translateY(-'+(noticeCurIdx*NOTICE_ITEM_H)+'px)';
-      });
-    }
-    if(ind){ ind.classList.remove('paused'); ind.childNodes[1]&&(ind.childNodes[1].nodeValue=' 자동'); }
+  if(area) area.classList.toggle('paused',noticePaused);
+  if(ind){
+    ind.classList.toggle('paused',noticePaused);
+    var txt=ind.querySelector('.notice-ind-txt');
+    if(txt) txt.textContent=noticePaused?' 정지':' 자동';
   }
 }
 
@@ -689,7 +728,13 @@ document.addEventListener('keydown',function(e){
 </div>
 
 <!-- HEADER -->
-<header>
+<header style="position:relative;">
+  <!-- 테마 토글 -->
+  <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">
+    <span class="theme-toggle-icon">☀️</span>
+    <span class="theme-toggle-label">White</span>
+  </button>
+
   <div class="logo">
     <div class="logo-dot"></div>
     바디텍메드 · Cancer팀
@@ -722,19 +767,17 @@ document.addEventListener('keydown',function(e){
     <div class="notice-box">
       <div class="notice-box-hd">
         <span class="notice-box-title">📢 공지사항</span>
-        <span class="notice-play-ind" id="notice-play-ind" onclick="toggleNoticePause()">
-          <span class="notice-play-dot"></span> 자동
+        <span class="notice-play-ind" id="notice-play-ind">
+          <span class="notice-play-dot"></span><span class="notice-ind-txt"> 자동</span>
         </span>
       </div>
-      <!-- 티커 영역: 클릭 = 정지/재생 -->
-      <div class="notice-ticker-wrap" id="notice-ticker-wrap" onclick="toggleNoticePause()">
-        <div class="notice-ticker-inner" id="notice-ticker-inner">
-          <div class="notice-empty-row">⏳ 로드 중...</div>
-        </div>
+      <!-- 공지 목록: 전체 내용 표시, 10초마다 자동 하이라이트 이동 -->
+      <div class="notice-scroll-area" id="notice-scroll-area">
+        <div class="notice-empty-row">⏳ 로드 중...</div>
       </div>
       <div class="notice-footer-bar">
-        <span id="notice-updated" style="color:rgba(139,148,158,.3);font-size:9px;"></span>
-        <span class="notice-click-hint">클릭 → 정지 / 스크롤</span>
+        <span id="notice-updated"></span>
+        <span class="notice-click-hint">클릭 → 정지/재생</span>
       </div>
     </div>
 
