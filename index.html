@@ -413,6 +413,19 @@
     transition:color .3s; padding:4px 8px; border-radius:6px; user-select:none;
   }
   .footer-hidden-btn:hover { color:rgba(139,148,158,0.5); }
+  .footer-claude-btn {
+    display:inline-flex; align-items:center; gap:5px;
+    background:none; border:none; cursor:pointer; text-decoration:none;
+    color:rgba(139,148,158,0.25); font-size:13px;
+    padding:4px 8px; border-radius:6px;
+    transition:color .3s, background .3s;
+    user-select:none;
+  }
+  .footer-claude-btn:hover {
+    color:rgba(88,166,255,0.75);
+    background:rgba(88,166,255,0.08);
+  }
+  .footer-claude-btn span { font-size:11px; }
 
   /* ── PIN MODAL ── */
   .pin-overlay { display:none; position:fixed; inset:0; z-index:999; background:rgba(0,0,0,.7); backdrop-filter:blur(6px); align-items:center; justify-content:center; }
@@ -1345,6 +1358,9 @@ document.addEventListener('keydown',function(e){
 <footer>
   <span>바디텍메드 Cancer팀 업무 허브 &nbsp;·&nbsp; gimcimmim-cpu.github.io</span>
   <button class="footer-hidden-btn" onclick="openPin()" title="">🔒</button>
+  <a href="https://gimcimmim-cpu.github.io/claude-project/" target="_blank" class="footer-claude-btn" title="Claude 프로젝트 바로가기">
+    🤖<span>Claude</span>
+  </a>
 </footer>
 
 <script>
