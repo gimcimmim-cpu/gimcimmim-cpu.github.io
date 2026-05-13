@@ -919,35 +919,33 @@ function toggleNoticePause(){
 
 /* ── CV 7% 달성 현황 위젯 ── */
 var CV_ITEMS=[
-  /* r7 내림차순 정렬 — QC_대시보드.html D.items 기준 */
-  {platform:'AFIAS',   item:'PSA',             n:2,  med_cv:5.0,  r7:100.0},
-  {platform:'ichroma', item:'Free PSA',         n:2,  med_cv:6.3,  r7:100.0},
-  {platform:'ichroma', item:'QDx Ferritin',     n:1,  med_cv:5.8,  r7:100.0},
-  {platform:'ichroma', item:'Ferritin',         n:19, med_cv:5.3,  r7:94.7},
-  {platform:'ichroma', item:'AFP Neo',          n:9,  med_cv:5.5,  r7:88.9},
-  {platform:'AFIAS',   item:'AFP',              n:5,  med_cv:6.0,  r7:80.0},
-  {platform:'ichroma', item:'PSA',              n:5,  med_cv:6.6,  r7:80.0},
-  {platform:'ichroma', item:'AFP',              n:9,  med_cv:6.6,  r7:77.8},
-  {platform:'ichroma', item:'Cyfra21-1',        n:6,  med_cv:6.3,  r7:66.7},
-  {platform:'ichroma', item:'QDx Calprotectin', n:3,  med_cv:6.8,  r7:66.7},
-  {platform:'ichroma', item:'iFOB Neo',         n:17, med_cv:6.3,  r7:64.7},
-  {platform:'AFIAS',   item:'CA19-9',           n:11, med_cv:6.3,  r7:63.6},
-  {platform:'ichroma', item:'CA125',            n:5,  med_cv:5.8,  r7:60.0},
-  {platform:'AFIAS',   item:'H.pylori SA',      n:7,  med_cv:6.7,  r7:57.1},
-  {platform:'AFIAS',   item:'CA125',            n:9,  med_cv:7.0,  r7:55.6},
-  {platform:'ichroma', item:'CEA',              n:11, med_cv:5.4,  r7:54.5},
-  {platform:'ichroma', item:'Calprotectin',     n:16, med_cv:6.8,  r7:50.0},
-  {platform:'AFIAS',   item:'Calprotectin',     n:5,  med_cv:11.5, r7:40.0},
-  {platform:'AFIAS',   item:'Cyfra21-1',        n:10, med_cv:6.8,  r7:40.0},
-  {platform:'ichroma', item:'CA19-9',           n:8,  med_cv:7.1,  r7:37.5},
-  {platform:'AFIAS',   item:'iFOB Neo',         n:3,  med_cv:7.2,  r7:33.3},
-  {platform:'AFIAS',   item:'Free PSA',         n:3,  med_cv:9.3,  r7:33.3},
-  {platform:'ichroma', item:'PSA Neo',          n:7,  med_cv:7.9,  r7:28.6},
-  {platform:'ichroma', item:'H. pylori SA',     n:10, med_cv:8.6,  r7:20.0},
-  {platform:'AFIAS',   item:'CEA',              n:8,  med_cv:8.8,  r7:12.5},
-  {platform:'AFIAS',   item:'PSA Neo',          n:8,  med_cv:9.5,  r7:0.0},
-  {platform:'ichroma', item:'CEA Neo',          n:8,  med_cv:8.4,  r7:0.0},
-  {platform:'ichroma', item:'QDx AFP',          n:1,  med_cv:9.2,  r7:0.0}
+  /* QC_목표기준_대시보드.html 데이터 자동 동기화 기준 (QDx 항목은 ichroma로 통합) */
+  {platform:'AFIAS', item:'Ferritin', n:20, med_cv:4.8, r7:100.0},
+  {platform:'AFIAS', item:'PSA', n:2, med_cv:5.0, r7:100.0},
+  {platform:'AFIAS', item:'iFOB Neo', n:3, med_cv:7.2, r7:100.0},
+  {platform:'ichroma', item:'Calprotectin', n:22, med_cv:6.9, r7:100.0},
+  {platform:'ichroma', item:'Free PSA', n:2, med_cv:6.3, r7:100.0},
+  {platform:'ichroma', item:'iFOB Neo', n:18, med_cv:6.3, r7:100.0},
+  {platform:'ichroma', item:'Ferritin', n:20, med_cv:5.3, r7:95.0},
+  {platform:'ichroma', item:'AFP Neo', n:10, med_cv:5.4, r7:90.0},
+  {platform:'AFIAS', item:'H.pylori SA', n:7, med_cv:6.7, r7:85.7},
+  {platform:'AFIAS', item:'AFP Neo', n:5, med_cv:6.0, r7:80.0},
+  {platform:'AFIAS', item:'Calprotectin', n:5, med_cv:11.5, r7:80.0},
+  {platform:'ichroma', item:'H. pylori SA', n:14, med_cv:8.7, r7:78.6},
+  {platform:'ichroma', item:'AFP', n:12, med_cv:6.4, r7:75.0},
+  {platform:'AFIAS', item:'Cyfra21-1', n:10, med_cv:6.8, r7:70.0},
+  {platform:'ichroma', item:'Cyfra21-1', n:6, med_cv:6.2, r7:66.7},
+  {platform:'AFIAS', item:'CA19-9', n:11, med_cv:6.3, r7:63.6},
+  {platform:'ichroma', item:'CA125', n:5, med_cv:5.8, r7:60.0},
+  {platform:'ichroma', item:'PSA', n:7, med_cv:6.8, r7:57.1},
+  {platform:'AFIAS', item:'CA125', n:9, med_cv:7.0, r7:55.6},
+  {platform:'ichroma', item:'CEA', n:11, med_cv:5.4, r7:54.5},
+  {platform:'ichroma', item:'PSA Neo', n:11, med_cv:6.7, r7:54.5},
+  {platform:'ichroma', item:'CA19-9', n:8, med_cv:7.2, r7:37.5},
+  {platform:'AFIAS', item:'Free PSA', n:3, med_cv:9.3, r7:33.3},
+  {platform:'AFIAS', item:'PSA Neo', n:12, med_cv:8.6, r7:25.0},
+  {platform:'AFIAS', item:'CEA Neo', n:10, med_cv:8.4, r7:20.0},
+  {platform:'ichroma', item:'CEA Neo', n:8, med_cv:8.4, r7:0.0}
 ];
 var cvPaused=false;
 var cvTimerRef=null;
@@ -1470,8 +1468,9 @@ function confirmPw() {
   var err = document.getElementById('pwErr');
   var modal = document.getElementById('pwModal');
   if (inp.value === _PW) {
+    var target = _pwTarget;  // 모달 닫기 전 먼저 저장
     closePwModal();
-    window.location.href = _pwTarget;
+    window.location.href = target;
   } else {
     err.textContent = '암호가 올바르지 않습니다. 대소문자를 확인해 주세요.';
     modal.classList.remove('shake');
