@@ -69,6 +69,10 @@
   .dt-value.date { color:var(--text); font-size:13px; }
   .dt-value.week { font-size:24px; background:linear-gradient(90deg,var(--blue),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
   .dt-sub { font-size:11px; color:var(--text-muted); margin-top:3px; }
+  /* 날씨 블록 */
+  .dt-value.weather-temp { font-size:22px; font-weight:700; color:var(--teal); }
+  .weather-icon { font-size:20px; line-height:1; }
+  .weather-detail { font-size:10px; color:var(--text-muted); margin-top:2px; }
 
   /* Cancer 헤더 위젯 */
   .cancer-hdr-widget { margin-top:16px; width:100%; max-width:920px; align-self:center; padding:0 8px; text-align:left; }
@@ -470,6 +474,7 @@
     background:linear-gradient(90deg,#0969da,#7535c5);
     -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
   }
+  body.theme-white .dt-value.weather-temp { color:#0e7490; }
   body.theme-white .card-hd:hover { background:rgba(0,0,0,.03); }
   body.theme-white .sidebar { box-shadow:2px 0 12px rgba(0,0,0,.08); }
   body.theme-white .notice-ticker-wrap::before { background:#0969da; }
@@ -566,10 +571,71 @@ window.addEventListener('DOMContentLoaded',function(){
   loadCancerWidget();
   loadNotice();
   initCvWidget();
+  loadWeather();setInterval(loadWeather, 10*60*1000); // 10분마다 갱신
   // 테마 복원
   var savedTheme; try{ savedTheme=localStorage.getItem('hub_theme'); }catch(e){}
   if(savedTheme==='white'){ isDark=false; document.body.classList.add('theme-white'); var tb=document.getElementById('theme-toggle'); if(tb){ tb.querySelector('.theme-toggle-icon').textContent='🌙'; tb.querySelector('.theme-toggle-label').textContent='Dark'; } }
 });
+
+/* ── 춘천 실시간 날씨 (Open-Meteo, API키 불필요) ── */
+function loadWeather(){
+  // 춘천 좌표: 37.8813°N, 127.7298°E
+  var url='https://api.open-meteo.com/v1/forecast'
+    +'?latitude=37.8813&longitude=127.7298'
+    +'&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,apparent_temperature'
+    +'&timezone=Asia%2FSeoul&wind_speed_unit=ms';
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var c=d.current;
+      var temp=Math.round(c.temperature_2m);
+      var feel=Math.round(c.apparent_temperature);
+      var hum=c.relative_humidity_2m;
+      var wind=c.wind_speed_10m.toFixed(1);
+      var code=c.weather_code;
+      var icon=wxIcon(code);
+      var desc=wxDesc(code);
+      var iconEl=document.getElementById('wx-icon');
+      var tempEl=document.getElementById('wx-temp');
+      var descEl=document.getElementById('wx-desc');
+      if(iconEl) iconEl.textContent=icon;
+      if(tempEl) tempEl.textContent=temp+'°C';
+      if(descEl) descEl.textContent=desc+' · 체감 '+feel+'° · 습도 '+hum+'%';
+    })
+    .catch(function(){
+      var descEl=document.getElementById('wx-desc');
+      if(descEl) descEl.textContent='날씨 정보 불러오기 실패';
+    });
+}
+function wxIcon(code){
+  if(code===0) return '☀️';
+  if(code<=2) return '⛅';
+  if(code===3) return '☁️';
+  if(code<=49) return '🌫️';
+  if(code<=59) return '🌦️';
+  if(code<=69) return '🌧️';
+  if(code<=79) return '❄️';
+  if(code<=82) return '🌧️';
+  if(code<=84) return '🌨️';
+  if(code<=86) return '🌨️';
+  if(code<=99) return '⛈️';
+  return '🌡️';
+}
+function wxDesc(code){
+  if(code===0) return '맑음';
+  if(code===1) return '대체로 맑음';
+  if(code===2) return '부분 흐림';
+  if(code===3) return '흐림';
+  if(code<=49) return '안개';
+  if(code<=59) return '이슬비';
+  if(code<=69) return '비';
+  if(code<=79) return '눈';
+  if(code<=82) return '소나기';
+  if(code<=84) return '진눈깨비';
+  if(code<=86) return '눈보라';
+  if(code<=99) return '뇌우';
+  return '날씨 불명';
+}
 
 /* ── Accordion ── */
 function toggleCard(id){
@@ -947,6 +1013,14 @@ document.addEventListener('keydown',function(e){
       <div class="dt-label">📋 이번 주차</div>
       <div class="dt-value week" id="dt-week">—</div>
       <div class="dt-sub" id="dt-range">—</div>
+    </div>
+    <div class="dt-block">
+      <div class="dt-label">🌤 춘천 날씨</div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="weather-icon" id="wx-icon">—</span>
+        <span class="dt-value weather-temp" id="wx-temp">—</span>
+      </div>
+      <div class="weather-detail" id="wx-desc">불러오는 중…</div>
     </div>
   </div>
 
