@@ -549,6 +549,72 @@
     .cancer-hdr-grid { grid-template-columns:repeat(2,1fr); }
     .main-wrap { padding:20px 16px; }
   }
+
+  /* ── 암호 모달 ── */
+  .pw-overlay {
+    display:none; position:fixed; inset:0; z-index:9999;
+    background:rgba(0,0,0,0.72); backdrop-filter:blur(6px);
+    align-items:center; justify-content:center;
+  }
+  .pw-overlay.show { display:flex; }
+  .pw-modal {
+    background:#1a2540; border:1px solid rgba(96,165,250,0.25);
+    border-radius:16px; padding:36px 40px; width:360px; max-width:90vw;
+    box-shadow:0 24px 64px rgba(0,0,0,0.6);
+    animation:pwSlideIn .22s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes pwSlideIn {
+    from { transform:translateY(-24px) scale(.96); opacity:0; }
+    to   { transform:translateY(0) scale(1); opacity:1; }
+  }
+  .pw-modal.shake {
+    animation:pwShake .35s ease;
+  }
+  @keyframes pwShake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px)}
+    40%{transform:translateX(8px)}
+    60%{transform:translateX(-6px)}
+    80%{transform:translateX(6px)}
+  }
+  .pw-ico { font-size:32px; text-align:center; margin-bottom:12px; }
+  .pw-title { font-size:15px; font-weight:700; color:#e2e8f0; text-align:center; margin-bottom:4px; }
+  .pw-sub { font-size:11px; color:#64748b; text-align:center; margin-bottom:22px; }
+  .pw-input-wrap { position:relative; margin-bottom:10px; }
+  .pw-input {
+    width:100%; padding:11px 42px 11px 14px;
+    background:#0f1623; border:1px solid rgba(96,165,250,0.25);
+    border-radius:9px; color:#e2e8f0; font-size:14px;
+    outline:none; transition:border-color .2s; box-sizing:border-box;
+  }
+  .pw-input:focus { border-color:rgba(96,165,250,0.6); }
+  .pw-eye {
+    position:absolute; right:12px; top:50%; transform:translateY(-50%);
+    background:none; border:none; cursor:pointer; color:#64748b;
+    font-size:16px; padding:0; line-height:1;
+  }
+  .pw-eye:hover { color:#93c5fd; }
+  .pw-err { font-size:11px; color:#f87171; min-height:16px; margin-bottom:12px; padding-left:2px; }
+  .pw-btn-row { display:flex; gap:10px; }
+  .pw-confirm {
+    flex:1; padding:11px; background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    border:none; border-radius:9px; color:#fff; font-size:13px;
+    font-weight:700; cursor:pointer; transition:opacity .2s;
+  }
+  .pw-confirm:hover { opacity:.88; }
+  .pw-cancel {
+    padding:11px 18px; background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.1); border-radius:9px;
+    color:#94a3b8; font-size:13px; cursor:pointer; transition:all .2s;
+  }
+  .pw-cancel:hover { background:rgba(255,255,255,0.1); color:#e2e8f0; }
+  /* 잠금 배지 */
+  .lock-badge {
+    display:inline-flex; align-items:center; gap:3px;
+    font-size:9px; font-weight:700; color:#f59e0b;
+    background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.25);
+    border-radius:4px; padding:1px 6px; margin-left:6px; vertical-align:middle;
+  }
 </style>
 
 <script>
@@ -1121,8 +1187,8 @@ document.addEventListener('keydown',function(e){
         </a>
       </li>
       <li class="sl-item c-blue">
-        <a href="weekly_dashboard.html">
-          <span class="sl-num">03</span><span class="sl-ico">📊</span><span class="sl-nm">주간 업무 대시보드</span>
+        <a href="#" onclick="event.preventDefault();openLocked('weekly_dashboard.html')">
+          <span class="sl-num">03</span><span class="sl-ico">📊</span><span class="sl-nm">주간 업무 대시보드</span><span class="lock-badge">🔒 잠금</span>
         </a>
       </li>
       <li class="sl-item c-teal">
@@ -1136,8 +1202,8 @@ document.addEventListener('keydown',function(e){
         </a>
       </li>
       <li class="sl-item c-purple">
-        <a href="conjugation_calculator_final.html">
-          <span class="sl-num">06</span><span class="sl-ico">🧪</span><span class="sl-nm">Conjugation 계산기</span>
+        <a href="#" onclick="event.preventDefault();openLocked('conjugation_calculator_final.html')">
+          <span class="sl-num">06</span><span class="sl-ico">🧪</span><span class="sl-nm">Conjugation 계산기</span><span class="lock-badge">🔒 잠금</span>
         </a>
       </li>
       <li class="sl-item c-green">
@@ -1146,8 +1212,8 @@ document.addEventListener('keydown',function(e){
         </a>
       </li>
       <li class="sl-item c-orange">
-        <a href="IDChipQC_v2_dashboard.html">
-          <span class="sl-num">08</span><span class="sl-ico">🔬</span><span class="sl-nm">IDChip QC 대시보드</span>
+        <a href="#" onclick="event.preventDefault();openLocked('IDChipQC_v2_dashboard.html')">
+          <span class="sl-num">08</span><span class="sl-ico">🔬</span><span class="sl-nm">IDChip QC 대시보드</span><span class="lock-badge">🔒 잠금</span>
         </a>
       </li>
       <li class="sl-item c-teal">
@@ -1227,7 +1293,7 @@ document.addEventListener('keydown',function(e){
           <div class="card-body-inner">
             <div class="card-body-sub">Cancer팀 주간보고 시각화 · 프로젝트 진행률 · 이슈 현황 · 팀원별 차주 예정</div>
             <div class="card-body-tags"><span class="tag">연구</span><span class="tag">생산</span><span class="tag">허가</span><span class="tag">노션 연동</span></div>
-            <a href="weekly_dashboard.html" class="card-open-btn">열기 →</a>
+            <a href="#" onclick="event.preventDefault();openLocked('weekly_dashboard.html')" class="card-open-btn">🔒 열기 →</a>
           </div>
         </div>
       </div>
@@ -1278,7 +1344,7 @@ document.addEventListener('keydown',function(e){
           <div class="card-body-inner">
             <div class="card-body-sub">항체 컨쥬게이션 계산 · 시약 양 산출 · 최종 버전</div>
             <div class="card-body-tags"><span class="tag">Conjugation</span><span class="tag">계산기</span><span class="tag">시약</span></div>
-            <a href="conjugation_calculator_final.html" class="card-open-btn">열기 →</a>
+            <a href="#" onclick="event.preventDefault();openLocked('conjugation_calculator_final.html')" class="card-open-btn">🔒 열기 →</a>
           </div>
         </div>
       </div>
@@ -1312,7 +1378,7 @@ document.addEventListener('keydown',function(e){
           <div class="card-body-inner">
             <div class="card-body-sub">ID Chip 검수 관리 · QC 데이터 분석 · v2</div>
             <div class="card-body-tags"><span class="tag">ID Chip</span><span class="tag">QC</span><span class="tag">검수</span></div>
-            <a href="IDChipQC_v2_dashboard.html" class="card-open-btn">열기 →</a>
+            <a href="#" onclick="event.preventDefault();openLocked('IDChipQC_v2_dashboard.html')" class="card-open-btn">🔒 열기 →</a>
           </div>
         </div>
       </div>
@@ -1376,7 +1442,79 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
+
+/* ── 암호 보호 ── */
+var _pwTarget = '';
+var _PW = 'Bodi4847!!';
+
+function openLocked(url) {
+  _pwTarget = url;
+  var overlay = document.getElementById('pwOverlay');
+  var inp = document.getElementById('pwInput');
+  var err = document.getElementById('pwErr');
+  overlay.classList.add('show');
+  inp.value = '';
+  inp.type = 'password';
+  document.getElementById('pwEye').textContent = '👁️';
+  err.textContent = '';
+  setTimeout(function(){ inp.focus(); }, 80);
+}
+
+function closePwModal() {
+  document.getElementById('pwOverlay').classList.remove('show');
+  _pwTarget = '';
+}
+
+function confirmPw() {
+  var inp = document.getElementById('pwInput');
+  var err = document.getElementById('pwErr');
+  var modal = document.getElementById('pwModal');
+  if (inp.value === _PW) {
+    closePwModal();
+    window.location.href = _pwTarget;
+  } else {
+    err.textContent = '암호가 올바르지 않습니다. 대소문자를 확인해 주세요.';
+    modal.classList.remove('shake');
+    void modal.offsetWidth; // reflow
+    modal.classList.add('shake');
+    inp.value = '';
+    inp.focus();
+  }
+}
+
+function togglePwEye() {
+  var inp = document.getElementById('pwInput');
+  var eye = document.getElementById('pwEye');
+  if (inp.type === 'password') {
+    inp.type = 'text'; eye.textContent = '🙈';
+  } else {
+    inp.type = 'password'; eye.textContent = '👁️';
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closePwModal();
+  if (e.key === 'Enter' && document.getElementById('pwOverlay').classList.contains('show')) confirmPw();
+});
 </script>
+
+<!-- 암호 입력 모달 -->
+<div class="pw-overlay" id="pwOverlay" onclick="if(event.target===this)closePwModal()">
+  <div class="pw-modal" id="pwModal">
+    <div class="pw-ico">🔐</div>
+    <div class="pw-title">접근 제한 프로그램</div>
+    <div class="pw-sub">이 프로그램은 암호가 필요합니다</div>
+    <div class="pw-input-wrap">
+      <input class="pw-input" id="pwInput" type="password" placeholder="암호를 입력하세요" autocomplete="off" spellcheck="false">
+      <button class="pw-eye" id="pwEye" onclick="togglePwEye()" tabindex="-1">👁️</button>
+    </div>
+    <div class="pw-err" id="pwErr"></div>
+    <div class="pw-btn-row">
+      <button class="pw-confirm" onclick="confirmPw()">확인</button>
+      <button class="pw-cancel" onclick="closePwModal()">취소</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
