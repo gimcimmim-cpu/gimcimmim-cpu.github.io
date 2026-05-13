@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cancer팀 · 팀 대시보드</title>
+
+<!-- PWA -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cancer Hub">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+:root{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;
+  --border:#30363d;--text:#e6edf3;--muted:#8b949e;
+  --blue:#58a6ff;--green:#3fb950;--teal:#39d3f5;
+  --purple:#bc8cff;--orange:#f0883e;--yellow:#d29922;
+  --red:#f85149;--cyan:#06b6d4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;min-height:100vh}
+
+/* ── HEADER ── */
+.hdr{background:linear-gradient(180deg,rgba(88,166,255,0.06) 0%,transparent 100%);
+  border-bottom:1px solid var(--border);padding:20px 32px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.hdr-left{display:flex;align-items:center;gap:14px}
+.hdr-logo{font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);
+  border-radius:20px;padding:4px 12px;display:flex;align-items:center;gap:6px}
+.hdr-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hdr h1{font-size:20px;font-weight:700}
+.hdr h1 span{color:var(--teal)}
+.hdr-right{display:flex;align-items:center;gap:10px}
+.hdr-time{font-size:13px;color:var(--muted);text-align:right;line-height:1.7}
+.hdr-time b{color:var(--blue);font-size:15px}
+.back-btn{text-decoration:none;color:var(--muted);font-size:12px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:8px;
+  padding:6px 12px;transition:all .2s}
+.back-btn:hover{color:var(--text);border-color:#484f58}
+
+/* ── LAYOUT ── */
+.wrap{max-width:1200px;margin:0 auto;padding:28px 24px;display:flex;flex-direction:column;gap:24px}
+
+/* ── SECTION LABEL ── */
+.sec-lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;
+  color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── TEAM MEMBERS ── */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.member-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:16px;position:relative;transition:border-color .2s}
+.member-card:hover{border-color:#484f58}
+.member-card.editing{border-color:var(--blue)}
+.member-avatar{width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  margin-bottom:10px;border:2px solid var(--border)}
+.member-name{font-size:14px;font-weight:700;margin-bottom:3px}
+.member-role{font-size:11px;color:var(--muted);margin-bottom:8px}
+.member-task{font-size:11px;color:var(--text);line-height:1.6;margin-bottom:8px;
+  min-height:34px;padding:5px 7px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)}
+.member-task[contenteditable=true]{outline:none;border-color:var(--blue);cursor:text}
+
+.status-row{display:flex;align-items:center;justify-content:space-between}
+.status-badge{font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;cursor:pointer;user-select:none}
+.st-work {background:rgba(63,185,80,0.15);color:var(--green);border:1px solid rgba(63,185,80,0.3)}
+.st-biz  {background:rgba(240,136,62,0.15);color:var(--orange);border:1px solid rgba(240,136,62,0.3)}
+.st-off  {background:rgba(248,81,73,0.15);color:var(--red);border:1px solid rgba(248,81,73,0.3)}
+.st-edu  {background:rgba(188,140,255,0.15);color:var(--purple);border:1px solid rgba(188,140,255,0.3)}
+.edit-btn{font-size:10px;color:var(--muted);cursor:pointer;padding:2px 6px;
+  border-radius:5px;border:1px solid var(--border);background:none;transition:all .2s;font-family:inherit}
+.edit-btn:hover{color:var(--text);border-color:var(--blue)}
+.add-member-btn{background:var(--bg2);border:1px dashed var(--border);border-radius:14px;
+  padding:16px;display:flex;align-items:center;justify-content:center;gap:8px;
+  cursor:pointer;color:var(--muted);font-size:12px;transition:all .2s;font-family:inherit;width:100%}
+.add-member-btn:hover{border-color:var(--blue);color:var(--blue)}
+
+/* ── PROJECTS ── */
+.proj-list{display:flex;flex-direction:column;gap:8px}
+.proj-row{background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:12px 16px;display:flex;align-items:center;gap:14px;transition:border-color .2s}
+.proj-row:hover{border-color:#484f58}
+.proj-color{width:4px;height:36px;border-radius:2px;flex-shrink:0}
+.proj-info{flex:1;min-width:0}
+.proj-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.proj-name[contenteditable=true]{outline:none;border-bottom:1px solid var(--blue)}
+.proj-sub{font-size:11px;color:var(--muted)}
+.proj-sub[contenteditable=true]{outline:none;border-bottom:1px solid var(--blue)}
+.proj-progress{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.prog-bar{width:90px;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width .4s}
+.prog-pct{font-size:11px;font-weight:700;min-width:32px;text-align:right}
+.proj-status{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:600;flex-shrink:0}
+.ps-active{background:rgba(57,211,245,0.1);color:var(--teal);border:1px solid rgba(57,211,245,0.25)}
+.ps-hold  {background:rgba(248,81,73,0.1);color:var(--red);border:1px solid rgba(248,81,73,0.25)}
+.ps-done  {background:rgba(63,185,80,0.1);color:var(--green);border:1px solid rgba(63,185,80,0.25)}
+.ps-plan  {background:rgba(139,148,158,0.1);color:var(--muted);border:1px solid var(--border)}
+.proj-del{font-size:12px;color:var(--muted);cursor:pointer;padding:4px;opacity:.4;transition:opacity .2s}
+.proj-del:hover{opacity:1;color:var(--red)}
+.add-proj-btn{background:none;border:1px dashed var(--border);border-radius:10px;
+  padding:10px 16px;color:var(--muted);font-size:12px;cursor:pointer;
+  width:100%;text-align:left;transition:all .2s;font-family:inherit}
+.add-proj-btn:hover{border-color:var(--blue);color:var(--blue)}
+
+/* ── PRODUCTION WIDGET ── */
+.prod-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.prod-col{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px}
+.prod-col.is-today{background:rgba(88,166,255,0.07);border-color:var(--blue)}
+.prod-hd{font-size:11px;font-weight:700;text-align:center;margin-bottom:6px;color:var(--muted)}
+.prod-col.is-today .prod-hd{color:var(--blue)}
+.prod-item{font-size:10px;padding:3px 5px;margin-bottom:2px;border-radius:5px;
+  border-left:2px solid;color:#e6edf3;word-break:break-all}
+.pi-std-pack{background:rgba(180,83,9,.12);border-left-color:#b45309}
+.pi-std-dry {background:rgba(14,116,144,.12);border-left-color:#0e7490}
+.pi-ich     {background:rgba(124,58,237,.12);border-left-color:#7c3aed}
+.pi-afi     {background:rgba(29,78,216,.12);border-left-color:#1d4ed8}
+.pi-gran    {background:rgba(21,128,61,.12);border-left-color:#15803d}
+.pi-type{font-size:8px;font-weight:700;opacity:.8;margin-bottom:1px}
+.pi-lot{font-weight:600;font-size:10px}
+.pi-qty{color:#fbbf24;font-size:9px}
+.prod-empty{color:var(--muted);font-size:10px;text-align:center;padding:6px 0}
+.prod-placeholder{background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:16px;text-align:center;color:var(--muted);font-size:12px}
+
+/* ── KPI ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kpi-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;
+  padding:14px 18px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi-card.kc-blue::before{background:var(--blue)}
+.kpi-card.kc-green::before{background:var(--green)}
+.kpi-card.kc-teal::before{background:var(--teal)}
+.kpi-card.kc-purple::before{background:var(--purple)}
+.kpi-lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px}
+.kpi-val{font-size:26px;font-weight:800;line-height:1}
+.kpi-sub{font-size:10px;color:var(--muted);margin-top:3px}
+
+/* ── SAVE BAR ── */
+.save-bar{position:fixed;bottom:16px;right:20px;display:flex;gap:8px;z-index:100}
+.sv-btn{padding:8px 16px;border-radius:10px;border:1px solid var(--border);
+  background:var(--bg2);color:var(--muted);font-size:11px;font-weight:600;
+  cursor:pointer;transition:all .2s;font-family:inherit;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+.sv-btn:hover{background:var(--bg3);color:var(--text)}
+.sv-btn.primary{background:#1d4ed8;border-color:#2563eb;color:#fff}
+.sv-btn.primary:hover{background:#2563eb}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:64px;right:20px;background:#1e3050;border:1px solid #2563eb;
+  color:#e6edf3;padding:9px 16px;border-radius:9px;font-size:11px;z-index:999;
+  display:none;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+
+/* ── EDIT NAME INPUT ── */
+.name-input{background:transparent;border:none;border-bottom:1px solid var(--blue);
+  color:var(--text);font-family:inherit;font-size:14px;font-weight:700;
+  width:100%;outline:none;padding:1px 0;margin-bottom:3px}
+.role-input{background:transparent;border:none;border-bottom:1px solid rgba(88,166,255,.4);
+  color:var(--muted);font-family:inherit;font-size:11px;
+  width:100%;outline:none;padding:1px 0;margin-bottom:8px}
+
+@media(max-width:768px){
+  .prod-grid{grid-template-columns:repeat(2,1fr)}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .team-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="hdr-logo"><div class="hdr-dot"></div>바디텍메드 · Cancer팀</div>
+    <h1>팀 <span>대시보드</span></h1>
+  </div>
+  <div class="hdr-right">
+    <div class="hdr-time"><span id="hdr-date">—</span><br><b id="hdr-time">--:--</b></div>
+    <a class="back-btn" href="index.html">← 허브로</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ① 팀원 현황 -->
+  <div>
+    <div class="sec-lbl">👥 팀원 현황</div>
+    <div class="team-grid" id="team-grid"></div>
+  </div>
+
+  <!-- ② 이번 주 Cancer 생산 일정 -->
+  <div>
+    <div class="sec-lbl">🏭 이번 주 Cancer팀 생산 일정</div>
+    <div id="prod-widget"></div>
+  </div>
+
+  <!-- ③ 주간 KPI -->
+  <div>
+    <div class="sec-lbl">📊 이번 주 KPI</div>
+    <div class="kpi-grid" id="kpi-grid">
+      <div class="kpi-card kc-blue"><div class="kpi-lbl">Cancer LOT 전체</div><div class="kpi-val" id="kpi-total">—</div><div class="kpi-sub">이번 주</div></div>
+      <div class="kpi-card kc-green"><div class="kpi-lbl">표준물질</div><div class="kpi-val" id="kpi-std">—</div><div class="kpi-sub">포장 + 분주</div></div>
+      <div class="kpi-card kc-teal"><div class="kpi-lbl">카트리지</div><div class="kpi-val" id="kpi-prod">—</div><div class="kpi-sub">ichroma + AFIAS</div></div>
+      <div class="kpi-card kc-purple"><div class="kpi-lbl">그래뉼</div><div class="kpi-val" id="kpi-gran">—</div><div class="kpi-sub">배치 수</div></div>
+    </div>
+  </div>
+
+  <!-- ④ 프로젝트 현황 -->
+  <div>
+    <div class="sec-lbl">🔬 프로젝트 현황</div>
+    <div class="proj-list" id="proj-list"></div>
+    <button class="add-proj-btn" onclick="addProj()">＋ 프로젝트 추가</button>
+  </div>
+
+</div>
+
+<!-- 저장 바 -->
+<div class="save-bar">
+  <button class="sv-btn" onclick="resetData()">🗑 초기화</button>
+  <button class="sv-btn primary" onclick="saveAll()">💾 저장</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ── 저장 키 ──────────────────────────────────────────────
+const SK='cancer_team_dash_v1';
+const PROD_KEY='cancer_prod_schedule_v1';
+const GITHUB_URL='https://gimcimmim-cpu.github.io/prod_schedule_data.json';
+
+// ── 기본 데이터 ──────────────────────────────────────────
+const DEFAULT_MEMBERS=[
+  {name:'김철민',role:'팀장',task:'팀 전체 일정 관리 및 프로젝트 총괄',status:'work',emoji:'👨‍🔬'},
+  {name:'팀원 2',role:'연구원',task:'담당 업무를 입력하세요',status:'work',emoji:'🔬'},
+  {name:'팀원 3',role:'연구원',task:'담당 업무를 입력하세요',status:'work',emoji:'🧪'},
+  {name:'팀원 4',role:'연구원',task:'담당 업무를 입력하세요',status:'work',emoji:'⚗️'},
+];
+const DEFAULT_PROJECTS=[
+  {name:'Ferritin 신규 개발',sub:'정량 마커 최적화',pct:65,status:'active',color:'#39d3f5'},
+  {name:'PSA Neo 성능 검증',sub:'LOD / Precision 평가',pct:40,status:'active',color:'#58a6ff'},
+  {name:'H.pylori SA 허가',sub:'국내 허가 서류 준비',pct:20,status:'active',color:'#bc8cff'},
+  {name:'Calprotectin 안정성',sub:'장기 안정성 시험',pct:90,status:'done',color:'#3fb950'},
+];
+
+let teamData=[], projData=[];
+
+// ── 날짜 유틸 ─────────────────────────────────────────────
+function pad(n){return n<10?'0'+n:n;}
+function dsStr(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+function getWeekDays(){
+  const now=new Date(), day=now.getDay();
+  const mon=new Date(now); mon.setDate(now.getDate()-(day===0?6:day-1));
+  const days=[];
+  for(let i=0;i<5;i++){const d=new Date(mon);d.setDate(mon.getDate()+i);days.push(dsStr(d));}
+  return days;
+}
+function updateClock(){
+  const now=new Date();
+  const el=document.getElementById('hdr-time');
+  if(el) el.textContent=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+}
+window.addEventListener('DOMContentLoaded',function(){
+  const now=new Date();
+  const mo=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  document.getElementById('hdr-date').textContent=now.getFullYear()+'년 '+mo[now.getMonth()]+' '+now.getDate()+'일';
+  updateClock(); setInterval(updateClock,1000);
+  loadAll();
+});
+
+// ── 데이터 저장/로드 ──────────────────────────────────────
+function saveAll(){
+  const payload={team:teamData,proj:projData,savedAt:new Date().toISOString()};
+  localStorage.setItem(SK,JSON.stringify(payload));
+  toast('✅ 저장됐습니다');
+}
+function loadAll(){
+  try{
+    const raw=localStorage.getItem(SK);
+    if(raw){
+      const p=JSON.parse(raw);
+      teamData=p.team||DEFAULT_MEMBERS;
+      projData=p.proj||DEFAULT_PROJECTS;
+    } else {
+      teamData=JSON.parse(JSON.stringify(DEFAULT_MEMBERS));
+      projData=JSON.parse(JSON.stringify(DEFAULT_PROJECTS));
+    }
+  }catch(e){
+    teamData=JSON.parse(JSON.stringify(DEFAULT_MEMBERS));
+    projData=JSON.parse(JSON.stringify(DEFAULT_PROJECTS));
+  }
+  renderTeam(); renderProj();
+  // 생산 데이터 로드 (GitHub → localStorage)
+  fetch(GITHUB_URL+'?t='+Date.now())
+    .then(function(r){if(!r.ok)throw 0;return r.json();})
+    .then(renderProd)
+    .catch(function(){
+      try{const raw=localStorage.getItem(PROD_KEY);if(raw)renderProd(JSON.parse(raw));}catch(e){}
+    });
+}
+function resetData(){
+  if(!confirm('팀원·프로젝트 정보를 초기화할까요?')) return;
+  localStorage.removeItem(SK);
+  teamData=JSON.parse(JSON.stringify(DEFAULT_MEMBERS));
+  projData=JSON.parse(JSON.stringify(DEFAULT_PROJECTS));
+  renderTeam(); renderProj();
+  toast('초기화됐습니다');
+}
+
+// ── 팀원 렌더 ──────────────────────────────────────────────
+const STATUS_MAP={
+  work:{label:'재직중',cls:'st-work'},
+  biz :{label:'출장',cls:'st-biz'},
+  off :{label:'휴가',cls:'st-off'},
+  edu :{label:'교육',cls:'st-edu'},
+};
+const STATUS_CYCLE=['work','biz','off','edu'];
+
+function renderTeam(){
+  const grid=document.getElementById('team-grid');
+  grid.innerHTML='';
+  teamData.forEach(function(m,idx){
+    const st=STATUS_MAP[m.status]||STATUS_MAP.work;
+    const div=document.createElement('div');
+    div.className='member-card';
+    div.innerHTML=
+      '<div class="member-avatar" style="background:var(--bg3)">'+m.emoji+'</div>'+
+      '<div class="member-name" id="mn-'+idx+'">'+m.name+'</div>'+
+      '<div class="member-role" id="mr-'+idx+'">'+m.role+'</div>'+
+      '<div class="member-task" id="mt-'+idx+'">'+m.task+'</div>'+
+      '<div class="status-row">'+
+        '<span class="status-badge '+st.cls+'" onclick="cycleStatus('+idx+')">'+st.label+'</span>'+
+        '<button class="edit-btn" onclick="toggleEdit('+idx+')">✏️ 편집</button>'+
+      '</div>';
+    grid.appendChild(div);
+  });
+  // 추가 버튼
+  const add=document.createElement('button');
+  add.className='add-member-btn';
+  add.innerHTML='＋ 팀원 추가';
+  add.onclick=addMember;
+  grid.appendChild(add);
+}
+
+function toggleEdit(idx){
+  const nm=document.getElementById('mn-'+idx);
+  const rl=document.getElementById('mr-'+idx);
+  const tk=document.getElementById('mt-'+idx);
+  const card=nm.closest('.member-card');
+  if(tk.contentEditable==='true'){
+    // 저장
+    teamData[idx].name=nm.textContent.trim();
+    teamData[idx].role=rl.textContent.trim();
+    teamData[idx].task=tk.textContent.trim();
+    nm.contentEditable='false'; rl.contentEditable='false'; tk.contentEditable='false';
+    card.classList.remove('editing');
+    toast('팀원 정보 수정됨 — 💾 저장을 눌러 보존하세요');
+  } else {
+    nm.contentEditable='true'; rl.contentEditable='true'; tk.contentEditable='true';
+    card.classList.add('editing');
+    tk.focus();
+  }
+}
+
+function cycleStatus(idx){
+  const cur=STATUS_CYCLE.indexOf(teamData[idx].status);
+  teamData[idx].status=STATUS_CYCLE[(cur+1)%STATUS_CYCLE.length];
+  renderTeam();
+}
+
+function addMember(){
+  teamData.push({name:'신규 팀원',role:'연구원',task:'담당 업무를 입력하세요',status:'work',emoji:'👤'});
+  renderTeam();
+  toast('팀원 추가 — ✏️ 편집을 눌러 정보를 입력하세요');
+}
+
+// ── 프로젝트 렌더 ──────────────────────────────────────────
+const PROJ_STATUS={
+  active:{label:'진행중',cls:'ps-active'},
+  hold  :{label:'보류',cls:'ps-hold'},
+  done  :{label:'완료',cls:'ps-done'},
+  plan  :{label:'계획',cls:'ps-plan'},
+};
+const PROJ_STATUS_CYCLE=['active','hold','done','plan'];
+
+function pctColor(p){return p>=80?'#3fb950':p>=50?'#39d3f5':p>=30?'#f0883e':'#f85149';}
+
+function renderProj(){
+  const list=document.getElementById('proj-list');
+  list.innerHTML='';
+  projData.forEach(function(p,idx){
+    const ps=PROJ_STATUS[p.status]||PROJ_STATUS.active;
+    const div=document.createElement('div');
+    div.className='proj-row';
+    div.innerHTML=
+      '<div class="proj-color" style="background:'+p.color+'"></div>'+
+      '<div class="proj-info">'+
+        '<div class="proj-name" id="pn-'+idx+'" contenteditable="false">'+p.name+'</div>'+
+        '<div class="proj-sub" id="ps-'+idx+'" contenteditable="false">'+p.sub+'</div>'+
+      '</div>'+
+      '<div class="proj-progress">'+
+        '<div class="prog-bar"><div class="prog-fill" style="width:'+p.pct+'%;background:'+pctColor(p.pct)+'"></div></div>'+
+        '<span class="prog-pct" style="color:'+pctColor(p.pct)+'">'+p.pct+'%</span>'+
+      '</div>'+
+      '<span class="proj-status '+ps.cls+'" onclick="cycleProjStatus('+idx+')" style="cursor:pointer">'+ps.label+'</span>'+
+      '<button class="proj-del" onclick="editProjPct('+idx+')" title="진행률 수정">📝</button>'+
+      '<button class="proj-del" onclick="delProj('+idx+')" title="삭제">✕</button>';
+    // 더블클릭으로 이름 편집
+    const pn=div.querySelector('.proj-name');
+    const psub=div.querySelector('.proj-sub');
+    pn.ondblclick=function(){
+      pn.contentEditable='true';pn.focus();
+      pn.onblur=function(){pn.contentEditable='false';projData[idx].name=pn.textContent.trim();};
+    };
+    psub.ondblclick=function(){
+      psub.contentEditable='true';psub.focus();
+      psub.onblur=function(){psub.contentEditable='false';projData[idx].sub=psub.textContent.trim();};
+    };
+    list.appendChild(div);
+  });
+}
+
+function cycleProjStatus(idx){
+  const cur=PROJ_STATUS_CYCLE.indexOf(projData[idx].status);
+  projData[idx].status=PROJ_STATUS_CYCLE[(cur+1)%PROJ_STATUS_CYCLE.length];
+  renderProj();
+}
+function editProjPct(idx){
+  const v=prompt('진행률 입력 (0~100):', projData[idx].pct);
+  if(v===null) return;
+  const n=parseInt(v);
+  if(!isNaN(n)&&n>=0&&n<=100){projData[idx].pct=n;renderProj();}
+}
+function delProj(idx){
+  if(!confirm('"'+projData[idx].name+'" 프로젝트를 삭제할까요?')) return;
+  projData.splice(idx,1); renderProj();
+}
+function addProj(){
+  const colors=['#39d3f5','#58a6ff','#bc8cff','#3fb950','#f0883e','#f85149'];
+  projData.push({
+    name:'새 프로젝트',sub:'설명을 더블클릭으로 입력',
+    pct:0,status:'plan',
+    color:colors[projData.length%colors.length]
+  });
+  renderProj();
+  toast('프로젝트 추가 — 이름·설명은 더블클릭, 진행률은 📝 버튼으로 수정');
+}
+
+// ── 생산 위젯 렌더 ────────────────────────────────────────
+const TYPE_META={
+  'std-pack':{cls:'pi-std-pack',lbl:'📦 포장'},
+  'std-dry' :{cls:'pi-std-dry', lbl:'🧪 분주'},
+  'ich'     :{cls:'pi-ich',     lbl:'🔬 ichroma'},
+  'afi'     :{cls:'pi-afi',     lbl:'⚙️ AFIAS'},
+  'gran'    :{cls:'pi-gran',    lbl:'🌿 그래뉼'},
+};
+function renderProd(payload){
+  const allData=payload.allData||{};
+  const days=getWeekDays();
+  const dayNames=['월','화','수','목','금'];
+  const todayStr=dsStr(new Date());
+  let totAll=0,totStd=0,totProd=0,totGran=0;
+  let html='<div class="prod-grid">';
+  days.forEach(function(date,di){
+    const dd=allData[date];
+    const items=[];
+    if(dd){
+      function addT(arr,typ){if(!arr)return;arr.forEach(function(x){if(x.cancer)items.push({it:x,typ:typ});});}
+      addT(dd.std&&dd.std.pack,'std-pack');
+      addT(dd.std&&dd.std.dry,'std-dry');
+      addT(dd.prod&&dd.prod.ich,'ich');
+      addT(dd.prod&&dd.prod.afi,'afi');
+      addT(dd.gran,'gran');
+      items.forEach(function(x){
+        totAll++;
+        if(x.typ==='std-pack'||x.typ==='std-dry') totStd++;
+        else if(x.typ==='ich'||x.typ==='afi') totProd++;
+        else if(x.typ==='gran') totGran++;
+      });
+    }
+    const dt=new Date(date);
+    const isT=date===todayStr;
+    html+='<div class="prod-col'+(isT?' is-today')+'">';
+    html+='<div class="prod-hd">'+dayNames[di]+' '+(dt.getMonth()+1)+'/'+(dt.getDate())+'</div>';
+    if(!items.length){html+='<div class="prod-empty">-</div>';}
+    else items.forEach(function(x){
+      const m=TYPE_META[x.typ]||{cls:'pi-gran',lbl:x.typ};
+      html+='<div class="prod-item '+m.cls+'"><div class="pi-type">'+m.lbl+'</div>';
+      html+='<div class="pi-lot">'+x.it.lot+'</div>';
+      if(x.it.qty) html+='<div class="pi-qty">📦 '+x.it.qty+'</div>';
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+  html+='</div>';
+  document.getElementById('prod-widget').innerHTML=html;
+  // KPI
+  document.getElementById('kpi-total').textContent=totAll;
+  document.getElementById('kpi-std').textContent=totStd;
+  document.getElementById('kpi-prod').textContent=totProd;
+  document.getElementById('kpi-gran').textContent=totGran;
+}
+
+// ── 토스트 ────────────────────────────────────────────────
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';
+  clearTimeout(t._to);t._to=setTimeout(function(){t.style.display='none';},3200);
+}
+
+/* ── PWA 서비스워커 등록 ── */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(reg) { console.log('[PWA] SW 등록:', reg.scope); })
+      .catch(function(err) { console.warn('[PWA] SW 실패:', err); });
+  });
+}
+</script>
+</body>
+</html>
