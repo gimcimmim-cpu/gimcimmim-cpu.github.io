@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>페이지를 찾을 수 없습니다</title>
+
+<!-- PWA -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0d1117">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cancer Hub">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
   #lock-screen { position:fixed;inset:0;z-index:9999;background:#0d1117;display:flex;align-items:center;justify-content:center; }
@@ -170,13 +178,13 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
 
 <div class="container">
 
-  <!-- KPI: 연구5 생산7 허가2 기타3 이슈4 -->
+  <!-- KPI: 연구6 생산7 허가2 기타3 이슈5 -->
   <div class="kpi-row">
-    <div class="kpi-card research"><div class="kpi-label">🔬 연구</div><div class="kpi-number">5</div><div class="kpi-sub">진행 아이템</div></div>
+    <div class="kpi-card research"><div class="kpi-label">🔬 연구</div><div class="kpi-number">6</div><div class="kpi-sub">진행 아이템</div></div>
     <div class="kpi-card production"><div class="kpi-label">🏭 생산</div><div class="kpi-number">7</div><div class="kpi-sub">진행 아이템</div></div>
     <div class="kpi-card approval"><div class="kpi-label">📋 허가</div><div class="kpi-number">2</div><div class="kpi-sub">진행 아이템</div></div>
     <div class="kpi-card other"><div class="kpi-label">📌 기타</div><div class="kpi-number">3</div><div class="kpi-sub">진행 아이템</div></div>
-    <div class="kpi-card issue"><div class="kpi-label">⚠️ 이슈</div><div class="kpi-number">4</div><div class="kpi-sub">처리 필요</div></div>
+    <div class="kpi-card issue"><div class="kpi-label">⚠️ 이슈</div><div class="kpi-number">5</div><div class="kpi-sub">처리 필요</div></div>
   </div>
 
   <!-- ROW 1: 연구 + 생산/허가 -->
@@ -186,7 +194,7 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
     <div class="section-card">
       <div class="section-header">
         <div class="section-title"><span class="section-dot dot-research"></span><span class="accent-research">🔬 연구</span></div>
-        <span class="section-count">5건</span>
+        <span class="section-count">6건</span>
       </div>
       <div class="item-list">
         <div class="item-row">
@@ -212,6 +220,11 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
         <div class="item-row">
           <div class="item-name">CEA PEG 가혹 안정성 86일차 <span class="item-tag tag-exp">실험</span></div>
           <div class="item-desc">PEG 0%/1% 가혹 안정성 진행 중 | 45℃ 86일차 (344일 환산) (김수지)</div>
+        </div>
+        <div class="item-row">
+          <div class="item-name">Ferritin Fujifilm SW 평가 및 step mixing 재현성 확인 ✅ <span class="item-tag tag-exp">실험</span></div>
+          <div class="item-desc">시험기간 05.04~05.08 | 기존 표준 SW(온도 감지 미적용) vs Fujifilm 전용 SW(온도 감지 추가) 비교 평가. ✅ Fujifilm 전용 SW 적용 시 재현성 개선 확인. ✅ Step mixing 추가 적용 시 CV 4% 미만 달성. (박영서)</div>
+          <div class="item-next">PEG 가혹 안정화 test / DFRWEF09 수식작성 / EuNP·Biotin 비율 추가 실험 / CYWDA11EX 수식</div>
         </div>
       </div>
     </div>
@@ -278,7 +291,7 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
     <div class="section-card">
       <div class="section-header">
         <div class="section-title"><span class="section-dot" style="background:var(--issue);box-shadow:0 0 8px var(--issue);"></span><span style="color:var(--issue);">⚠️ 주요 이슈 / 클레임</span></div>
-        <span class="section-count">4건</span>
+        <span class="section-count">5건</span>
       </div>
       <div class="issue-list">
         <div class="issue-card done">
@@ -296,6 +309,10 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
         <div class="issue-card critical">
           <div class="issue-top"><span class="issue-icon">🚨</span><span class="issue-title">CP 01버전 Lv1 값 횈 (60~110 mg/kg 구간)</span><span class="issue-person">김나연</span></div>
           <div class="issue-desc">4차 평가(연구동 기기) 중 01버전 Lv1 역치(60·110 mg/kg) 구간 값 횈 발생. 제거 후 CV 8% 만족하나 원인 추가 확인 필요 → 차주 재평가</div>
+        </div>
+        <div class="issue-card warning">
+          <div class="issue-top"><span class="issue-icon">⚠️</span><span class="issue-title">Ferritin NC QC 부적합 – SPCN024_260428</span><span class="issue-person" style="background:rgba(210,153,34,.15);color:var(--warning);border-color:rgba(210,153,34,.3);">박영서</span></div>
+          <div class="issue-desc">해당 배치: SPCN024_260428 / 14 roll 전반 Control 픽 상단 파임 현상 및 11 roll 재현성 문제 확인. 고경열 사원 인수인계 기간 중 생산된 NC. NC 외관 이상 없음 → 추가 원인 규명 필요. 2주 aging 후 2차 QC 예정</div>
         </div>
       </div>
     </div>
@@ -331,7 +348,7 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
     <div class="section-card full-width">
       <div class="section-header">
         <div class="section-title">👥 팀원별 업무 현황</div>
-        <span class="section-count">6명</span>
+        <span class="section-count">7명</span>
       </div>
       <div class="team-grid">
 
@@ -449,6 +466,27 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
 
         <div class="team-member">
           <div class="member-header">
+            <div class="member-avatar" style="background:rgba(57,211,245,.12);color:var(--teal);">영서</div>
+            <div><div class="member-name">박영서</div></div>
+            <span class="member-status status-active">근무 중</span>
+          </div>
+          <div class="member-tasks">
+            <span class="task-chip">Ferritin Fujifilm SW 평가 ✅ (CV 4% 미만)</span>
+            <span class="task-chip">Step mixing 재현성 확인 ✅</span>
+            <span class="task-chip">NC QC 부적합 SPCN024_260428 발생 ⚠️</span>
+          </div>
+          <div class="next-label">▶ 차주 예정</div>
+          <div class="member-tasks">
+            <span class="next-chip">EuNP·Biotin 비율 추가 실험</span>
+            <span class="next-chip">CYWDA11EX 수식작성</span>
+            <span class="next-chip">DFRWEF09 수식작성</span>
+            <span class="next-chip">PEG 가혹 안정화 test</span>
+            <span class="next-chip">NC 부적합 2차 QC (2주 aging 후)</span>
+          </div>
+        </div>
+
+        <div class="team-member">
+          <div class="member-header">
             <div class="member-avatar" style="background:rgba(63,185,80,.10);color:#56d364;">다연</div>
             <div><div class="member-name">유다연</div></div>
             <span class="member-status status-active">근무 중</span>
@@ -470,7 +508,7 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
   </div>
 
   <!-- CHART ROW -->
-  <!-- Total: 연구5 + 생산7 + 허가2 + 기타3 = 17건 | circumference=251.33 -->
+  <!-- Total: 연구6 + 생산7 + 허가2 + 기타3 = 18건 | circumference=251.33 -->
   <div class="main-grid" style="grid-template-columns:1fr 1fr;margin-top:16px;">
 
     <div class="section-card">
@@ -479,22 +517,22 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
         <div class="donut-wrap">
           <svg width="100" height="100" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="40" fill="none" stroke="#21262d" stroke-width="12"/>
-            <!-- 연구 5/17=29.4%=73.9 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#58a6ff" stroke-width="12" stroke-dasharray="73.9 177.4" stroke-dashoffset="0"/>
-            <!-- 생산 7/17=41.2%=103.5 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#f0883e" stroke-width="12" stroke-dasharray="103.5 147.8" stroke-dashoffset="-73.9"/>
-            <!-- 허가 2/17=11.8%=29.6 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#bc8cff" stroke-width="12" stroke-dasharray="29.6 221.7" stroke-dashoffset="-177.4"/>
-            <!-- 기타 3/17=17.6%=44.3 -->
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#3fb950" stroke-width="12" stroke-dasharray="44.3 207.0" stroke-dashoffset="-207.0"/>
+            <!-- 연구 6/18=33.3%=83.8 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#58a6ff" stroke-width="12" stroke-dasharray="83.8 167.5" stroke-dashoffset="0"/>
+            <!-- 생산 7/18=38.9%=97.8 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#f0883e" stroke-width="12" stroke-dasharray="97.8 153.5" stroke-dashoffset="-83.8"/>
+            <!-- 허가 2/18=11.1%=27.9 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#bc8cff" stroke-width="12" stroke-dasharray="27.9 223.4" stroke-dashoffset="-181.6"/>
+            <!-- 기타 3/18=16.7%=41.9 -->
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#3fb950" stroke-width="12" stroke-dasharray="41.9 209.4" stroke-dashoffset="-209.5"/>
           </svg>
-          <div class="donut-center"><div class="donut-num">17</div><div class="donut-sub">총 아이템</div></div>
+          <div class="donut-center"><div class="donut-num">18</div><div class="donut-sub">총 아이템</div></div>
         </div>
         <div class="legend">
-          <div class="legend-item"><div class="legend-dot" style="background:var(--research);"></div><span class="legend-label">연구</span><span class="legend-count accent-research">5건 (29%)</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--production);"></div><span class="legend-label">생산</span><span class="legend-count accent-production">7건 (41%)</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--approval);"></div><span class="legend-label">허가</span><span class="legend-count accent-approval">2건 (12%)</span></div>
-          <div class="legend-item"><div class="legend-dot" style="background:var(--other);"></div><span class="legend-label">기타</span><span class="legend-count accent-other">3건 (18%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--research);"></div><span class="legend-label">연구</span><span class="legend-count accent-research">6건 (33%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--production);"></div><span class="legend-label">생산</span><span class="legend-count accent-production">7건 (39%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--approval);"></div><span class="legend-label">허가</span><span class="legend-count accent-approval">2건 (11%)</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--other);"></div><span class="legend-label">기타</span><span class="legend-count accent-other">3건 (17%)</span></div>
         </div>
       </div>
     </div>
@@ -534,6 +572,10 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
           <div class="progress-top"><span class="progress-name">CEA PEG 가혹 (86일차 / 344일 환산)</span><span class="progress-pct accent-research">40%</span></div>
           <div class="progress-bar"><div class="progress-fill fill-research" style="width:40%"></div></div>
         </div>
+        <div class="progress-item">
+          <div class="progress-top"><span class="progress-name">Ferritin (Fujifilm SW·step mixing CV 4%)</span><span class="progress-pct accent-production">70%</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-production" style="width:70%"></div></div>
+        </div>
       </div>
     </div>
 
@@ -545,5 +587,17 @@ window.addEventListener('DOMContentLoaded',function(){if(sessionStorage.getItem(
 
 </div>
 </div>
+
+<script>
+/* ── PWA 서비스워커 등록 ── */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(reg) { console.log('[PWA] SW 등록:', reg.scope); })
+      .catch(function(err) { console.warn('[PWA] SW 실패:', err); });
+  });
+}
+</script>
+
 </body>
 </html>
