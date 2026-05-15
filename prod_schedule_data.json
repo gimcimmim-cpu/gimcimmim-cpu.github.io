@@ -754,12 +754,6 @@
             "qty": "11",
             "note": "RUO 포장",
             "cancer": false
-          },
-          {
-            "lot": "PSCOWE17_2027.05",
-            "qty": "877",
-            "note": "12까지",
-            "cancer": true
           }
         ],
         "dry": [
@@ -1312,7 +1306,7 @@
           {
             "lot": "NACOWD01_2027.04",
             "qty": "5",
-            "note": null,
+            "note": "Tetanus Ab-RUO 포장",
             "cancer": false
           },
           {
@@ -1369,6 +1363,18 @@
             "lot": "Penkid 2",
             "qty": "500",
             "note": "1 mL",
+            "cancer": false
+          },
+          {
+            "lot": "RF IgM 1",
+            "qty": "150",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "RF IgM 1",
+            "qty": "150",
+            "note": null,
             "cancer": false
           }
         ]
@@ -1614,22 +1620,10 @@
       "std": {
         "pack": [
           {
-            "lot": "AACOWE45_2027.05",
-            "qty": "777",
-            "note": "8까지-짐바브웨향",
-            "cancer": false
-          },
-          {
             "lot": "FOCOWE59_2027.05",
             "qty": "500",
             "note": "8까지",
             "cancer": true
-          },
-          {
-            "lot": "TACOWE16_2027.05",
-            "qty": "500",
-            "note": "6까지",
-            "cancer": false
           },
           {
             "lot": "TACOWE17_2027.05(독일)",
@@ -1677,6 +1671,60 @@
             "lot": "FNCOWC26_2027.03",
             "qty": "5",
             "note": "ez-Tracker Anti-IFX Total Ab Control",
+            "cancer": false
+          },
+          {
+            "lot": "DVZ260511-1",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "DDCOWD52",
+            "qty": "10",
+            "note": "콜롬비아향 / 해외=>스페인어 인서트 교체",
+            "cancer": false
+          },
+          {
+            "lot": "TGCOWC27",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TMCOWC27",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "HOCOWB59",
+            "qty": "15",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "C1COWD12",
+            "qty": "5",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "PCCOWD29",
+            "qty": "5",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "INCOWA07",
+            "qty": "5",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VDCOWC22",
+            "qty": "4",
+            "note": null,
             "cancer": false
           }
         ],
@@ -1975,13 +2023,31 @@
             "qty": "5",
             "note": null,
             "cancer": false
+          },
+          {
+            "lot": "TACOWE16_2027.05",
+            "qty": "500",
+            "note": "6까지",
+            "cancer": false
           }
         ],
         "dry": [
           {
             "lot": "연구용 2",
-            "qty": "1,300",
+            "qty": "1,280",
             "note": "최정우대리-냉동고 동결 후 15일 8호기",
+            "cancer": false
+          },
+          {
+            "lot": "CRP 1",
+            "qty": "4,500",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "CRP 2",
+            "qty": "4,500",
+            "note": null,
             "cancer": false
           }
         ]
@@ -2153,6 +2219,12 @@
             "qty": "2",
             "note": null,
             "cancer": false
+          },
+          {
+            "lot": "DDCOWE53_2027.05",
+            "qty": "90",
+            "note": "국내 포장",
+            "cancer": false
           }
         ],
         "dry": []
@@ -2317,6 +2389,24 @@
             "lot": "ETCOWE10_2027.05",
             "qty": "15",
             "note": "8까지-Boditech Etanercept Control",
+            "cancer": false
+          },
+          {
+            "lot": "BVCOWD24_2027.04",
+            "qty": "12",
+            "note": "국내 포장",
+            "cancer": false
+          },
+          {
+            "lot": "CDCOWD42_2027.04",
+            "qty": "110",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "ROCOWD20_2027.04",
+            "qty": "40",
+            "note": null,
             "cancer": false
           }
         ],
@@ -2508,6 +2598,78 @@
             "qty": "6",
             "note": "12까지-과테말라 포장",
             "cancer": false
+          },
+          {
+            "lot": "FDCOWB24_2027.02",
+            "qty": "17",
+            "note": "Boditech Anti-Adalimumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "UACOVK10_2026.11",
+            "qty": "8",
+            "note": "Boditech Anti-Ustekinumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "C1COWD12",
+            "qty": "1",
+            "note": "콜롬비아향 / 해외=>스페인어 인서트 교체",
+            "cancer": true
+          },
+          {
+            "lot": "CXCOVK07",
+            "qty": "1",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "CDCOWD42",
+            "qty": "16",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "DDCOWD52",
+            "qty": "14",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FRCOWB28",
+            "qty": "8",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "AACOWA42",
+            "qty": "15",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "HOCOWB59",
+            "qty": "40",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "MACOWD74",
+            "qty": "22",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TGCOWC27",
+            "qty": "21",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TMCOWC27",
+            "qty": "16",
+            "note": null,
+            "cancer": false
           }
         ],
         "dry": [
@@ -2671,6 +2833,12 @@
         "pack": [],
         "dry": [
           {
+            "lot": "FLU A 전처리",
+            "qty": "2,700",
+            "note": "150 ML",
+            "cancer": false
+          },
+          {
             "lot": "hsTn-I 1",
             "qty": "100",
             "note": "연구용-김창일대리-2시",
@@ -2827,12 +2995,19 @@
     },
     "2026-05-22": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "AACOWE45_2027.05",
+            "qty": "794",
+            "note": "19까지-짐바브웨향 777 / 예맨 향 17",
+            "cancer": false
+          }
+        ],
         "dry": [
           {
             "lot": "Calprotectin control 1",
             "qty": "30 mL",
-            "note": null,
+            "note": "Granule type",
             "cancer": true
           },
           {
@@ -35334,7 +35509,26 @@
     "2026-05-21": {
       "std": {
         "pack": [],
-        "dry": []
+        "dry": [
+          {
+            "lot": "FLU B 전처리",
+            "qty": "2,700",
+            "note": "150 ML",
+            "cancer": false
+          },
+          {
+            "lot": "Ez-tracker anti-Infliximab Control 1",
+            "qty": "200",
+            "note": "1 mL",
+            "cancer": false
+          },
+          {
+            "lot": "Ez-tracker anti-Infliximab Control 2",
+            "qty": "200",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "ich": [
@@ -35437,8 +35631,28 @@
     },
     "2026-05-26": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "HOCOWE63_2027.05",
+            "qty": "2,000",
+            "note": "20까지",
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "Ustekinumab 1",
+            "qty": "300",
+            "note": "1mL",
+            "cancer": false
+          },
+          {
+            "lot": "Ustekinumab 2",
+            "qty": "300",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "ich": [
@@ -40380,6 +40594,6 @@
     }
   },
   "curMon": "2026-05-11",
-  "savedAt": "2026-05-13T00:40:45.234Z",
+  "savedAt": "2026-05-15T07:57:30.407Z",
   "version": 1
 }
