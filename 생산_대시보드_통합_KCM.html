@@ -217,16 +217,23 @@ const NON_GRAN=['tn-i','t-qi','t4','t3','tsh','insulin','estradiol','progesteron
 function isLot(s){ return !s.includes(' ')&&s.length>=6&&/[A-Z]/.test(s); }
 function isKoreanOnly(s){ return /^[가-힣\s·]+$/.test(s); }
 
-// ─── 재작업 판별 ─────────────────────────────────────────
-// lot명 또는 note에 재작업 키워드가 있으면 true
-const REWORK_KW=['재작업','rework','재작업분','재 작업','재작업)','(재작업'];
-function isRework(lot, note){
+// ─── 생산팀 전용 항목 판별 (Cancer팀 스케쥴 제외 대상) ──────
+// 재작업 / 재포장 → 생산팀 전용, Cancer팀 스케쥴 미포함
+const EXCL_PROD_KW=[
+  // 재작업
+  '재작업','rework','재작업분','재 작업','재작업)','(재작업',
+  // 재포장
+  '재포장','repack','재 포장','재포장분','(재포장','재포장)'
+];
+function isExcludedProd(lot, note){
   const targets=[lot, note].filter(Boolean).map(v=>String(v).toLowerCase().trim());
   for(const t of targets){
-    for(const k of REWORK_KW){ if(t.includes(k)) return true; }
+    for(const k of EXCL_PROD_KW){ if(t.includes(k)) return true; }
   }
   return false;
 }
+// 하위 호환성 유지
+const isRework=isExcludedProd;
 
 function isCancer(lot,isGran=false){
   if(!lot) return false;
@@ -370,8 +377,13 @@ function parseStd(wb){
           // 다음 날짜행이면 종료
           if(isDV(row[1]) && isDV(row[4])) break;
           const c0=row[0]?String(row[0]).trim():'';
-          if(c0.includes('포장')) cat='pack';
-          else if(c0.includes('분주')||c0.includes('건조')) cat='dry';
+          if(c0 && !isLot(c0)){
+            // 재포장·재작업 = 생산팀 전용 섹션 → cat 초기화로 하위 행 전체 스킵
+            // lot번호는 섹션 레이블이 아니므로 cat 변경 제외
+            if(c0.includes('재포장')||c0.includes('재작업')||isExcludedProd(c0,'')) cat=null;
+            else if(c0.includes('포장')) cat='pack';
+            else if(c0.includes('분주')||c0.includes('건조')) cat='dry';
+          }
           if(!cat){ i++; continue; }
           [[1,2,3],[4,5,6],[7,8,9],[10,11,12],[13,14,15]].forEach(([li,qi,ni],di)=>{
             const lot=row[li]; if(!lot) return;
@@ -398,7 +410,10 @@ function parseStd(wb){
 //        data cols: [lot=1,qty=2,note=3], [4,5,6], [7,8,9], [10,11,12], [13,14,15]
 const SHEETS_ICH=['태현ichroma_생산계획','ichroma_분주계획'];
 const SHEETS_AFI=['AFIAS_생산계획','태현AFIAS_생산계획','AFIAS 생산'];
-const SKIP_TXT=['→','작업내용','까지 입고','후수식','창고','이탈리아','브라질','과테말라','인도','독일','어린이날','대체 공휴일','지방선거','변경 :','기존 :','인서트 개정','해외 재작업','재작업','rework','해외 ','영국 '];
+const SKIP_TXT=['→','작업내용','까지 입고','후수식','창고','이탈리아','브라질','과테말라','인도','독일','어린이날','대체 공휴일','지방선거','변경 :','기존 :','인서트 개정',
+  '해외 재작업','재작업','rework',   // 재작업 (생산팀 전용)
+  '재포장','repack','해외 재포장',   // 재포장 (생산팀 전용)
+  '해외 ','영국 '];
 
 function parseProdSheet(wb,sheets,plat){
   for(const d of Object.keys(allData)) allData[d].prod[plat]=[];
@@ -411,11 +426,19 @@ function parseProdSheet(wb,sheets,plat){
       if(r&&r[0]&&/^\d+주차$/.test(String(r[0]).trim())&&isDV(r[1])){
         const dates=[r[1],r[4],r[7],r[10],r[13]].map(ds);
         i++;
+        let skipSec=false; // 재포장·재작업 섹션 스킵 플래그
         while(i<data.length){
           const row=data[i];
           if(!row||!row.some(v=>v!=null)){ i++; continue; }
           if(row[0]&&/^\d+주차$/.test(String(row[0]).trim())&&isDV(row[1])) break;
           if(row[0]&&/조립수량|합계|총합/.test(String(row[0]))){ i++; continue; }
+          // col0 비어있지 않으면 새 섹션 → 생산팀 전용 여부 갱신
+          // lot번호(영대문자+6자 이상)는 섹션 레이블이 아니므로 skipSec 갱신 제외
+          const secLabel=row[0]?String(row[0]).trim():'';
+          if(secLabel && !isLot(secLabel)){
+            skipSec=/재포장|재작업/.test(secLabel)||isExcludedProd(secLabel,'');
+          }
+          if(skipSec){ i++; continue; } // 생산팀 전용 섹션 행 전체 스킵
           [[1,2,3],[4,5,6],[7,8,9],[10,11,12],[13,14,15]].forEach(([li,qi,ni],di)=>{
             const lot=row[li]; if(!lot) return;
             const ls=String(lot).trim();
@@ -426,7 +449,7 @@ function parseProdSheet(wb,sheets,plat){
             ensD(d);
             const qty=row[qi]!=null?String(row[qi]).trim():null;
             const note=row[ni]!=null?String(row[ni]).trim():null;
-            if(isRework(ls,note)) return;  // 재작업 제외 (note 기반 포함)
+            if(isRework(ls,note)) return;  // lot·note 기반 재작업·재포장 추가 체크
             allData[d].prod[plat].push({lot:ls,qty,note,cancer:isCancer(ls)});
           });
           i++;
@@ -449,7 +472,10 @@ function parseProd(wb){
 //                           [8,9,10,11,12] Tue, [13,14,15,16,17] Wed,
 //                           [18,19,20,21,22] Thu, [23,24,25,26,27] Fri
 //        Cancer 판별: 제품명 기반 키워드 매칭 (isGran=true)
-const GRAN_SKIP=['연구용','작업내용','분주전','!콜','콜!','포장','아침 포장','포장&','재작업','취소'];
+const GRAN_SKIP=['연구용','작업내용','분주전','!콜','콜!','포장','아침 포장','포장&',
+  '재작업','취소',   // 재작업 (생산팀 전용)
+  '재포장','repack' // 재포장 (생산팀 전용)
+];
 const GRAN_SKIP_NM=['제품명','total v','total volume','수량','비고','건조기','호기','구분','상태','월','화','수','목','금','토'];
 
 function parseGran(wb){
