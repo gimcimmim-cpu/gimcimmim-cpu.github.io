@@ -27,7 +27,6 @@
   --afias:   #3b82f6;
   --ichroma: #34d399;
   --concal:  #f59e0b;
-  --etc:     #9ca3af;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -58,7 +57,6 @@ body.theme-white {
   --afias:   #1d4ed8;
   --ichroma: #0f6e56;
   --concal:  #854f0b;
-  --etc:     #57606a;
 }
 
 /* ── 테마 토글 버튼 ── */
@@ -131,7 +129,7 @@ body.theme-white .card:hover { border-color: #94a3b8; }
 .card-title { font-size:14px; font-weight:700; color: var(--text); }
 
 /* ── KPI 카드 그리드 ── */
-.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:4px; }
+.kpi-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:4px; }
 .kpi-card {
   background: var(--bg2); border-radius:14px; padding:18px 20px;
   border:1px solid var(--border); box-shadow:0 1px 6px rgba(0,0,0,0.2);
@@ -193,12 +191,10 @@ body.theme-white table.prod-tbl tr:hover td { background: #f8fafc; }
 .b-afias   { background:rgba(59,130,246,0.15);  color:#3b82f6; border:1px solid rgba(59,130,246,0.3); }
 .b-ichroma { background:rgba(52,211,153,0.15);  color:#34d399; border:1px solid rgba(52,211,153,0.3); }
 .b-concal  { background:rgba(245,158,11,0.15);  color:#f59e0b; border:1px solid rgba(245,158,11,0.3); }
-.b-etc     { background:rgba(156,163,175,0.15); color:#9ca3af; border:1px solid rgba(156,163,175,0.3); }
 
 body.theme-white .b-afias   { background:#E6F1FB; color:#185FA5; border-color:#bfdbfe; }
 body.theme-white .b-ichroma { background:#E1F5EE; color:#0F6E56; border-color:#a7f3d0; }
 body.theme-white .b-concal  { background:#FAEEDA; color:#854F0B; border-color:#fcd34d; }
-body.theme-white .b-etc     { background:#F1EFE8; color:#5F5E5A; border-color:#d1d5db; }
 
 .bar-bg { background: var(--bg3); border-radius:3px; height:7px; width:100%; margin-bottom:4px; }
 body.theme-white .bar-bg { background:#f1f5f9; }
@@ -268,8 +264,8 @@ body.theme-white .bg-glow { opacity:0; }
     <div class="cover-line"></div>
   </div>
   <div class="kpi-strip">
-    <div class="kpi-item"><div class="kv">529</div><div class="kl">총 인허가 건수</div></div>
-    <div class="kpi-item"><div class="kv">86</div><div class="kl">고유 제품 수</div></div>
+    <div class="kpi-item"><div class="kv">510</div><div class="kl">총 인허가 건수</div></div>
+    <div class="kpi-item"><div class="kv">67</div><div class="kl">고유 제품 수</div></div>
     <div class="kpi-item"><div class="kv">41</div><div class="kl">진출 국가 수</div></div>
     <div class="kpi-item"><div class="kv">260528</div><div class="kl">기준일</div></div>
   </div>
@@ -283,8 +279,8 @@ body.theme-white .bg-glow { opacity:0; }
   <div class="kpi-grid">
     <div class="kpi-card" style="border-left:4px solid var(--afias);">
       <div class="kpi-card-label">AFIAS</div>
-      <div class="kpi-card-val" style="color:var(--afias);">124건</div>
-      <div class="kpi-card-sub">제품 22개 · 27개국</div>
+      <div class="kpi-card-val" style="color:var(--afias);">121건</div>
+      <div class="kpi-card-sub">제품 19개 · 27개국</div>
     </div>
     <div class="kpi-card" style="border-left:4px solid var(--ichroma);">
       <div class="kpi-card-label">ichroma™</div>
@@ -293,14 +289,10 @@ body.theme-white .bg-glow { opacity:0; }
     </div>
     <div class="kpi-card" style="border-left:4px solid var(--concal);">
       <div class="kpi-card-label">Con / Cal</div>
-      <div class="kpi-card-val" style="color:var(--concal);">158건</div>
-      <div class="kpi-card-sub">제품 26개 · 27개국</div>
+      <div class="kpi-card-val" style="color:var(--concal);">157건</div>
+      <div class="kpi-card-sub">제품 25개 · 27개국</div>
     </div>
-    <div class="kpi-card" style="border-left:4px solid var(--etc);">
-      <div class="kpi-card-label">Etc.</div>
-      <div class="kpi-card-val" style="color:var(--etc);">15건</div>
-      <div class="kpi-card-sub">제품 15개 · 1개국</div>
-    </div>
+
   </div>
 
   <!-- 차트 2열 -->
@@ -312,7 +304,6 @@ body.theme-white .bg-glow { opacity:0; }
         <span><span class="leg-sq" style="background:#3b82f6"></span>AFIAS</span>
         <span><span class="leg-sq" style="background:#34d399"></span>ichroma™</span>
         <span><span class="leg-sq" style="background:#f59e0b"></span>Con/Cal</span>
-        <span><span class="leg-sq" style="background:#9ca3af"></span>Etc.</span>
       </div>
       <div class="chart-wrap" style="height:220px;">
         <canvas id="lineChart"></canvas>
@@ -356,11 +347,10 @@ body.theme-white .bg-glow { opacity:0; }
   <div class="card">
     <div class="filter-row">
       <input type="text" id="searchInput" placeholder="제품명 또는 Cat. No 검색..." oninput="filterTable()">
-      <button class="fbtn active" onclick="filterByLine(this,'all')">전체 (86)</button>
+      <button class="fbtn active" onclick="filterByLine(this,'all')">전체 (59)</button>
       <button class="fbtn" onclick="filterByLine(this,'AFIAS')">AFIAS</button>
       <button class="fbtn" onclick="filterByLine(this,'ichroma™')">ichroma™</button>
       <button class="fbtn" onclick="filterByLine(this,'Con/Cal')">Con/Cal</button>
-      <button class="fbtn" onclick="filterByLine(this,'Etc.')">Etc.</button>
     </div>
     <div id="tableCount" class="table-count">86개 제품 표시 중</div>
     <div style="overflow-x:auto;">
@@ -416,83 +406,72 @@ document.getElementById('coverDate').textContent =
   `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일 (${DOW[now.getDay()]})`;
 
 /* ── 데이터 ── */
-const LINE_COLORS_DARK  = { 'AFIAS':'#3b82f6', 'ichroma™':'#34d399', 'Con/Cal':'#f59e0b', 'Etc.':'#9ca3af' };
-const LINE_COLORS_WHITE = { 'AFIAS':'#185FA5', 'ichroma™':'#1D9E75', 'Con/Cal':'#BA7517', 'Etc.':'#888780' };
-const LINE_BADGE = { 'AFIAS':'b-afias', 'ichroma™':'b-ichroma', 'Con/Cal':'b-concal', 'Etc.':'b-etc' };
+const LINE_COLORS_DARK  = { 'AFIAS':'#3b82f6', 'ichroma™':'#34d399', 'Con/Cal':'#f59e0b' };
+const LINE_COLORS_WHITE = { 'AFIAS':'#1d4ed8', 'ichroma™':'#0f6e56', 'Con/Cal':'#854f0b' };
+const LINE_BADGE        = { 'AFIAS':'b-afias', 'ichroma™':'b-ichroma', 'Con/Cal':'b-concal' };
 
 function getLineColors() { return isDark ? LINE_COLORS_DARK : LINE_COLORS_WHITE; }
 
 const ALL_PRODUCTS = [
-  {name:"ichroma™ CEA",cat:"13013",line:"ichroma™",cnt:28,countries:"Bolivia, Bosnia, China, Colombia, Costa Rica, Ecuador, El Salvador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Kazakhstan, Kyrgyzstan, Mongolia, Morocco, Nicaragua, Pakistan, Paraguay, Peru, Saudi Arabia, Serbia, South Africa, Syria, Tanzania, Turkey, Ukraina, Uruguay"},
-  {name:"ichroma™ AFP",cat:"i-CHROMA AFP-25",line:"ichroma™",cnt:24,countries:"Bosnia, China, Colombia, Costa Rica, Ecuador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Kazakhstan, Mongolia, Morocco, Myanmar, Nicaragua, Pakistan, Paraguay, Saudi Arabia, Serbia, South Africa, Syria, Tanzania, Turkey, Uruguay"},
-  {name:"ichroma™ iFOB Neo",cat:"CFPC-15-1",line:"ichroma™",cnt:24,countries:"Belarus, Bosnia, Brazil, Colombia, Costa Rica, Ecuador, El Salvador, Georgia, Guatemala, Iran, Kyrgyzstan, Mongolia, Morocco, Myanmar, Nicaragua, Peru, Serbia, South Africa, Syria, Tanzania, Turkey, Ukraina, Uruguay, panama"},
-  {name:"ichroma™ PSA",cat:"i-CHROMA PSA-25",line:"ichroma™",cnt:23,countries:"Bolivia, Cambodia, China, Colombia, Costa Rica, Ecuador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Kazakhstan, Kyrgyzstan, Mongolia, Morocco, Myanmar, Nicaragua, Nigeria, Paraguay, Peru, South Africa, Tanzania, Uruguay"},
-  {name:"ichroma™ CA19-9",cat:"CFPC-139",line:"ichroma™",cnt:20,countries:"Belarus, Bosnia, Brazil, Colombia, Ecuador, El Salvador, Guatemala, Honduras, Italy, Kyrgyzstan, Mongolia, Morocco, Myanmar, Nicaragua, Paraguay, Peru, South Africa, Syria, Tanzania, Ukraina"},
-  {name:"AFIAS CEA",cat:"SMFP-21",line:"AFIAS",cnt:19,countries:"Belarus, Bosnia, Colombia, Ecuador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Israel, Morocco, Myanmar, Paraguay, Peru, Saudi Arabia, Syria, Thailand, Turkey, United Kingdom"},
   {name:"AFIAS AFP",cat:"SMFP-27",line:"AFIAS",cnt:18,countries:"Belarus, Bosnia, Colombia, Ecuador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Israel, Morocco, Myanmar, Paraguay, Peru, Saudi Arabia, Syria, Thailand, Turkey"},
-  {name:"ichroma™ AFP Neo",cat:"CFPC-156",line:"ichroma™",cnt:18,countries:"Belarus, Bosnia, Cambodia, Ecuador, El Salvador, Guatemala, Honduras, Italy, Kazakhstan, Kyrgyzstan, Myanmar, Nicaragua, Paraguay, Peru, Syria, Tanzania, Ukraina, panama"},
-  {name:"ichroma™ CEA Neo",cat:"CFPC-158",line:"ichroma™",cnt:18,countries:"Belarus, Bosnia, Cambodia, Ecuador, Georgia, Guatemala, Honduras, Italy, Kazakhstan, Kyrgyzstan, Myanmar, Nicaragua, Paraguay, Peru, Syria, Tanzania, Ukraina, panama"},
-  {name:"ichroma™ CA125",cat:"CFPC-160",line:"ichroma™",cnt:17,countries:"Bosnia, Brazil, Cambodia, Colombia, El Salvador, Georgia, Guatemala, Honduras, Italy, Morocco, Myanmar, Nicaragua, Paraguay, Peru, Syria, Tanzania, Ukraina"},
-  {name:"ichroma™ PSA Neo",cat:"CFPC-157",line:"ichroma™",cnt:17,countries:"Belarus, Bosnia, Ecuador, El Salvador, Georgia, Guatemala, Honduras, Italy, Kyrgyzstan, Morocco, Myanmar, Nicaragua, Paraguay, Peru, Syria, Tanzania, United Kingdom"},
-  {name:"Boditech iFOB Neo Control",cat:"CFPO-14",line:"Con/Cal",cnt:16,countries:"Azerbaijan, Belarus, Bosnia, Brazil, Colombia, Costa Rica, Israel, Kazakhstan, Kyrgyzstan, Morocco, Nicaragua, Serbia, Syria, Tanzania, Ukraina, Uruguay"},
-  {name:"Boditech Tumor marker Control",cat:"CFPO-94",line:"Con/Cal",cnt:15,countries:"Belarus, Bosnia, Brazil, Israel, Italy, Morocco, Paraguay, Saudi Arabia, South Africa, Swiss, Syria, Tanzania, Thailand, United Kingdom, Uruguay"},
-  {name:"ichroma™ Cyfra21-1",cat:"CFPC-140",line:"ichroma™",cnt:15,countries:"Bosnia, Brazil, Ecuador, Georgia, Guatemala, Honduras, Italy, Kyrgyzstan, Mongolia, Myanmar, Peru, South Africa, Syria, Tanzania, Ukraina"},
-  {name:"AFIAS PSA Neo",cat:"SMFP-130",line:"AFIAS",cnt:14,countries:"Belarus, Bosnia, Ecuador, El Salvador, Guatemala, Honduras, Israel, Morocco, Myanmar, Nicaragua, Peru, Serbia, Syria, United Kingdom"},
-  {name:"ichroma™ Free PSA",cat:"CFPC-178",line:"ichroma™",cnt:14,countries:"Brazil, Cambodia, Colombia, Ecuador, El Salvador, Guatemala, Honduras, Italy, Nicaragua, Paraguay, Peru, South Africa, Syria, United Kingdom"},
-  {name:"Boditech CA125 Control",cat:"CFPO-359",line:"Con/Cal",cnt:13,countries:"Brazil, Cambodia, Colombia, Israel, Morocco, Myanmar, Saudi Arabia, Serbia, Syria, Tanzania, Thailand, Ukraina, United Kingdom"},
-  {name:"AFIAS CA19-9",cat:"SMFP-134",line:"AFIAS",cnt:12,countries:"Bosnia, Colombia, Guatemala, Honduras, Israel, Morocco, Myanmar, Paraguay, Serbia, Syria, Thailand, United Kingdom"},
-  {name:"Boditech AFP Control",cat:"CFPO-248",line:"Con/Cal",cnt:12,countries:"Azerbaijan, Belarus, Bosnia, Israel, Kazakhstan, Kyrgyzstan, Morocco, Myanmar, Syria, Tanzania, Thailand, Ukraina"},
-  {name:"Boditech CA19-9 Control",cat:"CFPO-358",line:"Con/Cal",cnt:12,countries:"Belarus, Brazil, Guatemala, Israel, Morocco, Myanmar, Serbia, Syria, Tanzania, Thailand, Ukraina, United Kingdom"},
+  {name:"AFIAS AFP Plus",cat:"SMFP-49",line:"AFIAS",cnt:2,countries:"Italy, Morocco"},
+  {name:"AFIAS BNP",cat:"SMFP-83",line:"AFIAS",cnt:1,countries:"panama"},
   {name:"AFIAS CA125",cat:"SMFP-132",line:"AFIAS",cnt:11,countries:"Bosnia, Brazil, Colombia, Guatemala, Israel, Myanmar, Paraguay, Serbia, Syria, Thailand, United Kingdom"},
-  {name:"AFIAS PSA",cat:"SMFP-9",line:"AFIAS",cnt:11,countries:"Colombia, Costa Rica, Ethiopia, Georgia, Guatemala, Iran, Israel, Morocco, Myanmar, Paraguay, Thailand"},
-  {name:"Boditech CEA Control",cat:"CFPO-246",line:"Con/Cal",cnt:11,countries:"Azerbaijan, Belarus, Bosnia, Israel, Kazakhstan, Kyrgyzstan, Myanmar, Syria, Tanzania, Thailand, Ukraina"},
-  {name:"Boditech Cyfra21-1 Control",cat:"CFPO-357",line:"Con/Cal",cnt:11,countries:"Belarus, Brazil, Guatemala, Israel, Morocco, Myanmar, Serbia, Syria, Thailand, Ukraina, United Kingdom"},
+  {name:"AFIAS CA19-9",cat:"SMFP-134",line:"AFIAS",cnt:13,countries:"Bosnia, Colombia, Georgia, Guatemala, Honduras, Israel, Morocco, Myanmar, Paraguay, Serbia, Syria, Thailand, United Kingdom"},
+  {name:"AFIAS CEA",cat:"SMFP-21",line:"AFIAS",cnt:19,countries:"Belarus, Bosnia, Colombia, Ecuador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Israel, Morocco, Myanmar, Paraguay, Peru, Saudi Arabia, Syria, Thailand, Turkey, United Kingdom"},
+  {name:"AFIAS CEA Plus",cat:"SMFP-50",line:"AFIAS",cnt:2,countries:"Italy, Morocco"},
+  {name:"AFIAS Cardiac Triple",cat:"SMFP-59",line:"AFIAS",cnt:1,countries:"panama"},
   {name:"AFIAS Cyfra21-1",cat:"SMFP-135",line:"AFIAS",cnt:10,countries:"Bosnia, Georgia, Guatemala, Honduras, Morocco, Peru, Serbia, Syria, Thailand, United Kingdom"},
   {name:"AFIAS Free PSA",cat:"SMFP-170",line:"AFIAS",cnt:8,countries:"Brazil, Colombia, Guatemala, Honduras, Israel, Paraguay, Syria, United Kingdom"},
-  {name:"Boditech Free PSA Control",cat:"CFPO-406",line:"Con/Cal",cnt:8,countries:"Brazil, Cambodia, Colombia, Israel, Saudi Arabia, South Africa, Syria, United Kingdom"},
-  {name:"Boditech PSA Control",cat:"CFPO-250",line:"Con/Cal",cnt:8,countries:"Azerbaijan, Belarus, Italy, Kazakhstan, Kyrgyzstan, Morocco, Myanmar, Syria"},
-  {name:"Boditech Tumor Marker Control",cat:"CFPO-94",line:"Con/Cal",cnt:8,countries:"Cambodia, Colombia, Costa Rica, Iran, Kyrgyzstan, Myanmar, Nicaragua, Thailand"},
-  {name:"Boditech Tumor marker Calibrator",cat:"CFPO-106",line:"Con/Cal",cnt:7,countries:"Belarus, Bosnia, Israel, Morocco, Saudi Arabia, Syria, Thailand"},
-  {name:"Boditech CA125 Calibrator",cat:"CFPO-361",line:"Con/Cal",cnt:5,countries:"Brazil, Israel, Syria, Thailand, Ukraina"},
-  {name:"Boditech CA19-9 Calibrator",cat:"CFPO-363",line:"Con/Cal",cnt:5,countries:"Guatemala, Israel, Morocco, Syria, Thailand"},
-  {name:"Boditech Cyfra21-1 Calibrator",cat:"CFPO-364",line:"Con/Cal",cnt:3,countries:"Guatemala, Morocco, Syria"},
-  {name:"Boditech Free PSA Calibrator",cat:"CFPO-409",line:"Con/Cal",cnt:3,countries:"Brazil, Israel, Syria"},
-  {name:"Boditech AFP Calibrator",cat:"CFPO-274",line:"Con/Cal",cnt:4,countries:"Belarus, Bosnia, Syria, Thailand"},
-  {name:"Boditech CEA Calibrator",cat:"CFPO-272",line:"Con/Cal",cnt:4,countries:"Belarus, Bosnia, Syria, Thailand"},
-  {name:"AFIAS AFP Plus",cat:"SMFP-49",line:"AFIAS",cnt:2,countries:"Italy, Morocco"},
-  {name:"AFIAS CEA Plus",cat:"SMFP-50",line:"AFIAS",cnt:2,countries:"Italy, Morocco"},
+  {name:"AFIAS PSA",cat:"SMFP-9",line:"AFIAS",cnt:11,countries:"Colombia, Costa Rica, Ethiopia, Georgia, Guatemala, Iran, Israel, Morocco, Myanmar, Paraguay, Thailand"},
+  {name:"AFIAS PSA Neo",cat:"SMFP-130",line:"AFIAS",cnt:15,countries:"Belarus, Bosnia, Brazil, Ecuador, El Salvador, Guatemala, Honduras, Israel, Morocco, Myanmar, Nicaragua, Peru, Serbia, Syria, United Kingdom"},
+  {name:"AFIAS PSA Neo (1Tests/Pouch, 12Tests/Box)",cat:"SMFP-130-4",line:"AFIAS",cnt:1,countries:"Brazil"},
+  {name:"AFIAS PSA Neo (1Tests/Pouch, 24Tests/Box)",cat:"SMFP-130-1",line:"AFIAS",cnt:1,countries:"Brazil"},
+  {name:"AFIAS PSA Neo (1Tests/Pouch, 6Tests/Box)",cat:"SMFP-130-5",line:"AFIAS",cnt:1,countries:"Brazil"},
   {name:"AFIAS PSA Plus",cat:"SMFP-48",line:"AFIAS",cnt:2,countries:"Israel, Italy"},
-  {name:"Boditech PSA Calibrator",cat:"CFPO-276",line:"Con/Cal",cnt:2,countries:"Belarus, Syria"},
-  {name:"Boditech PSA Plus Control",cat:"CFPO-251",line:"Con/Cal",cnt:2,countries:"Kazakhstan, South Africa"},
-  {name:"Boditech Tumor Marker Calibrator",cat:"CFPO-106",line:"Con/Cal",cnt:2,countries:"Myanmar, Thailand"},
-  {name:"ichroma™ iFOB",cat:"CFPC-15",line:"ichroma™",cnt:2,countries:"Kazakhstan, Turkey"},
-  {name:"ichroma™ CA 19-9",cat:"CFPC-139",line:"ichroma™",cnt:2,countries:"Georgia, Pakistan"},
-  {name:"AFIAS KL-6",cat:"SMFP-155",line:"AFIAS",cnt:1,countries:"Israel"},
-  {name:"AFIAS BNP",cat:"SMFP-83",line:"AFIAS",cnt:1,countries:"panama"},
   {name:"AFIAS iFOB",cat:"",line:"AFIAS",cnt:1,countries:"USA"},
-  {name:"Boditech CA15-3 Control",cat:"CFPO-360",line:"Con/Cal",cnt:1,countries:"Israel"},
-  {name:"Boditech Calprotectin Control",cat:"CFPO-221",line:"Con/Cal",cnt:1,countries:"Brazil"},
-  {name:"Boditech KL-6 Control",cat:"CFPO-390",line:"Con/Cal",cnt:1,countries:"Israel"},
+  {name:"ichroma™ AFP",cat:"i-CHROMA AFP-25",line:"ichroma™",cnt:22,countries:"Bosnia, China, Colombia, Costa Rica, Ecuador, Georgia, Guatemala, Honduras, Iran, Kazakhstan, Mongolia, Morocco, Nicaragua, Pakistan, Paraguay, Saudi Arabia, Serbia, South Africa, Syria, Tanzania, Turkey, Uruguay"},
+  {name:"ichroma™ AFP",cat:"-CHROMA AFP-25",line:"ichroma™",cnt:1,countries:"Ethiopia"},
+  {name:"ichroma™ AFP",cat:"ichroma AMP-25",line:"ichroma™",cnt:1,countries:"Myanmar"},
+  {name:"ichroma™ AFP Neo",cat:"CFPC-156",line:"ichroma™",cnt:19,countries:"Belarus, Bosnia, Cambodia, Ecuador, El Salvador, Georgia, Guatemala, Honduras, Italy, Kazakhstan, Kyrgyzstan, Myanmar, Nicaragua, Paraguay, Peru, Syria, Tanzania, Ukraina, panama"},
   {name:"ichroma™ AFP Plus",cat:"CFPC-73",line:"ichroma™",cnt:1,countries:"Kazakhstan"},
+  {name:"ichroma™ CA125",cat:"CFPC-160",line:"ichroma™",cnt:18,countries:"Bosnia, Brazil, Cambodia, Colombia, El Salvador, Georgia, Guatemala, Honduras, Italy, Morocco, Myanmar, Nicaragua, Pakistan, Paraguay, Peru, Syria, Tanzania, Ukraina"},
+  {name:"ichroma™ CA19-9",cat:"CFPC-139",line:"ichroma™",cnt:22,countries:"Belarus, Bosnia, Brazil, Colombia, Ecuador, El Salvador, Georgia, Guatemala, Honduras, Italy, Kyrgyzstan, Mongolia, Morocco, Myanmar, Nicaragua, Pakistan, Paraguay, Peru, South Africa, Syria, Tanzania, Ukraina"},
+  {name:"ichroma™ CEA",cat:"13013",line:"ichroma™",cnt:28,countries:"Bolivia, Bosnia, China, Colombia, Costa Rica, Ecuador, El Salvador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Kazakhstan, Kyrgyzstan, Mongolia, Morocco, Nicaragua, Pakistan, Paraguay, Peru, Saudi Arabia, Serbia, South Africa, Syria, Tanzania, Turkey, Ukraina, Uruguay"},
+  {name:"ichroma™ CEA Neo",cat:"CFPC-158",line:"ichroma™",cnt:18,countries:"Belarus, Bosnia, Cambodia, Ecuador, Georgia, Guatemala, Honduras, Italy, Kazakhstan, Kyrgyzstan, Myanmar, Nicaragua, Paraguay, Peru, Syria, Tanzania, Ukraina, panama"},
   {name:"ichroma™ CEA Plus",cat:"CFPC-72",line:"ichroma™",cnt:1,countries:"Kazakhstan"},
+  {name:"ichroma™ Cyfra21-1",cat:"CFPC-140",line:"ichroma™",cnt:16,countries:"Belarus, Bosnia, Brazil, Ecuador, Georgia, Guatemala, Honduras, Italy, Kyrgyzstan, Mongolia, Myanmar, Peru, South Africa, Syria, Tanzania, Ukraina"},
+  {name:"ichroma™ Free PSA",cat:"CFPC-178",line:"ichroma™",cnt:14,countries:"Brazil, Cambodia, Colombia, Ecuador, El Salvador, Guatemala, Honduras, Italy, Nicaragua, Paraguay, Peru, South Africa, Syria, United Kingdom"},
+  {name:"ichroma™ PSA",cat:"i-CHROMA PSA-25",line:"ichroma™",cnt:23,countries:"Bolivia, Cambodia, China, Colombia, Costa Rica, Ecuador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Kazakhstan, Kyrgyzstan, Mongolia, Morocco, Myanmar, Nicaragua, Nigeria, Paraguay, Peru, South Africa, Tanzania, Uruguay"},
+  {name:"ichroma™ PSA Neo",cat:"CFPC-157",line:"ichroma™",cnt:17,countries:"Belarus, Bosnia, Ecuador, El Salvador, Georgia, Guatemala, Honduras, Italy, Kyrgyzstan, Morocco, Myanmar, Nicaragua, Paraguay, Peru, Syria, Tanzania, United Kingdom"},
   {name:"ichroma™ PSA Plus",cat:"CFPC-71",line:"ichroma™",cnt:1,countries:"Kazakhstan"},
   {name:"ichroma™ Tumor triple M",cat:"CFPC-123",line:"ichroma™",cnt:1,countries:"Guatemala"},
-  {name:"ichroma™ iFOB / Calp. Combo",cat:"CFPC-84",line:"ichroma™",cnt:1,countries:"Guatemala"},
-  {name:"ez-Tracker Adalimumab",cat:"ETA 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Anti-Adalimumab",cat:"ETA 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Anti-Etanercept",cat:"ETE 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Anti-Golimumab",cat:"ETG 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Anti-Infliximab",cat:"ETI 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Anti-Infliximab Total Ab",cat:"ETI 003T-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Anti-Ustekinumab",cat:"ETU 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Anti-Vedolizumab",cat:"ETV 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Etanercept",cat:"ETE 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Golimumab",cat:"ETG 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Infliximab",cat:"ETI 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Infliximab Control",cat:"ETI 002-C",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Ustekinumab",cat:"ETU 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Tracker Vedolizumab",cat:"ETV 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
-  {name:"ez-Track1",cat:"ET 001",line:"Etc.",cnt:1,countries:"Swiss"}
+  {name:"ichroma™ iFOB",cat:"CFPC-15",line:"ichroma™",cnt:3,countries:"Kazakhstan, Turkey, USA"},
+  {name:"ichroma™ iFOB / Calp. Combo",cat:"CFPC-84",line:"ichroma™",cnt:2,countries:"Guatemala, Turkey"},
+  {name:"ichroma™ iFOB Neo",cat:"CFPC-15-1",line:"ichroma™",cnt:24,countries:"Belarus, Bosnia, Brazil, Colombia, Costa Rica, Ecuador, El Salvador, Georgia, Guatemala, Iran, Kyrgyzstan, Mongolia, Morocco, Myanmar, Nicaragua, Peru, Serbia, South Africa, Syria, Tanzania, Turkey, Ukraina, Uruguay, panama"},
+  {name:"Boditech AFP Calibrator",cat:"CFPO-274",line:"Con/Cal",cnt:4,countries:"Belarus, Bosnia, Syria, Thailand"},
+  {name:"Boditech AFP Control",cat:"CFPO-248",line:"Con/Cal",cnt:12,countries:"Azerbaijan, Belarus, Bosnia, Israel, Kazakhstan, Kyrgyzstan, Morocco, Myanmar, Syria, Tanzania, Thailand, Ukraina"},
+  {name:"Boditech AFP Plus Control",cat:"CFPO-249",line:"Con/Cal",cnt:1,countries:"Kazakhstan"},
+  {name:"Boditech CA125 Calibrator",cat:"CFPO-361",line:"Con/Cal",cnt:5,countries:"Brazil, Israel, Syria, Thailand, Ukraina"},
+  {name:"Boditech CA125 Control",cat:"CFPO-359",line:"Con/Cal",cnt:13,countries:"Brazil, Cambodia, Colombia, Israel, Morocco, Myanmar, Saudi Arabia, Serbia, Syria, Tanzania, Thailand, Ukraina, United Kingdom"},
+  {name:"Boditech CA15-3 Control",cat:"CFPO-360",line:"Con/Cal",cnt:1,countries:"Israel"},
+  {name:"Boditech CA19-9 Calibrator",cat:"CFPO-363",line:"Con/Cal",cnt:5,countries:"Guatemala, Israel, Morocco, Syria, Thailand"},
+  {name:"Boditech CA19-9 Control",cat:"CFPO-358",line:"Con/Cal",cnt:12,countries:"Belarus, Brazil, Guatemala, Israel, Morocco, Myanmar, Serbia, Syria, Tanzania, Thailand, Ukraina, United Kingdom"},
+  {name:"Boditech CEA Calibrator",cat:"CFPO-272",line:"Con/Cal",cnt:4,countries:"Belarus, Bosnia, Syria, Thailand"},
+  {name:"Boditech CEA Control",cat:"CFPO-246",line:"Con/Cal",cnt:11,countries:"Azerbaijan, Belarus, Bosnia, Israel, Kazakhstan, Kyrgyzstan, Myanmar, Syria, Tanzania, Thailand, Ukraina"},
+  {name:"Boditech CEA Plus Control",cat:"CFPO-247",line:"Con/Cal",cnt:1,countries:"Kazakhstan"},
+  {name:"Boditech Calprotectin Control",cat:"CFPO-221",line:"Con/Cal",cnt:1,countries:"Brazil"},
+  {name:"Boditech Cyfra21-1 Calibrator",cat:"CFPO-364",line:"Con/Cal",cnt:3,countries:"Guatemala, Morocco, Syria"},
+  {name:"Boditech Cyfra21-1 Control",cat:"CFPO-357",line:"Con/Cal",cnt:12,countries:"Belarus, Brazil, Guatemala, Israel, Morocco, Myanmar, Serbia, Syria, Tanzania, Thailand, Ukraina, United Kingdom"},
+  {name:"Boditech Free PSA Calibrator",cat:"CFPO-409",line:"Con/Cal",cnt:3,countries:"Brazil, Israel, Syria"},
+  {name:"Boditech Free PSA Control",cat:"CFPO-406",line:"Con/Cal",cnt:8,countries:"Brazil, Cambodia, Colombia, Israel, Saudi Arabia, South Africa, Syria, United Kingdom"},
+  {name:"Boditech PSA Calibrator",cat:"CFPO-276",line:"Con/Cal",cnt:2,countries:"Belarus, Syria"},
+  {name:"Boditech PSA Control",cat:"CFPO-250",line:"Con/Cal",cnt:8,countries:"Azerbaijan, Belarus, Italy, Kazakhstan, Kyrgyzstan, Morocco, Myanmar, Syria"},
+  {name:"Boditech PSA Plus Control",cat:"CFPO-251",line:"Con/Cal",cnt:2,countries:"Kazakhstan, South Africa"},
+  {name:"Boditech Tumor Marker Control",cat:"CFPO-94",line:"Con/Cal",cnt:22,countries:"Belarus, Bosnia, Brazil, Cambodia, Colombia, Costa Rica, Iran, Israel, Italy, Kyrgyzstan, Morocco, Myanmar, Nicaragua, Paraguay, Saudi Arabia, South Africa, Swiss, Syria, Tanzania, Thailand, United Kingdom, Uruguay"},
+  {name:"Boditech Tumor marker Calibrator",cat:"CFPO-106",line:"Con/Cal",cnt:8,countries:"Belarus, Bosnia, Israel, Morocco, Myanmar, Saudi Arabia, Syria, Thailand"},
+  {name:"Boditech iFOB Neo Control",cat:"CFPO-14",line:"Con/Cal",cnt:15,countries:"Azerbaijan, Bosnia, Brazil, Colombia, Costa Rica, Israel, Kazakhstan, Kyrgyzstan, Morocco, Nicaragua, Serbia, Syria, Tanzania, Ukraina, Uruguay"},
+  {name:"Boditech iFOB Neo Control",cat:"CFPO-142",line:"Con/Cal",cnt:1,countries:"Belarus"}
 ];
 
 /* ── 테이블 렌더 ── */
@@ -543,10 +522,9 @@ function getChartDefaults() {
 }
 
 const LINE_DATA = [
-  {line:'AFIAS',    approvals:124, products:22, countries:27},
+  {line:'AFIAS',    approvals:121, products:19, countries:27},
   {line:'ichroma™', approvals:232, products:23, countries:37},
-  {line:'Con/Cal',  approvals:158, products:26, countries:27},
-  {line:'Etc.',     approvals:15,  products:15, countries:1 }
+  {line:'Con/Cal',  approvals:157, products:25, countries:27}
 ];
 
 /* 차트 인스턴스 저장 */
@@ -629,11 +607,8 @@ function buildCharts() {
   });
 
   const TOP_COUNTRIES = [
-    {c:"Syria",n:34},{c:"Guatemala",n:25},{c:"Morocco",n:25},{c:"Thailand",n:24},{c:"Myanmar",n:23},
-    {c:"Israel",n:23},{c:"Bosnia",n:22},{c:"Brazil",n:20},{c:"Belarus",n:20},{c:"Colombia",n:17},
-    {c:"Tanzania",n:17},{c:"Swiss",n:16},{c:"Paraguay",n:16},{c:"Honduras",n:16},{c:"Kazakhstan",n:16},
-    {c:"Georgia",n:15},{c:"Peru",n:14},{c:"Ukraina",n:14},{c:"Nicaragua",n:13},{c:"Ecuador",n:13}
-  ].reverse();
+  {c:"Syria",n:34},{c:"Guatemala",n:25},{c:"Morocco",n:25},{c:"Thailand",n:24},{c:"Israel",n:23},{c:"Myanmar",n:23},{c:"Bosnia",n:22},{c:"Belarus",n:20},{c:"Brazil",n:20},{c:"Colombia",n:17},{c:"Tanzania",n:17},{c:"Honduras",n:16},{c:"Kazakhstan",n:16},{c:"Paraguay",n:16},{c:"Georgia",n:15},{c:"Peru",n:14},{c:"Ukraina",n:14},{c:"Ecuador",n:13},{c:"Kyrgyzstan",n:13},{c:"Nicaragua",n:13}
+].reverse();
 
   charts.country = new Chart(document.getElementById('countryChart'), {
     type: 'bar',
