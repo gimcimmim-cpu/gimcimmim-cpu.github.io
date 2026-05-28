@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cancer팀 인허가 현황 대시보드</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+
+/* ── 다크 테마 기본 (index.html 동일) ── */
+:root {
+  --bg:         #0d1117;
+  --bg2:        #161b22;
+  --bg3:        #21262d;
+  --border:     #30363d;
+  --text:       #e6edf3;
+  --text-muted: #8b949e;
+  --blue:       #58a6ff;
+  --orange:     #f0883e;
+  --purple:     #bc8cff;
+  --green:      #3fb950;
+  --teal:       #39d3f5;
+  --pink:       #ff7eb6;
+  --yellow:     #d29922;
+
+  /* 플랫폼 색상 */
+  --afias:   #3b82f6;
+  --ichroma: #34d399;
+  --concal:  #f59e0b;
+  --etc:     #9ca3af;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans KR', 'Malgun Gothic', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background .2s, color .2s;
+}
+
+/* ── 화이트 테마 오버라이드 ── */
+body.theme-white {
+  --bg:         #f5f7fa;
+  --bg2:        #ffffff;
+  --bg3:        #eaecf0;
+  --border:     #c8cdd5;
+  --text:       #1a1e26;
+  --text-muted: #5a6375;
+  --blue:       #0969da;
+  --orange:     #953800;
+  --purple:     #7535c5;
+  --green:      #1a7f37;
+  --teal:       #0578b8;
+  --pink:       #c2185b;
+  --yellow:     #7d4e00;
+  --afias:   #1d4ed8;
+  --ichroma: #0f6e56;
+  --concal:  #854f0b;
+  --etc:     #57606a;
+}
+
+/* ── 테마 토글 버튼 ── */
+.theme-toggle {
+  position: fixed; top: 14px; right: 18px; z-index: 999;
+  background: var(--bg3); border: 1px solid var(--border); border-radius: 20px;
+  padding: 5px 13px; font-size: 12px; cursor: pointer;
+  color: var(--text-muted); transition: all .2s;
+  display: flex; align-items: center; gap: 7px;
+  user-select: none; font-family: inherit;
+}
+.theme-toggle:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ── COVER ── */
+.cover {
+  background: linear-gradient(135deg, #0a1c3e 0%, #0d2149 45%, #1a3f82 100%);
+  padding: 32px 56px 40px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(88,166,255,0.15);
+}
+body.theme-white .cover {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+}
+.orb { position:absolute; border-radius:50%; pointer-events:none; }
+.orb1 { top:-80px; right:-60px;  width:320px; height:320px; background:rgba(255,255,255,0.04); }
+.orb2 { bottom:-100px; left:36%; width:280px; height:280px; background:rgba(255,255,255,0.03); }
+.cover-top { display:flex; justify-content:space-between; align-items:center; position:relative; z-index:1; }
+.back-btn {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,0.12); color:white;
+  border:1px solid rgba(255,255,255,0.25); border-radius:10px;
+  padding:7px 16px; font-size:12px; font-weight:600;
+  text-decoration:none; transition:background 0.15s;
+}
+.back-btn:hover { background:rgba(255,255,255,0.22); }
+.cover-date { font-size:13px; opacity:0.7; }
+.cover-main { position:relative; z-index:1; margin-top:24px; }
+.cover-title { font-size:32px; font-weight:800; letter-spacing:-1px; line-height:1.15; }
+.cover-sub   { font-size:14px; opacity:0.72; margin-top:8px; }
+.cover-line  { width:44px; height:3px; background:rgba(255,255,255,0.35); border-radius:2px; margin:18px 0 20px; }
+.kpi-strip { display:flex; gap:40px; position:relative; z-index:1; flex-wrap:wrap; }
+.kpi-item .kv { font-size:32px; font-weight:800; letter-spacing:-1px; }
+.kpi-item .kl { font-size:11px; opacity:0.58; margin-top:2px; letter-spacing:0.4px; }
+
+/* ── BODY ── */
+.body { padding: 28px 56px 60px; }
+.sec-label {
+  font-size:10.5px; font-weight:700; color: var(--text-muted);
+  letter-spacing:1.4px; text-transform:uppercase;
+  margin: 28px 0 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sec-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* ── 카드 ── */
+.card {
+  background: var(--bg2);
+  border-radius: 16px;
+  padding: 22px 24px;
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.25);
+  transition: border-color .2s;
+}
+.card:hover { border-color: #484f58; }
+body.theme-white .card { box-shadow: 0 1px 5px rgba(13,33,73,0.07); }
+body.theme-white .card:hover { border-color: #94a3b8; }
+.card-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.card-title { font-size:14px; font-weight:700; color: var(--text); }
+
+/* ── KPI 카드 그리드 ── */
+.kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:4px; }
+.kpi-card {
+  background: var(--bg2); border-radius:14px; padding:18px 20px;
+  border:1px solid var(--border); box-shadow:0 1px 6px rgba(0,0,0,0.2);
+  transition: transform .15s, box-shadow .15s;
+}
+.kpi-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+body.theme-white .kpi-card { box-shadow: 0 1px 4px rgba(13,33,73,0.06); }
+.kpi-card-label { font-size:11px; color: var(--text-muted); font-weight:600; letter-spacing:.4px; margin-bottom:6px; }
+.kpi-card-val   { font-size:28px; font-weight:800; letter-spacing:-1px; }
+.kpi-card-sub   { font-size:11px; color: var(--text-muted); margin-top:4px; }
+
+/* ── 차트 그리드 ── */
+.chart-grid2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.chart-wrap  { position:relative; width:100%; }
+
+/* ── 범례 ── */
+.legend { display:flex; flex-wrap:wrap; gap:14px; margin-bottom:10px; font-size:12px; color: var(--text-muted); }
+.legend span { display:inline-flex; align-items:center; gap:5px; }
+.leg-sq { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
+
+/* ── 필터 & 테이블 ── */
+.filter-row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
+.filter-row input {
+  flex:1; min-width:180px; padding:8px 12px;
+  border:1px solid var(--border); border-radius:9px;
+  font-size:13px; font-family:inherit; outline:none;
+  background: var(--bg3); color: var(--text);
+  transition:border .15s, background .15s;
+}
+.filter-row input::placeholder { color: var(--text-muted); }
+.filter-row input:focus { border-color: var(--blue); background: var(--bg2); }
+.fbtn {
+  padding:7px 14px; font-size:12px; font-weight:600; cursor:pointer;
+  border-radius:9px; border:1px solid var(--border);
+  background: var(--bg3); color: var(--text-muted);
+  transition:all 0.15s; font-family: inherit;
+}
+.fbtn:hover { border-color: var(--blue); color: var(--blue); }
+.fbtn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+body.theme-white .fbtn.active { background: #0969da; border-color: #0969da; }
+
+table.prod-tbl { width:100%; border-collapse:collapse; font-size:13px; }
+table.prod-tbl th {
+  background: var(--bg3); color: var(--text-muted); font-weight:600; font-size:11px;
+  text-align:left; padding:9px 12px; border-bottom:2px solid var(--border);
+  letter-spacing:.3px;
+}
+table.prod-tbl td {
+  padding:9px 12px; border-bottom:1px solid var(--border); color: var(--text); vertical-align:top;
+}
+table.prod-tbl tr:hover td { background: var(--bg3); }
+body.theme-white table.prod-tbl tr:hover td { background: #f8fafc; }
+
+/* ── 뱃지 ── */
+.badge-line {
+  display:inline-block; font-size:11px; padding:2px 9px;
+  border-radius:5px; font-weight:600; white-space:nowrap;
+}
+.b-afias   { background:rgba(59,130,246,0.15);  color:#3b82f6; border:1px solid rgba(59,130,246,0.3); }
+.b-ichroma { background:rgba(52,211,153,0.15);  color:#34d399; border:1px solid rgba(52,211,153,0.3); }
+.b-concal  { background:rgba(245,158,11,0.15);  color:#f59e0b; border:1px solid rgba(245,158,11,0.3); }
+.b-etc     { background:rgba(156,163,175,0.15); color:#9ca3af; border:1px solid rgba(156,163,175,0.3); }
+
+body.theme-white .b-afias   { background:#E6F1FB; color:#185FA5; border-color:#bfdbfe; }
+body.theme-white .b-ichroma { background:#E1F5EE; color:#0F6E56; border-color:#a7f3d0; }
+body.theme-white .b-concal  { background:#FAEEDA; color:#854F0B; border-color:#fcd34d; }
+body.theme-white .b-etc     { background:#F1EFE8; color:#5F5E5A; border-color:#d1d5db; }
+
+.bar-bg { background: var(--bg3); border-radius:3px; height:7px; width:100%; margin-bottom:4px; }
+body.theme-white .bar-bg { background:#f1f5f9; }
+.bar-fg { height:7px; border-radius:3px; }
+.country-list { font-size:11px; color: var(--text-muted); line-height:1.6; }
+.table-count  { font-size:12px; color: var(--text-muted); margin-bottom:10px; }
+
+/* ── FOOTER ── */
+.footer {
+  padding:16px 56px; font-size:11px; color: var(--text-muted);
+  border-top:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+  background: var(--bg2);
+}
+.footer-home-btn {
+  font-size:11px; color: var(--blue); text-decoration:none;
+  border:1px solid var(--border); padding:3px 10px; border-radius:6px;
+  transition: border-color .15s;
+}
+.footer-home-btn:hover { border-color: var(--blue); }
+
+/* ── BG 글로우 ── */
+.bg-glow {
+  position:fixed; top:-200px; left:50%; transform:translateX(-50%);
+  width:800px; height:500px;
+  background:radial-gradient(ellipse,rgba(88,166,255,0.05) 0%,transparent 70%);
+  pointer-events:none; z-index:0;
+}
+body.theme-white .bg-glow { opacity:0; }
+
+@media (max-width:840px) {
+  .cover, .body, .footer { padding-left:20px; padding-right:20px; }
+  .kpi-grid    { grid-template-columns:1fr 1fr; }
+  .chart-grid2 { grid-template-columns:1fr; }
+  .kpi-strip   { gap:22px; }
+  .cover-title { font-size:24px; }
+}
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<!-- 테마 토글 -->
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">
+  <span id="theme-icon">☀️</span>
+  <span id="theme-label">White</span>
+</button>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="cover-top">
+    <a class="back-btn" href="./index.html">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      대시보드 홈
+    </a>
+    <span class="cover-date" id="coverDate">–</span>
+  </div>
+  <div class="cover-main">
+    <div class="cover-title">🧬 Cancer팀 인허가 현황</div>
+    <div class="cover-sub">바디텍메드 Cancer팀 · 글로벌 인허가 아이템 통합 현황 대시보드</div>
+    <div class="cover-line"></div>
+  </div>
+  <div class="kpi-strip">
+    <div class="kpi-item"><div class="kv">529</div><div class="kl">총 인허가 건수</div></div>
+    <div class="kpi-item"><div class="kv">86</div><div class="kl">고유 제품 수</div></div>
+    <div class="kpi-item"><div class="kv">41</div><div class="kl">진출 국가 수</div></div>
+    <div class="kpi-item"><div class="kv">260528</div><div class="kl">기준일</div></div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body">
+
+  <!-- KPI 카드 -->
+  <div class="sec-label">라인별 현황</div>
+  <div class="kpi-grid">
+    <div class="kpi-card" style="border-left:4px solid var(--afias);">
+      <div class="kpi-card-label">AFIAS</div>
+      <div class="kpi-card-val" style="color:var(--afias);">124건</div>
+      <div class="kpi-card-sub">제품 22개 · 27개국</div>
+    </div>
+    <div class="kpi-card" style="border-left:4px solid var(--ichroma);">
+      <div class="kpi-card-label">ichroma™</div>
+      <div class="kpi-card-val" style="color:var(--ichroma);">232건</div>
+      <div class="kpi-card-sub">제품 23개 · 37개국</div>
+    </div>
+    <div class="kpi-card" style="border-left:4px solid var(--concal);">
+      <div class="kpi-card-label">Con / Cal</div>
+      <div class="kpi-card-val" style="color:var(--concal);">158건</div>
+      <div class="kpi-card-sub">제품 26개 · 27개국</div>
+    </div>
+    <div class="kpi-card" style="border-left:4px solid var(--etc);">
+      <div class="kpi-card-label">Etc.</div>
+      <div class="kpi-card-val" style="color:var(--etc);">15건</div>
+      <div class="kpi-card-sub">제품 15개 · 1개국</div>
+    </div>
+  </div>
+
+  <!-- 차트 2열 -->
+  <div class="sec-label">제품 라인 비교</div>
+  <div class="chart-grid2">
+    <div class="card">
+      <div class="card-head"><span class="card-title">라인별 허가 건수</span></div>
+      <div class="legend">
+        <span><span class="leg-sq" style="background:#3b82f6"></span>AFIAS</span>
+        <span><span class="leg-sq" style="background:#34d399"></span>ichroma™</span>
+        <span><span class="leg-sq" style="background:#f59e0b"></span>Con/Cal</span>
+        <span><span class="leg-sq" style="background:#9ca3af"></span>Etc.</span>
+      </div>
+      <div class="chart-wrap" style="height:220px;">
+        <canvas id="lineChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">제품 수 vs 진출 국가 수</span></div>
+      <div class="legend">
+        <span><span class="leg-sq" style="background:#3b82f6"></span>제품 수</span>
+        <span><span class="leg-sq" style="background:#3b82f644;border:1px dashed #3b82f6"></span>진출 국가 수</span>
+      </div>
+      <div class="chart-wrap" style="height:220px;">
+        <canvas id="compareChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 15 제품 -->
+  <div class="sec-label">허가 국가 수 TOP 15 제품</div>
+  <div class="card">
+    <div class="legend" style="margin-bottom:14px;">
+      <span><span class="leg-sq" style="background:#3b82f6"></span>AFIAS</span>
+      <span><span class="leg-sq" style="background:#34d399"></span>ichroma™</span>
+      <span><span class="leg-sq" style="background:#f59e0b"></span>Con/Cal</span>
+    </div>
+    <div class="chart-wrap" style="height:600px;">
+      <canvas id="productChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Top 20 국가 -->
+  <div class="sec-label">국가별 허가 아이템 수 TOP 20</div>
+  <div class="card">
+    <div class="chart-wrap" style="height:800px;">
+      <canvas id="countryChart"></canvas>
+    </div>
+  </div>
+
+  <!-- 전체 제품 테이블 -->
+  <div class="sec-label">전체 제품 목록</div>
+  <div class="card">
+    <div class="filter-row">
+      <input type="text" id="searchInput" placeholder="제품명 또는 Cat. No 검색..." oninput="filterTable()">
+      <button class="fbtn active" onclick="filterByLine(this,'all')">전체 (86)</button>
+      <button class="fbtn" onclick="filterByLine(this,'AFIAS')">AFIAS</button>
+      <button class="fbtn" onclick="filterByLine(this,'ichroma™')">ichroma™</button>
+      <button class="fbtn" onclick="filterByLine(this,'Con/Cal')">Con/Cal</button>
+      <button class="fbtn" onclick="filterByLine(this,'Etc.')">Etc.</button>
+    </div>
+    <div id="tableCount" class="table-count">86개 제품 표시 중</div>
+    <div style="overflow-x:auto;">
+      <table class="prod-tbl">
+        <thead>
+          <tr>
+            <th style="width:30%">제품명</th>
+            <th style="width:14%">Cat. No.</th>
+            <th style="width:10%">라인</th>
+            <th style="width:7%;text-align:center">국가수</th>
+            <th>허가 국가</th>
+          </tr>
+        </thead>
+        <tbody id="prodTbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>바디텍메드 · Cancer팀 팀장 김철민 · 인허가현황 기준일 2026.05.28</span>
+  <a href="./index.html" class="footer-home-btn">← 대시보드 홈</a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+/* ── 테마 ── */
+var isDark = true;
+function toggleTheme() {
+  isDark = !isDark;
+  document.body.classList.toggle('theme-white', !isDark);
+  document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+  document.getElementById('theme-label').textContent = isDark ? 'White' : 'Dark';
+  try { localStorage.setItem('hub_theme', isDark ? 'dark' : 'white'); } catch(e) {}
+  updateChartTheme();
+}
+window.addEventListener('DOMContentLoaded', function() {
+  var saved; try { saved = localStorage.getItem('hub_theme'); } catch(e) {}
+  if (saved === 'white') {
+    isDark = false;
+    document.body.classList.add('theme-white');
+    document.getElementById('theme-icon').textContent = '🌙';
+    document.getElementById('theme-label').textContent = 'Dark';
+  }
+});
+
+/* ── 날짜 ── */
+const now = new Date();
+const DOW = ['일','월','화','수','목','금','토'];
+document.getElementById('coverDate').textContent =
+  `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일 (${DOW[now.getDay()]})`;
+
+/* ── 데이터 ── */
+const LINE_COLORS_DARK  = { 'AFIAS':'#3b82f6', 'ichroma™':'#34d399', 'Con/Cal':'#f59e0b', 'Etc.':'#9ca3af' };
+const LINE_COLORS_WHITE = { 'AFIAS':'#185FA5', 'ichroma™':'#1D9E75', 'Con/Cal':'#BA7517', 'Etc.':'#888780' };
+const LINE_BADGE = { 'AFIAS':'b-afias', 'ichroma™':'b-ichroma', 'Con/Cal':'b-concal', 'Etc.':'b-etc' };
+
+function getLineColors() { return isDark ? LINE_COLORS_DARK : LINE_COLORS_WHITE; }
+
+const ALL_PRODUCTS = [
+  {name:"ichroma™ CEA",cat:"13013",line:"ichroma™",cnt:28,countries:"Bolivia, Bosnia, China, Colombia, Costa Rica, Ecuador, El Salvador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Kazakhstan, Kyrgyzstan, Mongolia, Morocco, Nicaragua, Pakistan, Paraguay, Peru, Saudi Arabia, Serbia, South Africa, Syria, Tanzania, Turkey, Ukraina, Uruguay"},
+  {name:"ichroma™ AFP",cat:"i-CHROMA AFP-25",line:"ichroma™",cnt:24,countries:"Bosnia, China, Colombia, Costa Rica, Ecuador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Kazakhstan, Mongolia, Morocco, Myanmar, Nicaragua, Pakistan, Paraguay, Saudi Arabia, Serbia, South Africa, Syria, Tanzania, Turkey, Uruguay"},
+  {name:"ichroma™ iFOB Neo",cat:"CFPC-15-1",line:"ichroma™",cnt:24,countries:"Belarus, Bosnia, Brazil, Colombia, Costa Rica, Ecuador, El Salvador, Georgia, Guatemala, Iran, Kyrgyzstan, Mongolia, Morocco, Myanmar, Nicaragua, Peru, Serbia, South Africa, Syria, Tanzania, Turkey, Ukraina, Uruguay, panama"},
+  {name:"ichroma™ PSA",cat:"i-CHROMA PSA-25",line:"ichroma™",cnt:23,countries:"Bolivia, Cambodia, China, Colombia, Costa Rica, Ecuador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Kazakhstan, Kyrgyzstan, Mongolia, Morocco, Myanmar, Nicaragua, Nigeria, Paraguay, Peru, South Africa, Tanzania, Uruguay"},
+  {name:"ichroma™ CA19-9",cat:"CFPC-139",line:"ichroma™",cnt:20,countries:"Belarus, Bosnia, Brazil, Colombia, Ecuador, El Salvador, Guatemala, Honduras, Italy, Kyrgyzstan, Mongolia, Morocco, Myanmar, Nicaragua, Paraguay, Peru, South Africa, Syria, Tanzania, Ukraina"},
+  {name:"AFIAS CEA",cat:"SMFP-21",line:"AFIAS",cnt:19,countries:"Belarus, Bosnia, Colombia, Ecuador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Israel, Morocco, Myanmar, Paraguay, Peru, Saudi Arabia, Syria, Thailand, Turkey, United Kingdom"},
+  {name:"AFIAS AFP",cat:"SMFP-27",line:"AFIAS",cnt:18,countries:"Belarus, Bosnia, Colombia, Ecuador, Ethiopia, Georgia, Guatemala, Honduras, Iran, Israel, Morocco, Myanmar, Paraguay, Peru, Saudi Arabia, Syria, Thailand, Turkey"},
+  {name:"ichroma™ AFP Neo",cat:"CFPC-156",line:"ichroma™",cnt:18,countries:"Belarus, Bosnia, Cambodia, Ecuador, El Salvador, Guatemala, Honduras, Italy, Kazakhstan, Kyrgyzstan, Myanmar, Nicaragua, Paraguay, Peru, Syria, Tanzania, Ukraina, panama"},
+  {name:"ichroma™ CEA Neo",cat:"CFPC-158",line:"ichroma™",cnt:18,countries:"Belarus, Bosnia, Cambodia, Ecuador, Georgia, Guatemala, Honduras, Italy, Kazakhstan, Kyrgyzstan, Myanmar, Nicaragua, Paraguay, Peru, Syria, Tanzania, Ukraina, panama"},
+  {name:"ichroma™ CA125",cat:"CFPC-160",line:"ichroma™",cnt:17,countries:"Bosnia, Brazil, Cambodia, Colombia, El Salvador, Georgia, Guatemala, Honduras, Italy, Morocco, Myanmar, Nicaragua, Paraguay, Peru, Syria, Tanzania, Ukraina"},
+  {name:"ichroma™ PSA Neo",cat:"CFPC-157",line:"ichroma™",cnt:17,countries:"Belarus, Bosnia, Ecuador, El Salvador, Georgia, Guatemala, Honduras, Italy, Kyrgyzstan, Morocco, Myanmar, Nicaragua, Paraguay, Peru, Syria, Tanzania, United Kingdom"},
+  {name:"Boditech iFOB Neo Control",cat:"CFPO-14",line:"Con/Cal",cnt:16,countries:"Azerbaijan, Belarus, Bosnia, Brazil, Colombia, Costa Rica, Israel, Kazakhstan, Kyrgyzstan, Morocco, Nicaragua, Serbia, Syria, Tanzania, Ukraina, Uruguay"},
+  {name:"Boditech Tumor marker Control",cat:"CFPO-94",line:"Con/Cal",cnt:15,countries:"Belarus, Bosnia, Brazil, Israel, Italy, Morocco, Paraguay, Saudi Arabia, South Africa, Swiss, Syria, Tanzania, Thailand, United Kingdom, Uruguay"},
+  {name:"ichroma™ Cyfra21-1",cat:"CFPC-140",line:"ichroma™",cnt:15,countries:"Bosnia, Brazil, Ecuador, Georgia, Guatemala, Honduras, Italy, Kyrgyzstan, Mongolia, Myanmar, Peru, South Africa, Syria, Tanzania, Ukraina"},
+  {name:"AFIAS PSA Neo",cat:"SMFP-130",line:"AFIAS",cnt:14,countries:"Belarus, Bosnia, Ecuador, El Salvador, Guatemala, Honduras, Israel, Morocco, Myanmar, Nicaragua, Peru, Serbia, Syria, United Kingdom"},
+  {name:"ichroma™ Free PSA",cat:"CFPC-178",line:"ichroma™",cnt:14,countries:"Brazil, Cambodia, Colombia, Ecuador, El Salvador, Guatemala, Honduras, Italy, Nicaragua, Paraguay, Peru, South Africa, Syria, United Kingdom"},
+  {name:"Boditech CA125 Control",cat:"CFPO-359",line:"Con/Cal",cnt:13,countries:"Brazil, Cambodia, Colombia, Israel, Morocco, Myanmar, Saudi Arabia, Serbia, Syria, Tanzania, Thailand, Ukraina, United Kingdom"},
+  {name:"AFIAS CA19-9",cat:"SMFP-134",line:"AFIAS",cnt:12,countries:"Bosnia, Colombia, Guatemala, Honduras, Israel, Morocco, Myanmar, Paraguay, Serbia, Syria, Thailand, United Kingdom"},
+  {name:"Boditech AFP Control",cat:"CFPO-248",line:"Con/Cal",cnt:12,countries:"Azerbaijan, Belarus, Bosnia, Israel, Kazakhstan, Kyrgyzstan, Morocco, Myanmar, Syria, Tanzania, Thailand, Ukraina"},
+  {name:"Boditech CA19-9 Control",cat:"CFPO-358",line:"Con/Cal",cnt:12,countries:"Belarus, Brazil, Guatemala, Israel, Morocco, Myanmar, Serbia, Syria, Tanzania, Thailand, Ukraina, United Kingdom"},
+  {name:"AFIAS CA125",cat:"SMFP-132",line:"AFIAS",cnt:11,countries:"Bosnia, Brazil, Colombia, Guatemala, Israel, Myanmar, Paraguay, Serbia, Syria, Thailand, United Kingdom"},
+  {name:"AFIAS PSA",cat:"SMFP-9",line:"AFIAS",cnt:11,countries:"Colombia, Costa Rica, Ethiopia, Georgia, Guatemala, Iran, Israel, Morocco, Myanmar, Paraguay, Thailand"},
+  {name:"Boditech CEA Control",cat:"CFPO-246",line:"Con/Cal",cnt:11,countries:"Azerbaijan, Belarus, Bosnia, Israel, Kazakhstan, Kyrgyzstan, Myanmar, Syria, Tanzania, Thailand, Ukraina"},
+  {name:"Boditech Cyfra21-1 Control",cat:"CFPO-357",line:"Con/Cal",cnt:11,countries:"Belarus, Brazil, Guatemala, Israel, Morocco, Myanmar, Serbia, Syria, Thailand, Ukraina, United Kingdom"},
+  {name:"AFIAS Cyfra21-1",cat:"SMFP-135",line:"AFIAS",cnt:10,countries:"Bosnia, Georgia, Guatemala, Honduras, Morocco, Peru, Serbia, Syria, Thailand, United Kingdom"},
+  {name:"AFIAS Free PSA",cat:"SMFP-170",line:"AFIAS",cnt:8,countries:"Brazil, Colombia, Guatemala, Honduras, Israel, Paraguay, Syria, United Kingdom"},
+  {name:"Boditech Free PSA Control",cat:"CFPO-406",line:"Con/Cal",cnt:8,countries:"Brazil, Cambodia, Colombia, Israel, Saudi Arabia, South Africa, Syria, United Kingdom"},
+  {name:"Boditech PSA Control",cat:"CFPO-250",line:"Con/Cal",cnt:8,countries:"Azerbaijan, Belarus, Italy, Kazakhstan, Kyrgyzstan, Morocco, Myanmar, Syria"},
+  {name:"Boditech Tumor Marker Control",cat:"CFPO-94",line:"Con/Cal",cnt:8,countries:"Cambodia, Colombia, Costa Rica, Iran, Kyrgyzstan, Myanmar, Nicaragua, Thailand"},
+  {name:"Boditech Tumor marker Calibrator",cat:"CFPO-106",line:"Con/Cal",cnt:7,countries:"Belarus, Bosnia, Israel, Morocco, Saudi Arabia, Syria, Thailand"},
+  {name:"Boditech CA125 Calibrator",cat:"CFPO-361",line:"Con/Cal",cnt:5,countries:"Brazil, Israel, Syria, Thailand, Ukraina"},
+  {name:"Boditech CA19-9 Calibrator",cat:"CFPO-363",line:"Con/Cal",cnt:5,countries:"Guatemala, Israel, Morocco, Syria, Thailand"},
+  {name:"Boditech Cyfra21-1 Calibrator",cat:"CFPO-364",line:"Con/Cal",cnt:3,countries:"Guatemala, Morocco, Syria"},
+  {name:"Boditech Free PSA Calibrator",cat:"CFPO-409",line:"Con/Cal",cnt:3,countries:"Brazil, Israel, Syria"},
+  {name:"Boditech AFP Calibrator",cat:"CFPO-274",line:"Con/Cal",cnt:4,countries:"Belarus, Bosnia, Syria, Thailand"},
+  {name:"Boditech CEA Calibrator",cat:"CFPO-272",line:"Con/Cal",cnt:4,countries:"Belarus, Bosnia, Syria, Thailand"},
+  {name:"AFIAS AFP Plus",cat:"SMFP-49",line:"AFIAS",cnt:2,countries:"Italy, Morocco"},
+  {name:"AFIAS CEA Plus",cat:"SMFP-50",line:"AFIAS",cnt:2,countries:"Italy, Morocco"},
+  {name:"AFIAS PSA Plus",cat:"SMFP-48",line:"AFIAS",cnt:2,countries:"Israel, Italy"},
+  {name:"Boditech PSA Calibrator",cat:"CFPO-276",line:"Con/Cal",cnt:2,countries:"Belarus, Syria"},
+  {name:"Boditech PSA Plus Control",cat:"CFPO-251",line:"Con/Cal",cnt:2,countries:"Kazakhstan, South Africa"},
+  {name:"Boditech Tumor Marker Calibrator",cat:"CFPO-106",line:"Con/Cal",cnt:2,countries:"Myanmar, Thailand"},
+  {name:"ichroma™ iFOB",cat:"CFPC-15",line:"ichroma™",cnt:2,countries:"Kazakhstan, Turkey"},
+  {name:"ichroma™ CA 19-9",cat:"CFPC-139",line:"ichroma™",cnt:2,countries:"Georgia, Pakistan"},
+  {name:"AFIAS KL-6",cat:"SMFP-155",line:"AFIAS",cnt:1,countries:"Israel"},
+  {name:"AFIAS BNP",cat:"SMFP-83",line:"AFIAS",cnt:1,countries:"panama"},
+  {name:"AFIAS iFOB",cat:"",line:"AFIAS",cnt:1,countries:"USA"},
+  {name:"Boditech CA15-3 Control",cat:"CFPO-360",line:"Con/Cal",cnt:1,countries:"Israel"},
+  {name:"Boditech Calprotectin Control",cat:"CFPO-221",line:"Con/Cal",cnt:1,countries:"Brazil"},
+  {name:"Boditech KL-6 Control",cat:"CFPO-390",line:"Con/Cal",cnt:1,countries:"Israel"},
+  {name:"ichroma™ AFP Plus",cat:"CFPC-73",line:"ichroma™",cnt:1,countries:"Kazakhstan"},
+  {name:"ichroma™ CEA Plus",cat:"CFPC-72",line:"ichroma™",cnt:1,countries:"Kazakhstan"},
+  {name:"ichroma™ PSA Plus",cat:"CFPC-71",line:"ichroma™",cnt:1,countries:"Kazakhstan"},
+  {name:"ichroma™ Tumor triple M",cat:"CFPC-123",line:"ichroma™",cnt:1,countries:"Guatemala"},
+  {name:"ichroma™ iFOB / Calp. Combo",cat:"CFPC-84",line:"ichroma™",cnt:1,countries:"Guatemala"},
+  {name:"ez-Tracker Adalimumab",cat:"ETA 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Anti-Adalimumab",cat:"ETA 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Anti-Etanercept",cat:"ETE 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Anti-Golimumab",cat:"ETG 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Anti-Infliximab",cat:"ETI 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Anti-Infliximab Total Ab",cat:"ETI 003T-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Anti-Ustekinumab",cat:"ETU 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Anti-Vedolizumab",cat:"ETV 003-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Etanercept",cat:"ETE 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Golimumab",cat:"ETG 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Infliximab",cat:"ETI 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Infliximab Control",cat:"ETI 002-C",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Ustekinumab",cat:"ETU 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Tracker Vedolizumab",cat:"ETV 002-24",line:"Etc.",cnt:1,countries:"Swiss"},
+  {name:"ez-Track1",cat:"ET 001",line:"Etc.",cnt:1,countries:"Swiss"}
+];
+
+/* ── 테이블 렌더 ── */
+let activeFilter = 'all';
+const MAX_CNT = 28;
+
+function renderTable(data) {
+  const LC = getLineColors();
+  document.getElementById('tableCount').textContent = `${data.length}개 제품 표시 중`;
+  document.getElementById('prodTbody').innerHTML = data.map(p => `
+    <tr>
+      <td style="font-weight:600;">${p.name}</td>
+      <td style="font-family:monospace;font-size:12px;color:var(--text-muted);">${p.cat||'–'}</td>
+      <td><span class="badge-line ${LINE_BADGE[p.line]||''}">${p.line}</span></td>
+      <td style="text-align:center;font-weight:700;color:${LC[p.line]||'#888'};">${p.cnt}</td>
+      <td>
+        <div class="bar-bg"><div class="bar-fg" style="width:${Math.round(p.cnt/MAX_CNT*100)}%;background:${LC[p.line]||'#ccc'};"></div></div>
+        <div class="country-list">${p.countries}</div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterTable() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = ALL_PRODUCTS.filter(p => {
+    const okLine   = activeFilter === 'all' || p.line === activeFilter;
+    const okSearch = !q || p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q);
+    return okLine && okSearch;
+  });
+  renderTable(filtered);
+}
+
+function filterByLine(btn, line) {
+  activeFilter = line;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterTable();
+}
+
+renderTable(ALL_PRODUCTS);
+
+/* ── Chart.js 공통 설정 ── */
+function getChartDefaults() {
+  const gridColor  = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)';
+  const tickColor  = isDark ? '#8b949e' : '#64748b';
+  return { gridColor, tickColor };
+}
+
+const LINE_DATA = [
+  {line:'AFIAS',    approvals:124, products:22, countries:27},
+  {line:'ichroma™', approvals:232, products:23, countries:37},
+  {line:'Con/Cal',  approvals:158, products:26, countries:27},
+  {line:'Etc.',     approvals:15,  products:15, countries:1 }
+];
+
+/* 차트 인스턴스 저장 */
+let charts = {};
+
+function buildCharts() {
+  const LC = getLineColors();
+  const { gridColor, tickColor } = getChartDefaults();
+
+  // 기존 차트 제거
+  Object.values(charts).forEach(c => c.destroy());
+  charts = {};
+
+  charts.line = new Chart(document.getElementById('lineChart'), {
+    type: 'bar',
+    data: {
+      labels: LINE_DATA.map(d => d.line),
+      datasets: [{
+        label: '허가 건수',
+        data: LINE_DATA.map(d => d.approvals),
+        backgroundColor: LINE_DATA.map(d => LC[d.line]),
+        borderRadius: 6, borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: c => ` ${c.parsed.y}건` } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: tickColor, font: { size: 12 } } },
+        y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 11 } } }
+      }
+    }
+  });
+
+  charts.compare = new Chart(document.getElementById('compareChart'), {
+    type: 'bar',
+    data: {
+      labels: LINE_DATA.map(d => d.line),
+      datasets: [
+        { label: '고유 제품 수', data: LINE_DATA.map(d => d.products),
+          backgroundColor: LINE_DATA.map(d => LC[d.line]),
+          borderRadius: 4, borderSkipped: false },
+        { label: '진출 국가 수', data: LINE_DATA.map(d => d.countries),
+          backgroundColor: LINE_DATA.map(d => LC[d.line] + '44'),
+          borderColor: LINE_DATA.map(d => LC[d.line]),
+          borderWidth: 1.5, borderRadius: 4, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: tickColor, font: { size: 12 } } },
+        y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 11 } } }
+      }
+    }
+  });
+
+  const TOP15 = ALL_PRODUCTS.slice(0, 15).reverse();
+  charts.product = new Chart(document.getElementById('productChart'), {
+    type: 'bar',
+    data: {
+      labels: TOP15.map(p => p.name),
+      datasets: [{
+        label: '허가 국가 수', data: TOP15.map(p => p.cnt),
+        backgroundColor: TOP15.map(p => LC[p.line]),
+        borderRadius: 4, borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: c => ` ${c.parsed.x}개국` } } },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 11 } }, max: 32 },
+        y: { grid: { display: false }, ticks: { color: tickColor, font: { size: 11 } } }
+      }
+    }
+  });
+
+  const TOP_COUNTRIES = [
+    {c:"Syria",n:34},{c:"Guatemala",n:25},{c:"Morocco",n:25},{c:"Thailand",n:24},{c:"Myanmar",n:23},
+    {c:"Israel",n:23},{c:"Bosnia",n:22},{c:"Brazil",n:20},{c:"Belarus",n:20},{c:"Colombia",n:17},
+    {c:"Tanzania",n:17},{c:"Swiss",n:16},{c:"Paraguay",n:16},{c:"Honduras",n:16},{c:"Kazakhstan",n:16},
+    {c:"Georgia",n:15},{c:"Peru",n:14},{c:"Ukraina",n:14},{c:"Nicaragua",n:13},{c:"Ecuador",n:13}
+  ].reverse();
+
+  charts.country = new Chart(document.getElementById('countryChart'), {
+    type: 'bar',
+    data: {
+      labels: TOP_COUNTRIES.map(d => d.c),
+      datasets: [{
+        label: '허가 아이템 수', data: TOP_COUNTRIES.map(d => d.n),
+        backgroundColor: isDark ? '#3b82f6' : '#2563eb',
+        borderRadius: 4, borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: c => ` ${c.parsed.x}건` } } },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 11 } }, max: 38 },
+        y: { grid: { display: false }, ticks: { color: tickColor, font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+function updateChartTheme() {
+  buildCharts();
+  renderTable(ALL_PRODUCTS.filter(p => {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const okLine = activeFilter === 'all' || p.line === activeFilter;
+    const okSearch = !q || p.name.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q);
+    return okLine && okSearch;
+  }));
+}
+
+buildCharts();
+</script>
+</body>
+</html>
