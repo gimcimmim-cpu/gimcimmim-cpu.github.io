@@ -244,6 +244,11 @@
   body.theme-white .c-pink .card-open-btn { background:rgba(194,24,91,.12); color:#c2185b; border-color:rgba(194,24,91,.3); }
   body.theme-white .c-pink .tag { background:rgba(194,24,91,0.08); color:#c2185b; border-color:rgba(194,24,91,0.2); }
   body.theme-white .sl-item.c-pink a:hover { border-left-color:#c2185b; }
+  body.theme-white .c-red .card-hd-title { color:#dc2626; }
+  body.theme-white .c-red .card-hd-icon { background:rgba(220,38,38,0.1); }
+  body.theme-white .c-red .card-open-btn { background:rgba(220,38,38,.12); color:#dc2626; border-color:rgba(220,38,38,.3); }
+  body.theme-white .c-red .tag { background:rgba(220,38,38,0.08); color:#dc2626; border-color:rgba(220,38,38,0.2); }
+  body.theme-white .sl-item.c-red a:hover { border-left-color:#dc2626; }
   body.theme-white .cv-play-ind { color:#1a7f37; }
   body.theme-white .cv-play-dot { background:#1a7f37; }
   body.theme-white .cv-play-ind.paused { color:#7d4e00; }
@@ -296,6 +301,7 @@
   .sl-item.c-orange a:hover { border-left-color:var(--orange); }
   .sl-item.c-cyan   a:hover { border-left-color:#22d3ee; }
   .sl-item.c-pink   a:hover { border-left-color:#ff7eb6; }
+  .sl-item.c-red    a:hover { border-left-color:#f87171; }
   .sl-num { font-size:10px; font-weight:700; color:rgba(139,148,158,.4); width:18px; flex-shrink:0; }
   .sl-ico { font-size:14px; width:20px; text-align:center; flex-shrink:0; }
   .sl-nm  { flex:1; overflow:hidden; text-overflow:ellipsis; }
@@ -362,6 +368,7 @@
   .c-yellow { --accent-color:var(--yellow); } .c-yellow .card-hd-icon { background:rgba(210,153,34,0.12); }   .c-yellow .card-hd-title { color:var(--yellow); } .c-yellow .card-open-btn { background:rgba(210,153,34,.15); color:var(--yellow); border-color:rgba(210,153,34,.35); }
   .c-cyan   { --accent-color:#22d3ee;       } .c-cyan   .card-hd-icon { background:rgba(6,182,212,0.12); }    .c-cyan   .card-hd-title { color:#22d3ee; }       .c-cyan   .card-open-btn { background:rgba(6,182,212,.15); color:#22d3ee; border-color:rgba(6,182,212,.35); }
   .c-pink   { --accent-color:#ff7eb6;       } .c-pink   .card-hd-icon { background:rgba(255,126,182,0.12); }    .c-pink   .card-hd-title { color:#ff7eb6; }       .c-pink   .card-open-btn { background:rgba(255,126,182,.15); color:#ff7eb6; border-color:rgba(255,126,182,.35); }
+  .c-red    { --accent-color:#f87171;       } .c-red    .card-hd-icon { background:rgba(248,113,113,0.12); }    .c-red    .card-hd-title { color:#f87171; }       .c-red    .card-open-btn { background:rgba(248,113,113,.15); color:#f87171; border-color:rgba(248,113,113,.35); }
 
   /* Tags */
   .tag { font-size:10px; padding:2px 8px; border-radius:20px; font-weight:500; }
@@ -373,6 +380,7 @@
   .c-yellow .tag { background:rgba(210,153,34,0.1);  color:var(--yellow); border:1px solid rgba(210,153,34,0.25); }
   .c-cyan   .tag { background:rgba(6,182,212,0.1);   color:#22d3ee;       border:1px solid rgba(6,182,212,0.25); }
   .c-pink   .tag { background:rgba(255,126,182,0.1); color:#ff7eb6;       border:1px solid rgba(255,126,182,0.25); }
+  .c-red    .tag { background:rgba(248,113,113,0.1); color:#f87171;       border:1px solid rgba(248,113,113,0.25); }
 
   /* Card header row (always visible) */
   .card-hd {
@@ -1204,44 +1212,49 @@ document.addEventListener('keydown',function(e){
           <span class="sl-num">03</span><span class="sl-ico">📋</span><span class="sl-nm">인허가 현황 대시보드</span>
         </a>
       </li>
+      <li class="sl-item c-red">
+        <a href="Value_클레임_대시보드.html">
+          <span class="sl-num">04</span><span class="sl-ico">🚨</span><span class="sl-nm">Value 클레임 대시보드</span>
+        </a>
+      </li>
       <li class="sl-item c-blue">
         <a href="#" onclick="event.preventDefault();openLocked('weekly_dashboard.html')">
-          <span class="sl-num">04</span><span class="sl-ico">📊</span><span class="sl-nm">주간 업무 대시보드</span><span class="lock-badge">🔒 잠금</span>
+          <span class="sl-num">05</span><span class="sl-ico">📊</span><span class="sl-nm">주간 업무 대시보드</span><span class="lock-badge">🔒 잠금</span>
         </a>
       </li>
       <li class="sl-item c-teal">
         <a href="experiment_timer.html">
-          <span class="sl-num">05</span><span class="sl-ico">⏱️</span><span class="sl-nm">실험 시트 타이머</span>
+          <span class="sl-num">06</span><span class="sl-ico">⏱️</span><span class="sl-nm">실험 시트 타이머</span>
         </a>
       </li>
       <li class="sl-item c-yellow">
         <a href="sequential_protocol_timer_v5.html">
-          <span class="sl-num">06</span><span class="sl-ico">🔢</span><span class="sl-nm">Sequential Protocol Timer</span>
+          <span class="sl-num">07</span><span class="sl-ico">🔢</span><span class="sl-nm">Sequential Protocol Timer</span>
         </a>
       </li>
       <li class="sl-item c-purple">
         <a href="#" onclick="event.preventDefault();openLocked('conjugation_calculator_final.html')">
-          <span class="sl-num">07</span><span class="sl-ico">🧪</span><span class="sl-nm">Conjugation 계산기</span><span class="lock-badge">🔒 잠금</span>
+          <span class="sl-num">08</span><span class="sl-ico">🧪</span><span class="sl-nm">Conjugation 계산기</span><span class="lock-badge">🔒 잠금</span>
         </a>
       </li>
       <li class="sl-item c-green">
         <a href="생산일정 관리 추출_KCM.html">
-          <span class="sl-num">08</span><span class="sl-ico">🏭</span><span class="sl-nm">생산일정 관리</span>
+          <span class="sl-num">09</span><span class="sl-ico">🏭</span><span class="sl-nm">생산일정 관리</span>
         </a>
       </li>
       <li class="sl-item c-orange">
         <a href="#" onclick="event.preventDefault();openLocked('IDChipQC_v2_dashboard.html')">
-          <span class="sl-num">09</span><span class="sl-ico">🔬</span><span class="sl-nm">IDChip QC 대시보드</span><span class="lock-badge">🔒 잠금</span>
+          <span class="sl-num">10</span><span class="sl-ico">🔬</span><span class="sl-nm">IDChip QC 대시보드</span><span class="lock-badge">🔒 잠금</span>
         </a>
       </li>
       <li class="sl-item c-teal">
         <a href="final-flowchart-generator.html">
-          <span class="sl-num">10</span><span class="sl-ico">🗺️</span><span class="sl-nm">Flowchart Generator</span>
+          <span class="sl-num">11</span><span class="sl-ico">🗺️</span><span class="sl-nm">Flowchart Generator</span>
         </a>
       </li>
       <li class="sl-item c-orange">
         <a href="notice_editor.html">
-          <span class="sl-num">11</span><span class="sl-ico">📢</span><span class="sl-nm">공지사항 편집기</span>
+          <span class="sl-num">12</span><span class="sl-ico">📢</span><span class="sl-nm">공지사항 편집기</span>
         </a>
       </li>
     </ul>
@@ -1254,7 +1267,7 @@ document.addEventListener('keydown',function(e){
   <main class="main-wrap">
 
     <div class="section-controls">
-      <div class="section-label">프로그램 목록 · 11개</div>
+      <div class="section-label">프로그램 목록 · 12개</div>
       <div class="ctrl-btns">
         <button class="ctrl-btn" onclick="toggleSidebar()">☰ 사이드바</button>
         <button class="ctrl-btn" id="toggle-all-btn" onclick="expandAll()">▼ 모두 펼치기</button>
@@ -1316,10 +1329,27 @@ document.addEventListener('keydown',function(e){
         </div>
       </div>
 
-      <!-- 04. 주간 업무 대시보드 -->
-      <div class="card-wrap c-blue" id="cw-4">
+      <!-- 04. Value 클레임 대시보드 -->
+      <div class="card-wrap c-red" id="cw-4">
         <div class="card-hd" onclick="toggleCard('cw-4')">
           <span class="card-hd-num">04</span>
+          <div class="card-hd-icon">🚨</div>
+          <div class="card-hd-title">Value 클레임 대시보드</div>
+          <div class="card-hd-chevron">▼</div>
+        </div>
+        <div class="card-body">
+          <div class="card-body-inner">
+            <div class="card-body-sub">2nd CLASS Value 클레임 현황 · 품목별 / 지역별 / Severity 분석 · 미종결 추적 · 처리기간 통계</div>
+            <div class="card-body-tags"><span class="tag">클레임</span><span class="tag">Value</span><span class="tag">Cancer팀</span><span class="tag">품질</span></div>
+            <a href="Value_클레임_대시보드.html" class="card-open-btn">열기 →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05. 주간 업무 대시보드 -->
+      <div class="card-wrap c-blue" id="cw-5">
+        <div class="card-hd" onclick="toggleCard('cw-5')">
+          <span class="card-hd-num">05</span>
           <div class="card-hd-icon">📊</div>
           <div class="card-hd-title">주간 업무 대시보드</div>
           <div class="card-hd-chevron">▼</div>
@@ -1334,9 +1364,9 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 05. 실험 시트 타이머 -->
-      <div class="card-wrap c-teal" id="cw-5">
-        <div class="card-hd" onclick="toggleCard('cw-5')">
-          <span class="card-hd-num">05</span>
+      <div class="card-wrap c-teal" id="cw-6">
+        <div class="card-hd" onclick="toggleCard('cw-6')">
+          <span class="card-hd-num">06</span>
           <div class="card-hd-icon">⏱️</div>
           <div class="card-hd-title">실험 시트 타이머</div>
           <div class="card-hd-chevron">▼</div>
@@ -1351,9 +1381,9 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 06. Sequential Protocol Timer -->
-      <div class="card-wrap c-yellow" id="cw-6">
-        <div class="card-hd" onclick="toggleCard('cw-6')">
-          <span class="card-hd-num">06</span>
+      <div class="card-wrap c-yellow" id="cw-7">
+        <div class="card-hd" onclick="toggleCard('cw-7')">
+          <span class="card-hd-num">07</span>
           <div class="card-hd-icon">🔢</div>
           <div class="card-hd-title">Sequential Protocol Timer</div>
           <div class="card-hd-chevron">▼</div>
@@ -1368,9 +1398,9 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 07. Conjugation 계산기 -->
-      <div class="card-wrap c-purple" id="cw-7">
-        <div class="card-hd" onclick="toggleCard('cw-7')">
-          <span class="card-hd-num">07</span>
+      <div class="card-wrap c-purple" id="cw-8">
+        <div class="card-hd" onclick="toggleCard('cw-8')">
+          <span class="card-hd-num">08</span>
           <div class="card-hd-icon">🧪</div>
           <div class="card-hd-title">Conjugation 계산기</div>
           <div class="card-hd-chevron">▼</div>
@@ -1385,9 +1415,9 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 08. 생산일정 관리 -->
-      <div class="card-wrap c-green" id="cw-8">
-        <div class="card-hd" onclick="toggleCard('cw-8')">
-          <span class="card-hd-num">08</span>
+      <div class="card-wrap c-green" id="cw-9">
+        <div class="card-hd" onclick="toggleCard('cw-9')">
+          <span class="card-hd-num">09</span>
           <div class="card-hd-icon">🏭</div>
           <div class="card-hd-title">생산일정 관리</div>
           <div class="card-hd-chevron">▼</div>
@@ -1402,9 +1432,9 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 09. IDChip QC 대시보드 -->
-      <div class="card-wrap c-orange" id="cw-9">
-        <div class="card-hd" onclick="toggleCard('cw-9')">
-          <span class="card-hd-num">09</span>
+      <div class="card-wrap c-orange" id="cw-10">
+        <div class="card-hd" onclick="toggleCard('cw-10')">
+          <span class="card-hd-num">10</span>
           <div class="card-hd-icon">🔬</div>
           <div class="card-hd-title">IDChip QC 대시보드</div>
           <div class="card-hd-chevron">▼</div>
@@ -1419,9 +1449,9 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 10. Flowchart Generator -->
-      <div class="card-wrap c-teal" id="cw-10">
-        <div class="card-hd" onclick="toggleCard('cw-10')">
-          <span class="card-hd-num">10</span>
+      <div class="card-wrap c-teal" id="cw-11">
+        <div class="card-hd" onclick="toggleCard('cw-11')">
+          <span class="card-hd-num">11</span>
           <div class="card-hd-icon">🗺️</div>
           <div class="card-hd-title">Flowchart Generator</div>
           <div class="card-hd-chevron">▼</div>
@@ -1436,9 +1466,9 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 11. 공지사항 편집기 -->
-      <div class="card-wrap c-orange" id="cw-11">
-        <div class="card-hd" onclick="toggleCard('cw-11')">
-          <span class="card-hd-num">11</span>
+      <div class="card-wrap c-orange" id="cw-12">
+        <div class="card-hd" onclick="toggleCard('cw-12')">
+          <span class="card-hd-num">12</span>
           <div class="card-hd-icon">📢</div>
           <div class="card-hd-title">공지사항 편집기</div>
           <div class="card-hd-chevron">▼</div>
