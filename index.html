@@ -666,6 +666,25 @@ window.addEventListener('DOMContentLoaded',function(){
   loadNotice();
   initCvWidget();
   loadWeather();setInterval(loadWeather, 10*60*1000); // 10분마다 갱신
+
+  // ── 팀 로고 애니메이션 자동 반복 ──
+  // 첫 재생(~2.2s) + 정지 구간 후 일정 간격으로 재실행
+  var LOGO_ANIM_SELS = [
+    '.tl-circle','.tl-glow',
+    '.tl-rib-l','.tl-rib-r','.tl-rib-top',
+    '.tl-txt-main','.tl-txt-sub','.tl-line','.tl-txt-est'
+  ];
+  function replayLogoAnim(){
+    var els = document.querySelectorAll(LOGO_ANIM_SELS.join(','));
+    // 애니메이션 초기화 → 강제 리플로우 → 재시작
+    els.forEach(function(el){ el.style.animation='none'; });
+    document.querySelector('.team-logo-svg').offsetWidth; // reflow trigger
+    els.forEach(function(el){ el.style.animation=''; });
+  }
+  // 첫 재생 완료(2.5s) 후 8초 간격으로 자동 반복
+  setTimeout(function(){
+    setInterval(replayLogoAnim, 8000);
+  }, 2500);
   // 테마 복원
   var savedTheme; try{ savedTheme=localStorage.getItem('hub_theme'); }catch(e){}
   if(savedTheme==='white'){ isDark=false; document.body.classList.add('theme-white'); var tb=document.getElementById('theme-toggle'); if(tb){ tb.querySelector('.theme-toggle-icon').textContent='🌙'; tb.querySelector('.theme-toggle-label').textContent='Dark'; } }
