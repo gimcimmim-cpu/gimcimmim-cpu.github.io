@@ -789,6 +789,46 @@
 </style>
 
 <script>
+/* ── 방문 카운트 ── */
+var VISIT_NS  = 'boditech-cancer-team';   // countapi namespace
+var VISIT_KEY = 'hub-visit-v1';           // countapi key
+var VISIT_LOC = 'cancer_visit_cache_v1';  // localStorage cache key
+
+function loadVisitCount(){
+  // 오늘 날짜키
+  var today = (function(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();})();
+
+  // localStorage: 오늘 방문 횟수
+  var cache;
+  try{ cache=JSON.parse(localStorage.getItem(VISIT_LOC)||'{}'); }catch(e){ cache={}; }
+  if(cache.date !== today){ cache={date:today, todayCnt:0, total:cache.total||0}; }
+  cache.todayCnt = (cache.todayCnt||0) + 1;
+  try{ localStorage.setItem(VISIT_LOC, JSON.stringify(cache)); }catch(e){}
+
+  // UI 즉시 로컬값으로 먼저 표시
+  function setUI(total, todayCnt){
+    var tel=document.getElementById('visit-total');
+    var del=document.getElementById('visit-today');
+    if(tel) tel.textContent = total.toLocaleString()+'회';
+    if(del) del.textContent = '오늘 '+todayCnt+'회';
+  }
+  setUI(cache.total, cache.todayCnt);
+
+  // countapi.xyz hit (누적 방문 증가)
+  fetch('https://api.countapi.xyz/hit/'+VISIT_NS+'/'+VISIT_KEY)
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d.value){
+        cache.total = d.value;
+        try{ localStorage.setItem(VISIT_LOC, JSON.stringify(cache)); }catch(e){}
+        setUI(d.value, cache.todayCnt);
+      }
+    })
+    .catch(function(){
+      // API 실패 → 로컬값 유지
+    });
+}
+
 /* ── 팀 메모 보드 (전역) ── */
 var MEMO_KEY = 'cancer_team_memo_v1';
 var memoOpen = false;
@@ -867,6 +907,7 @@ window.addEventListener('DOMContentLoaded',function(){
   loadNotice();
   initCvWidget();
   loadWeather();setInterval(loadWeather, 10*60*1000); // 10분마다 갱신
+  loadVisitCount(); // 팀 방문 카운트
 
   // 초기 메모 카운트 표시
   renderMemoList();
@@ -1407,6 +1448,11 @@ document.addEventListener('keydown',function(e){
         <span class="dt-value weather-temp" id="wx-temp">—</span>
       </div>
       <div class="weather-detail" id="wx-desc">불러오는 중…</div>
+    </div>
+    <div class="dt-block">
+      <div class="dt-label">👥 팀 방문</div>
+      <div class="dt-value" id="visit-total" style="color:var(--teal)">—</div>
+      <div class="dt-sub" id="visit-today">오늘 —회</div>
     </div>
   </div>
 
