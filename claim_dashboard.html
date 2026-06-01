@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Value 클레임 대시보드 — Cancer팀</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#f5f4f0;color:#1a1a18;padding:1.5rem 2rem;min-height:100vh}
+@media(prefers-color-scheme:dark){body{background:#181816;color:#e8e6e0}}
+.app{max-width:980px;margin:0 auto}
+
+/* ─── Header ─── */
+.hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.25rem}
+.hdr-title{font-size:20px;font-weight:500}
+.hdr-sub{font-size:12px;color:#888780;margin-top:3px}
+.badge{display:inline-block;font-size:11px;padding:3px 10px;border-radius:8px;font-weight:500;background:#E6F1FB;color:#185FA5}
+
+/* ─── Cards ─── */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem}
+.card{background:#ebebdf;border-radius:8px;padding:.875rem 1rem}
+@media(prefers-color-scheme:dark){.card{background:#272724}}
+.card-lbl{font-size:12px;color:#888780;margin-bottom:4px}
+.card-val{font-size:23px;font-weight:500;line-height:1.2}
+.card-hint{font-size:11px;color:#888780;margin-top:3px}
+
+/* ─── Chart boxes ─── */
+.box{background:#fff;border:1px solid rgba(136,135,128,.18);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
+@media(prefers-color-scheme:dark){.box{background:#222220;border-color:rgba(180,178,169,.15)}}
+.box-title{font-size:13px;font-weight:500;margin-bottom:.75rem}
+.box-hint{font-size:11px;color:#888780;font-weight:400;margin-left:6px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:1rem}
+
+/* ─── Legend ─── */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;font-size:11px;color:#888780}
+.li{display:flex;align-items:center;gap:4px}
+.ld{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+
+/* ─── Heatmap ─── */
+.ht{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+.ht th,.ht td{padding:7px 10px;border:1px solid rgba(136,135,128,.18)}
+.ht th{background:#f1efe8;color:#888780;font-weight:500;text-align:center}
+.ht th:first-child{text-align:left;width:130px}
+.ht td{text-align:center;color:#1a1a18}
+.ht td:first-child{text-align:left;font-weight:500;color:#185FA5;cursor:pointer}
+.ht td:first-child:hover{text-decoration:underline}
+.ht td:last-child{font-weight:500}
+@media(prefers-color-scheme:dark){.ht th{background:#2a2a27;color:#888780}.ht td{color:#e8e6e0}.ht td,.ht th{border-color:rgba(180,178,169,.15)}}
+
+/* ─── Detail view ─── */
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#888780;cursor:pointer;padding:4px 0;margin-bottom:1rem;border:none;background:none;font-family:inherit}
+.back-btn:hover{color:#1a1a18}
+@media(prefers-color-scheme:dark){.back-btn:hover{color:#e8e6e0}}
+.d-hdr{display:flex;align-items:baseline;gap:12px;margin-bottom:1rem}
+.d-title{font-size:20px;font-weight:500}
+.d-sub{font-size:13px;color:#888780}
+.mini-cards{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem}
+.mc{background:#ebebdf;border-radius:8px;padding:.625rem .875rem;min-width:88px}
+@media(prefers-color-scheme:dark){.mc{background:#272724}}
+.mc-lbl{font-size:11px;color:#888780;margin-bottom:2px}
+.mc-val{font-size:18px;font-weight:500}
+.d-charts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:1rem}
+@media(max-width:680px){.d-charts{grid-template-columns:1fr}}
+.tab-btn{font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid rgba(136,135,128,.3);background:none;cursor:pointer;font-family:inherit;color:#888780;transition:all .15s}
+.tab-btn.active{background:#185FA5;color:#fff;border-color:#185FA5}
+.tab-btn.active.red{background:#D85A30;border-color:#D85A30}
+.elapsed{font-size:11px;font-weight:500}
+.el-warn{color:#D85A30}
+.el-ok{color:#888780}
+
+/* ─── Complaint table ─── */
+.ctbl{width:100%;border-collapse:collapse;font-size:12px}
+.ctbl th{padding:8px 10px;background:#f1efe8;border-bottom:2px solid rgba(136,135,128,.2);text-align:left;font-weight:500;font-size:11px;color:#888780;white-space:nowrap}
+@media(prefers-color-scheme:dark){.ctbl th{background:#2a2a27}}
+.ctbl td{padding:8px 10px;border-bottom:1px solid rgba(136,135,128,.15);vertical-align:middle;color:#1a1a18}
+@media(prefers-color-scheme:dark){.ctbl td{color:#e8e6e0}}
+.crow{cursor:pointer}
+.crow:hover td{background:rgba(136,135,128,.06)}
+.crow.open td{background:rgba(136,135,128,.07)}
+.drow{display:none}
+.drow.show{display:table-row}
+.drow-inner{padding:14px 16px;background:rgba(136,135,128,.04);border-top:none}
+.drow-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.drow-sec{padding:10px 12px;background:#fff;border-radius:8px;border:1px solid rgba(136,135,128,.15)}
+@media(prefers-color-scheme:dark){.drow-sec{background:#1e1e1c;border-color:rgba(180,178,169,.12)}}
+.drow-sec-full{grid-column:1/-1}
+.drow-lbl{font-size:11px;font-weight:500;color:#888780;margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em}
+.drow-txt{font-size:12px;line-height:1.6;color:#1a1a18}
+@media(prefers-color-scheme:dark){.drow-txt{color:#d8d6d0}}
+.chevron{font-size:10px;color:#888780;display:inline-block;transition:transform .2s;margin-left:4px}
+.crow.open .chevron{transform:rotate(180deg)}
+
+/* ─── Badges ─── */
+.b{display:inline-block;font-size:10px;padding:2px 7px;border-radius:5px;font-weight:500;white-space:nowrap}
+.b-mod{background:#FAEEDA;color:#633806}
+.b-low{background:#E6F1FB;color:#0C447C}
+.b-nor{background:#E1F5EE;color:#085041}
+.b-na {background:#F1EFE8;color:#5F5E5A}
+.b-cls{background:#E1F5EE;color:#085041}
+.b-ong{background:#FAECE7;color:#993C1D}
+.b-yes{background:#E6F1FB;color:#185FA5}
+.b-no {background:#F1EFE8;color:#5F5E5A}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ═══════════════════════════════ MAIN VIEW ══════════════════════════════ -->
+<div id="v-main">
+  <div class="hdr">
+    <div>
+      <div class="hdr-title">Value 클레임 대시보드</div>
+      <div class="hdr-sub">2nd CLASS = Value · 2026년 1–5월</div>
+    </div>
+    <span class="badge">Cancer팀 전용</span>
+  </div>
+
+  <div class="cards">
+    <div class="card"><div class="card-lbl">전체 건수</div><div class="card-val">44</div><div class="card-hint">Value 분류 클레임</div></div>
+    <div class="card"><div class="card-lbl">종결 완료</div><div class="card-val" style="color:#1D9E75">30건</div><div class="card-hint">종결률 68.2%</div></div>
+    <div class="card" style="cursor:pointer;transition:box-shadow .15s" onmouseenter="this.style.boxShadow='0 0 0 2px #D85A30'" onmouseleave="this.style.boxShadow=''" onclick="showOngoing()" title="클릭하면 미종결 목록"><div class="card-lbl">진행 중 <span style="font-size:10px;color:#D85A30">▶ 목록</span></div><div class="card-val" style="color:#D85A30">14건</div><div class="card-hint">미종결 31.8%</div></div>
+    <div class="card"><div class="card-lbl">평균 처리 기간</div><div class="card-val">7.0일</div><div class="card-hint">종결 건 기준 (중앙값 3일)</div></div>
+  </div>
+
+  <div class="box">
+    <div class="box-title">월별 접수 건수</div>
+    <div style="position:relative;width:100%;height:155px"><canvas id="cM" role="img" aria-label="월별 접수건수">월별: 1월 8, 2월 11, 3월 5, 4월 15, 5월 5</canvas></div>
+  </div>
+
+  <div class="row2">
+    <div class="box">
+      <div class="box-title">품목별 건수<span class="box-hint">▶ 클릭하면 세부내역</span></div>
+      <div style="position:relative;width:100%;height:285px"><canvas id="cI" role="img" aria-label="품목별 건수">PSA 9, Ferritin 6, Free PSA 5, PSA Neo 5, Calprotectin 5, CEA 4, AFP 4, CA19-9 3, H.pylori SA 2, Cyfra21-1 1</canvas></div>
+    </div>
+    <div class="box">
+      <div class="box-title">3rd CLASS 분류</div>
+      <div style="position:relative;width:100%;height:285px"><canvas id="c3" role="img" aria-label="3rd CLASS 분류">Accuracy 25, Comparison 11, Lot to Lot 4, Reproducibility 2, Stability 1, N/A 1</canvas></div>
+    </div>
+  </div>
+
+  <div class="row3">
+    <div class="box">
+      <div class="box-title">Severity Level</div>
+      <div class="legend">
+        <span class="li"><span class="ld" style="background:#EF9F27"></span>Moderate 27</span>
+        <span class="li"><span class="ld" style="background:#378ADD"></span>Low 12</span>
+        <span class="li"><span class="ld" style="background:#1D9E75"></span>No risk 4</span>
+        <span class="li"><span class="ld" style="background:#B4B2A9"></span>N/A 1</span>
+      </div>
+      <div style="position:relative;width:100%;height:160px"><canvas id="cS" role="img" aria-label="Severity Level">Moderate 27, Low 12, No risk 4, N/A 1</canvas></div>
+    </div>
+    <div class="box">
+      <div class="box-title">종결 현황</div>
+      <div class="legend">
+        <span class="li"><span class="ld" style="background:#1D9E75"></span>Closed 30</span>
+        <span class="li"><span class="ld" style="background:#D85A30"></span>On Going 14</span>
+      </div>
+      <div style="position:relative;width:100%;height:160px"><canvas id="cT" role="img" aria-label="종결 현황">Closed 30, On Going 14</canvas></div>
+    </div>
+    <div class="box">
+      <div class="box-title">지역별 분포</div>
+      <div style="position:relative;width:100%;height:185px"><canvas id="cA" role="img" aria-label="지역별 분포">America 15, Asia 11, Korea 7, MENA 5, Europe 5, Africa 1</canvas></div>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="box-title">품목별 Severity Level 분포<span class="box-hint">▶ 품목명 클릭으로 세부내역</span></div>
+    <table class="ht">
+      <thead><tr><th>품목</th><th style="color:#854F0B">Moderate risk</th><th style="color:#185FA5">Low risk</th><th style="color:#0F6E56">No risk</th><th>합계</th></tr></thead>
+      <tbody id="htB"></tbody>
+    </table>
+  </div>
+
+  <div class="box" id="ac-summary-box">
+    <div class="box-title">종결 처리 방식 현황<span class="box-hint">Closed 30건 기준</span></div>
+    <div id="ac-summary"></div>
+  </div>
+
+  <div class="box" id="og-summary-box">
+    <div class="box-title">미종결 진행 상황 분류<span class="box-hint">On Going 14건 · 클릭하면 세부목록</span></div>
+    <div id="og-summary"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ RT DETAIL VIEW ══════════════════════════ -->
+<div id="v-rtdetail" style="display:none">
+  <button class="back-btn" onclick="showMain()">← 대시보드로 돌아가기</button>
+  <div class="d-hdr">
+    <div class="d-title" id="rt-title"></div>
+    <div class="d-sub" id="rt-sub"></div>
+  </div>
+  <div class="box" style="margin-bottom:0;padding-bottom:0">
+    <div class="box-title" id="rt-tbl-title">클레임 목록 <span class="box-hint">▶ 행 클릭으로 상세 내용</span></div>
+    <div style="overflow-x:auto">
+    <table class="ctbl" style="min-width:700px">
+      <thead><tr>
+        <th style="width:140px">Complaint No.</th>
+        <th style="width:90px">품목</th>
+        <th style="width:90px">접수일</th>
+        <th style="width:90px">국가</th>
+        <th style="width:110px">Severity</th>
+        <th style="width:85px">처리기간</th>
+        <th id="rt-col-hdr" style="width:200px">처리 내용 요약</th>
+        <th style="width:28px"></th>
+      </tr></thead>
+      <tbody id="rt-rows"></tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ ONGOING VIEW ═══════════════════════════ -->
+<div id="v-ongoing" style="display:none">
+  <button class="back-btn" onclick="showMain()">← 대시보드로 돌아가기</button>
+  <div class="d-hdr">
+    <div class="d-title" style="color:#D85A30">⏳ 미종결 클레임</div>
+    <div class="d-sub" id="og-sub"></div>
+  </div>
+  <div class="mini-cards" id="og-mini"></div>
+  <div class="box" style="margin-bottom:0;padding-bottom:0">
+    <div class="box-title">On Going 목록 <span class="box-hint">▶ 행 클릭으로 상세 내용</span></div>
+    <div style="overflow-x:auto">
+    <table class="ctbl" style="min-width:700px">
+      <thead><tr>
+        <th style="width:140px">Complaint No.</th>
+        <th style="width:90px">품목</th>
+        <th style="width:90px">접수일</th>
+        <th style="width:95px">국가</th>
+        <th style="width:110px">Severity</th>
+        <th style="width:105px">3rd CLASS</th>
+        <th style="width:90px">접수 경과</th>
+        <th style="width:28px"></th>
+      </tr></thead>
+      <tbody id="og-rows"></tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ DETAIL VIEW ═════════════════════════════ -->
+<div id="v-detail" style="display:none">
+  <button class="back-btn" onclick="showMain()">← 대시보드로 돌아가기</button>
+  <div class="d-hdr">
+    <div class="d-title" id="d-title"></div>
+    <div class="d-sub" id="d-sub"></div>
+  </div>
+  <div class="mini-cards" id="d-mini"></div>
+
+  <div class="d-charts">
+    <div class="box" style="margin-bottom:0">
+      <div class="box-title">월별 접수</div>
+      <div style="position:relative;width:100%;height:130px"><canvas id="d-cM"></canvas></div>
+    </div>
+    <div class="box" style="margin-bottom:0">
+      <div class="box-title">3rd CLASS</div>
+      <div style="position:relative;width:100%;height:130px"><canvas id="d-c3"></canvas></div>
+    </div>
+    <div class="box" style="margin-bottom:0">
+      <div class="box-title">지역 분포</div>
+      <div style="position:relative;width:100%;height:130px"><canvas id="d-cA"></canvas></div>
+    </div>
+  </div>
+
+  <div class="box" style="margin-bottom:0;padding-bottom:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+      <div class="box-title" style="margin-bottom:0">클레임 목록 <span class="box-hint">▶ 행 클릭으로 상세 내용</span></div>
+      <div id="d-tabs" style="display:flex;gap:6px"></div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="ctbl" style="min-width:700px">
+      <thead><tr>
+        <th style="width:140px">Complaint No.</th>
+        <th style="width:90px">접수일</th>
+        <th style="width:95px">국가</th>
+        <th style="width:110px">Severity</th>
+        <th style="width:105px">3rd CLASS</th>
+        <th style="width:80px">종결</th>
+        <th style="width:65px;text-align:right">기간(일)</th>
+        <th style="width:28px"></th>
+      </tr></thead>
+      <tbody id="d-rows"></tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+</div><!-- .app -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const DATA = [{"n":"2601-CC-105","i":"CA19-9","m":1,"a":"MENA","c":"Syria","dist":"MGC","rd":"2026-01-10","c3":"Accuracy","sv":"Moderate risk","ti":"CA19-9 CXVFB04EX","tm":"Closed","ed":"2026-01-12","du":2.0,"iv":"YES","lo":"CXVFB04EX","dv":"ichroma 2","ac":"Email response","id":"내부 테스트 결과 특이사항 없음 / 수식 제조기록서와 QC 와 대조시에 특이사항 없음 / 대리점 데이터 또한 모두 범위 안에 들어옴","cm":"Control 테스트한 결과 이상 없는지 검토 요청"},{"n":"2601-CC-123","i":"CA19-9","m":1,"a":"Asia","c":"Hong Kong","dist":"Intuitive Technology","rd":"2026-01-19","c3":"Accuracy","sv":"Low risk","ti":"Questions about CA19-9","tm":"Closed","ed":"2026-01-19","du":0.0,"iv":"NO","lo":null,"dv":null,"ac":"Email response","id":null,"cm":"CA19-9 측정 하한은 8 U/mL인데 고객은 8 U/mL 하한값이 너무 높다고 판단. 그래서 Raw data 상에서 8 U/mL 미만의 실제 측정값 표시가 가능한지 여부 (즉, 시스템 내부 계산값 또는 신호값 확인 가능 여부 요청)(01.19)"},{"n":"2601-CC-137","i":"PSA Neo","m":1,"a":"America","c":"Guatemala","dist":"Labindustrias","rd":"2026-01-19","c3":"Comparison","sv":"Low risk","ti":"(Gua): informe m3","tm":"On Going","ed":null,"du":null,"iv":"YES","lo":"PSVEB08EX","dv":"ichroma M3","ac":"Email response","id":"판매 전 평가 단계이고, ichroma III와 비교 시 전반적으로 잘 나오고 있어 문제 없어 보임.","cm":"M3 평가 결과 공유."},{"n":"2601-CC-177","i":"PSA","m":1,"a":"America","c":"Guatemala","dist":"Labindustrias","rd":"2026-01-23","c3":"Accuracy","sv":"No risk","ti":"(Gua): Verificación PSA libre enero 2026","tm":"On Going","ed":null,"du":null,"iv":"NO","lo":"PSUEA58F","dv":"AFIAS-6","ac":"Email response","id":"PSA검사 - AFIAS 6 내부 검사 결과 콘트롤 범위 내 있는 것 확인함","cm":"2026년 입고검사 PSA 결과 수치 확인 요청"},{"n":"2601-CC-178","i":"Free PSA","m":1,"a":"America","c":"Guatemala","dist":"Labindustrias","rd":"2026-01-23","c3":"Accuracy","sv":"No risk","ti":"(Gua): Verificación PSA libre enero 2026","tm":"Closed","ed":"2026-01-29","du":6.0,"iv":"YES","lo":"F1VDB02EX - F1VDA08G","dv":"ichroma 3","ac":"Email response","id":"Free PSA 검사 - AFIAS 6 / I-chroma 3 Control 측정, i-Chroma / AFIAS-6 mean 값 대비 정상범위 OK. i-Chroma에서 #2-1회 수치 범위 이탈 장비 간 편차보다 검사 절차(시료 취급, 분주, 혼합 과정 등) 문제일 수 있음 연구소 의견 전달","cm":"2026년 입고검사 Free PSA 결과 수치 확인 요청"},{"n":"2601-CC-208","i":"Calprotectin","m":1,"a":"MENA","c":"Morocco","dist":"GDD","rd":"2026-01-20","c3":"Comparison","sv":"Moderate risk","ti":"모로코 AL Massira: ichroma II 검사 장비 Raw data 첨부","tm":"Closed","ed":"2026-01-23","du":3.0,"iv":"YES","lo":"CPUFC04Z, CPUYC07Z","dv":"ichroma 2","ac":"Email response","id":"자세한 수치 정보는 전달 받지 못하였지만, 최근 사용하던 두 개의 배치 내부테스트 결과, 특이사항 없음을 확인. 연구소 확인 결과, 장비간 차이로 인해 정량적 차이가 발생 가능","cm":"Buhlmann 대비 값이 높게 측정; 자세한 수치자료 없음"},{"n":"2601-CC-209K","i":"PSA","m":1,"a":"Korea","c":"Korea","dist":"Domestic (Korea)","rd":"2026-01-16","c3":"Accuracy","sv":"No risk","ti":"유로진 남성의원 ichroma PSA 수치 차이 문의","tm":"On Going","ed":null,"du":null,"iv":"NO","lo":null,"dv":"ichroma 2","ac":"Phone call response","id":"연락했으나 전화받지 않음","cm":"ichroma-2로 PSA 수치차이가 많이 난다고 문의가 왔습니다."},{"n":"2601-CC-323K","i":"PSA","m":1,"a":"Korea","c":"Korea","dist":"Domestic (Korea)","rd":"2026-01-29","c3":null,"sv":"Low risk","ti":"Invalid-50","tm":"Closed","ed":"2026-01-29","du":0.0,"iv":"NO","lo":"PSVKA65F","dv":"AFIAS-10","ac":"Phone call response","id":"PSA 측정 시 Invalid 50 발생. 신규 AFIAS-10 세팅처로 사용자 error 가능성 염두에 두고 재측정 요청, 재측정 후 이상 없음 확인 완료","cm":"PSA(Invalid-50)"},{"n":"2602-CC-004","i":"PSA","m":2,"a":"America","c":"Mexico","dist":"Desego","rd":"2026-02-02","c3":"Accuracy","sv":"Moderate risk","ti":"10310 - 28785 Ichroma II - error en PSA y B-HGC","tm":"Closed","ed":"2026-03-05","du":31.0,"iv":"YES","lo":"PSVBQ12","dv":"ichroma 2","ac":"Email response","id":"해당 lot은 작년 10월부터 지금까지 74회 측정되었으며, 그 중 9번이 invalid-34임. 에러가 발생한 동일 카트리지로 몇 번 더 찍어본 흔적도 있음.","cm":"invalid-34 발생한다고 함."},{"n":"2602-CC-078","i":"Ferritin","m":2,"a":"Asia","c":"India","dist":"CPC","rd":"2026-02-07","c3":"Comparison","sv":"Moderate risk","ti":"evaluation study at mobilab","tm":"On Going","ed":null,"du":null,"iv":"YES","lo":"DFRVFB08","dv":"ichroma 2","ac":"Email response","id":"Siemens CLIA와 상관성 확인 필요. PM측 확인 결과 기준 장비는 Vidas임을 설명. Vidas, Cobas와는 기울기, R2 값을 만족하나 Access2는 약 40% 낮게 측정됨. 연구소 내부 테스트를 통해 incubation 온도/시간이 맞지 않을 경우 결과 차이 발생함.(02.11)","cm":"지멘스 CLIA 장비와 비교 결과 공유. 상관성이 좋지 않음."},{"n":"2602-CC-083","i":"H. pylori SA","m":2,"a":"America","c":"Guatemala","dist":"Labindustrias","rd":"2026-02-10","c3":"Accuracy","sv":"Low risk","ti":"(HN) Solicitud de reposición Helicobacter Pylori-COI elevado e invalido-25","tm":"Closed","ed":"2026-02-10","du":0.0,"iv":"YES","lo":"HSVFH12","dv":"ichroma 2","ac":"Email response","id":"Rawdata 확인 > SW 버전 2022년 8월 버전 / invalid 25 1회 발생 수치 에러도 2회 >> 간헐적 오류로 보임","cm":"H. pylori 검사 2건 이상수치 >> invalid 25 오류, 다른 환자는 COI 7933 로 높은 수치"},{"n":"2602-CC-095","i":"Calprotectin","m":2,"a":"Africa","c":"Uganda","dist":"Medilink Lab & Surgicals Ltd","rd":"2026-02-09","c3":"Comparison","sv":"Moderate risk","ti":"ICHROMA II RESULT DISCREPANCY","tm":"On Going","ed":null,"du":null,"iv":"YES","lo":"CPUHC05Z","dv":"ichroma 2","ac":"Email response","id":"대리점 raw data 확인 결과, 비 특이적인 형광 신호 확인. Caution Error 3회 발생. 결과 대부분이 높게 측정되는 경향. 샘플 수집 및 테스트 절차 상 문제 확인 예정. 25년 9월을 마지막으로 테스트한 이력 없음.(02.12)","cm":"AMSUP-3107-OPL 대비 높게 측정"},{"n":"2602-CC-096","i":"Calprotectin","m":2,"a":"MENA","c":"Tunisia","dist":"Biotop","rd":"2026-02-02","c3":"Comparison","sv":"Moderate risk","ti":"Complaint Calprotectin on AFIAS 6","tm":"Closed","ed":"2026-02-06","du":4.0,"iv":"YES","lo":"CPVYA09X","dv":"AFIAS-6","ac":"Email response","id":"내부테스트 시 이상없음. Algeria끼리도 수치가 3배이상 발생","cm":"Alegria 두 대와 비교했을 때 위음성 발생. AFIAS: 6.33, 14.35, 81.05 / Alegria: 700, 242"},{"n":"2602-CC-110","i":"PSA Neo","m":2,"a":"America","c":"Venezuela","dist":"Bio-Control CA","rd":"2026-02-11","c3":"Accuracy","sv":"Moderate risk","ti":"Asesoría PSA Libre y PSA Neo via WeTransfer","tm":"Closed","ed":"2026-03-10","du":27.0,"iv":"YES","lo":"PSVXC02EX","dv":"ichroma 2","ac":"Email response","id":"1월 9일에 측정된 동일 lot은 결과값이 제대로 나왔고, 21일에 연속적으로 짧은 시간 안에 여러 번 나온 것으로 보아 문제된 카트리지를 다시 측정하면서 발생한 것으로 보임. 일시적인 문제로 보임.","cm":"Invalid-06 발생"},{"n":"2602-CC-111","i":"Free PSA","m":2,"a":"America","c":"Venezuela","dist":"Bio-Control CA","rd":"2026-02-11","c3":"Accuracy","sv":"Moderate risk","ti":"Asesoría PSA Libre y PSA Neo via WeTransfer","tm":"Closed","ed":"2026-03-10","du":27.0,"iv":"YES","lo":"F1VDB02EX","dv":"ichroma 2","ac":"Email response","id":"1월 9일에 측정된 동일 lot은 결과값이 제대로 나왔고, 21일에 연속적으로 짧은 시간 안에 여러 번 나온 것으로 보아 일시적인 문제로 보임.","cm":"Invalid-06 발생"},{"n":"2602-CC-151","i":"Ferritin","m":2,"a":"America","c":"Peru","dist":"RAPIDAGNOSTICS(PE)","rd":"2026-02-19","c3":"Accuracy","sv":"Moderate risk","ti":"Solicitud de revisión de backup por error Invalid-34 en ferritina – iChroma II","tm":"Closed","ed":"2026-02-20","du":1.0,"iv":"YES","lo":"DFRVHC05 DFRVBA03","dv":"ichroma 2","ac":"Email response","id":"파이펫을 50+25 짜리 두 개로 75ul를 맞춰서 분주한다고 하고, 대리점에서 측정 시 문제 없는데 고객 사이트에서만 문제가 발생함. Raw data 접수 후 그래프가 많이 지글거리는 것을 확인하여 전압이 높은 다른 기기 근처에 있을 가능성이 있음.","cm":"invalid-34 발생한다고 함."},{"n":"2602-CC-168","i":"Free PSA","m":2,"a":"America","c":"Guatemala","dist":"Labindustrias","rd":"2026-02-22","c3":"Lot to Lot","sv":"Moderate risk","ti":"RE: (Gua): Verificación PSA libre febrero","tm":"Closed","ed":"2026-03-03","du":9.0,"iv":"YES","lo":"F1VYB03EX","dv":"ichroma 3","ac":"Email response","id":"TS팀에서 ichroma 3로 Control Test 진행 결과 LV.2에서 높게 측정, 연구소에서 ichroma 2 측정 시 기준 범위 이내로 들어옴. ichroma 2 사용 시 실온에서 incubation, ichroma 3 사용 시 장비 내 25°C에서 incubation 진행하여 ichroma 3가 더 높게 측정됨을 확인. 수식을 따로 갖고가야할 필요성 있다 사료.","cm":"Free PSA 입고 검사 결과 공유"},{"n":"2602-CC-201","i":"CEA","m":2,"a":"MENA","c":"Tunisia","dist":"Biotop","rd":"2026-02-17","c3":"Accuracy","sv":"Moderate risk","ti":"Re: Complaint CEA HbA1c after internal QC","tm":"Closed","ed":"2026-02-23","du":6.0,"iv":"YES","lo":"CEVLA14X","dv":null,"ac":"Email response","id":"내부에 해당 배치의 재고가 남아있지 않아 내부테스트는 진행하지 못하였으며, 우선 대리점 측의 결과를 바탕으로 수식 보정 후 모니터링을 진행해야할 것으로 사료됨","cm":"Bio-rad Control 테스트 시 결과 값이 높게 측정됨"},{"n":"2602-CC-208","i":"Ferritin","m":2,"a":"Asia","c":"India","dist":"KIN","rd":"2026-02-25","c3":"Comparison","sv":"Moderate risk","ti":"Ferritin Product Issue – Results Before and After Software Upgradation: PAYAS LAB","tm":"On Going","ed":null,"du":null,"iv":"YES","lo":"DFRUXX02","dv":"ichroma 2","ac":"Email response","id":"Raw data 확인 결과, 34건의 DFRUXX02 데이터 중 비교 결과는 단 2건. 각각 결과는 123%, 71%로 Architect 대비 높게 측정되는 경향. 장비 간 차이로 보여 수식 보정으로 처리 예정(03.03)","cm":"Abbott의 Architect와 수치 차이 발생. 더 높게 측정된다고 함."},{"n":"2603-CC-029","i":"H. pylori SA","m":3,"a":"America","c":"Guatemala","dist":"Labindustrias","rd":"2026-03-05","c3":"Accuracy","sv":"No risk","ti":"(Gua): H. pylori iChroma // Afias","tm":"Closed","ed":"2026-03-06","du":1.0,"iv":"YES","lo":null,"dv":"AFIAS-3","ac":"Email response","id":"반정량 아닌 정량 검사법, COI등에 대한 기준으로 회신 초안 작성. cancer 이다희 PM 문의","cm":"당사 장비 및 카트리지에서 확인 가능한 반정량 검사 수치와 해당 장비에서 측정 가능한 상한값에 대해 문의"},{"n":"2603-CC-040","i":"AFP","m":3,"a":"Asia","c":"Thailand","dist":"Z-MEDIC","rd":"2026-03-05","c3":"Accuracy","sv":"Moderate risk","ti":"Complaint Submission: Repeated Invalid-34 Results on ichroma MAU & AFP at Two Sites","tm":"On Going","ed":null,"du":null,"iv":"YES","lo":"AFVBC04","dv":"ichroma 2","ac":"Email response","id":"raw data 없음. Complaint form에 작성된 정보 중 누락된 정보가 많음(03.05). Raw data 결과 1회 테스트 시 invalid-34 발생. 추가 데이터 없음. 데이터 확인 결과 지글거림과 T라인 패임 현상이 확인됨(03.10)","cm":"invalid 34 발생"},{"n":"2603-CC-118","i":"CEA","m":3,"a":"Europe","c":"Germany","dist":"Hitado","rd":"2026-03-16","c3":"Stability","sv":"Moderate risk","ti":"WG: CEA QC-Abweichungen","tm":"Closed","ed":"2026-03-19","du":3.0,"iv":"YES","lo":"CEVBA10X","dv":null,"ac":"Email response","id":"CEVBA10X번 카트리지로 대리점 측에서 내부 테스트. 대부분의 level 1은 out of range low, level 2는 허용 범위에 드는 값. 컨트롤 level 1 물질의 문제로 보임. 대리점에서 카트리지를 다른 lot으로 교체 후 문제가 해결됨.","cm":"AFIAS CEA CEVBA10X 카트리지로 tumor control 23번, 24번 측정 시 결과값이 낮게 나옴."},{"n":"2603-CC-173","i":"Calprotectin","m":3,"a":"Asia","c":"India","dist":"CPC","rd":"2026-03-24","c3":"Comparison","sv":"Moderate risk","ti":"calprotectin evaluation at Kims","tm":"On Going","ed":null,"du":null,"iv":"YES","lo":"CPVGD04Z","dv":"ichroma 2","ac":"Email response","id":"raw data 확인 상 특이 사항은 없음. Calprotectin이 플랫폼 간 차이가 있다는 연구소 확인. IFU 상 주의 사항(pre-dropping, 샘플 균질화, 묽은 변의 경우 파이펫 사용 등)에 따라 결과값 변동 가능성 확인(03.24)","cm":"CLIA 장비와 ichroma Calprotectin 비교 결과 공유 및 수치 차이에 대한 의견 요청"},{"n":"2603-CC-214","i":"Ferritin","m":3,"a":"Asia","c":"India","dist":"KIN","rd":"2026-03-27","c3":"Accuracy","sv":"Moderate risk","ti":"Issue with Invalid 34 & 35 in Ferritin – Request for Review","tm":"Closed","ed":"2026-03-30","du":3.0,"iv":"YES","lo":null,"dv":"ichroma 2","ac":"Email response","id":"Invalid 25의 경우에는 C step이 94로 측정됨. 카트리지를 정확히 넣지 않은 것으로 보임(바코드도 밀림). Invalid 34의 경우에는 Base line의 지글거림이 심함. 페라이트 코어 사용을 권장해야할 것으로 보여짐.","cm":"Ferritin 테스트 시 invalid-34, 25 발생."},{"n":"2604-CC-006","i":"CA19-9","m":4,"a":"America","c":"Guatemala","dist":"Labindustrias","rd":"2026-04-01","c3":"Reproducibility","sv":"Low risk","ti":"(Gua): CA 19-9 Afias","tm":"Closed","ed":"2026-04-02","du":1.0,"iv":"YES","lo":"CXVHB05EX","dv":"ichroma 3","ac":"Email response","id":"샘플 넣을 때 파이펫 믹싱 하는 것이 좋다고 PM에게 확인하여 해당 방법으로 내부 테스트 시 잘 나오는 것을 확인.","cm":"ichroma로 control test 시 level 1이 재현성이 너무 떨어지는데 올바른 테스트 방법을 한 번 알려달라고 함."},{"n":"2604-CC-032","i":"AFP","m":4,"a":"Asia","c":"Thailand","dist":"Z-MEDIC","rd":"2026-04-08","c3":"Accuracy","sv":"Moderate risk","ti":"Recurrent Invalid‑34 Errors in Multiple iChroma Tumor Marker Kits","tm":"On Going","ed":null,"du":null,"iv":"YES","lo":"AFVCC05 CEVEC12 PSVGR12","dv":"ichroma 2","ac":"Email response","id":"Raw data 상 NC membrane 오염 및 손상에 의해 발생한 것으로 보임. raw data 확인 결과 AFP, CEA, PSA 모두 좌측이 들리는 비정상적인 패턴 확인. 검사 절차에서 반응 시간을 초과했거나 sample mixture volume이 부족한 경우 발생할 가능성이 있음.(04.10)","cm":"AFP, CEA, PSA 테스트 시 Invalid-34 다수 발생."},{"n":"2604-CC-044","i":"CEA","m":4,"a":"Asia","c":"Thailand","dist":"Z-MEDIC","rd":"2026-04-09","c3":"Accuracy","sv":"Moderate risk","ti":"Inquiry Regarding QC Passing at Low Spot Calibration Value for CEA Assay","tm":"On Going","ed":null,"du":null,"iv":"YES","lo":"CEVFD01","dv":"ichroma 2","ac":"Email response","id":"내부 컨트롤 테스트 결과, LV.2에서 19% 높은 결과 확인. detection buffer tube는 냉장보관 필요. 검사 간 시간 간격이 꽤 있었음. Tumor maker 컨트롤은 녹이고 최대 1일만 사용 가능. 컨트롤 보관 조건 확인 필요(04.10)","cm":"QC 테스트 결과, 결과값이 높게 측정되어 QC fail. Spot cal Factor를 60까지 낮춰야 range안에 들어옴."},{"n":"2604-CC-064","i":"Ferritin","m":4,"a":"Europe","c":"Austria","dist":"Sysmex Austria","rd":"2026-04-02","c3":"Accuracy","sv":"Moderate risk","ti":"AFIAS-6 invalid 34 TSH Ferritin Vitamin D","tm":"Closed","ed":"2026-04-20","du":18.0,"iv":"YES","lo":"FRUKA50X","dv":"AFIAS-6","ac":"Email response","id":"10 미만은 우리측에서는 발생하지 않음. 대리점이 첨부해준 Raw data 장비와 다른 것으로 확인되어 해당 장비 Raw data 있는지 확인 요청. Invalid-34 원인 슬라이드도 한번 더 첨부함.","cm":"Invalid 34 에러가 발생. 그리고 External lab 결과 대비 차이가 큼"},{"n":"2604-CC-066","i":"PSA Neo","m":4,"a":"America","c":"Ecuador","dist":"RAPIDAGNOSTICS(PE)","rd":"2026-04-16","c3":"Accuracy","sv":"Low risk","ti":"PSA NEO Invalid 발생 문의","tm":"On Going","ed":null,"du":null,"iv":"YES","lo":"PSWAC10EX","dv":"ichroma 2","ac":"SNS response","id":"리텐션 받아 검사 - 콘트롤 범위 내 있음 정상결과 나옴 > 대리점 전달 > 재검사했으나 계속 인밸리드 나온다 함","cm":"PSA NEO 검사를 했는데 Invalid 06 과 34 발생 문의"},{"n":"2604-CC-081","i":"Free PSA","m":4,"a":"America","c":"Guatemala","dist":"Labindustrias","rd":"2026-04-13","c3":"Lot to Lot","sv":"Low risk","ti":"(Gua): Validación PSA libre iChroma Afias","tm":"Closed","ed":"2026-04-14","du":1.0,"iv":"YES","lo":"F1VYB03EX","dv":"ichroma 3","ac":"Email response","id":"%fPSA 계산 시 reference와 다소 차이가 있긴 하지만 기준이 되는 F1VYB03EX lot과는 유사한 결과를 보이고 있어 문제 없어 보임. 임상적으로도 reference와 갈리지 않음.","cm":"신규 입고 lot 검사 결과 공유."},{"n":"2604-CC-082","i":"Free PSA","m":4,"a":"America","c":"Guatemala","dist":"Labindustrias","rd":"2026-04-13","c3":"Lot to Lot","sv":"Low risk","ti":"(Gua): Validación PSA libre iChroma Afias","tm":"Closed","ed":"2026-04-14","du":1.0,"iv":"YES","lo":"F1WAA11G","dv":"AFIAS-6","ac":"Email response","id":"%fPSA 계산 시 reference와 다소 차이가 있긴 하지만 기준이 되는 F1VYB03EX lot과는 차이가 많지 않아 문제 없어 보임. 임상적으로도 reference와 갈리지 않음.","cm":"신규 입고 lot 검사 결과 공유."},{"n":"2604-CC-083","i":"PSA Neo","m":4,"a":"America","c":"Guatemala","dist":"Labindustrias","rd":"2026-04-13","c3":"Lot to Lot","sv":"Low risk","ti":"(Gua): Validación PSA libre iChroma Afias","tm":"Closed","ed":"2026-04-14","du":1.0,"iv":"YES","lo":"PSAVDA63F","dv":"AFIAS-6","ac":"Email response","id":"Reference 대비 약간 차이는 있어 보이나 control 측정 결과가 없기도 하고 워낙 저농도 구간도 있어서 검체별, lot 별 허용 가능한 오차 범위라고 보여짐.","cm":"신규 입고 Free PSA 검사 결과의 %fPSA 계산을 위한 Total PSA 측정 결과 공유."},{"n":"2604-CC-124","i":"AFP","m":4,"a":"Europe","c":"Germany","dist":"Hitado","rd":"2026-04-15","c3":"Accuracy","sv":"Moderate risk","ti":"QC Check (RiLi‑BÄK) – Measurement Deviations Tumor Control (CEA / AFP)","tm":"Closed","ed":"2026-04-29","du":14.0,"iv":"YES","lo":"AFVBA23X","dv":null,"ac":"Email response","id":"컨트롤 제품과 카트리지 제품 모두 현재 필드에서 사용 중에 있기 때문에 수식보정이나 별지 변경이 불가한 상황. 다만 컨트롤 별지 중 AFP에 대한 목표 값만 변경하여 해당 별지를 AFIAS AFP AFVBA23X번 제품 전용으로 사용해주기를 요청하는 것은 가능합니다.","cm":"Boditech Tumor maker control TMCOWC27번 제품으로 AFIAS AFP AFVBA23X번 제품 테스트 결과, 현지 QC기준(17%) low limit에 가까운 측정값을 보임."},{"n":"2604-CC-125","i":"CEA","m":4,"a":"Europe","c":"Germany","dist":"Hitado","rd":"2026-04-15","c3":"Accuracy","sv":"Moderate risk","ti":"QC Check (RiLi‑BÄK) – Measurement Deviations Tumor Control (CEA / AFP)","tm":"Closed","ed":"2026-04-29","du":14.0,"iv":"YES","lo":"CEVHA13X","dv":null,"ac":"Email response","id":"컨트롤 별지 중 CEA에 대한 목표 값만 변경하여 해당 별지를 AFIAS CEA CEVHA13X번 제품 전용으로 사용해주기를 요청하는 것은 가능합니다. 하지만 AFIAS 장비별로 비교적 큰 결과값 차이를 보여, 별지 변경의 가능성에 대해 검토를 요청 드립니다.","cm":"Boditech Tumor maker control TMCOWC27번 제품을 AFIAS CEA CEVHA13X번 제품으로 테스트해본 결과, 현지 QC기준(14%) low limit에 가까운 측정값을 보임."},{"n":"2604-CC-171","i":"PSA Neo","m":4,"a":"Asia","c":"India","dist":"KIN","rd":"2026-04-23","c3":"Accuracy","sv":"Moderate risk","ti":"Issue Report: PSA Kit Lot PSVHS03 – Invalid Results","tm":"On Going","ed":null,"du":null,"iv":"YES","lo":"PSVHS03","dv":"ichroma 2","ac":"Email response","id":"raw data가 없기 때문에 추가 확인이 어려운 상황. 영업담당자를 통해 확인을 요청했으나 대리점으로부터 답변이 없어 재확인 예정(05.04)","cm":"PSA 제품 테스트 결과, Invalid 34 발생. 설치 장소 변경 및 페라이트 코어도 설치를 하였다고 함."},{"n":"2604-CC-194","i":"PSA","m":4,"a":"Asia","c":"Bangladesh","dist":"Cosmic","rd":"2026-04-26","c3":"Accuracy","sv":"Moderate risk","ti":"Technical Support Required: Recurring Invalid 34 - iChroma-II","tm":"Closed","ed":"2026-05-16","du":20.0,"iv":"YES","lo":"PSUKQ04","dv":"ichroma 2","ac":"Email response","id":"전달 받은 raw data 확인 결과, 2025년 3월부터 현재까지 총 93회 invalid-34 발생. 여러 아이템에서 발생했으나, 특히 TSH, PSA 테스트에서 다수 발생. 베이스라인 지글거림 확인.(04.28)","cm":"Invalid-34 발생"},{"n":"2604-CC-207","i":"Ferritin","m":4,"a":"Europe","c":"Georgia","dist":"Bio-Medi","rd":"2026-04-22","c3":"Accuracy","sv":"Moderate risk","ti":"RE: AMH ; FERRITIN PROBLEM","tm":"Closed","ed":"2026-04-28","du":6.0,"iv":"YES","lo":"DFRVHC07","dv":"ichroma 3","ac":"Email response","id":"3자 컨트롤의 경우 우리 제품과 맞지 않을 수 있기 때문에 우선 우리 컨트롤 내부테스트를 하여 경향을 보고 판단해야 할 것으로 사료됨. 대리점에는 3자 컨트롤이 어떤 브랜드의 것인지 확인요청.","cm":"Ferritin (DFRVHC07) 제품으로 ESFEQA 참여. Ferritin의 경우 실검체는 큰 차이 없으나 3자 컨트롤만 차이가 있음."},{"n":"2604-CC-182K","i":"AFP","m":4,"a":"Korea","c":"Korea","dist":"Domestic (Korea)","rd":"2026-04-13","c3":"Comparison","sv":"Moderate risk","ti":"AFP 수탁 결과 차이 발생","tm":"Closed","ed":"2026-04-13","du":0.0,"iv":"NO","lo":null,"dv":"ichroma 2","ac":"Phone call response","id":"장비 사용자에게 데이터 백업 후 메일 전달 요청. (유선상 데이터 백업 방법 안내)","cm":"AFP 수탁 결과 차이 발생 컴플레인"},{"n":"2604-CC-360K","i":"PSA","m":4,"a":"Korea","c":"Korea","dist":"Domestic (Korea)","rd":"2026-04-27","c3":"Accuracy","sv":null,"ti":"영동 한내과 AFIAS PSA 수치 문의 건","tm":"On Going","ed":null,"du":null,"iv":null,"lo":null,"dv":"AFIAS-6","ac":null,"id":null,"cm":"영동한내과 AFIAS PSA(PSVKA65f) 수치 문의. 수탁 1.17 ng/mL / AFIAS 9.30 ng/mL"},{"n":"2605-CC-118","i":"Calprotectin","m":5,"a":"MENA","c":"Egypt","dist":"Egymedx","rd":"2026-05-06","c3":"Comparison","sv":"Moderate risk","ti":"[긴급] 이집트 Egymedx: Asyut, El badari 지역 제품 클레임 문의","tm":"Closed","ed":"2026-05-12","du":6.0,"iv":"YES","lo":"CPUYC08Z","dv":"ichroma 2","ac":"Email response","id":"영업 담당자로부터 전달받은 raw data와 제조기록서를 확인한 결과, 특이사항은 없었습니다. 해당 lab의 raw data를 보면 2025년 4월부터 2026년 4월까지 1년간 총 11회만 수행. 사용 빈도가 높은 제품이 아니며, 대변 샘플을 사용하기 때문에 채취 방법에 따라 결과 변동 가능성이 있어 사용자 오류 가능성이 높은 것으로 판단됩니다.","cm":"Cedar Lab: 다른 지점 lab에 있는 ichroma 2와 같은 샘플로 검사했을 때 결과값이 높게 측정됨"},{"n":"2605-CC-147","i":"Cyfra21-1","m":5,"a":"Asia","c":"Singapore","dist":"ALLEIGHTS","rd":"2026-05-15","c3":"Accuracy","sv":"Moderate risk","ti":"Boditech Cyfra21-1 @ AFIAS-6 Evaluation Study","tm":"On Going","ed":null,"du":null,"iv":"YES","lo":"CYVFA06G","dv":"AFIAS-6","ac":"Email response","id":"내부에서 동일 컨트롤 및 카트리지로 테스트 진행. CYVFA06G의 경우 LV.1에서는 4% LV.2에서는 12% 높게 측정됨. CYWBA07G의 경우 LV.1 -8%, LV.2 -13%의 Bias를 보임. 클레임 내용 및 내부 테스트 결과를 연구소에 공유. 추가 테스트 결과 LV.2 결과가 기준 범위보다 20% 이상 낮게 측정되어 QC fail 발생.(05.22)","cm":"QC fail 발생"},{"n":"2605-CC-075K","i":"PSA","m":5,"a":"Korea","c":"Korea","dist":"Domestic (Korea)","rd":"2026-05-07","c3":"Reproducibility","sv":"Low risk","ti":"5/1일 첫 검사 진행, 환자결과 10.76 high 발생","tm":"Closed","ed":"2026-05-11","du":4.0,"iv":"NO","lo":"PSVKA65F","dv":"AFIAS-6","ac":"Phone call response","id":"AFIAS NET 통해 5/1일자 Rawdata 확인시 문제 발생 결과 test line 파형 일그러짐 이상파형 형태 확인","cm":"5/1일 첫 검사 진행, 환자결과 10.76 high 발생. 재검시 0.5999 /0.584. 수탁의뢰시 0.799로 normal 수치 확인"},{"n":"2605-CC-126K","i":"PSA","m":5,"a":"Korea","c":"Korea","dist":"Domestic (Korea)","rd":"2026-05-12","c3":"Comparison","sv":"Low risk","ti":"ichroma PSA 수치이상 원내 검사 5.XX > 수탁 0.XX로 차이 많이남","tm":"Closed","ed":"2026-05-12","du":0.0,"iv":"NO","lo":null,"dv":"ichroma","ac":"Phone call response","id":null,"cm":"ichroma PSA 수치이상 원내 검사 5.XX > 수탁 0.XX로 차이 많이남"},{"n":"2605-CC-179K","i":"PSA","m":5,"a":"Korea","c":"Korea","dist":"Domestic (Korea)","rd":"2026-05-19","c3":"Comparison","sv":"Low risk","ti":"영동한내과 PSA 수치 문의 건","tm":"Closed","ed":"2026-05-19","du":0.0,"iv":"NO","lo":null,"dv":"AFIAS-6","ac":"Phone call response","id":"4/23일 전후 경 데이터 확인시 이상그래프 확인되지 않음. PSA의 경우 저/고농도 상관없이 Control area 크기 일정. 260407-260508 69건 데이터 전체 확인시 문제 발생 환자 그래프 외 control area는 내부 QC 및 제조시와 동일 면적 패턴","cm":"영동한내과 AFIAS PSA 수탁 검사결과 1.17ng/mL, AFIAS 9.30ng/mL로 수치 차이 문의. Rawdata 첨부"}];
+
+// ──────────────────────────── UTILITIES ────────────────────────────
+const ITEMS = ['PSA','Ferritin','Free PSA','PSA Neo','Calprotectin','CEA','AFP','CA19-9','H. pylori SA','Cyfra21-1'];
+const ITEM_COUNTS = [9,6,5,5,5,4,4,3,2,1];
+const ITEM_COLORS = ['#185FA5','#EF9F27','#378ADD','#85B7EB','#1D9E75','#D85A30','#F0997B','#0F6E56','#7F77DD','#E24B4A'];
+
+function sevBadge(sv){
+  if(!sv||sv==='null') return '<span class="b b-na">N/A</span>';
+  if(sv==='Moderate risk') return '<span class="b b-mod">Moderate</span>';
+  if(sv==='Low risk') return '<span class="b b-low">Low risk</span>';
+  return '<span class="b b-nor">No risk</span>';
+}
+function termBadge(tm){
+  return tm==='Closed'
+    ? '<span class="b b-cls">Closed</span>'
+    : '<span class="b b-ong">On Going</span>';
+}
+
+// ──────────────────────────── HEATMAP ────────────────────────────
+const itemSev = {
+  'PSA':{'Moderate risk':2,'Low risk':4,'No risk':2},
+  'Ferritin':{'Moderate risk':6,'Low risk':0,'No risk':0},
+  'Free PSA':{'Moderate risk':2,'Low risk':2,'No risk':1},
+  'PSA Neo':{'Moderate risk':2,'Low risk':3,'No risk':0},
+  'Calprotectin':{'Moderate risk':5,'Low risk':0,'No risk':0},
+  'CEA':{'Moderate risk':4,'Low risk':0,'No risk':0},
+  'AFP':{'Moderate risk':4,'Low risk':0,'No risk':0},
+  'CA19-9':{'Moderate risk':1,'Low risk':2,'No risk':0},
+  'H. pylori SA':{'Moderate risk':0,'Low risk':1,'No risk':1},
+  'Cyfra21-1':{'Moderate risk':1,'Low risk':0,'No risk':0}
+};
+const htB = document.getElementById('htB');
+Object.entries(itemSev).forEach(([item,d])=>{
+  const tot=(d['Moderate risk']||0)+(d['Low risk']||0)+(d['No risk']||0);
+  const bg=(v,max,hex)=>{
+    if(!v)return '';
+    const a=Math.round((v/max)*0.42*255).toString(16).padStart(2,'0');
+    return `background:${hex}${a}`;
+  };
+  htB.innerHTML+=`<tr><td onclick="showDetail('${item}')">${item}</td><td style="${bg(d['Moderate risk'],6,'#EF9F27')}">${d['Moderate risk']||0}</td><td style="${bg(d['Low risk'],6,'#378ADD')}">${d['Low risk']||0}</td><td style="${bg(d['No risk'],6,'#1D9E75')}">${d['No risk']||0}</td><td>${tot}</td></tr>`;
+});
+
+// ──────────────────────────── RESOLUTION TYPE (Reply 기반 수동 분류) ────────────────────────────
+// Reply 컬럼(엑셀) 텍스트를 분석하여 실제 처리 내용을 분류한 결과
+const RT_MAP = {
+  '2601-CC-105':'이상없음 확인',
+  '2601-CC-123':'제품 사양/기준 안내',
+  '2601-CC-178':'검사 방법 안내',
+  '2601-CC-208':'장비 간 차이',
+  '2601-CC-323K':'미기재',
+  '2602-CC-004':'검사 방법 안내',
+  '2602-CC-083':'일시적/간헐적 오류',
+  '2602-CC-096':'이상없음 확인',
+  '2602-CC-110':'일시적/간헐적 오류',
+  '2602-CC-111':'일시적/간헐적 오류',
+  '2602-CC-151':'검사 방법 안내',
+  '2602-CC-168':'수식 보정',
+  '2602-CC-201':'수식 보정',
+  '2603-CC-029':'제품 사양/기준 안내',
+  '2603-CC-118':'로트 교체',
+  '2603-CC-214':'검사 방법 안내',
+  '2604-CC-006':'검사 방법 안내',
+  '2604-CC-064':'추가 데이터 요청',
+  '2604-CC-081':'이상없음 확인',
+  '2604-CC-082':'이상없음 확인',
+  '2604-CC-083':'이상없음 확인',
+  '2604-CC-124':'별지/목표값 수정',
+  '2604-CC-125':'별지/목표값 수정',
+  '2604-CC-194':'환경 문제(EMI)',
+  '2604-CC-207':'3자 컨트롤 문제',
+  '2604-CC-182K':'장비 간 차이',
+  '2605-CC-118':'검사 방법 안내',
+  '2605-CC-075K':'검사 방법 안내',
+  '2605-CC-126K':'제품 사양/기준 안내',
+  '2605-CC-179K':'원인 설명(제품 특성)'
+};
+
+// Reply 내용 (엑셀 Reply 컬럼)
+const REPLY_MAP = {
+  '2601-CC-105':'데이터에 이상이 없음을 설명함',
+  '2601-CC-123':'현재 제품 기준으로 8 U/mL 이하 구간에서는 분별 능력에 한계가 있어서 해당 저농도 구간에서 정확한 결과 확보는 어려움. 고객 피드백에 대해서는 제품/PM 팀에 공유 예정이고 향후 제품 개선 가능성 검토',
+  '2601-CC-178':'연구소 검사 시, 이상 없음 - 테스트 절차나 시간을 엄수하지 않아 결과치 변동있을 수 있으므로 연구소에서 동영상 제작 > 대리점 전달하여 동영상 검토하여 검사할 것 요청하는 회신 메일 발송',
+  '2601-CC-208':'Calprotectin의 정량적 차이 발생 가능성 및 상관성 자료 전달(01.23)',
+  '2601-CC-323K':'(미기재)',
+  '2602-CC-004':'Raw data상 해당 lot은 작년 10월부터 총 74회 측정되었고, 그 중 9회 invalid-34가 기록되어 있습니다. 문제가 발생한 동일한 카트리지를 다시 측정하면서 추가 발생한 것으로 보임. 테스트 방법 안내',
+  '2602-CC-083':'Rawdata를 기반으로 한 H. pylori 배치 검사 결과, 이 사건 발생 이전에 정상 검사 결과임. 소프트웨어 버전 2022년 이후 버전으로 업그레이드 권고',
+  '2602-CC-096':'내부테스트 시 특이사항 없음. AFIAS와 Alegria에서 음양성 차이가 있다는 점은 이해하나, Alegria끼리도 3배의 차이가 발생함 → 타사 장비 간 편차로 결론',
+  '2602-CC-110':'1월 9일에는 동일한 lot이 문제 없이 나온 것으로 확인. 21일에 연속으로 같은 카트리지를 여러 번 측정한 것으로 보임. 일시적인 문제로 보이기 때문에 다시 한 번 테스트해보고 문제가 지속되면 카트리지 사진 요청',
+  '2602-CC-111':'1월 9일에는 동일한 lot이 문제 없이 나온 것으로 확인. 일시적인 문제로 보이기 때문에 다시 한 번 테스트해보고 문제가 지속되면 카트리지 사진 요청',
+  '2602-CC-151':'invalid-34는 다양한 원인으로 발생할 수 있는데, 검체 신선도, 테스트 방법 등의 문제일 수도 있고, 그래뉼 파우치를 제대로 닫지 않아 습도에 노출되어 문제 발생 가능. 이러한 부분들을 점검해보시고, 장비에 시스템 체크 카트리지 실시 요청',
+  '2602-CC-168':'보정 곡선 전송',
+  '2602-CC-201':'수식 보정 진행(Rev.10) 후 파일 전달(02.23)',
+  '2603-CC-029':'헬리코박터 파일로리 진단에서 가장 중요한 요소는 감염 여부를 확인하는 것입니다. 이러한 이유로 검사는 정성 검사로 설계 및 검증되었으며, 결과는 주로 양성 또는 음성으로 해석해야 합니다',
+  '2603-CC-118':'전달 받은 데이터를 보면 대부분의 level 1은 out of range low 값을 보이고 level 2는 허용 범위에 드는 값을 보이기 때문에 컨트롤 level 1 물질의 문제로 보입니다. NVM에서 카트리지를 다른 lot으로 교체 후 문제가 해결됨',
+  '2603-CC-214':'Invalid 25, 34의 발생 원인 설명 및 사용방법 교육 요청, 페라이트코어 사용 요청(03.30)',
+  '2604-CC-006':'내부에서 파이펫팅해서 테스트했을 때 재현성이 잘 나오니 샘플 넣을 때 파이펫 믹싱을 해주시고, 참고용으로 QRG도 공유',
+  '2604-CC-064':'Raw data의 경우 사용자가 Invalid가 나온 테스트는 프린트 결과지 확인하였을 때 대리점이 첨부해준 Raw data 장비와 다른 것으로 확인되어 해당 장비 Raw data 있는지 확인요청. 없다면 추가테스트 한 번 더 진행 요청',
+  '2604-CC-081':'전반적으로 기준이 되는 우리 lot과 유사한 결과를 보이고 있어 문제 없을 것으로 보이고, 임상적인 결과도 reference와 차이가 없기 때문에 그대로 사용하시면 될 것 같습니다',
+  '2604-CC-082':'전반적으로 기준이 되는 우리 lot과 유사한 결과를 보이고 있어 문제 없을 것으로 보이고, 임상적인 결과도 reference와 차이가 없기 때문에 그대로 사용하시면 될 것 같습니다',
+  '2604-CC-083':'우리 lot과 비교한 결과는 없어서 정확히 판단은 어렵지만 크게 문제될 것은 없어 보입니다',
+  '2604-CC-124':'PM에게 lot-specific 별지 작업이 가능한지 확인 요청 → lot-specific 별지를 업체 측에 전달하여 재 테스트 요청 → 변경된 컨트롤 별지를 사용하여 QC 기준 통과 확인',
+  '2604-CC-125':'PM에게 lot-specific 별지 작업이 가능한지 확인 요청 → lot-specific 별지를 업체 측에 전달하여 재 테스트 요청 → 변경된 컨트롤 별지를 사용하여 QC 기준 통과 확인',
+  '2604-CC-194':'Invalid-34 및 발생 원인 가능성에 대해 설명. Raw data 재전달 받아 확인 → 장비 이동 요청(전자기 간섭 환경 제거)',
+  '2604-CC-207':'Ferritin: 실검체 결과는 양호하나, 컨트롤 결과에서만 차이가 발생. 3자 컨트롤은 당사 제품과 맞지 않을 수 있어 당사 컨트롤로 재테스트 요청',
+  '2604-CC-182K':'자사 장비는 양성 결과 값을 보임. 비교 진행하였던 수탁(이원)기관은 0.8의 결과 값을 보였고 장비 간 차이로 확인됨',
+  '2605-CC-118':'QRG 및 IFU 파일을 첨부하여 테스트 과정을 안내함',
+  '2605-CC-075K':'이상파형 그래프로 인해 결과 계산 오류 발생. 장비내 그래프 활성화 기능 안내, 고농도 검체 있을 시 당분간 그래프 파형 분석 팔로업 권고',
+  '2605-CC-126K':'최근 PSA 직접 내부 실검체, QC 테스트 시 결과 이상없었음. QC물질은 구매하여 사용 요청 및 영업담당자 번호 전달',
+  '2605-CC-179K':'문제 발생 데이터의 경우 컨트롤 면적이 2/3 가량 줄어든 형태 확인 → ratio 값이 올라가 결과 높게 계산됨. Biotin 영향에 의해 컨트롤 면적 감소로 결론'
+};
+
+function resolveType(r){
+  if(r.tm!=='Closed') return null;
+  return RT_MAP[r.n]||'기타';
+}
+
+function replyText(r){
+  return REPLY_MAP[r.n]||null;
+}
+
+const RT_COLORS={
+  '수식 보정':'#185FA5',
+  '별지/목표값 수정':'#7F77DD',
+  '로트 교체':'#0F6E56',
+  '사용자 오류':'#D85A30',
+  '일시적/간헐적 오류':'#EF9F27',
+  '장비 간 차이':'#5DCAA5',
+  '환경 문제(EMI)':'#E24B4A',
+  '검사 방법 안내':'#378ADD',
+  '이상없음 확인':'#1D9E75',
+  '정보/기준 안내':'#85B7EB',
+  '기타':'#B4B2A9',
+  '미기재':'#B4B2A9'
+};
+
+// ── Main dashboard ac-summary → resolution type (clickable) ──
+(function(){
+  const closedAll=DATA.filter(d=>d.tm==='Closed');
+  const rtMap={};
+  closedAll.forEach(d=>{const k=resolveType(d);rtMap[k]=(rtMap[k]||0)+1;});
+  const sorted=Object.entries(rtMap).sort((a,b)=>b[1]-a[1]);
+  const total=closedAll.length;
+  const html=sorted.map(([k,v])=>{
+    const pct=Math.round(v/total*100);
+    const col=RT_COLORS[k]||'#B4B2A9';
+    return `<div onclick="showRTDetail('${k.replace(/'/g,"\\'")}')" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;cursor:pointer;padding:5px 8px;border-radius:8px;transition:background .15s" onmouseenter="this.style.background='rgba(136,135,128,.08)'" onmouseleave="this.style.background=''">
+      <div style="width:160px;font-size:12px;font-weight:500;color:${col};flex-shrink:0">${k}</div>
+      <div style="flex:1;height:14px;background:rgba(136,135,128,.12);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${col};opacity:.85;border-radius:4px"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="font-size:12px;font-weight:500;color:${col};width:72px;text-align:right">${v}건 (${pct}%)</div>
+        <span style="font-size:10px;color:#888780">▶</span>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('ac-summary').innerHTML=html;
+  document.querySelector('#ac-summary-box .box-title').innerHTML=
+    '종결 처리 내용 분류<span class="box-hint">Closed '+total+'건 · 클릭하면 세부목록</span>';
+})();
+
+// ── 미종결 분류 상수/함수 (IIFE보다 먼저 선언) ──
+const OG_RT_LABELS = {
+  'raw_data':'Raw data 분석 중',
+  'instrument':'장비 이슈',
+  'comparison':'비교 평가 중',
+  'sw':'SW/펌웨어 이슈',
+  'accuracy':'결과값 이상',
+  'no_reply':'회신 대기',
+  'etc':'기타'
+};
+const OG_RT_COLORS = {
+  'raw_data':'#EF9F27','instrument':'#E24B4A','comparison':'#7F77DD',
+  'sw':'#185FA5','accuracy':'#D85A30','no_reply':'#B4B2A9','etc':'#5DCAA5'
+};
+function ogCategory(r){
+  const t=((r.id||'')+(r.cm||'')).toLowerCase();
+  if(!r.id&&!r.cm) return 'no_reply';
+  if(t.includes('raw data')||t.includes('rawdata')) return 'raw_data';
+  if(t.includes('sw')||t.includes('소프트웨어')||t.includes('firmware')||t.includes('버전')) return 'sw';
+  if(t.includes('비교')||t.includes('evaluation')||t.includes('상관성')||t.includes('comparison')) return 'comparison';
+  if(t.includes('장비')||t.includes('invalid')||t.includes('error')||t.includes('소켓')||t.includes('바코드')) return 'instrument';
+  if(t.includes('높게 측정')||t.includes('낮게 측정')||t.includes('수치 차이')||t.includes('결과 차이')) return 'accuracy';
+  return 'etc';
+}
+
+// ── Main dashboard og-summary → ongoing classification (clickable) ──
+(function(){
+  const ogAll=DATA.filter(d=>d.tm==='On Going');
+  const catMap={};
+  ogAll.forEach(d=>{const k=ogCategory(d);catMap[k]=(catMap[k]||0)+1;});
+  const sorted=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
+  const total=ogAll.length;
+  const html=sorted.map(([k,v])=>{
+    const pct=Math.round(v/total*100);
+    const col=OG_RT_COLORS[k]||'#888780';
+    const lbl=OG_RT_LABELS[k]||k;
+    return `<div onclick="showRTDetail('__og__${k}')" style="display:flex;align-items:center;gap:10px;margin-bottom:8px;cursor:pointer;padding:5px 8px;border-radius:8px;transition:background .15s" onmouseenter="this.style.background='rgba(136,135,128,.08)'" onmouseleave="this.style.background=''">
+      <div style="width:160px;font-size:12px;font-weight:500;color:${col};flex-shrink:0">${lbl}</div>
+      <div style="flex:1;height:14px;background:rgba(136,135,128,.12);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${pct}%;background:${col};opacity:.85;border-radius:4px"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="font-size:12px;font-weight:500;color:${col};width:72px;text-align:right">${v}건 (${pct}%)</div>
+        <span style="font-size:10px;color:#888780">▶</span>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('og-summary').innerHTML=html;
+})();
+
+// ──────────────────────────── CHARTS ────────────────────────────
+const isDark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+const tc=isDark?'#B4B2A9':'#888780';
+const gc=isDark?'rgba(180,178,169,.1)':'rgba(136,135,128,.12)';
+Chart.defaults.font.family='-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif';
+Chart.defaults.font.size=11;
+Chart.defaults.color=tc;
+
+const O=(extra={})=>({responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},...extra});
+
+// Monthly
+new Chart(document.getElementById('cM'),{type:'bar',
+  data:{labels:['1월','2월','3월','4월','5월'],datasets:[{data:[8,11,5,15,5],backgroundColor:['#85B7EB','#378ADD','#85B7EB','#185FA5','#85B7EB'],borderRadius:4}]},
+  options:{...O(),scales:{y:{beginAtZero:true,ticks:{stepSize:5},grid:{color:gc}},x:{grid:{display:false},ticks:{autoSkip:false}}}}
+});
+
+// Items (clickable)
+const cI=new Chart(document.getElementById('cI'),{type:'bar',
+  data:{labels:ITEMS,datasets:[{data:ITEM_COUNTS,backgroundColor:ITEM_COLORS,borderRadius:4}]},
+  options:{indexAxis:'y',...O(),
+    onClick:(e,els)=>{if(els.length)showDetail(ITEMS[els[0].index]);},
+    onHover:(e,els)=>{e.native.target.style.cursor=els.length?'pointer':'default';},
+    scales:{x:{beginAtZero:true,grid:{color:gc}},y:{grid:{display:false}}}
+  }
+});
+
+// 3rd CLASS
+new Chart(document.getElementById('c3'),{type:'bar',
+  data:{labels:['Accuracy','Comparison','Lot to Lot','Reproducibility','Stability','N/A'],datasets:[{data:[25,11,4,2,1,1],backgroundColor:'#7F77DD',borderRadius:4}]},
+  options:{indexAxis:'y',...O(),scales:{x:{beginAtZero:true,grid:{color:gc}},y:{grid:{display:false}}}}
+});
+
+// Severity donut
+new Chart(document.getElementById('cS'),{type:'doughnut',
+  data:{labels:['Moderate risk','Low risk','No risk','N/A'],datasets:[{data:[27,12,4,1],backgroundColor:['#EF9F27','#378ADD','#1D9E75','#B4B2A9'],borderWidth:0}]},
+  options:{...O({cutout:'65%'}),plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}건`}}}}
+});
+
+// Termination donut
+new Chart(document.getElementById('cT'),{type:'doughnut',
+  data:{labels:['Closed','On Going'],datasets:[{data:[30,14],backgroundColor:['#1D9E75','#D85A30'],borderWidth:0}]},
+  options:{...O({cutout:'65%'}),plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}건`}}}}
+});
+
+// Area
+new Chart(document.getElementById('cA'),{type:'bar',
+  data:{labels:['America','Asia','Korea','MENA','Europe','Africa'],datasets:[{data:[15,11,7,5,5,1],backgroundColor:'#5DCAA5',borderRadius:4}]},
+  options:{indexAxis:'y',...O(),scales:{x:{beginAtZero:true,grid:{color:gc}},y:{grid:{display:false}}}}
+});
+
+// ──────────────────────────── NAVIGATION ────────────────────────────
+let openRow=null;
+let detailCharts=[];
+
+function destroyDetailCharts(){
+  detailCharts.forEach(c=>{try{c.destroy();}catch(e){}});
+  detailCharts=[];
+}
+
+// ── Elapsed days from receipt date to today ──
+function elapsedDays(rd){
+  if(!rd) return null;
+  const today=new Date('2026-05-29');
+  const d=new Date(rd);
+  return Math.floor((today-d)/(1000*60*60*24));
+}
+
+function elapsedBadge(rd){
+  const d=elapsedDays(rd);
+  if(d===null) return '-';
+  const cls=d>=30?'el-warn':'el-ok';
+  return `<span class="elapsed ${cls}">${d}일 경과</span>`;
+}
+
+// ── Ongoing view ──
+function showOngoing(){
+  destroyDetailCharts();
+  ['v-main','v-detail','v-rtdetail'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('v-ongoing').style.display='';
+  openRow=null;
+  renderOngoing();
+  window.scrollTo(0,0);
+}
+
+function renderOngoing(){
+  const rows=DATA.filter(d=>d.tm==='On Going');
+  document.getElementById('og-sub').textContent=`총 ${rows.length}건 미종결`;
+
+  // Mini cards: by item
+  const byItem={};
+  rows.forEach(r=>{byItem[r.i]=(byItem[r.i]||0)+1;});
+  const sorted=Object.entries(byItem).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('og-mini').innerHTML=sorted.map(([item,cnt])=>`
+    <div class="mc" style="cursor:pointer" onclick="showDetail('${item}')">
+      <div class="mc-lbl">${item}</div>
+      <div class="mc-val" style="color:#D85A30">${cnt}</div>
+    </div>`).join('');
+
+  const tbody=document.getElementById('og-rows');
+  tbody.innerHTML='';
+  // Sort by elapsed days desc (longest outstanding first)
+  const sorted2=[...rows].sort((a,b)=>elapsedDays(b.rd)-elapsedDays(a.rd));
+  sorted2.forEach((r,idx)=>{
+    const id=`og-${idx}`;
+    const crow=document.createElement('tr');
+    crow.className='crow';
+    crow.id=`cr-${id}`;
+    crow.innerHTML=`
+      <td style="font-family:monospace;font-size:11px">${r.n}</td>
+      <td><span style="font-size:12px;font-weight:500;color:#185FA5">${r.i}</span></td>
+      <td>${r.rd||'-'}</td>
+      <td>${r.c||'-'}</td>
+      <td>${sevBadge(r.sv)}</td>
+      <td><span style="font-size:11px;color:${tc}">${r.c3||'N/A'}</span></td>
+      <td>${elapsedBadge(r.rd)}</td>
+      <td style="text-align:center"><span class="chevron">▼</span></td>
+    `;
+    crow.onclick=()=>toggleRow(id,r);
+    const drow=document.createElement('tr');
+    drow.className='drow';
+    drow.id=`dr-${id}`;
+    drow.innerHTML=`<td colspan="8"><div class="drow-inner">${buildDetail(r)}</div></td>`;
+    tbody.appendChild(crow);
+    tbody.appendChild(drow);
+  });
+}
+
+// ── RT Detail view ──
+function showRTDetail(rt){
+  destroyDetailCharts();
+  ['v-main','v-detail','v-ongoing','v-rtdetail'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('v-rtdetail').style.display='';
+  openRow=null;
+  renderRTDetail(rt);
+  window.scrollTo(0,0);
+}
+
+function renderRTDetail(rt){
+  const isOG = rt.startsWith('__og__');
+  let rows, titleText, colHdr;
+
+  if(isOG){
+    const cat = rt.replace('__og__','');
+    rows = DATA.filter(d=>d.tm==='On Going' && ogCategory(d)===cat);
+    titleText = OG_RT_LABELS[cat]||cat;
+    colHdr = '현재 조사 상황';
+    document.getElementById('rt-tbl-title').innerHTML=`On Going 목록 <span class="box-hint">▶ 행 클릭으로 상세 내용</span>`;
+    document.getElementById('rt-col-hdr').textContent='현재 조사 상황';
+    const col=OG_RT_COLORS[cat]||'#888780';
+    document.getElementById('rt-title').innerHTML=`<span style="color:${col}">⏳ ${titleText}</span>`;
+    document.getElementById('rt-sub').textContent=`On Going · ${rows.length}건`;
+  } else {
+    rows = DATA.filter(d=>resolveType(d)===rt);
+    titleText = rt;
+    const col=RT_COLORS[rt]||'#888780';
+    document.getElementById('rt-title').innerHTML=`<span style="color:${col}">✓ ${titleText}</span>`;
+    document.getElementById('rt-sub').textContent=`Closed · ${rows.length}건`;
+    document.getElementById('rt-tbl-title').innerHTML=`클레임 목록 <span class="box-hint">▶ 행 클릭으로 상세 내용</span>`;
+    document.getElementById('rt-col-hdr').textContent='처리 내용 요약';
+  }
+
+  const tbody=document.getElementById('rt-rows');
+  tbody.innerHTML='';
+  if(!rows.length){
+    tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:2rem;color:#888780">해당하는 클레임이 없습니다</td></tr>';
+    return;
+  }
+
+  rows.forEach((r,idx)=>{
+    const id=`rt-${idx}`;
+    const crow=document.createElement('tr');
+    crow.className='crow';
+    crow.id=`cr-${id}`;
+    const summary = isOG
+      ? `<span style="font-size:11px;color:${tc}">${(r.id||'').slice(0,60)}${r.id&&r.id.length>60?'…':''}</span>`
+      : `<span style="font-size:11px;color:${tc}">${(replyText(r)||'').slice(0,70)}${replyText(r)&&replyText(r).length>70?'…':''}</span>`;
+    const lastCol = isOG
+      ? `<td>${elapsedBadge(r.rd)}</td>`
+      : `<td style="color:${tc};font-size:11px">${r.du!=null?r.du+'일':'-'}</td>`;
+    crow.innerHTML=`
+      <td style="font-family:monospace;font-size:11px">${r.n}</td>
+      <td><span style="font-size:12px;font-weight:500;color:#185FA5">${r.i}</span></td>
+      <td>${r.rd||'-'}</td>
+      <td>${r.c||'-'}</td>
+      <td>${sevBadge(r.sv)}</td>
+      ${lastCol}
+      <td>${summary}</td>
+      <td style="text-align:center"><span class="chevron">▼</span></td>
+    `;
+    crow.onclick=()=>toggleRow(id,r);
+    const drow=document.createElement('tr');
+    drow.className='drow';
+    drow.id=`dr-${id}`;
+    drow.innerHTML=`<td colspan="8"><div class="drow-inner">${buildDetail(r)}</div></td>`;
+    tbody.appendChild(crow);
+    tbody.appendChild(drow);
+  });
+}
+
+function showMain(){
+  destroyDetailCharts();
+  document.getElementById('v-main').style.display='';
+  document.getElementById('v-detail').style.display='none';
+  document.getElementById('v-ongoing').style.display='none';
+  document.getElementById('v-rtdetail').style.display='none';
+  openRow=null;
+  window.scrollTo(0,0);
+}
+
+function showDetail(item){
+  destroyDetailCharts();
+  ['v-main','v-ongoing','v-rtdetail'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('v-detail').style.display='';
+  openRow=null;
+  renderDetail(item);
+  window.scrollTo(0,0);
+}
+
+function renderDetail(item){
+  const rows=DATA.filter(d=>d.i===item);
+  const closed=rows.filter(r=>r.tm==='Closed').length;
+  const ongoing=rows.filter(r=>r.tm==='On Going').length;
+  const modCount=rows.filter(r=>r.sv==='Moderate risk').length;
+  const lowCount=rows.filter(r=>r.sv==='Low risk').length;
+  const norCount=rows.filter(r=>r.sv==='No risk').length;
+  const durs=rows.filter(r=>r.du!=null).map(r=>r.du);
+  const avgDur=durs.length?Math.round(durs.reduce((a,b)=>a+b,0)/durs.length*10)/10:'-';
+
+  document.getElementById('d-title').textContent=item;
+  document.getElementById('d-sub').textContent=`총 ${rows.length}건`;
+
+  const ITEM_IDX=ITEMS.indexOf(item);
+  const itemColor=ITEM_IDX>=0?ITEM_COLORS[ITEM_IDX]:'#185FA5';
+
+  // 종결 처리 내용 분류
+  const rtMap2={};
+  rows.filter(r=>r.tm==='Closed').forEach(r=>{const k=resolveType(r);rtMap2[k]=(rtMap2[k]||0)+1;});
+  const acHtml=Object.entries(rtMap2).sort((a,b)=>b[1]-a[1]).map(([k,v])=>{
+    const col=RT_COLORS[k]||'#B4B2A9';
+    return `<span style="font-size:11px;display:inline-block;padding:2px 7px;border-radius:4px;background:${col}22;color:${col};border:1px solid ${col}44;font-weight:500">${k} ${v}건</span>`;
+  }).join(' ');
+
+  document.getElementById('d-mini').innerHTML=`
+    <div class="mc"><div class="mc-lbl">전체</div><div class="mc-val" style="color:${itemColor}">${rows.length}</div></div>
+    <div class="mc" style="cursor:pointer" onclick="setFilter('closed')" title="Closed 목록만 보기"><div class="mc-lbl">Closed ▶</div><div class="mc-val" style="color:#1D9E75">${closed}</div></div>
+    <div class="mc" style="cursor:pointer" onclick="setFilter('ongoing')" title="On Going 목록만 보기"><div class="mc-lbl">On Going ▶</div><div class="mc-val" style="color:#D85A30">${ongoing}</div></div>
+    <div class="mc"><div class="mc-lbl">Moderate</div><div class="mc-val" style="color:#854F0B">${modCount}</div></div>
+    <div class="mc"><div class="mc-lbl">Low risk</div><div class="mc-val" style="color:#185FA5">${lowCount}</div></div>
+    <div class="mc"><div class="mc-lbl">No risk</div><div class="mc-val" style="color:#0F6E56">${norCount}</div></div>
+    <div class="mc"><div class="mc-lbl">평균기간</div><div class="mc-val">${avgDur}일</div></div>
+  `;
+
+  // 종결 처리 방식 표시
+  const acBox=document.createElement('div');
+  acBox.style.cssText='font-size:12px;padding:8px 12px;background:rgba(136,135,128,.06);border-radius:8px;margin-bottom:1rem;display:flex;flex-wrap:wrap;align-items:center;gap:6px';
+  acBox.innerHTML=`<span style="color:#888780;font-size:11px;margin-right:2px">처리 내용:</span>${acHtml||'<span style="color:#888780">없음</span>'}`;
+  const miniCards=document.getElementById('d-mini');
+  miniCards.after(acBox);
+
+  // Tabs
+  document.getElementById('d-tabs').innerHTML=`
+    <button class="tab-btn active" id="tab-all" onclick="setFilter('all')">전체 ${rows.length}</button>
+    <button class="tab-btn" id="tab-ongoing" onclick="setFilter('ongoing')">On Going ${ongoing}</button>
+    <button class="tab-btn" id="tab-closed" onclick="setFilter('closed')">Closed ${closed}</button>
+  `;
+
+  // ── Detail charts ──
+  const MONTHS=[1,2,3,4,5];
+  const mLabels=['1월','2월','3월','4월','5월'];
+  const mCounts=MONTHS.map(m=>rows.filter(r=>r.m===m).length);
+
+  const c3Labels=['Accuracy','Comparison','Lot to Lot','Reproducibility','Stability','N/A'];
+  const c3Counts=c3Labels.map(l=>rows.filter(r=>(r.c3||'N/A')===l).length);
+  const c3Colors=['#378ADD','#7F77DD','#EF9F27','#1D9E75','#E24B4A','#B4B2A9'];
+
+  const areaLabels=['America','Asia','Korea','MENA','Europe','Africa'];
+  const areaCounts=areaLabels.map(a=>rows.filter(r=>r.a===a).length);
+  const areaColors=['#185FA5','#1D9E75','#D85A30','#EF9F27','#7F77DD','#E24B4A'];
+
+  const O2=(extra={})=>({responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},...extra});
+
+  detailCharts.push(new Chart(document.getElementById('d-cM'),{
+    type:'bar',
+    data:{labels:mLabels,datasets:[{data:mCounts,backgroundColor:itemColor,borderRadius:3}]},
+    options:{...O2(),scales:{y:{beginAtZero:true,ticks:{stepSize:1},grid:{color:gc}},x:{grid:{display:false}}}}
+  }));
+
+  // Filter out zero counts for 3rd CLASS
+  const c3f={labels:[],data:[],colors:[]};
+  c3Labels.forEach((l,i)=>{if(c3Counts[i]>0){c3f.labels.push(l);c3f.data.push(c3Counts[i]);c3f.colors.push(c3Colors[i]);}});
+  detailCharts.push(new Chart(document.getElementById('d-c3'),{
+    type:'doughnut',
+    data:{labels:c3f.labels,datasets:[{data:c3f.data,backgroundColor:c3f.colors,borderWidth:0}]},
+    options:{...O2({cutout:'58%'}),plugins:{legend:{display:true,position:'right',labels:{font:{size:10},boxWidth:8,padding:6,color:tc}},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}건`}}}}
+  }));
+
+  // Filter out zero counts for area
+  const af={labels:[],data:[],colors:[]};
+  areaLabels.forEach((l,i)=>{if(areaCounts[i]>0){af.labels.push(l);af.data.push(areaCounts[i]);af.colors.push(areaColors[i]);}});
+  detailCharts.push(new Chart(document.getElementById('d-cA'),{
+    type:'bar',
+    data:{labels:af.labels,datasets:[{data:af.data,backgroundColor:af.colors,borderRadius:3}]},
+    options:{indexAxis:'y',...O2(),scales:{x:{beginAtZero:true,grid:{color:gc}},y:{grid:{display:false}}}}
+  }));
+
+  _currentRows=rows;
+  renderRows(rows,'all');
+}
+
+let _currentRows=[];
+let _currentFilter='all';
+
+function setFilter(f){
+  _currentFilter=f;
+  ['all','ongoing','closed'].forEach(k=>{
+    const el=document.getElementById('tab-'+k);
+    if(!el) return;
+    el.classList.toggle('active',k===f);
+    el.classList.toggle('red',k===f&&f==='ongoing');
+  });
+  openRow=null;
+  const filtered=f==='all'?_currentRows:_currentRows.filter(r=>f==='ongoing'?r.tm==='On Going':r.tm==='Closed');
+  renderRows(filtered,f);
+}
+
+function renderRows(rows,filter){
+  const tbody=document.getElementById('d-rows');
+  tbody.innerHTML='';
+  if(rows.length===0){
+    tbody.innerHTML='<tr><td colspan="8" style="text-align:center;padding:2rem;color:#888780;font-size:13px">해당하는 클레임이 없습니다</td></tr>';
+    return;
+  }
+  rows.forEach((r,idx)=>{
+    const id=`row-${idx}-${filter}`;
+    const crow=document.createElement('tr');
+    crow.className='crow';
+    crow.id=`cr-${id}`;
+    // For ongoing rows: show elapsed days instead of duration
+    const lastCol=r.tm==='On Going'
+      ? `<td style="text-align:right">${elapsedBadge(r.rd)}</td>`
+      : `<td style="text-align:right;color:${tc}">${r.du!=null?r.du+'일':'-'}</td>`;
+    crow.innerHTML=`
+      <td style="font-family:monospace;font-size:11px">${r.n}</td>
+      <td>${r.rd||'-'}</td>
+      <td>${r.c||'-'}</td>
+      <td>${sevBadge(r.sv)}</td>
+      <td><span style="font-size:11px;color:${tc}">${r.c3||'N/A'}</span></td>
+      <td>${termBadge(r.tm)}</td>
+      ${lastCol}
+      <td style="text-align:center"><span class="chevron">▼</span></td>
+    `;
+    crow.onclick=()=>toggleRow(id,r);
+    const drow=document.createElement('tr');
+    drow.className='drow';
+    drow.id=`dr-${id}`;
+    drow.innerHTML=`<td colspan="8"><div class="drow-inner">${buildDetail(r)}</div></td>`;
+    tbody.appendChild(crow);
+    tbody.appendChild(drow);
+  });
+}
+
+function rtBadge(r){
+  const rt=resolveType(r);
+  if(!rt) return '';
+  const col=RT_COLORS[rt]||'#B4B2A9';
+  return `<span style="display:inline-block;font-size:10px;padding:2px 8px;border-radius:5px;font-weight:600;background:${col}22;color:${col};border:1px solid ${col}44">${rt}</span>`;
+}
+
+function buildDetail(r){
+  const f=(lbl,val,full)=>{
+    if(!val) return '';
+    return `<div class="drow-sec${full?' drow-sec-full':''}"><div class="drow-lbl">${lbl}</div><div class="drow-txt">${val}</div></div>`;
+  };
+  const rtHtml=r.tm==='Closed'?`${f('처리 분류',rtBadge(r))}`:'' ;
+  const rpHtml=r.tm==='Closed'&&replyText(r)?f('최종 처리 내용 (Reply)',replyText(r),true):'';
+  return `<div class="drow-grid">
+    ${f('Complaint No.',r.n)}
+    ${f('접수일 / 국가',`${r.rd||'-'} · ${r.c||'-'} (${r.a||'-'})`)}
+    ${f('대리점',r.dist)}
+    ${f('Device / LOT No.',[r.dv,r.lo].filter(Boolean).join(' / ')||'-')}
+    ${f('Severity',r.sv||'N/A')}
+    ${f('종결 / 처리기간',`${r.tm||'-'}${r.du!=null?' · '+r.du+'일':''}`)}
+    ${rtHtml}
+    ${f('조사 여부 / 대응',`${r.iv||'-'} / ${r.ac||'-'}`)}
+    ${f('클레임 내용',r.cm,true)}
+    ${f('조사 결과',r.id,true)}
+    ${rpHtml}
+  </div>`;
+}
+
+function toggleRow(id,r){
+  const crow=document.getElementById(`cr-${id}`);
+  const drow=document.getElementById(`dr-${id}`);
+  if(openRow===id){
+    drow.classList.remove('show');
+    crow.classList.remove('open');
+    openRow=null;
+  } else {
+    if(openRow){
+      document.getElementById(`dr-${openRow}`).classList.remove('show');
+      document.getElementById(`cr-${openRow}`).classList.remove('open');
+    }
+    drow.classList.add('show');
+    crow.classList.add('open');
+    openRow=id;
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RS232 QC 분석 툴 · Cancer팀</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root {
+  --bg:     #0d1117; --panel:  #161b22; --card:   #1c2230;
+  --border: #30363d; --accent: #7c6af7; --a2:     #9d8ff9;
+  --green:  #3fb950; --yellow: #d29922; --red:    #f85149;
+  --teal:   #39d0d8; --text:   #e6edf3; --muted:  #8b949e;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Malgun Gothic',sans-serif;font-size:13px;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* ── 헤더 ── */
+header{background:var(--panel);border-bottom:1px solid var(--border);padding:8px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+header h1{font-size:14px;font-weight:700;color:var(--a2);white-space:nowrap}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--red);flex-shrink:0;transition:.3s}
+.dot.on{background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+#statusTxt{color:var(--muted);font-size:11px;white-space:nowrap}
+select,input[type=text]{background:var(--card);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:5px;font-size:11px;font-family:inherit}
+.sp{flex:1}
+.btn{padding:5px 13px;border-radius:5px;border:none;cursor:pointer;font-weight:700;font-size:11px;font-family:'Malgun Gothic',sans-serif;white-space:nowrap}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.bp{background:var(--accent);color:#fff}
+.bg{background:var(--green);color:#0d1117}
+.by{background:var(--yellow);color:#1a1000}
+.br{background:#3a1010;color:var(--red);border:1px solid var(--red)}
+.bm{background:var(--card);color:var(--muted);border:1px solid var(--border)}
+
+/* ── 바디 레이아웃 ── */
+.body{display:flex;flex:1;overflow:hidden}
+aside{width:240px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);overflow-y:auto;padding:12px 10px;display:flex;flex-direction:column;gap:14px}
+.content{flex:1;overflow:hidden;display:flex;flex-direction:column}
+
+/* ── 사이드바 ── */
+.stitle{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.result-big{font-size:32px;font-weight:700;color:var(--green);line-height:1}
+.result-unit{font-size:12px;color:var(--muted)}
+.tf-badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700;margin-top:4px;background:#1a3a1a;color:var(--green)}
+.tf-badge.warn{background:#3a2800;color:var(--yellow)}
+.mrow{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #1c2230}
+.ml{color:var(--muted);font-size:10px}.mv{color:var(--text);font-size:10px;font-weight:600}
+
+/* 레벨/삭제 */
+.side-ctrl{display:flex;flex-direction:column;gap:6px}
+.side-ctrl label{font-size:10px;color:var(--muted)}
+.del-row{display:flex;gap:4px}
+.del-row select{flex:1;font-size:10px}
+
+/* ── 탭 ── */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);flex-shrink:0;padding:0 12px}
+.tab{padding:8px 16px;cursor:pointer;font-size:11px;font-weight:700;color:var(--muted);border-bottom:2px solid transparent;transition:.15s}
+.tab.active{color:var(--a2);border-bottom-color:var(--accent)}
+.tabpanel{display:none;flex:1;overflow:auto;padding:12px}
+.tabpanel.active{display:block}
+
+/* ── QC 테이블 ── */
+.qc-wrap{overflow:auto}
+table{border-collapse:collapse;font-size:11px;white-space:nowrap}
+th{background:var(--card);color:var(--a2);padding:6px 10px;text-align:center;font-weight:700;border:1px solid var(--border)}
+td{padding:4px 10px;text-align:center;border:1px solid var(--border);color:var(--text)}
+tr:nth-child(even) td{background:#12171f}
+tr:nth-child(odd)  td{background:var(--panel)}
+.td-label{text-align:left;color:var(--muted);font-weight:600}
+.td-item{color:var(--a2);font-weight:700}
+.td-lv{color:var(--teal);font-size:10px}
+.td-avg{color:var(--green);font-weight:700}
+.cv-ok{color:var(--green);font-weight:700}
+.cv-warn{color:var(--yellow);font-weight:700}
+.cv-bad{color:var(--red);font-weight:700}
+tr.sep td{background:var(--bg);height:4px;border:none}
+
+/* ── Scan 그리드 ── */
+.chart-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:12px}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:10px}
+.chart-title{font-size:11px;font-weight:700;color:var(--a2);margin-bottom:6px}
+.chart-wrap{position:relative;height:190px}
+
+/* ── Raw Data ── */
+.raw-wrap{overflow:auto}
+.raw-table{border-collapse:collapse;font-size:11px;font-family:'Consolas',monospace}
+.raw-table th{background:var(--card);color:var(--a2);padding:5px 10px;border:1px solid var(--border);text-align:center;font-weight:700;position:sticky;top:0;z-index:10}
+.raw-table td{padding:2px 10px;border:1px solid var(--border);text-align:right}
+.raw-table td:first-child{color:var(--muted);text-align:center}
+.raw-table .num{color:#a0e0ff}
+.raw-table .mk{color:var(--a2);background:var(--accent)22;font-family:'Malgun Gothic',sans-serif;text-align:left}
+
+/* ── 로그 탭 ── */
+#logArea{background:var(--card);padding:8px 12px;font-family:'Consolas',monospace;font-size:10px;color:#a0ffb0;white-space:pre-wrap;word-break:break-all;height:calc(100vh - 160px);overflow-y:auto}
+
+/* ── 빈 상태 ── */
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty h3{font-size:15px;color:var(--text);margin-bottom:8px}
+.empty p{font-size:12px;line-height:1.7}
+
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- ══ 헤더 ══════════════════════════════════════════════════ -->
+<header>
+  <div class="dot" id="dot"></div>
+  <h1>🔬 RS232 QC 분석 툴 · Cancer팀</h1>
+  <div id="statusTxt">연결 안됨</div>
+  <div class="sp"></div>
+
+  <label style="font-size:10px;color:var(--muted)">Baud</label>
+  <select id="baudSel">
+    <option>9600</option><option>19200</option><option>38400</option>
+    <option>57600</option><option selected>115200</option>
+  </select>
+
+  <button class="btn bg"  id="btnConn"    onclick="toggleConnect()">⚡ 연결</button>
+  <button class="btn by"  id="btnMeasure" onclick="sendMeasure()" disabled>📡 측정모드</button>
+  <button class="btn bm"  onclick="loadLogFile()">📂 로그 파일</button>
+  <button class="btn bp"  onclick="exportExcel()">💾 Excel 저장</button>
+</header>
+
+<!-- ══ 바디 ══════════════════════════════════════════════════ -->
+<div class="body">
+
+<!-- 사이드바 -->
+<aside>
+  <!-- 현재 결과 -->
+  <div>
+    <div class="stitle">최근 결과</div>
+    <div class="result-big" id="sResult">—</div>
+    <div class="result-unit" id="sUnit"></div>
+    <div class="tf-badge" id="sTF" style="display:none"></div>
+  </div>
+
+  <!-- 카트리지 정보 -->
+  <div>
+    <div class="stitle">카트리지 / 기기</div>
+    <div id="sMeta"></div>
+  </div>
+
+  <!-- 분석 파라미터 -->
+  <div>
+    <div class="stitle">파라미터</div>
+    <div id="sParams"></div>
+  </div>
+
+  <!-- 레벨 · 샘플 관리 -->
+  <div class="side-ctrl">
+    <div class="stitle">레벨 설정</div>
+    <label>Level 이름</label>
+    <input type="text" id="levelInput" value="LV.1" style="width:100%;font-size:11px">
+    <label style="margin-top:8px">샘플 삭제</label>
+    <div class="del-row">
+      <select id="delSel"><option value="">선택...</option></select>
+      <button class="btn br" style="padding:4px 10px" onclick="deleteSample()">삭제</button>
+    </div>
+    <button class="btn br" style="margin-top:4px;font-size:10px" onclick="clearAll()">전체 초기화</button>
+  </div>
+</aside>
+
+<!-- 콘텐츠 -->
+<div class="content">
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab(0)">📋 QC 통계</div>
+    <div class="tab"        onclick="switchTab(1)">📈 Scan 파형</div>
+    <div class="tab"        onclick="switchTab(2)">🔢 Raw Data</div>
+    <div class="tab"        onclick="switchTab(3)">📄 수신 로그</div>
+  </div>
+
+  <div class="tabpanel active" id="tp0"><div class="qc-wrap" id="qcArea"><div class="empty"><h3>🔌 연결 후 측정하세요</h3><p>상단 <b>⚡ 연결</b> 버튼으로 RS232 포트 선택 후<br>📡 측정모드를 누르거나 직접 측정하세요.<br><br>⚠ Chrome / Edge 브라우저 전용 (WebSerial API)</p></div></div></div>
+  <div class="tabpanel"        id="tp1"><div class="chart-grid" id="chartGrid"><div class="empty"><h3>📡 데이터 없음</h3><p>측정 후 파형이 자동 표시됩니다.</p></div></div></div>
+  <div class="tabpanel"        id="tp2"><div class="raw-wrap"><table class="raw-table" id="rawTable"><thead><tr><th>#</th></tr></thead><tbody id="rawBody"></tbody></table></div></div>
+  <div class="tabpanel"        id="tp3"><div id="logArea"></div></div>
+</div>
+
+</div><!-- .body -->
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  상태
+// ════════════════════════════════════════════════════════════
+const state = {
+  results: [],   // 누적 검사 결과
+  port:    null,
+  reader:  null,
+  writer:  null,
+  buffer:  '',
+  connected: false,
+};
+let chartObjs = [];
+
+// ════════════════════════════════════════════════════════════
+//  DataParser (Python 버전과 동일 로직)
+// ════════════════════════════════════════════════════════════
+const DataParser = {
+  START_MARKER: '#Filtered Scan Data#',
+  END_MARKERS:  ['Country Code =', '##End ID chip info##'],
+
+  _val(pat, text) {
+    const m = text.match(pat);
+    return m ? m[1].trim() : null;
+  },
+  _num(pat, text) {
+    const v = this._val(pat, text);
+    return v != null ? parseFloat(v) : null;
+  },
+
+  parse(text) {
+    const r = {
+      item:         this._val(/Item:\s*([^\s#\[]+)/, text) || '',
+      lot:          this._val(/Lot:\s*(\S+)/, text) || '',
+      exp_date:     this._val(/EXP date:\s*(\S+)/, text) || '',
+      result_value: null, result_unit: '', tf_result: '', error: '0',
+      c_area:       this._num(/C area=\s*([\d.E+\-]+)/, text),
+      t_area:       this._num(/T area=\s*([\d.E+\-]+)/, text),
+      ratio:        this._num(/(?<![A-Za-z_])Ratio=\s*([\d.E+\-]+)/, text),
+      t_max:        this._num(/T max=\s*([\d.E+\-]+)/, text),
+      c_max:        this._num(/C max=\s*([\d.E+\-]+)/, text),
+      gain:         null,
+      temp:         this._num(/Temp=\s*([\d.]+)/, text),
+      date:         this._val(/Date=\s*([\d\-]+)/, text) || '',
+      time:         this._val(/Time=\s*([\d:]+)/, text) || '',
+      serial_num:   this._val(/Product Serial:\s*(\S+)/, text) || '',
+      hb_data: [], raw_data: [], scan_data: [],
+      raw_text: text,
+    };
+
+    // 숫자 배열 파싱
+    for (const [key, pat] of [
+      ['hb_data',   /### HB data ###([\s\S]*?)### HB data end ###/],
+      ['raw_data',  /### Start Raw data ###([\s\S]*?)### End Raw data ###/],
+      ['scan_data', /## SCAN DATA ##([\s\S]*?)## END ##/],
+    ]) {
+      const m = text.match(pat);
+      if (m) {
+        r[key] = m[1].trim().split(/\s+/)
+          .filter(s => /^-?[\d.]+([Ee][+\-]?\d+)?$/.test(s))
+          .map(Number);
+      }
+    }
+
+    // Result 파싱 (두 포맷)
+    const rm = text.match(/\bResult1?=\s*([\w/]+)\s+([\d.E+\-]+)/);
+    if (rm) { r.result_unit = rm[1]; r.result_value = parseFloat(rm[2]); }
+
+    // Gain
+    let gain = this._num(/Gain\s*:\s*([\d.]+)/, text);
+    if (gain === null) gain = this._num(/Gain\([^)]*\)\s*([\d.]+)/, text);
+    r.gain = gain;
+
+    // TF Result
+    const tf = this._val(/TF Result\s*\d*\s*=\s*(\S+)/, text);
+    r.tf_result = tf || '';
+
+    return r;
+  },
+
+  findCompleteBlocks(buffer) {
+    const blocks = [];
+    let pos = 0;
+    while (true) {
+      const s = buffer.indexOf(this.START_MARKER, pos);
+      if (s === -1) break;
+      let bestE = -1, bestLen = 0;
+      for (const em of this.END_MARKERS) {
+        const e = buffer.indexOf(em, s);
+        if (e !== -1 && (bestE === -1 || e < bestE)) { bestE = e; bestLen = em.length; }
+      }
+      if (bestE === -1) break;
+      blocks.push(buffer.slice(s, bestE + bestLen));
+      pos = bestE + bestLen;
+    }
+    return { blocks, remainder: buffer.slice(pos) };
+  },
+
+  rawForExcel(rawText) {
+    const text = rawText.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    const MK_RE  = /#{2,}[^#\n]*?#{2,}/g;
+    const NUM_RE = /^-?\d+\.?\d*([Ee][+-]?\d+)?$/;
+
+    const items = [];
+    let pos = 0, m;
+    MK_RE.lastIndex = 0;
+    while ((m = MK_RE.exec(text)) !== null) {
+      parseBlock(text.slice(pos, m.index), items, NUM_RE);
+      items.push({ kind: 'marker', val: m[0].trim() });
+      pos = m.index + m[0].length;
+    }
+    parseBlock(text.slice(pos), items, NUM_RE);
+
+    const mkIdx = items.map((it, i) => it.kind === 'marker' ? i : -1).filter(i => i >= 0);
+    if (!mkIdx.length) return items.map(it => it.val);
+    return items.slice(mkIdx[0], mkIdx[mkIdx.length - 1] + 1).map(it => it.val);
+  },
+};
+
+function parseBlock(txt, items, NUM_RE) {
+  for (const ln of txt.split('\n')) {
+    const s = ln.trim();
+    if (!s) continue;
+    const tokens = s.split(/\s+/);
+    const allNum = tokens.every(t => NUM_RE.test(t));
+    if (allNum) {
+      for (const t of tokens) {
+        const f = parseFloat(t);
+        items.push({ kind: 'num', val: Number.isInteger(f) ? f : f });
+      }
+    } else {
+      items.push({ kind: 'text', val: s });
+    }
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  시리얼 연결 (WebSerial API)
+// ════════════════════════════════════════════════════════════
+async function toggleConnect() {
+  if (state.connected) {
+    await disconnect();
+  } else {
+    await connect();
+  }
+}
+
+async function connect() {
+  if (!('serial' in navigator)) {
+    alert('WebSerial API가 지원되지 않습니다.\nChrome 또는 Edge 브라우저를 사용하세요.');
+    return;
+  }
+  try {
+    const port = await navigator.serial.requestPort();
+    const baud = parseInt(document.getElementById('baudSel').value);
+    await port.open({ baudRate: baud });
+    state.port = port;
+    state.connected = true;
+
+    setStatus(true, `연결됨 @ ${baud}bps`);
+    document.getElementById('btnConn').textContent    = '⏹ 연결 해제';
+    document.getElementById('btnConn').className      = 'btn br';
+    document.getElementById('btnMeasure').disabled    = false;
+
+    // 읽기 루프 시작
+    readLoop();
+  } catch(e) {
+    if (e.name !== 'NotFoundError') alert('연결 실패: ' + e.message);
+  }
+}
+
+async function readLoop() {
+  const decoder = new TextDecoderStream();
+  state.port.readable.pipeTo(decoder.writable);
+  const reader = decoder.readable.getReader();
+  state.reader = reader;
+
+  try {
+    while (state.connected) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      state.buffer += value;
+      appendLog(value);
+      processBuffer();
+    }
+  } catch(e) {
+    if (state.connected) appendLog('[오류] ' + e.message + '\n');
+  } finally {
+    reader.releaseLock();
+  }
+}
+
+async function disconnect() {
+  state.connected = false;
+  try {
+    if (state.reader) { await state.reader.cancel(); state.reader = null; }
+    if (state.port)   { await state.port.close();    state.port   = null; }
+  } catch(e) {}
+  setStatus(false, '연결 안됨');
+  document.getElementById('btnConn').textContent = '⚡ 연결';
+  document.getElementById('btnConn').className   = 'btn bg';
+  document.getElementById('btnMeasure').disabled = true;
+}
+
+async function sendMeasure() {
+  if (!state.port || !state.port.writable) return;
+  for (const cmd of ['d data', 'd bdt']) {
+    const writer = state.port.writable.getWriter();
+    await writer.write(new TextEncoder().encode(cmd + '\r\n'));
+    writer.releaseLock();
+    appendLog(`>> ${cmd}\n`);
+    await new Promise(r => setTimeout(r, 200));
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  버퍼 처리 → 파싱 → UI 업데이트
+// ════════════════════════════════════════════════════════════
+function processBuffer() {
+  const { blocks, remainder } = DataParser.findCompleteBlocks(state.buffer);
+  state.buffer = remainder;
+  for (const block of blocks) processBlock(block);
+}
+
+function processBlock(text) {
+  const parsed  = DataParser.parse(text);
+  const level   = document.getElementById('levelInput').value.trim() || 'LV.1';
+  const sameLevel = state.results.filter(r => r.level === level);
+  parsed.level  = level;
+  parsed.idx    = sameLevel.length + 1;
+  state.results.push(parsed);
+
+  updateSidebar(parsed);
+  renderQC();
+  renderCharts();
+  renderRaw();
+  updateDelSelector();
+  appendLog(`\n${'='.repeat(50)}\n[수신] ${parsed.date} ${parsed.time} Item=${parsed.item} Result=${parsed.result_value} ${parsed.result_unit}\n`);
+}
+
+// ════════════════════════════════════════════════════════════
+//  로그 파일 불러오기
+// ════════════════════════════════════════════════════════════
+function loadLogFile() {
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = '.txt,.log';
+  inp.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const text = await file.text();
+    appendLog(`[파일] ${file.name}\n`);
+    const { blocks } = DataParser.findCompleteBlocks(text);
+    const toProcess = blocks.length ? blocks : [text];
+    for (const b of toProcess) processBlock(b);
+  };
+  inp.click();
+}
+
+// ════════════════════════════════════════════════════════════
+//  사이드바
+// ════════════════════════════════════════════════════════════
+function updateSidebar(r) {
+  const rv = r.result_value;
+  document.getElementById('sResult').textContent = rv != null ? rv.toFixed(2) : '—';
+  document.getElementById('sUnit').textContent   = r.result_unit || '';
+
+  const tf = document.getElementById('sTF');
+  if (r.tf_result) {
+    tf.style.display = 'inline-block';
+    tf.textContent   = r.tf_result;
+    tf.className     = 'tf-badge' + (r.tf_result === 'Normal' ? '' : ' warn');
+  } else { tf.style.display = 'none'; }
+
+  const meta = [['Item',r.item],['Lot',r.lot],['EXP',r.exp_date],['Date',r.date+' '+r.time],['S/N',r.serial_num]];
+  document.getElementById('sMeta').innerHTML = meta.map(([l,v])=>`<div class="mrow"><span class="ml">${l}</span><span class="mv">${v||'—'}</span></div>`).join('');
+
+  const params = [['C area',r.c_area,2],['T area',r.t_area,2],['T/C',r.ratio,5],['T max',r.t_max,3],['C max',r.c_max,3],['Gain',r.gain,2],['Temp',r.temp,1]];
+  document.getElementById('sParams').innerHTML = params.map(([l,v,d])=>`<div class="mrow"><span class="ml">${l}</span><span class="mv">${v!=null?Number(v).toFixed(d):'—'}</span></div>`).join('');
+}
+
+// ════════════════════════════════════════════════════════════
+//  QC 통계 테이블
+// ════════════════════════════════════════════════════════════
+const PARAMS = [
+  {key:'c_area',label:'C area',dec:2},{key:'t_area',label:'T area',dec:2},
+  {key:'gain',label:'Gain',dec:2},{key:'ratio',label:'T/C Ratio',dec:5},
+  {key:'t_max',label:'T max',dec:3},{key:'c_max',label:'C max',dec:3},
+  {key:'result_value',label:'Result',dec:2},{key:'temp',label:'Temp(°C)',dec:1},
+];
+
+function renderQC() {
+  if (!state.results.length) return;
+  const groups = {};
+  for (const r of state.results) {
+    const k = r.level + '|||' + r.item;
+    (groups[k] = groups[k]||[]).push(r);
+  }
+  const maxN = Math.max(...Object.values(groups).map(g=>g.length));
+  const scols = Array.from({length:maxN},(_,i)=>`#${i+1}`);
+  let html = `<table><thead><tr><th>Item</th><th>Level</th><th>파라미터</th>${scols.map(c=>`<th>${c}</th>`).join('')}<th>AVG</th><th>SD</th><th>CV%</th></tr></thead><tbody>`;
+
+  for (const [key,rows] of Object.entries(groups)) {
+    const [lv,item] = key.split('|||');
+    let first = true;
+    for (const {key:pk,label,dec} of PARAMS) {
+      const vals  = rows.map(r => r[pk]!=null ? Number(r[pk]) : null);
+      const numV  = vals.filter(v=>v!=null);
+      const cells = Array.from({length:maxN},(_,i)=>`<td>${vals[i]!=null?vals[i].toFixed(dec):''}</td>`).join('');
+      let avg='—',sd='—',cv='—',cvc='';
+      if (numV.length) {
+        const a = numV.reduce((s,v)=>s+v,0)/numV.length;
+        const s = numV.length>1 ? Math.sqrt(numV.reduce((ss,v)=>ss+(v-a)**2,0)/(numV.length-1)) : 0;
+        const c = a!==0 ? s/a*100 : 0;
+        avg=a.toFixed(dec); sd=s.toFixed(dec); cv=c.toFixed(0)+'%';
+        cvc = c<=5?'cv-ok':c<=10?'cv-warn':'cv-bad';
+      }
+      html += `<tr><td class="td-item">${first?item:''}</td><td class="td-lv">${first?lv:''}</td><td class="td-label">${label}</td>${cells}<td class="td-avg">${avg}</td><td>${sd}</td><td class="${cvc}">${cv}</td></tr>`;
+      first = false;
+    }
+    html += `<tr class="sep"><td colspan="${3+maxN+3}"></td></tr>`;
+  }
+  html += '</tbody></table>';
+  document.getElementById('qcArea').innerHTML = `<div class="qc-wrap">${html}</div>`;
+}
+
+// ════════════════════════════════════════════════════════════
+//  Scan 파형 차트
+// ════════════════════════════════════════════════════════════
+function renderCharts() {
+  chartObjs.forEach(c=>c.destroy()); chartObjs=[];
+  const grid = document.getElementById('chartGrid');
+  const withData = state.results.filter(r=>(r.scan_data||[]).length);
+  if (!withData.length) { grid.innerHTML='<div class="empty"><h3>📡 데이터 없음</h3><p>측정 후 파형이 표시됩니다.</p></div>'; return; }
+  grid.innerHTML = '';
+
+  for (const r of withData) {
+    const id  = `ch_${r.level}_${r.idx}`.replace(/[^a-z0-9_]/gi,'_');
+    const res = r.result_value!=null ? ` R=${Number(r.result_value).toFixed(2)} ${r.result_unit}` : '';
+    const card = document.createElement('div');
+    card.className = 'chart-card';
+    card.innerHTML = `<div class="chart-title">${r.level} #${r.idx} · ${r.item}${res}</div><div class="chart-wrap"><canvas id="${id}"></canvas></div>`;
+    grid.appendChild(card);
+
+    const datasets = [{label:'Scan',data:r.scan_data,borderColor:'#39d0d8',borderWidth:1.2,pointRadius:0,tension:.3}];
+    const maxLen = r.scan_data.length;
+    const ch = new Chart(document.getElementById(id).getContext('2d'),{
+      type:'line',
+      data:{labels:Array.from({length:maxLen},(_,i)=>i),datasets},
+      options:{animation:false,responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{color:'#8b949e',font:{size:9}}}},
+        scales:{x:{ticks:{color:'#8b949e',font:{size:8},maxTicksLimit:10},grid:{color:'#1c2230'}},
+                y:{ticks:{color:'#8b949e',font:{size:8}},grid:{color:'#1c2230'}}}}
+    });
+    chartObjs.push(ch);
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  Raw Data (샘플별 나란히)
+// ════════════════════════════════════════════════════════════
+function renderRaw() {
+  if (!state.results.length) return;
+  const samples = state.results.map(r => ({
+    header: `${r.level} #${r.idx}`,
+    rows:   DataParser.rawForExcel(r.raw_text).map(v =>
+      typeof v === 'number' ? (Number.isInteger(v) ? String(v) : String(v)) : String(v))
+  }));
+  const maxR = Math.max(...samples.map(s=>s.rows.length));
+
+  const thead = document.querySelector('#rawTable thead tr');
+  const tbody = document.getElementById('rawBody');
+  thead.innerHTML = '<th>#</th>' + samples.map(s=>`<th>${s.header}</th>`).join('');
+  tbody.innerHTML = '';
+
+  for (let i=0;i<maxR;i++) {
+    const tr  = document.createElement('tr');
+    const isMk = samples.some(s => (s.rows[i]||'').startsWith('##'));
+    tr.innerHTML = `<td style="color:var(--muted)">${i+1}</td>` +
+      samples.map(s => {
+        const v = s.rows[i] ?? '';
+        const cls = isMk ? 'mk' : /^-?[\d.]+$/.test(v) ? 'num' : '';
+        return `<td class="${cls}">${v}</td>`;
+      }).join('');
+    tbody.appendChild(tr);
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  샘플 삭제
+// ════════════════════════════════════════════════════════════
+function updateDelSelector() {
+  const sel = document.getElementById('delSel');
+  sel.innerHTML = '<option value="">선택...</option>' +
+    state.results.map((r,i)=>`<option value="${i}">${r.level} #${r.idx} · ${r.item||''}</option>`).join('');
+}
+
+function deleteSample() {
+  const idx = parseInt(document.getElementById('delSel').value);
+  if (isNaN(idx)) { alert('삭제할 샘플을 선택하세요.'); return; }
+  if (!confirm(`${state.results[idx].level} #${state.results[idx].idx} 를 삭제하시겠습니까?`)) return;
+  const lv = state.results[idx].level;
+  state.results.splice(idx, 1);
+  let n=1; for (const r of state.results) { if(r.level===lv) r.idx=n++; }
+  renderQC(); renderCharts(); renderRaw(); updateDelSelector();
+}
+
+function clearAll() {
+  if (!state.results.length) return;
+  if (!confirm('모든 검사 결과를 초기화하시겠습니까?')) return;
+  state.results = [];
+  chartObjs.forEach(c=>c.destroy()); chartObjs=[];
+  document.getElementById('qcArea').innerHTML   = '<div class="empty"><h3>데이터 없음</h3></div>';
+  document.getElementById('chartGrid').innerHTML = '<div class="empty"><h3>데이터 없음</h3></div>';
+  document.getElementById('rawBody').innerHTML   = '';
+  updateDelSelector();
+}
+
+// ════════════════════════════════════════════════════════════
+//  Excel 내보내기 (SheetJS)
+// ════════════════════════════════════════════════════════════
+function exportExcel() {
+  if (!state.results.length) { alert('저장할 데이터가 없습니다.'); return; }
+  const wb = XLSX.utils.book_new();
+
+  // ── Sheet1: QC 통계 ──
+  const groups = {};
+  for (const r of state.results) {
+    const k = r.level+'|||'+r.item;
+    (groups[k]=groups[k]||[]).push(r);
+  }
+  const maxN = Math.max(...Object.values(groups).map(g=>g.length));
+  const qcRows = [['Item','Level','파라미터',...Array.from({length:maxN},(_,i)=>`#${i+1}`),'AVG','SD','CV%']];
+  for (const [key,rows] of Object.entries(groups)) {
+    const [lv,item] = key.split('|||');
+    for (const {key:pk,label,dec} of PARAMS) {
+      const vals = rows.map(r=>r[pk]!=null?Number(r[pk]):null);
+      const numV = vals.filter(v=>v!=null);
+      const sVals = Array.from({length:maxN},(_,i)=>vals[i]!=null?vals[i]:null);
+      let avg=null,sd=null,cv=null;
+      if(numV.length){ const a=numV.reduce((s,v)=>s+v,0)/numV.length; const s=numV.length>1?Math.sqrt(numV.reduce((ss,v)=>ss+(v-a)**2,0)/(numV.length-1)):0; avg=parseFloat(a.toFixed(dec)); sd=parseFloat(s.toFixed(dec)); cv=a!==0?parseFloat((s/a*100).toFixed(0)):0; }
+      qcRows.push([item,lv,label,...sVals,avg,sd,cv!=null?cv+'%':'']);
+      item.length && (qcRows[qcRows.length-1][0]=''); // item 첫 행만
+      qcRows[qcRows.length-1][0] = PARAMS.indexOf(PARAMS.find(p=>p.key===pk))===0?item:'';
+      qcRows[qcRows.length-1][1] = PARAMS.indexOf(PARAMS.find(p=>p.key===pk))===0?lv:'';
+    }
+    qcRows.push([]);
+  }
+  // 재구성 (item/level 첫 파라미터만)
+  const qcFinal = [['Item','Level','파라미터',...Array.from({length:maxN},(_,i)=>`#${i+1}`),'AVG','SD','CV%']];
+  for (const [key,rows] of Object.entries(groups)) {
+    const [lv,item] = key.split('|||');
+    let first=true;
+    for (const {key:pk,label,dec} of PARAMS) {
+      const vals=rows.map(r=>r[pk]!=null?Number(r[pk]):null);
+      const numV=vals.filter(v=>v!=null);
+      const sVals=Array.from({length:maxN},(_,i)=>vals[i]!=null?vals[i]:null);
+      let avg='',sd='',cv='';
+      if(numV.length){const a=numV.reduce((s,v)=>s+v,0)/numV.length;const s=numV.length>1?Math.sqrt(numV.reduce((ss,v)=>ss+(v-a)**2,0)/(numV.length-1)):0;avg=parseFloat(a.toFixed(dec));sd=parseFloat(s.toFixed(dec));cv=a!==0?parseFloat((s/a*100).toFixed(0))+'%':'0%';}
+      qcFinal.push([first?item:'',first?lv:'',label,...sVals,avg,sd,cv]);
+      first=false;
+    }
+    qcFinal.push([]);
+  }
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(qcFinal), 'QC통계');
+
+  // ── Sheet2: 검사 이력 ──
+  const hist = [['Item','Level','#','Date','Time','Lot','EXP','Result','Unit','TF','C area','T area','T/C','T max','C max','Gain','Temp','S/N']];
+  for (const r of state.results) hist.push([r.item,r.level,r.idx,r.date,r.time,r.lot,r.exp_date,r.result_value,r.result_unit,r.tf_result,r.c_area,r.t_area,r.ratio,r.t_max,r.c_max,r.gain,r.temp,r.serial_num]);
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(hist), '검사이력');
+
+  // ── Sheet3: Raw Data ──
+  const samples = state.results.map(r=>({h:`${r.level} #${r.idx}`,rows:DataParser.rawForExcel(r.raw_text)}));
+  const maxR = Math.max(...samples.map(s=>s.rows.length),0);
+  const rawAoa = [['#',...samples.map(s=>s.h)]];
+  for (let i=0;i<maxR;i++) rawAoa.push([i+1,...samples.map(s=>s.rows[i]??'')]);
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rawAoa), 'Raw Data');
+
+  const ts = new Date().toISOString().slice(0,16).replace(/[:T]/g,'-');
+  XLSX.writeFile(wb, `QC_결과_${ts}.xlsx`);
+}
+
+// ════════════════════════════════════════════════════════════
+//  유틸
+// ════════════════════════════════════════════════════════════
+function switchTab(n) {
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===n));
+  document.querySelectorAll('.tabpanel').forEach((p,i)=>p.classList.toggle('active',i===n));
+}
+
+function setStatus(on, msg) {
+  document.getElementById('dot').classList.toggle('on', on);
+  document.getElementById('statusTxt').textContent = msg;
+}
+
+function appendLog(txt) {
+  const el = document.getElementById('logArea');
+  el.textContent += txt;
+  el.scrollTop = el.scrollHeight;
+}
+</script>
+</body>
+</html>
