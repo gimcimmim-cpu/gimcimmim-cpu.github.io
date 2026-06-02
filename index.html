@@ -25,38 +25,39 @@
     --shadow-lg: 0 18px 48px rgba(0,0,0,.5);
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  /* ── 마이크로채널 카트리지 배경 ── */
-  @keyframes channelFlow {
-    0%   { stroke-dashoffset: 200; }
-    100% { stroke-dashoffset: 0; }
+  /* ── 암 리본 파티클 배경 ── */
+  @keyframes ribbonFloat {
+    0%,100% { transform: translateY(0px) rotate(0deg);   opacity:.13; }
+    33%      { transform: translateY(-8px) rotate(1.5deg); opacity:.2;  }
+    66%      { transform: translateY(4px)  rotate(-1deg);  opacity:.15; }
   }
-  @keyframes nodePulse {
-    0%,100% { opacity:.18; r:12; }
-    50%      { opacity:.32; r:14; }
+  @keyframes ribbonPulse {
+    0%,100% { opacity:.08; }
+    50%      { opacity:.18; }
+  }
+  @keyframes connDash {
+    0%   { stroke-dashoffset: 120; }
+    100% { stroke-dashoffset: 0;   }
   }
   @keyframes bgDrift {
     0%   { transform:translateX(0)   translateY(0); }
-    50%  { transform:translateX(6px) translateY(-4px); }
+    50%  { transform:translateX(5px) translateY(-3px); }
     100% { transform:translateX(0)   translateY(0); }
   }
-  .microchannel-bg {
+  .ribbon-bg {
     position:fixed; inset:0; z-index:0; pointer-events:none;
-    animation: bgDrift 18s ease-in-out infinite;
+    animation: bgDrift 20s ease-in-out infinite;
   }
-  .microchannel-bg .ch-line {
-    stroke-dasharray: 200;
-    animation: channelFlow 8s linear infinite;
-  }
-  .microchannel-bg .ch-line:nth-child(2) { animation-delay:-2s; }
-  .microchannel-bg .ch-line:nth-child(3) { animation-delay:-4s; }
-  .microchannel-bg .ch-line:nth-child(4) { animation-delay:-6s; }
-  .microchannel-bg .ch-line:nth-child(5) { animation-delay:-1s; }
-  .microchannel-bg .ch-line:nth-child(6) { animation-delay:-3s; }
-  .microchannel-bg .nd {
-    animation: nodePulse 4s ease-in-out infinite;
-  }
-  .microchannel-bg .nd:nth-child(odd)  { animation-delay:-2s; }
-  .microchannel-bg .nd:nth-child(even) { animation-delay:-1s; }
+  .ribbon-bg .rb { animation: ribbonFloat 7s ease-in-out infinite; }
+  .ribbon-bg .rb:nth-child(2) { animation-delay:-2.5s; animation-duration:9s;  }
+  .ribbon-bg .rb:nth-child(3) { animation-delay:-5s;   animation-duration:8s;  }
+  .ribbon-bg .rb:nth-child(4) { animation-delay:-1s;   animation-duration:11s; }
+  .ribbon-bg .rb:nth-child(5) { animation-delay:-3.5s; animation-duration:6s;  }
+  .ribbon-bg .rb:nth-child(6) { animation-delay:-6s;   animation-duration:10s; }
+  .ribbon-bg .rb:nth-child(7) { animation-delay:-4s;   animation-duration:8.5s;}
+  .ribbon-bg .conn { stroke-dasharray:120; animation: connDash 6s linear infinite; }
+  .ribbon-bg .conn:nth-child(2) { animation-delay:-3s; }
+  .ribbon-bg .conn:nth-child(3) { animation-delay:-1.5s; }
 
   body {
     background:
@@ -72,7 +73,7 @@
       radial-gradient(1000px 500px at 10% 0%, rgba(5,120,184,.06), transparent 55%),
       #f0f2f5;
   }
-  body.theme-white .microchannel-bg { opacity:.35; }
+  body.theme-white .ribbon-bg { opacity:.3; filter:invert(.05); }
 
   .bg-glow {
     position:fixed; top:-220px; left:50%; transform:translateX(-50%);
@@ -1391,97 +1392,84 @@ document.addEventListener('keydown',function(e){
 </head>
 <body>
 
-<!-- 마이크로채널 카트리지 배경 SVG -->
-<svg class="microchannel-bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
+<!-- 암 리본 파티클 배경 SVG -->
+<svg class="ribbon-bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
      xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <defs>
-    <linearGradient id="mcg1" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#4D8AB4" stop-opacity="0"/>
-      <stop offset="50%" stop-color="#4D8AB4" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#4D8AB4" stop-opacity="0"/>
+    <linearGradient id="rbg1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7AB0D4"/>
+      <stop offset="100%" stop-color="#3D6F94"/>
     </linearGradient>
-    <linearGradient id="mcg2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3D6F94" stop-opacity="0"/>
-      <stop offset="50%" stop-color="#3D6F94" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#3D6F94" stop-opacity="0"/>
+    <linearGradient id="rbg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9ECAE8"/>
+      <stop offset="100%" stop-color="#4D8AB4"/>
     </linearGradient>
+    <!-- 리본 심볼 재사용 심볼 정의 -->
+    <g id="ribbon-sym">
+      <circle cx="0" cy="0" r="46" fill="none" stroke="url(#rbg1)" stroke-width="2.2"/>
+      <path d="M-7,-22 C-16,-18 -20,-8 -16,2 C-12,12 -4,18 4,22 L12,38 L6,40 L-1,26
+               C-10,22 -18,14 -22,4 C-26,-8 -22,-20 -10,-25 Z" fill="#5B91B6"/>
+      <path d="M7,-22 C16,-18 20,-8 16,2 C12,12 4,18 -4,22 L-12,38 L-6,40 L1,26
+               C10,22 18,14 22,4 C26,-8 22,-20 10,-25 Z" fill="url(#rbg2)"/>
+      <path d="M-10,-25 C-4,-28 4,-28 10,-25 L7,-22 C2,-24 -2,-24 -7,-22 Z" fill="#3D6F94"/>
+    </g>
   </defs>
 
-  <!-- 외곽 카트리지 프레임 -->
-  <rect x="80" y="60" width="1280" height="780" rx="24"
-        fill="none" stroke="#4D8AB4" stroke-width="1.2" opacity=".1"/>
+  <!-- 리본 1 — 좌상단 크게 -->
+  <g class="rb" transform="translate(130,180) scale(1.4)" opacity=".16">
+    <use href="#ribbon-sym"/>
+  </g>
 
-  <!-- 상단 채널 그룹 -->
-  <rect x="140" y="110" width="340" height="180" rx="10"
-        fill="none" stroke="#7AB0D4" stroke-width="0.8" opacity=".12"/>
-  <rect x="520" y="110" width="340" height="180" rx="10"
-        fill="none" stroke="#7AB0D4" stroke-width="0.8" opacity=".12"/>
-  <rect x="900" y="110" width="280" height="420" rx="10"
-        fill="none" stroke="#3D6F94" stroke-width="0.8" opacity=".1"/>
+  <!-- 리본 2 — 중앙상단 작게 -->
+  <g class="rb" transform="translate(480,120) scale(0.7)" opacity=".12">
+    <use href="#ribbon-sym"/>
+  </g>
 
-  <!-- 반응 챔버 원형 -->
-  <circle class="nd" cx="310" cy="200" r="42"
-          fill="none" stroke="#4D8AB4" stroke-width="1" opacity=".15"/>
-  <circle class="nd" cx="690" cy="200" r="42"
-          fill="none" stroke="#4D8AB4" stroke-width="1" opacity=".15"/>
+  <!-- 리본 3 — 우상단 중간 -->
+  <g class="rb" transform="translate(950,200) scale(1.1)" opacity=".14">
+    <use href="#ribbon-sym"/>
+  </g>
 
-  <!-- 채널 연결선 (흐르는 애니메이션) -->
-  <line class="ch-line" x1="352" y1="200" x2="648" y2="200"
-        stroke="url(#mcg1)" stroke-width="1.5" opacity=".18"/>
-  <line class="ch-line" x1="732" y1="200" x2="900" y2="200"
-        stroke="url(#mcg1)" stroke-width="1.5" opacity=".18"/>
-  <line class="ch-line" x1="1040" y1="200" x2="1200" y2="200"
-        stroke="url(#mcg1)" stroke-width="1.5" opacity=".12"/>
+  <!-- 리본 4 — 중앙 크게 (희미하게) -->
+  <g class="rb" transform="translate(720,450) scale(1.6)" opacity=".07">
+    <use href="#ribbon-sym"/>
+  </g>
 
-  <!-- 하단 웰 배열 (IDChip 느낌) -->
-  <rect x="140" y="360" width="720" height="120" rx="10"
-        fill="none" stroke="#7AB0D4" stroke-width="0.8" opacity=".1"/>
-  <rect x="168" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
-  <rect x="222" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
-  <rect x="276" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
-  <rect x="330" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
-  <rect x="384" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
-  <rect x="438" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
-  <rect x="492" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
-  <rect x="546" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
-  <rect x="600" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
-  <rect x="654" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
-  <rect x="708" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
-  <rect x="762" y="375" width="40" height="50" rx="5" fill="#3D6F94" opacity=".08"/>
+  <!-- 리본 5 — 좌하단 중간 -->
+  <g class="rb" transform="translate(200,650) scale(0.9)" opacity=".13">
+    <use href="#ribbon-sym"/>
+  </g>
 
-  <!-- 수직 채널 -->
-  <line class="ch-line" x1="310" y1="242" x2="310" y2="360"
-        stroke="url(#mcg2)" stroke-width="1.2" opacity=".15"/>
-  <line class="ch-line" x1="690" y1="242" x2="690" y2="360"
-        stroke="url(#mcg2)" stroke-width="1.2" opacity=".15"/>
-  <line class="ch-line" x1="1040" y1="290" x2="1040" y2="530"
-        stroke="url(#mcg2)" stroke-width="1.2" opacity=".1"/>
+  <!-- 리본 6 — 우하단 작게 -->
+  <g class="rb" transform="translate(1150,700) scale(0.65)" opacity=".11">
+    <use href="#ribbon-sym"/>
+  </g>
 
-  <!-- 하단 영역 -->
-  <rect x="140" y="540" width="1100" height="180" rx="10"
-        fill="none" stroke="#4D8AB4" stroke-width="0.6" opacity=".08"/>
+  <!-- 리본 7 — 중간 우측 -->
+  <g class="rb" transform="translate(1280,380) scale(0.8)" opacity=".1">
+    <use href="#ribbon-sym"/>
+  </g>
 
-  <!-- 우하단 소형 채널들 -->
-  <rect x="1000" y="580" width="180" height="100" rx="8"
-        fill="none" stroke="#7AB0D4" stroke-width="0.7" opacity=".1"/>
-  <line class="ch-line" x1="1090" y1="530" x2="1090" y2="580"
-        stroke="url(#mcg2)" stroke-width="1" opacity=".12"/>
+  <!-- 연결 점선 (리본들 사이) -->
+  <line class="conn" x1="130" y1="180" x2="480" y2="120"
+        stroke="#4D8AB4" stroke-width="0.7" stroke-dasharray="6,8" opacity=".12"/>
+  <line class="conn" x1="480" y1="120" x2="950" y2="200"
+        stroke="#4D8AB4" stroke-width="0.7" stroke-dasharray="6,8" opacity=".1"/>
+  <line class="conn" x1="950" y1="200" x2="1280" y2="380"
+        stroke="#4D8AB4" stroke-width="0.7" stroke-dasharray="6,8" opacity=".08"/>
+  <line class="conn" x1="130" y1="180" x2="200" y2="650"
+        stroke="#4D8AB4" stroke-width="0.7" stroke-dasharray="6,8" opacity=".08"/>
+  <line class="conn" x1="200" y1="650" x2="1150" y2="700"
+        stroke="#4D8AB4" stroke-width="0.7" stroke-dasharray="6,8" opacity=".07"/>
 
-  <!-- 좌하단 IC칩 패드 배열 -->
-  <rect x="160" y="760" width="500" height="50" rx="6"
-        fill="none" stroke="#4D8AB4" stroke-width="0.7" opacity=".1"/>
-  <rect x="175" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
-  <rect x="215" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
-  <rect x="255" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
-  <rect x="295" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
-  <rect x="335" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
-  <rect x="375" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
-  <rect x="415" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
-  <rect x="455" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
-  <rect x="495" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
-  <rect x="535" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
-  <rect x="575" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
-  <rect x="615" y="770" width="30" height="30" rx="4" fill="#4D8AB4" opacity=".06"/>
+  <!-- 작은 파티클 닷 -->
+  <circle cx="630"  cy="80"  r="3" fill="#4D8AB4" opacity=".2"/>
+  <circle cx="1100" cy="480" r="2" fill="#7AB0D4" opacity=".18"/>
+  <circle cx="350"  cy="400" r="2.5" fill="#4D8AB4" opacity=".15"/>
+  <circle cx="1350" cy="200" r="2" fill="#7AB0D4" opacity=".14"/>
+  <circle cx="80"   cy="500" r="2" fill="#4D8AB4" opacity=".15"/>
+  <circle cx="800"  cy="750" r="3" fill="#7AB0D4" opacity=".12"/>
+  <circle cx="1050" cy="820" r="2" fill="#4D8AB4" opacity=".1"/>
 </svg>
 
 <div class="bg-glow"></div>
