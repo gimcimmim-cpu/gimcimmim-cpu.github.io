@@ -45,7 +45,6 @@
     100% { transform:translateX(0)   translateY(0); }
   }
   .ribbon-bg {
-    position:fixed; inset:0; z-index:0; pointer-events:none;
     animation: bgDrift 20s ease-in-out infinite;
   }
   .ribbon-bg .rb { animation: ribbonFloat 7s ease-in-out infinite; }
@@ -1393,83 +1392,87 @@ document.addEventListener('keydown',function(e){
 <body>
 
 <!-- 암 리본 파티클 배경 SVG -->
-<svg class="ribbon-bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
-     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<svg class="ribbon-bg" xmlns="http://www.w3.org/2000/svg"
+     style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;"
+     viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
   <defs>
     <linearGradient id="rbg1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#7AB0D4"/>
-      <stop offset="100%" stop-color="#3D6F94"/>
+      <stop offset="0%" stop-color="#7AB0D4"/><stop offset="100%" stop-color="#3D6F94"/>
     </linearGradient>
     <linearGradient id="rbg2" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#9ECAE8"/>
-      <stop offset="100%" stop-color="#4D8AB4"/>
+      <stop offset="0%" stop-color="#9ECAE8"/><stop offset="100%" stop-color="#4D8AB4"/>
     </linearGradient>
-    <!-- 리본 심볼 재사용 심볼 정의 -->
-    <g id="ribbon-sym">
-      <circle cx="0" cy="0" r="46" fill="none" stroke="url(#rbg1)" stroke-width="2.2"/>
-      <path d="M-7,-22 C-16,-18 -20,-8 -16,2 C-12,12 -4,18 4,22 L12,38 L6,40 L-1,26
-               C-10,22 -18,14 -22,4 C-26,-8 -22,-20 -10,-25 Z" fill="#5B91B6"/>
-      <path d="M7,-22 C16,-18 20,-8 16,2 C12,12 4,18 -4,22 L-12,38 L-6,40 L1,26
-               C10,22 18,14 22,4 C26,-8 22,-20 10,-25 Z" fill="url(#rbg2)"/>
-      <path d="M-10,-25 C-4,-28 4,-28 10,-25 L7,-22 C2,-24 -2,-24 -7,-22 Z" fill="#3D6F94"/>
-    </g>
   </defs>
 
-  <!-- 리본 1 — 좌상단 크게 -->
-  <g class="rb" transform="translate(130,180) scale(1.4)" opacity=".16">
-    <use href="#ribbon-sym"/>
+  <!-- 리본 1 — 좌상단 (크게) -->
+  <g class="rb" opacity=".16" transform="translate(130,190)">
+    <circle cx="0" cy="0" r="64" fill="none" stroke="url(#rbg1)" stroke-width="2"/>
+    <path d="M-10,-31 C-22,-25 -28,-11 -22,3 C-17,17 -6,25 6,31 L17,53 L8,56 L-1,37 C-14,31 -25,20 -31,6 C-37,-11 -31,-28 -14,-35 Z" fill="#5B91B6"/>
+    <path d="M10,-31 C22,-25 28,-11 22,3 C17,17 6,25 -6,31 L-17,53 L-8,56 L1,37 C14,31 25,20 31,6 C37,-11 31,-28 14,-35 Z" fill="url(#rbg2)"/>
+    <path d="M-14,-35 C-6,-40 6,-40 14,-35 L10,-31 C3,-34 -3,-34 -10,-31 Z" fill="#3D6F94"/>
   </g>
 
-  <!-- 리본 2 — 중앙상단 작게 -->
-  <g class="rb" transform="translate(480,120) scale(0.7)" opacity=".12">
-    <use href="#ribbon-sym"/>
+  <!-- 리본 2 — 중앙상단 (작게) -->
+  <g class="rb" opacity=".13" transform="translate(490,110)">
+    <circle cx="0" cy="0" r="38" fill="none" stroke="url(#rbg1)" stroke-width="1.5"/>
+    <path d="M-6,-18 C-13,-15 -17,-7 -13,2 C-10,10 -4,15 4,18 L10,31 L5,33 L-1,22 C-9,19 -15,12 -18,4 C-22,-7 -18,-17 -8,-21 Z" fill="#5B91B6"/>
+    <path d="M6,-18 C13,-15 17,-7 13,2 C10,10 4,15 -4,18 L-10,31 L-5,33 L1,22 C9,19 15,12 18,4 C22,-7 18,-17 8,-21 Z" fill="url(#rbg2)"/>
+    <path d="M-8,-21 C-4,-24 4,-24 8,-21 L6,-18 C2,-20 -2,-20 -6,-18 Z" fill="#3D6F94"/>
   </g>
 
-  <!-- 리본 3 — 우상단 중간 -->
-  <g class="rb" transform="translate(950,200) scale(1.1)" opacity=".14">
-    <use href="#ribbon-sym"/>
+  <!-- 리본 3 — 우상단 (중간) -->
+  <g class="rb" opacity=".14" transform="translate(1010,210)">
+    <circle cx="0" cy="0" r="52" fill="none" stroke="url(#rbg1)" stroke-width="1.8"/>
+    <path d="M-8,-25 C-18,-20 -23,-9 -18,3 C-14,13 -5,20 5,25 L14,43 L7,45 L-1,30 C-12,25 -20,16 -25,5 C-30,-9 -25,-23 -11,-28 Z" fill="#5B91B6"/>
+    <path d="M8,-25 C18,-20 23,-9 18,3 C14,13 5,20 -5,25 L-14,43 L-7,45 L1,30 C12,25 20,16 25,5 C30,-9 25,-23 11,-28 Z" fill="url(#rbg2)"/>
+    <path d="M-11,-28 C-5,-32 5,-32 11,-28 L8,-25 C3,-27 -3,-27 -8,-25 Z" fill="#3D6F94"/>
   </g>
 
-  <!-- 리본 4 — 중앙 크게 (희미하게) -->
-  <g class="rb" transform="translate(720,450) scale(1.6)" opacity=".07">
-    <use href="#ribbon-sym"/>
+  <!-- 리본 4 — 중앙 (매우 희미, 크게) -->
+  <g class="rb" opacity=".06" transform="translate(720,460)">
+    <circle cx="0" cy="0" r="90" fill="none" stroke="url(#rbg1)" stroke-width="2.5"/>
+    <path d="M-14,-43 C-30,-34 -38,-15 -30,5 C-23,22 -8,34 8,43 L23,73 L12,77 L-2,50 C-20,43 -34,27 -43,8 C-51,-14 -43,-38 -20,-48 Z" fill="#5B91B6"/>
+    <path d="M14,-43 C30,-34 38,-15 30,5 C23,22 8,34 -8,43 L-23,73 L-12,77 L2,50 C20,43 34,27 43,8 C51,-14 43,-38 20,-48 Z" fill="url(#rbg2)"/>
+    <path d="M-20,-48 C-8,-55 8,-55 20,-48 L14,-43 C5,-46 -5,-46 -14,-43 Z" fill="#3D6F94"/>
   </g>
 
-  <!-- 리본 5 — 좌하단 중간 -->
-  <g class="rb" transform="translate(200,650) scale(0.9)" opacity=".13">
-    <use href="#ribbon-sym"/>
+  <!-- 리본 5 — 좌하단 (중간) -->
+  <g class="rb" opacity=".13" transform="translate(210,660)">
+    <circle cx="0" cy="0" r="46" fill="none" stroke="url(#rbg1)" stroke-width="1.6"/>
+    <path d="M-7,-22 C-16,-18 -20,-8 -16,2 C-12,12 -4,18 4,22 L12,38 L6,40 L-1,26 C-10,22 -18,14 -22,4 C-26,-8 -22,-20 -10,-25 Z" fill="#5B91B6"/>
+    <path d="M7,-22 C16,-18 20,-8 16,2 C12,12 4,18 -4,22 L-12,38 L-6,40 L1,26 C10,22 18,14 22,4 C26,-8 22,-20 10,-25 Z" fill="url(#rbg2)"/>
+    <path d="M-10,-25 C-4,-28 4,-28 10,-25 L7,-22 C2,-24 -2,-24 -7,-22 Z" fill="#3D6F94"/>
   </g>
 
-  <!-- 리본 6 — 우하단 작게 -->
-  <g class="rb" transform="translate(1150,700) scale(0.65)" opacity=".11">
-    <use href="#ribbon-sym"/>
+  <!-- 리본 6 — 우하단 (작게) -->
+  <g class="rb" opacity=".11" transform="translate(1200,720)">
+    <circle cx="0" cy="0" r="34" fill="none" stroke="url(#rbg1)" stroke-width="1.4"/>
+    <path d="M-5,-17 C-12,-13 -15,-6 -12,2 C-9,9 -3,14 3,17 L9,28 L5,30 L-1,20 C-8,17 -13,11 -17,4 C-20,-7 -17,-16 -7,-20 Z" fill="#5B91B6"/>
+    <path d="M5,-17 C12,-13 15,-6 12,2 C9,9 3,14 -3,17 L-9,28 L-5,30 L1,20 C8,17 13,11 17,4 C20,-7 17,-16 7,-20 Z" fill="url(#rbg2)"/>
+    <path d="M-7,-20 C-3,-23 3,-23 7,-20 L5,-17 C2,-19 -2,-19 -5,-17 Z" fill="#3D6F94"/>
   </g>
 
-  <!-- 리본 7 — 중간 우측 -->
-  <g class="rb" transform="translate(1280,380) scale(0.8)" opacity=".1">
-    <use href="#ribbon-sym"/>
+  <!-- 리본 7 — 우중단 (작게) -->
+  <g class="rb" opacity=".1" transform="translate(1330,400)">
+    <circle cx="0" cy="0" r="30" fill="none" stroke="url(#rbg1)" stroke-width="1.2"/>
+    <path d="M-4,-15 C-11,-12 -13,-5 -10,2 C-8,8 -3,12 3,15 L8,25 L4,26 L-1,17 C-7,14 -12,10 -14,3 C-17,-6 -14,-14 -6,-18 Z" fill="#5B91B6"/>
+    <path d="M4,-15 C11,-12 13,-5 10,2 C8,8 3,12 -3,15 L-8,25 L-4,26 L1,17 C7,14 12,10 14,3 C17,-6 14,-14 6,-18 Z" fill="url(#rbg2)"/>
+    <path d="M-6,-18 C-3,-20 3,-20 6,-18 L4,-15 C2,-17 -2,-17 -4,-15 Z" fill="#3D6F94"/>
   </g>
 
-  <!-- 연결 점선 (리본들 사이) -->
-  <line class="conn" x1="130" y1="180" x2="480" y2="120"
-        stroke="#4D8AB4" stroke-width="0.7" stroke-dasharray="6,8" opacity=".12"/>
-  <line class="conn" x1="480" y1="120" x2="950" y2="200"
-        stroke="#4D8AB4" stroke-width="0.7" stroke-dasharray="6,8" opacity=".1"/>
-  <line class="conn" x1="950" y1="200" x2="1280" y2="380"
-        stroke="#4D8AB4" stroke-width="0.7" stroke-dasharray="6,8" opacity=".08"/>
-  <line class="conn" x1="130" y1="180" x2="200" y2="650"
-        stroke="#4D8AB4" stroke-width="0.7" stroke-dasharray="6,8" opacity=".08"/>
-  <line class="conn" x1="200" y1="650" x2="1150" y2="700"
-        stroke="#4D8AB4" stroke-width="0.7" stroke-dasharray="6,8" opacity=".07"/>
+  <!-- 연결 점선 -->
+  <line class="conn" x1="130" y1="190" x2="490" y2="110" stroke="#4D8AB4" stroke-width="0.6" stroke-dasharray="6,10" opacity=".1"/>
+  <line class="conn" x1="490" y1="110" x2="1010" y2="210" stroke="#4D8AB4" stroke-width="0.6" stroke-dasharray="6,10" opacity=".09"/>
+  <line class="conn" x1="1010" y1="210" x2="1330" y2="400" stroke="#4D8AB4" stroke-width="0.6" stroke-dasharray="6,10" opacity=".08"/>
+  <line class="conn" x1="130" y1="190" x2="210" y2="660" stroke="#4D8AB4" stroke-width="0.6" stroke-dasharray="6,10" opacity=".07"/>
+  <line class="conn" x1="210" y1="660" x2="1200" y2="720" stroke="#4D8AB4" stroke-width="0.6" stroke-dasharray="6,10" opacity=".07"/>
 
-  <!-- 작은 파티클 닷 -->
-  <circle cx="630"  cy="80"  r="3" fill="#4D8AB4" opacity=".2"/>
-  <circle cx="1100" cy="480" r="2" fill="#7AB0D4" opacity=".18"/>
-  <circle cx="350"  cy="400" r="2.5" fill="#4D8AB4" opacity=".15"/>
-  <circle cx="1350" cy="200" r="2" fill="#7AB0D4" opacity=".14"/>
-  <circle cx="80"   cy="500" r="2" fill="#4D8AB4" opacity=".15"/>
-  <circle cx="800"  cy="750" r="3" fill="#7AB0D4" opacity=".12"/>
-  <circle cx="1050" cy="820" r="2" fill="#4D8AB4" opacity=".1"/>
+  <!-- 파티클 닷 -->
+  <circle cx="650"  cy="75"  r="2.5" fill="#4D8AB4" opacity=".18"/>
+  <circle cx="1100" cy="490" r="2"   fill="#7AB0D4" opacity=".15"/>
+  <circle cx="360"  cy="380" r="2"   fill="#4D8AB4" opacity=".14"/>
+  <circle cx="85"   cy="510" r="2"   fill="#4D8AB4" opacity=".13"/>
+  <circle cx="820"  cy="760" r="2.5" fill="#7AB0D4" opacity=".12"/>
 </svg>
 
 <div class="bg-glow"></div>
