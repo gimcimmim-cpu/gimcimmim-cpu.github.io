@@ -1,0 +1,2108 @@
+{
+  "version": 2,
+  "appName": "IDChip 통합 검수 시스템",
+  "exportedAt": "2026-06-02T07:34:37.672Z",
+  "totalItems": 17,
+  "data": {
+    "batch-hist:ichroma:Cyfra21-1": [
+      {
+        "lot": "CYWDA11EX",
+        "exp": "2027.12.26",
+        "savedAt": "2026-05-26T00:28:11.459Z",
+        "idChipParams": {},
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "3.211236665775943",
+          "ratio 1차": "339.7201561249102",
+          "ratio 절편": "1.6638959411646477",
+          "Anti-ratio 3차": "0",
+          "Anti-ratio 2차": "0.43254818294502506",
+          "Anti-ratio 1차": "6.436886630482423",
+          "Anti-ratio 절편": "0.049836762811842794"
+        }
+      },
+      {
+        "lot": "CYWDA10EX",
+        "exp": "271205",
+        "savedAt": "2026-04-27T06:06:13.997Z",
+        "idChipParams": {},
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "14.05270951281644",
+          "ratio 1차": "374.80491375782447",
+          "ratio 절편": "3.9497418935027957",
+          "Anti-ratio 3차": "0",
+          "Anti-ratio 2차": "1.8724668903491586",
+          "Anti-ratio 1차": "5.240401619127813",
+          "Anti-ratio 절편": "0.28945678795542185"
+        }
+      }
+    ],
+    "batch-hist:ichroma:CEA": [
+      {
+        "lot": "CEWED06",
+        "exp": "2028.01.17",
+        "savedAt": "2026-05-28T03:49:35.106Z",
+        "idChipParams": {
+          "CEA": "4",
+          "Serum 1차": "40.881895299144084",
+          "Serum 절편": "0.3290242233550081",
+          "WB ratio 3차": "48",
+          "WB ratio 2차": "49",
+          "WB ratio 1차": "50",
+          "WB ratio 절편": "51",
+          "Serum 3차": "52",
+          "Serum 2차": "0.1016755170285165",
+          "LED 경계값": "54",
+          "WB min": "65",
+          "WB max": "66",
+          "Serum min": "1",
+          "Serum max": "500"
+        },
+        "formulaParams": {
+          "Ratio 3차": "0",
+          "Ratio 2차": "0.1016755170285165",
+          "Ratio 1차": "40.881895299144084",
+          "Ratio 절편": "0.3290242233550081"
+        }
+      },
+      {
+        "lot": "CEVKD04",
+        "exp": "2027.07.27",
+        "savedAt": "2026-04-29T07:10:11.841Z",
+        "idChipParams": {
+          "CEA": "4",
+          "Serum 1차": "73.39957545370389",
+          "Serum 절편": "0.687284767659434",
+          "WB ratio 3차": "48",
+          "WB ratio 2차": "49",
+          "WB ratio 1차": "50",
+          "WB ratio 절편": "51",
+          "Serum 3차": "52",
+          "Serum 2차": "0.5130783900832264",
+          "LED 경계값": "54",
+          "WB min": "65",
+          "WB max": "66",
+          "Serum min": "3",
+          "Serum max": "500"
+        },
+        "formulaParams": {
+          "Ratio 3차": "0",
+          "Ratio 2차": "0.5130783900832264",
+          "Ratio 1차": "73.39957545370389",
+          "Ratio 절편": "0.687284767659434"
+        }
+      }
+    ],
+    "batch-hist:ichroma:Calprotectin": [
+      {
+        "lot": "CPWEE04Z",
+        "exp": "2028.01.03",
+        "savedAt": "2026-05-28T03:47:04.184Z",
+        "idChipParams": {
+          "바코드 유무": "24",
+          "Item=Calprotectin": "23",
+          "Lot": "4",
+          "serum 3차": "무조건 1로 고정",
+          "serum 2차": "0.13355061268249252",
+          "serum 1차": "134.0706825042902",
+          "serum 절편": "-4.869875465737673",
+          "WB 3차": "51",
+          "WB 2차": "52",
+          "WB 1차": "53",
+          "WB 절편": "54",
+          "LED 경계": "63"
+        },
+        "formulaParams": {
+          "Ratio 3차": "0",
+          "Ratio 2차": "0.13355061268249252",
+          "Ratio 1차": "134.0706825042902",
+          "Ratio 절편": "-4.869875465737673"
+        }
+      },
+      {
+        "lot": "CPWDE03Z",
+        "exp": "2027.12.26",
+        "savedAt": "2026-05-07T22:52:49.416Z",
+        "idChipParams": {
+          "바코드 유무": "24",
+          "Item=Calprotectin": "23",
+          "Lot": "3",
+          "serum 3차": "무조건 1로 고정",
+          "serum 2차": "0.47796058758124027",
+          "serum 1차": "117.39829970259355",
+          "serum 절편": "0.5033361886747709",
+          "WB 3차": "51",
+          "WB 2차": "52",
+          "WB 1차": "53",
+          "WB 절편": "54",
+          "LED 경계": "63"
+        },
+        "formulaParams": {
+          "Ratio 3차": "0",
+          "Ratio 2차": "0.47796058758124027",
+          "Ratio 1차": "117.39829970259355",
+          "Ratio 절편": "0.5033361886747709"
+        }
+      },
+      {
+        "lot": "CPWDE02ZI",
+        "exp": "2027.12.21",
+        "savedAt": "2026-04-23T01:44:42.952Z",
+        "idChipParams": {
+          "바코드 유무": "24",
+          "Item=Calprotectin": "23",
+          "Lot": "1",
+          "serum 3차": "무조건 1로 고정",
+          "serum 2차": "0.08213225469563978",
+          "serum 1차": "110.76942408451615",
+          "serum 절편": "1.5025006801079817",
+          "WB 3차": "51",
+          "WB 2차": "52",
+          "WB 1차": "53",
+          "WB 절편": "54",
+          "LED 경계": "63"
+        },
+        "formulaParams": {
+          "Ratio 3차": "0",
+          "Ratio 2차": "0.08213225469563978",
+          "Ratio 1차": "110.76942408451615",
+          "Ratio 절편": "1.5025006801079817"
+        }
+      },
+      {
+        "lot": "CPWDE02Z",
+        "exp": "2027.12.21",
+        "savedAt": "2026-04-23T01:44:09.952Z",
+        "idChipParams": {
+          "바코드 유무": "24",
+          "Item=Calprotectin": "23",
+          "Lot": "2",
+          "serum 3차": "무조건 1로 고정",
+          "serum 2차": "0.08213225469563978",
+          "serum 1차": "110.76942408451615",
+          "serum 절편": "1.5025006801079817",
+          "WB 3차": "51",
+          "WB 2차": "52",
+          "WB 1차": "53",
+          "WB 절편": "54",
+          "LED 경계": "63"
+        },
+        "formulaParams": {
+          "Ratio 3차": "0",
+          "Ratio 2차": "0.08213225469563978",
+          "Ratio 1차": "110.76942408451615",
+          "Ratio 절편": "1.5025006801079817"
+        }
+      },
+      {
+        "lot": "CPWCE01Z",
+        "exp": "2027.11.22",
+        "savedAt": "2026-04-09T22:54:58.506Z",
+        "idChipParams": {
+          "바코드 유무": "24",
+          "Item=Calprotectin": "23",
+          "Lot": "1",
+          "serum 3차": "무조건 1로 고정",
+          "serum 2차": "0.9010771347007795",
+          "serum 1차": "126.91821266545041",
+          "serum 절편": "0.5199349660474901",
+          "WB 3차": "51",
+          "WB 2차": "52",
+          "WB 1차": "53",
+          "WB 절편": "54",
+          "LED 경계": "63"
+        },
+        "formulaParams": {
+          "Ratio 3차": "0",
+          "Ratio 2차": "0.9010771347007795",
+          "Ratio 1차": "126.91821266545041",
+          "Ratio 절편": "0.5199349660474901"
+        }
+      },
+      {
+        "lot": "CPWCA11X",
+        "exp": "2027.11.08",
+        "savedAt": "2026-04-07T00:13:43.618Z",
+        "idChipParams": {
+          "바코드 유무": "24",
+          "Item=Calprotectin": "28",
+          "Lot": "11",
+          "serum 3차": "0",
+          "serum 2차": "0.35060349298699595",
+          "serum 1차": "119.4208314585379",
+          "serum 절편": "3.7928000041578525",
+          "저 Ratio 3차": "56",
+          "저 Ratio 2차": "57",
+          "저 Ratio 1차": "58",
+          "저 Ratio 절편": "59",
+          "고 Ratio 3차": "60",
+          "고 Ratio 2차": "61",
+          "고 Ratio 1차": "62",
+          "고 Ratio 절편": "63",
+          "ratio 경계값": "64"
+        },
+        "formulaParams": {
+          "Ratio 3차": "0",
+          "raio 절편": "4.2928000041578525"
+        }
+      }
+    ],
+    "batch-hist:ichroma:PSA": [
+      {
+        "lot": "PSWDT07",
+        "exp": "2027.12.27",
+        "savedAt": "2026-05-29T05:12:17.967Z",
+        "idChipParams": {
+          "WB 1차": "33.603",
+          "WB 절편": "-0.0254",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "49",
+          "Serum ratio 1차": "8.8996",
+          "Serum ratio 절편": "-0.0822",
+          "WB 3차": "52",
+          "WB 2차": "53",
+          "LED 경계값": "2500",
+          "iChroma II전용 LED 경계": "63",
+          "Serum min": "0.1",
+          "Serum max": "100",
+          "WB min": "0.5",
+          "WB max": "100",
+          "old 구분": "1"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0",
+          "Serum 1차": "8.8996",
+          "Serum 절편": "-0.0822",
+          "Whole blood 3차": "0",
+          "Whole blood 2차": "0",
+          "Whole blood 1차": "33.603",
+          "Whole blood 절편": "-0.0254"
+        }
+      },
+      {
+        "lot": "PSWCT04",
+        "exp": "2027.11.15",
+        "savedAt": "2026-04-07T00:13:43.618Z",
+        "idChipParams": {
+          "WB 1차": "25.644",
+          "WB 절편": "-0.0024",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "49",
+          "Serum ratio 1차": "7.0513",
+          "Serum ratio 절편": "-0.0342",
+          "WB 3차": "52",
+          "WB 2차": "53",
+          "LED 경계값": "2500",
+          "iChroma II전용 LED 경계": "63",
+          "Serum min": "0.1",
+          "Serum max": "100",
+          "WB min": "0.5",
+          "WB max": "100",
+          "old 구분": "1"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Whole blood 3차": "0",
+          "Serum 절편": "-0.0342",
+          "Whole blood 절편": "-0.0024"
+        }
+      }
+    ],
+    "batch-hist:ichroma:iFOB%20Neo": [
+      {
+        "lot": "FOWDF06Z",
+        "exp": "2027.12.28",
+        "savedAt": "2026-05-28T03:48:30.810Z",
+        "idChipParams": {},
+        "formulaParams": {
+          "ratio 2차": "93.3609655009282",
+          "ratio 1차": "333.8369951043575",
+          "ratio 절편": "3.0270694817202983"
+        }
+      },
+      {
+        "lot": "FOWDF05Z",
+        "exp": "2027.12.28",
+        "savedAt": "2026-05-15T04:29:07.156Z",
+        "idChipParams": {},
+        "formulaParams": {
+          "ratio 2차": "177.7219684539843",
+          "ratio 1차": "426.4167344312952",
+          "ratio 절편": "3.0002222755913763"
+        }
+      },
+      {
+        "lot": "FOWDF04Z",
+        "exp": "2027.12.19",
+        "savedAt": "2026-05-06T23:56:08.577Z",
+        "idChipParams": {},
+        "formulaParams": {
+          "ratio 2차": "57.82471747030852",
+          "ratio 1차": "344.02678020354887",
+          "ratio 절편": "3.0118343616927152"
+        }
+      },
+      {
+        "lot": "FOWCF03Z",
+        "exp": "2027.11.15",
+        "savedAt": "2026-04-09T02:10:39.479Z",
+        "idChipParams": {},
+        "formulaParams": {
+          "ratio 2차": "79.50635115940737",
+          "ratio 1차": "394.0911890396066",
+          "ratio 절편": "3.00526297902199"
+        }
+      }
+    ],
+    "batch-hist:ichroma:AFP": [
+      {
+        "lot": "AFWDD01",
+        "exp": "2027.12.29",
+        "savedAt": "2026-05-28T03:45:23.050Z",
+        "idChipParams": {
+          "AFP": "2",
+          "WB ratio 1차": "49.04421052631579",
+          "WB ratio 절편": "0.2005",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "49",
+          "Serum ratio 1차": "50",
+          "Serum ratio 절편": "51",
+          "WB 3차": "52",
+          "WB 2차": "0.5897894736842105",
+          "LED 경계값": "54",
+          "WB min": "5",
+          "WB max": "350",
+          "Serum min": "5",
+          "Serum max": "350"
+        },
+        "formulaParams": {
+          "Ratio 3차": "0",
+          "Ratio 2차": "0.5897894736842105",
+          "Ratio 1차": "49.04421052631579",
+          "Ratio 절편": "0.2005"
+        }
+      },
+      {
+        "lot": "AFWCB09EX",
+        "exp": "2027.11.23",
+        "savedAt": "2026-04-22T02:12:59.012Z",
+        "idChipParams": {
+          "AFP": "2",
+          "WB ratio 1차": "61.7216",
+          "WB ratio 절편": "-0.2955",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "0.2257",
+          "Serum ratio 1차": "38.576",
+          "Serum ratio 절편": "-0.2955",
+          "WB 3차": "52",
+          "WB 2차": "0.36112000000000005",
+          "LED 경계값": "2500",
+          "WB min": "5",
+          "WB max": "350",
+          "Serum min": "5",
+          "Serum max": "350"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.2257",
+          "Serum 1차": "38.576",
+          "Serum 절편": "-0.2955",
+          "Whole blood 3차": "0",
+          "Whole blood 2차": "0.36112000000000005",
+          "Whole blood 1차": "61.7216",
+          "Whole blood 절편": "-0.2955"
+        }
+      }
+    ],
+    "batch-hist:AFIAS:Ferritin": [
+      {
+        "lot": "FRWCA87X",
+        "exp": "271117",
+        "savedAt": "2026-06-02T06:32:30.355Z",
+        "idChipParams": {
+          "수식 버전 정보": "0",
+          "TRF_OnDuration": "0",
+          "장비별 수식 존재 여부": "0",
+          "Invalid34 기능 사용 여부 선택": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "튜브3 Volume #1st": "0",
+          "Scan Start Adjust": "0",
+          "튜브3 Volume #2nd": "0",
+          "믹싱 로직": "1",
+          "Min": "10",
+          "MAX": "1000"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "20.707298783043182",
+          "Serum 1차": "80.52196213181395",
+          "Serum 절편": "0.8434581535852188"
+        }
+      },
+      {
+        "lot": "FRVLA80X",
+        "exp": "270818",
+        "savedAt": "2026-06-02T06:24:49.496Z",
+        "idChipParams": {
+          "수식 버전 정보": "0",
+          "TRF_OnDuration": "0",
+          "장비별 수식 존재 여부": "0",
+          "Invalid34 기능 사용 여부 선택": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "튜브3 Volume #1st": "0",
+          "Scan Start Adjust": "0",
+          "튜브3 Volume #2nd": "0",
+          "믹싱 로직": "1",
+          "Min": "10",
+          "MAX": "1000"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "20.70167323478166",
+          "Serum 1차": "84.73824005537422",
+          "Serum 절편": "0.5672947631017422"
+        }
+      },
+      {
+        "lot": "FRWEA92X",
+        "exp": "280107",
+        "savedAt": "2026-05-28T05:40:29.717Z",
+        "idChipParams": {
+          "수식 버전 정보": "0",
+          "TRF_OnDuration": "0",
+          "장비별 수식 존재 여부": "0",
+          "Invalid34 기능 사용 여부 선택": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "튜브3 Volume #1st": "0",
+          "Scan Start Adjust": "0",
+          "튜브3 Volume #2nd": "0",
+          "믹싱 로직": "1",
+          "Min": "10",
+          "MAX": "1000"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "18.305150507428216",
+          "Serum 1차": "81.20331071143615",
+          "Serum 절편": "0.16025265469194494"
+        }
+      },
+      {
+        "lot": "FRWDA91X",
+        "exp": "271207",
+        "savedAt": "2026-04-23T01:50:44.714Z",
+        "idChipParams": {
+          "수식 버전 정보": "0",
+          "TRF_OnDuration": "0",
+          "장비별 수식 존재 여부": "0",
+          "Invalid34 기능 사용 여부 선택": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "튜브3 Volume #1st": "0",
+          "Scan Start Adjust": "0",
+          "튜브3 Volume #2nd": "0",
+          "믹싱 로직": "1",
+          "Min": "10",
+          "MAX": "1000"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "15.060150034966243",
+          "Serum 1차": "87.83454498891481",
+          "Serum 절편": "0.944447619204638"
+        }
+      },
+      {
+        "lot": "FRWDA90X",
+        "exp": "271205",
+        "savedAt": "2026-04-22T05:50:37.054Z",
+        "idChipParams": {
+          "수식 버전 정보": "0",
+          "TRF_OnDuration": "0",
+          "장비별 수식 존재 여부": "12",
+          "Invalid34 기능 사용 여부 선택": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "튜브3 Volume #1st": "0",
+          "Scan Start Adjust": "0",
+          "튜브3 Volume #2nd": "0",
+          "믹싱 로직": "1",
+          "Min": "10",
+          "MAX": "1000"
+        },
+        "formulaParams": {
+          "Serum 절편": "84.19051308613167",
+          "Serum 3차": "0",
+          "Serum 2차": "0",
+          "Serum 1차": "17.474985625647648"
+        }
+      },
+      {
+        "lot": "FRWCA89X",
+        "exp": "271129",
+        "savedAt": "2026-04-08T23:26:59.550Z",
+        "idChipParams": {
+          "수식 버전 정보": "0",
+          "TRF_OnDuration": "0",
+          "장비별 수식 존재 여부": "0",
+          "Invalid34 기능 사용 여부 선택": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "튜브3 Volume #1st": "0",
+          "Scan Start Adjust": "0",
+          "튜브3 Volume #2nd": "0",
+          "믹싱 로직": "1",
+          "Min": "10",
+          "MAX": "1000"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "19.60351674428025",
+          "Serum 1차": "89.49287781413214",
+          "Serum 절편": "0.9765201129625192"
+        }
+      }
+    ],
+    "batch-hist:ichroma:Ferritin": [
+      {
+        "lot": "DFRWEF10",
+        "exp": "280120",
+        "savedAt": "2026-06-02T06:29:40.194Z",
+        "idChipParams": {
+          "Ferritin": "29",
+          "Lot": "10",
+          "Serum 1차": "92.002684182156",
+          "Serum 절편": "1.7274038481519938",
+          "Serum 3차": "51",
+          "Serum 2차": "21.74267227991903",
+          "LED 경계값": "53",
+          "Serum min": "10",
+          "Serum max": "1000"
+        },
+        "formulaParams": {
+          "serum ratio 3차": "0",
+          "serum ratio 2차": "21.74267227991903",
+          "serum ratio 1차": "92.002684182156",
+          "serum ratio 절편": "1.7274038481519938"
+        }
+      },
+      {
+        "lot": "DFRWEF09",
+        "exp": "280106",
+        "savedAt": "2026-05-26T00:24:47.003Z",
+        "idChipParams": {
+          "Ferritin": "29",
+          "Lot": "09",
+          "Serum 1차": "87.63237537865277",
+          "Serum 절편": "0.5902883759094095",
+          "Serum 3차": "51",
+          "Serum 2차": "16.78077846793805",
+          "LED 경계값": "53",
+          "Serum min": "10",
+          "Serum max": "1000"
+        },
+        "formulaParams": {
+          "serum ratio 3차": "0",
+          "serum ratio 2차": "16.78077846793805",
+          "serum ratio 1차": "87.63237537865277",
+          "serum ratio 절편": "0.5902883759094095"
+        }
+      },
+      {
+        "lot": "DFRWDF07",
+        "exp": "271202",
+        "savedAt": "2026-04-22T02:37:48.929Z",
+        "idChipParams": {
+          "Ferritin": "29",
+          "Lot": "07",
+          "Serum 1차": "91.88849222658237",
+          "Serum 절편": "0.8604416038195453",
+          "Serum 3차": "51",
+          "Serum 2차": "17.56908188733719",
+          "LED 경계값": "53",
+          "Serum min": "10",
+          "Serum max": "1000"
+        },
+        "formulaParams": {
+          "serum ratio 3차": "0",
+          "serum ratio 2차": "17.56908188733719",
+          "serum ratio 1차": "91.88849222658237",
+          "serum ratio 절편": "0.8604416038195453"
+        }
+      },
+      {
+        "lot": "DFRWDF08",
+        "exp": "271202",
+        "savedAt": "2026-04-22T02:37:47.858Z",
+        "idChipParams": {
+          "Ferritin": "29",
+          "Lot": "08",
+          "Serum 1차": "95.60765560879445",
+          "Serum 절편": "0.7304205373126962",
+          "Serum 3차": "51",
+          "Serum 2차": "16.483467574221915",
+          "LED 경계값": "53",
+          "Serum min": "10",
+          "Serum max": "1000"
+        },
+        "formulaParams": {
+          "serum ratio 3차": "0",
+          "serum ratio 2차": "16.483467574221915",
+          "serum ratio 1차": "95.60765560879445",
+          "serum ratio 절편": "0.7304205373126962"
+        }
+      }
+    ],
+    "batch-hist:ichroma:PSA%20Neo": [
+      {
+        "lot": "PSWED08EX",
+        "exp": "2028.01.05",
+        "savedAt": "2026-06-01T22:59:43.627Z",
+        "idChipParams": {
+          "PSA": "1",
+          "WB ratio 1차": "5.6888000000000005",
+          "WB ratio 절편": "-0.0085",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "0.0914",
+          "Serum ratio 1차": "3.5555",
+          "Serum ratio 절편": "-0.0085",
+          "WB 3차": "52",
+          "WB 2차": "0.14624",
+          "LED 경계값": "2500",
+          "Serum min": "0.1",
+          "Serum max": "100",
+          "WB min": "0.1",
+          "WB max": "100",
+          "old 구분": "1"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0914",
+          "Serum 1차": "3.5555",
+          "Serum 절편": "-0.0085",
+          "Whole blood 3차": "0",
+          "Whole blood 2차": "0.14624",
+          "Whole blood 1차": "5.6888000000000005",
+          "Whole blood 절편": "-0.0085",
+          "WB fator (1.6) 3차": "-",
+          "WB fator (1.6) 2차": "1.6",
+          "WB fator (1.6) 1차": "1.6",
+          "WB fator (1.6) 절편": "1"
+        }
+      },
+      {
+        "lot": "PSWDD07EX",
+        "exp": "2027.12.27",
+        "savedAt": "2026-05-26T00:11:04.068Z",
+        "idChipParams": {
+          "PSA": "1",
+          "WB ratio 1차": "7.651184000000001",
+          "WB ratio 절편": "-0.0867",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "0.0975",
+          "Serum ratio 1차": "4.78199",
+          "Serum ratio 절편": "-0.0867",
+          "WB 3차": "52",
+          "WB 2차": "0.15600000000000003",
+          "LED 경계값": "2500",
+          "Serum min": "0.1",
+          "Serum max": "100",
+          "WB min": "0.1",
+          "WB max": "100",
+          "old 구분": "1"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0975",
+          "Serum 1차": "4.78199",
+          "Serum 절편": "-0.0867",
+          "Whole blood 3차": "0",
+          "Whole blood 2차": "0.15600000000000003",
+          "Whole blood 1차": "7.651184000000001",
+          "Whole blood 절편": "-0.0867",
+          "WB fator (1.6) 3차": "-",
+          "WB fator (1.6) 2차": "1.6000000000000003",
+          "WB fator (1.6) 1차": "1.6",
+          "WB fator (1.6) 절편": "1"
+        }
+      },
+      {
+        "lot": "PSWDD06EX",
+        "exp": "2027.12.22",
+        "savedAt": "2026-05-26T00:10:55.700Z",
+        "idChipParams": {
+          "PSA": "1",
+          "WB ratio 1차": "7.1744",
+          "WB ratio 절편": "-0.0536",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "0.0876",
+          "Serum ratio 1차": "4.484",
+          "Serum ratio 절편": "-0.0536",
+          "WB 3차": "52",
+          "WB 2차": "0.14016",
+          "LED 경계값": "2500",
+          "Serum min": "0.1",
+          "Serum max": "100",
+          "WB min": "0.1",
+          "WB max": "100",
+          "old 구분": "1"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0876",
+          "Serum 1차": "4.484",
+          "Serum 절편": "-0.0536",
+          "Whole blood 3차": "0",
+          "Whole blood 2차": "0.14016",
+          "Whole blood 1차": "7.1744",
+          "Whole blood 절편": "-0.0536",
+          "WB fator (1.6) 3차": "-",
+          "WB fator (1.6) 2차": "1.6",
+          "WB fator (1.6) 1차": "1.6",
+          "WB fator (1.6) 절편": "1"
+        }
+      },
+      {
+        "lot": "PSWDD05EX",
+        "exp": "2027.12.22",
+        "savedAt": "2026-05-26T00:10:32.740Z",
+        "idChipParams": {
+          "PSA": "1",
+          "WB ratio 1차": "6.9435199999999995",
+          "WB ratio 절편": "-0.0289",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "0.0729",
+          "Serum ratio 1차": "4.3397",
+          "Serum ratio 절편": "-0.0289",
+          "WB 3차": "52",
+          "WB 2차": "0.11664000000000002",
+          "LED 경계값": "2500",
+          "Serum min": "0.1",
+          "Serum max": "100",
+          "WB min": "0.1",
+          "WB max": "100",
+          "old 구분": "1"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0729",
+          "Serum 1차": "4.3397",
+          "Serum 절편": "-0.0289",
+          "Whole blood 3차": "0",
+          "Whole blood 2차": "0.11664000000000002",
+          "Whole blood 1차": "6.9435199999999995",
+          "Whole blood 절편": "-0.0289",
+          "WB fator (1.6) 3차": "-",
+          "WB fator (1.6) 2차": "1.6",
+          "WB fator (1.6) 1차": "1.6",
+          "WB fator (1.6) 절편": "1"
+        }
+      },
+      {
+        "lot": "PSWCD04EX",
+        "exp": "2027.11.30",
+        "savedAt": "2026-04-23T22:52:13.390Z",
+        "idChipParams": {
+          "PSA": "1",
+          "WB ratio 1차": "6.345600000000001",
+          "WB ratio 절편": "-0.0744",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "0.0801",
+          "Serum ratio 1차": "3.966",
+          "Serum ratio 절편": "-0.0744",
+          "WB 3차": "52",
+          "WB 2차": "0.12816000000000002",
+          "LED 경계값": "2500",
+          "Serum min": "0.1",
+          "Serum max": "100",
+          "WB min": "0.1",
+          "WB max": "100",
+          "old 구분": "1"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0801",
+          "Serum 1차": "3.966",
+          "Serum 절편": "-0.0744",
+          "Whole blood 3차": "0",
+          "Whole blood 2차": "0.12816000000000002",
+          "Whole blood 1차": "6.345600000000001",
+          "Whole blood 절편": "-0.0744",
+          "WB fator (1.6) 3차": "-",
+          "WB fator (1.6) 2차": "1.6000000000000003",
+          "WB fator (1.6) 1차": "1.6",
+          "WB fator (1.6) 절편": "1"
+        }
+      },
+      {
+        "lot": "PSWCD03EX",
+        "exp": "2027.11.30",
+        "savedAt": "2026-04-23T22:52:11.205Z",
+        "idChipParams": {
+          "PSA": "1",
+          "WB ratio 1차": "6.80304",
+          "WB ratio 절편": "-0.0085",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "0.0964",
+          "Serum ratio 1차": "4.2519",
+          "Serum ratio 절편": "-0.0085",
+          "WB 3차": "52",
+          "WB 2차": "0.15424000000000002",
+          "LED 경계값": "2500",
+          "Serum min": "0.1",
+          "Serum max": "100",
+          "WB min": "0.1",
+          "WB max": "100",
+          "old 구분": "1"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0964",
+          "Serum 1차": "4.2519",
+          "Serum 절편": "-0.0085",
+          "Whole blood 3차": "0",
+          "Whole blood 2차": "0.15424000000000002",
+          "Whole blood 1차": "6.80304",
+          "Whole blood 절편": "-0.0085",
+          "WB fator (1.6) 3차": "-",
+          "WB fator (1.6) 2차": "1.6",
+          "WB fator (1.6) 1차": "1.6",
+          "WB fator (1.6) 절편": "1"
+        }
+      },
+      {
+        "lot": "PSWCD02EX",
+        "exp": "2027.11.29",
+        "savedAt": "2026-04-23T22:51:35.007Z",
+        "idChipParams": {
+          "PSA": "1",
+          "WB ratio 1차": "6.6472",
+          "WB ratio 절편": "-0.0257",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "0.1172",
+          "Serum ratio 1차": "4.1545",
+          "Serum ratio 절편": "-0.0257",
+          "WB 3차": "52",
+          "WB 2차": "0.18752000000000002",
+          "LED 경계값": "2500",
+          "Serum min": "0.1",
+          "Serum max": "100",
+          "WB min": "0.1",
+          "WB max": "100",
+          "old 구분": "1"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.1172",
+          "Serum 1차": "4.1545",
+          "Serum 절편": "-0.0257",
+          "Whole blood 3차": "0",
+          "Whole blood 2차": "0.18752000000000002",
+          "Whole blood 1차": "6.6472",
+          "Whole blood 절편": "-0.0257",
+          "WB fator (1.6) 3차": "-",
+          "WB fator (1.6) 2차": "1.6",
+          "WB fator (1.6) 1차": "1.6",
+          "WB fator (1.6) 절편": "1"
+        }
+      },
+      {
+        "lot": "PSWCD01EX",
+        "exp": "2027.11.10",
+        "savedAt": "2026-04-13T07:53:43.768Z",
+        "idChipParams": {
+          "PSA": "1",
+          "WB ratio 1차": "5.6352",
+          "WB ratio 절편": "-0.0291",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "0.1255",
+          "Serum ratio 1차": "3.522",
+          "Serum ratio 절편": "-0.0291",
+          "WB 3차": "52",
+          "WB 2차": "0.2008",
+          "LED 경계값": "2500",
+          "Serum min": "0.1",
+          "Serum max": "100",
+          "WB min": "0.1",
+          "WB max": "100",
+          "old 구분": "1"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.1255",
+          "Serum 1차": "3.522",
+          "Serum 절편": "-0.0291",
+          "Whole blood 3차": "0",
+          "Whole blood 2차": "0.2008",
+          "Whole blood 1차": "5.6352",
+          "Whole blood 절편": "-0.0291",
+          "WB fator (1.6) 3차": "-",
+          "WB fator (1.6) 2차": "1.6",
+          "WB fator (1.6) 1차": "1.6",
+          "WB fator (1.6) 절편": "1"
+        }
+      },
+      {
+        "lot": "PSWBC12EX",
+        "exp": "2027.10.26",
+        "savedAt": "2026-04-07T00:13:43.618Z",
+        "idChipParams": {
+          "PSA": "1",
+          "WB ratio 1차": "9.15008",
+          "WB ratio 절편": "-0.0435",
+          "Serum ratio 3차": "48",
+          "Serum ratio 2차": "0.0588",
+          "Serum ratio 1차": "5.7188",
+          "Serum ratio 절편": "-0.0435",
+          "WB 3차": "52",
+          "WB 2차": "0.09408",
+          "LED 경계값": "2500",
+          "Serum min": "0.1",
+          "Serum max": "100",
+          "WB min": "0.1",
+          "WB max": "100",
+          "old 구분": "1"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Whole blood 3차": "0",
+          "WB fator (1.6) 3차": "-",
+          "Ratio (serum) 절편": "-0.0435",
+          "Ratio (WB) 절편": "-0.0435"
+        }
+      }
+    ],
+    "batch-hist:ichroma:H.%20pylori%20SA": [
+      {
+        "lot": "HSWEL01",
+        "exp": "28.01.10",
+        "savedAt": "2026-05-28T05:44:37.804Z",
+        "idChipParams": {
+          "Peak 개수 지정": "4",
+          "계산방향": "1",
+          "Invalid34 기능 사용 여부 선택": "1"
+        },
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "0",
+          "ratio 1차": "19.119804851981893",
+          "ratio 절편": "0"
+        }
+      },
+      {
+        "lot": "HSWEK12",
+        "exp": "28.01.07",
+        "savedAt": "2026-05-26T06:26:43.150Z",
+        "idChipParams": {
+          "Peak 개수 지정": "4",
+          "계산방향": "1",
+          "Invalid34 기능 사용 여부 선택": "1"
+        },
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "0",
+          "ratio 1차": "16.955205509686074",
+          "ratio 절편": "0"
+        }
+      },
+      {
+        "lot": "HSWEK11",
+        "exp": "28.01.05",
+        "savedAt": "2026-05-19T07:35:31.438Z",
+        "idChipParams": {
+          "Peak 개수 지정": "4",
+          "계산방향": "1",
+          "Invalid34 기능 사용 여부 선택": "1"
+        },
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "0",
+          "ratio 1차": "12.552714902075643",
+          "ratio 절편": "0"
+        }
+      },
+      {
+        "lot": "HSWDK10",
+        "exp": "27.12.26",
+        "savedAt": "2026-05-18T07:22:55.885Z",
+        "idChipParams": {
+          "Peak 개수 지정": "4",
+          "계산방향": "1",
+          "Invalid34 기능 사용 여부 선택": "1"
+        },
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "0",
+          "ratio 1차": "12.596850434679517",
+          "ratio 절편": "0"
+        }
+      },
+      {
+        "lot": "HSWDA11X",
+        "exp": "2027.11.30",
+        "savedAt": "2026-04-22T02:36:43.452Z",
+        "idChipParams": {},
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "0",
+          "ratio 1차": "10.353156726293587",
+          "ratio 절편": "0"
+        }
+      },
+      {
+        "lot": "HSWDK08",
+        "exp": "27.12.05",
+        "savedAt": "2026-04-17T06:18:23.279Z",
+        "idChipParams": {
+          "Peak 개수 지정": "4",
+          "계산방향": "1",
+          "Invalid34 기능 사용 여부 선택": "1"
+        },
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "0",
+          "ratio 1차": "10.197479384132263",
+          "ratio 절편": "0"
+        }
+      },
+      {
+        "lot": "HSWCK07",
+        "exp": "27.11.29",
+        "savedAt": "2026-04-15T23:14:35.437Z",
+        "idChipParams": {
+          "Peak 개수 지정": "4",
+          "계산방향": "1",
+          "Invalid34 기능 사용 여부 선택": "1"
+        },
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "0",
+          "ratio 1차": "9.50596254257845",
+          "ratio 절편": "0"
+        }
+      },
+      {
+        "lot": "HSWCK06",
+        "exp": "27.11.29",
+        "savedAt": "2026-04-09T04:08:13.653Z",
+        "idChipParams": {
+          "Peak 개수 지정": "4",
+          "계산방향": "1",
+          "Invalid34 기능 사용 여부 선택": "1"
+        },
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "0",
+          "ratio 1차": "12.10361643206102",
+          "ratio 절편": "0"
+        }
+      },
+      {
+        "lot": "HSWCK05",
+        "exp": "27.11.22",
+        "savedAt": "2026-04-09T04:05:40.967Z",
+        "idChipParams": {
+          "Peak 개수 지정": "4",
+          "계산방향": "1",
+          "Invalid34 기능 사용 여부 선택": "1"
+        },
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "0",
+          "ratio 1차": "13.73064636788933",
+          "ratio 절편": "0"
+        }
+      },
+      {
+        "lot": "HSWCK04",
+        "exp": "27.11.15",
+        "savedAt": "2026-04-07T00:13:43.617Z",
+        "idChipParams": {
+          "Peak 개수 지정": "4",
+          "계산방향": "1",
+          "Invalid34 기능 사용 여부 선택": "1"
+        },
+        "formulaParams": {
+          "ratio 3차": "0"
+        }
+      }
+    ],
+    "batch-hist:AFIAS:PSA": [
+      {
+        "lot": "PSWEA47X",
+        "exp": "2028.01.06",
+        "savedAt": "2026-06-01T22:57:48.092Z",
+        "idChipParams": {
+          "Serum_Sample Volume": "30",
+          "버퍼 type 설정": "1",
+          "장비별 수식 존재 여부": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "Item=PSA": "101",
+          "최소": "0.1",
+          "최대": "100"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0877",
+          "Serum 1차": "3.8108",
+          "Serum 절편": "-0.044",
+          "WB ratio 3차": "0",
+          "WB ratio 2차": "0.14032",
+          "WB ratio 1차": "6.0972800000000005",
+          "WB ratio 절편": "-0.044",
+          "WB Min": "0.1"
+        }
+      },
+      {
+        "lot": "PSWDA46X",
+        "exp": "2027.12.20",
+        "savedAt": "2026-05-19T23:58:17.253Z",
+        "idChipParams": {
+          "Serum_Sample Volume": "30",
+          "버퍼 type 설정": "1",
+          "장비별 수식 존재 여부": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "Item=PSA": "101",
+          "최소": "0.1",
+          "최대": "100"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0447",
+          "Serum 1차": "3.7345",
+          "Serum 절편": "-0.0136",
+          "WB ratio 3차": "0",
+          "WB ratio 2차": "0.07152",
+          "WB ratio 1차": "5.975200000000001",
+          "WB ratio 절편": "-0.0136",
+          "WB Min": "0.1"
+        }
+      },
+      {
+        "lot": "PSWDA45X",
+        "exp": "2027.12.20",
+        "savedAt": "2026-05-19T23:57:06.874Z",
+        "idChipParams": {
+          "Serum_Sample Volume": "30",
+          "버퍼 type 설정": "1",
+          "장비별 수식 존재 여부": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "Item=PSA": "101",
+          "최소": "0.1",
+          "최대": "100"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0529",
+          "Serum 1차": "3.5625",
+          "Serum 절편": "-0.021",
+          "WB ratio 3차": "0",
+          "WB ratio 2차": "0.08464",
+          "WB ratio 1차": "5.7",
+          "WB ratio 절편": "-0.021",
+          "WB Min": "0.1"
+        }
+      },
+      {
+        "lot": "PSWDA68F",
+        "exp": "2027.12.07",
+        "savedAt": "2026-05-07T22:48:42.406Z",
+        "idChipParams": {
+          "장비별 수식 존재 여부": "0"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0",
+          "Serum 1차": "8.5703",
+          "whole blood 3차": "0",
+          "whole blood 2차": "0",
+          "whole blood 1차": "20.534",
+          "whole\r  blood 3차": "0",
+          "whole\r  blood 2차": "0",
+          "whole\r  blood 1차": "20.534",
+          "whole\r  blood 절편": "-0.0237"
+        }
+      },
+      {
+        "lot": "PSWDA44X",
+        "exp": "2027.12.07",
+        "savedAt": "2026-04-28T06:36:32.192Z",
+        "idChipParams": {
+          "Serum_Sample Volume": "30",
+          "버퍼 type 설정": "1",
+          "장비별 수식 존재 여부": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "Item=PSA": "101",
+          "최소": "0.1",
+          "최대": "100"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0658",
+          "Serum 1차": "3.2911",
+          "Serum 절편": "-0.0725",
+          "WB ratio 3차": "0",
+          "WB ratio 2차": "0.10528",
+          "WB ratio 1차": "5.26576",
+          "WB ratio 절편": "-0.0725",
+          "WB Min": "0.1"
+        }
+      },
+      {
+        "lot": "PSWDA43X",
+        "exp": "2027.12.07",
+        "savedAt": "2026-04-28T06:36:30.966Z",
+        "idChipParams": {
+          "Serum_Sample Volume": "30",
+          "버퍼 type 설정": "1",
+          "장비별 수식 존재 여부": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "Item=PSA": "101",
+          "최소": "0.1",
+          "최대": "100"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0724",
+          "Serum 1차": "3.2767",
+          "Serum 절편": "-0.0718",
+          "WB ratio 3차": "0",
+          "WB ratio 2차": "0.11584000000000001",
+          "WB ratio 1차": "5.24272",
+          "WB ratio 절편": "-0.0718",
+          "WB Min": "0.1"
+        }
+      },
+      {
+        "lot": "PSWDA42X",
+        "exp": "2027.12.02",
+        "savedAt": "2026-04-28T06:36:29.550Z",
+        "idChipParams": {
+          "Serum_Sample Volume": "30",
+          "버퍼 type 설정": "1",
+          "장비별 수식 존재 여부": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "Item=PSA": "101",
+          "최소": "0.1",
+          "최대": "100"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0663",
+          "Serum 1차": "3.7753",
+          "Serum 절편": "-0.0978",
+          "WB ratio 3차": "0",
+          "WB ratio 2차": "0.10608000000000001",
+          "WB ratio 1차": "6.0404800000000005",
+          "WB ratio 절편": "-0.0978",
+          "WB Min": "0.1"
+        }
+      },
+      {
+        "lot": "PSWCA41X",
+        "exp": "2027.11.05",
+        "savedAt": "2026-04-09T02:06:05.755Z",
+        "idChipParams": {
+          "Serum_Sample Volume": "30",
+          "버퍼 type 설정": "1",
+          "장비별 수식 존재 여부": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "Item=PSA": "101",
+          "최소": "0.1",
+          "최대": "100"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "0.0976",
+          "Serum 1차": "2.8801",
+          "Serum 절편": "-0.0338",
+          "WB ratio 3차": "0",
+          "WB ratio 2차": "0.15616000000000002",
+          "WB ratio 1차": "4.608160000000001",
+          "WB ratio 절편": "-0.0338",
+          "WB Min": "0.1"
+        }
+      }
+    ],
+    "batch-hist:ichroma:%3F": [
+      {
+        "lot": "-",
+        "exp": "-",
+        "savedAt": "2026-04-13T07:53:36.385Z",
+        "idChipParams": {},
+        "formulaParams": {}
+      }
+    ],
+    "batch-hist:ichroma:CA19-9": [
+      {
+        "lot": "CXWDB07EX",
+        "exp": "2027.12.14",
+        "savedAt": "2026-05-12T04:37:41.972Z",
+        "idChipParams": {},
+        "formulaParams": {
+          "ratio 3차": "0",
+          "ratio 2차": "127.4506419256795",
+          "ratio 1차": "774.9548250204599",
+          "ratio 절편": "-3.970265299076693",
+          "Anti-ratio 3차": "0",
+          "Anti-ratio 2차": "2.6737003718270675",
+          "Anti-ratio 1차": "88.99855304632473",
+          "Anti-ratio 절편": "-1.3363095747346085"
+        }
+      }
+    ],
+    "batch-hist:AFIAS:CEA": [
+      {
+        "lot": "CEWCA16X",
+        "exp": "27.11.23",
+        "savedAt": "2026-04-08T23:27:51.653Z",
+        "idChipParams": {
+          "Serum_Sample Volume": "30",
+          "버퍼 type 설정": "1",
+          "장비별 수식 존재 여부": "14",
+          "DB 튜브 높이 차 설정": "-56"
+        },
+        "formulaParams": {
+          "A-6 절편": "13.383181901085312",
+          "A-3 절편": "12.611075252945772",
+          "A-1 절편": "14.903998026208642",
+          "A-10 절편": "13.115518263063604",
+          "Serum 3차": "0.06366402283113766",
+          "Serum 2차": "-0.4830944296508944",
+          "Serum 1차": "13.383181901085312",
+          "Serum 절편": "-0.4400527606385724",
+          "WB ratio 3차": "0.10186243652982026",
+          "WB ratio 2차": "-0.772951087441431",
+          "WB ratio 1차": "21.4130910417365",
+          "WB ratio 절편": "-0.4400527606385724"
+        }
+      }
+    ],
+    "batch-hist:ichroma:CA125": [
+      {
+        "lot": "C1WDA09G",
+        "exp": "27.12.20",
+        "savedAt": "2026-04-29T07:08:33.359Z",
+        "idChipParams": {},
+        "formulaParams": {
+          "Ratio (A-6) 2차": "22.872063105802155",
+          "Ratio (A-6) 1차": "67.62887041618824",
+          "Ratio (A-6) 절편": "-0.06782735445592328",
+          "Ratio (A-1) 2차": "20.546090586568038",
+          "Ratio (A-1) 1차": "60.75135817047419",
+          "Ratio (A-1) 절편": "-0.060929657392609055"
+        }
+      }
+    ],
+    "batch-hist:AFIAS:%3F": [
+      {
+        "lot": "FRWCA88X",
+        "exp": "271125",
+        "savedAt": "2026-04-08T23:27:18.737Z",
+        "idChipParams": {
+          "수식 버전 정보": "0",
+          "TRF_OnDuration": "0",
+          "장비별 수식 존재 여부": "0",
+          "Sample type": "1",
+          "UNIT": "ng/mL",
+          "WAIT TIME 1": "10",
+          "Invalid34 기능 사용 여부 선택": "0",
+          "WAIT TIME 2": "0",
+          "DB 튜브 높이 차 설정": "-56",
+          "WAIT TIME 3": "0",
+          "튜브3 Volume #1st": "0",
+          "WAIT TIME 4": "0",
+          "Scan Start Adjust": "0",
+          "peak number": "2",
+          "튜브3 Volume #2nd": "0",
+          "샘플 믹싱 횟수 지정": "20",
+          "샘플 믹싱 볼륨 지정": "100",
+          "광학계 타입": "0",
+          "카트리지 타입": "0",
+          "스캔 방향 지정": "0",
+          "Calibration test Mean value 허용 오차": "100",
+          "아이디칩 구조 버전": "0",
+          "고정게인 기능": "0",
+          "컨트롤 면적 기준값 설정 - 사용안함": "0",
+          "샘플 희석 분주시 샘플양": "150",
+          "컨트롤 픽 찾기 경계값": "0",
+          "Serum buffer volume": "0",
+          "Blood buffer volume": "0",
+          "Blood_Sample Volume": "0",
+          "Mixture Volume": "75",
+          "Serum_Sample Volume": "30",
+          "버퍼 type 설정": "1",
+          "믹싱 로직": "1",
+          "Min": "10",
+          "MAX": "1000"
+        },
+        "formulaParams": {
+          "Serum 3차": "0",
+          "Serum 2차": "20.919325650039287",
+          "Serum 1차": "84.87414549508034",
+          "Serum 절편": "0.4872544850401858"
+        }
+      }
+    ],
+    "batch-hist:ichroma:Free%20PSA": [
+      {
+        "lot": "F1WEB06EX",
+        "exp": "2028.01.05",
+        "savedAt": "2026-06-01T22:52:09.104Z",
+        "idChipParams": {},
+        "formulaParams": {
+          "anti-ratio 3차": "0",
+          "anti-ratio 2차": "0.1848",
+          "anti-ratio 1차": "0.8017",
+          "anti-ratio 절편": "-0.0013",
+          "Ratio 3차": "0",
+          "Ratio 2차": "0.6952",
+          "Ratio 1차": "21.712",
+          "Ratio 절편": "-0.2342",
+          "WB anti-ratio 3차": "0",
+          "WB anti-ratio 2차": "0.31416",
+          "WB anti-ratio 1차": "1.36289",
+          "WB anti-ratio 절편": "-0.0013",
+          "WB Ratio 3차": "0",
+          "WB Ratio 2차": "1.18184",
+          "WB Ratio 1차": "36.910399999999996",
+          "WB Ratio 절편": "-0.2342"
+        }
+      },
+      {
+        "lot": "F1WBB05EX",
+        "exp": "2027.10.26",
+        "savedAt": "2026-04-07T00:42:21.857Z",
+        "idChipParams": {},
+        "formulaParams": {
+          "anti-ratio 3차": "0",
+          "anti-ratio 2차": "0.2349",
+          "anti-ratio 1차": "0.8578",
+          "anti-ratio 절편": "-0.0015",
+          "Ratio 3차": "0",
+          "Ratio 2차": "0.2129",
+          "Ratio 1차": "21.581",
+          "Ratio 절편": "-1.1152",
+          "WB anti-ratio 3차": "0",
+          "WB anti-ratio 2차": "0.39932999999999996",
+          "WB anti-ratio 1차": "1.45826",
+          "WB anti-ratio 절편": "-0.0015",
+          "WB Ratio 3차": "0",
+          "WB Ratio 2차": "0.36193",
+          "WB Ratio 1차": "36.6877",
+          "WB Ratio 절편": "-1.1152"
+        }
+      }
+    ],
+    "ref:AFIAS:Ferritin%20(X):item": {
+      "savedAt": "2026-04-23T01:51:00.570Z",
+      "params": {
+        "Sample type": "1",
+        "UNIT": "ng/mL",
+        "WAIT TIME 1": "10",
+        "WAIT TIME 2": "0",
+        "WAIT TIME 3": "0",
+        "WAIT TIME 4": "0",
+        "peak number": "2",
+        "샘플 믹싱 횟수 지정": "20",
+        "샘플 믹싱 볼륨 지정": "100",
+        "광학계 타입": "0",
+        "카트리지 타입": "0",
+        "스캔 방향 지정": "0",
+        "Calibration test Mean value 허용 오차": "100",
+        "아이디칩 구조 버전": "0",
+        "고정게인 기능": "0",
+        "컨트롤 면적 기준값 설정 - 사용안함": "0",
+        "샘플 희석 분주시 샘플양": "150",
+        "컨트롤 픽 찾기 경계값": "0",
+        "Serum buffer volume": "0",
+        "Blood buffer volume": "0",
+        "Blood_Sample Volume": "0",
+        "Mixture Volume": "75",
+        "Serum_Sample Volume": "30",
+        "버퍼 type 설정": "1",
+        "수식 버전 정보": "0",
+        "TRF_OnDuration": "0",
+        "장비별 수식 존재 여부": "12",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "DB 튜브 높이 차 설정": "-56",
+        "튜브3 Volume #1st": "0",
+        "Scan Start Adjust": "0",
+        "튜브3 Volume #2nd": "0",
+        "Dual Strip #2nd : Blood_Sample Volume": "0",
+        "Dual Strip #2nd : Serum_Sample Volume": "0",
+        "Dual Strip #2nd : 컨트롤 픽 찾기 경계값": "0"
+      }
+    },
+    "ref:ichroma:Calprotectin:lot0": {
+      "savedAt": "2026-03-16T05:54:11.138Z",
+      "params": {
+        "바코드 유무": "ff",
+        "온도보정수식": "1",
+        "Scan ready 위치 변경 기능": "0",
+        "Control peak 면적 최소값": "0",
+        "Control peak 면적 최대값": "0",
+        "Test peak 면적 최대값": "0",
+        "Antigen peak 면적 최대값": "0",
+        "광학계 타입": "0",
+        "고정 Gain 설정 기능": "1",
+        "Control peak 위치값": "0",
+        "Reaction time 고정": "0",
+        "Peak 개수 지정": "4",
+        "출력 단위 고정": "0",
+        "계산방향": "1",
+        "샘플 고정": "0",
+        "듀얼 출력 유닛 출력 여부 설정": "0",
+        "듀얼 출력 아이템 출력 단위 변경": "0",
+        "2번째 결과값 display unit": "0",
+        "3번째 결과값 display unit": "0",
+        "T광학계 고정게인, 오토게인 설정": "0",
+        "장비별 수식 존재 여부": "0",
+        "i-Chroma1 - ichroma 2 구분 팩터": "0",
+        "수식 버전 정보": "0",
+        "TRF UV duration 타이밍 설정": "0",
+        "바코드 유무2": "0",
+        "Invalid34 기능 사용 여부 선택": "1",
+        "Scan Start Adjust": "0"
+      }
+    },
+    "ref:AFIAS:CEA%20(X):item": {
+      "savedAt": "2026-03-20T05:22:10.211Z",
+      "params": {
+        "Sample type": "2",
+        "UNIT": "ng/mL",
+        "WAIT TIME 1": "15",
+        "WAIT TIME 2": "0",
+        "WAIT TIME 3": "0",
+        "WAIT TIME 4": "0",
+        "peak number": "2",
+        "샘플 믹싱 횟수 지정": "20",
+        "샘플 믹싱 볼륨 지정": "100",
+        "광학계 타입": "0",
+        "카트리지 타입": "0",
+        "스캔 방향 지정": "0",
+        "Calibration test Mean value 허용 오차": "40",
+        "아이디칩 구조 버전": "0",
+        "고정게인 기능": "0",
+        "컨트롤 면적 기준값 설정 - 사용안함": "0",
+        "샘플 희석 분주시 샘플양": "160",
+        "컨트롤 픽 찾기 경계값": "0",
+        "Serum buffer volume": "0",
+        "Blood buffer volume": "0",
+        "Blood_Sample Volume": "30",
+        "Mixture Volume": "90",
+        "Serum_Sample Volume": "30",
+        "버퍼 type 설정": "1",
+        "수식 버전 정보": "0",
+        "TRF_OnDuration": "0",
+        "장비별 수식 존재 여부": "14",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "DB 튜브 높이 차 설정": "-56",
+        "튜브3 Volume #1st": "0",
+        "Scan Start Adjust": "0",
+        "튜브3 Volume #2nd": "0"
+      }
+    },
+    "ref:ichroma:CA19-9:lot0": {
+      "savedAt": "2026-05-12T04:37:43.963Z",
+      "params": {
+        "바코드 유무": "ff",
+        "온도보정수식": "1",
+        "Scan ready 위치 변경 기능": "0",
+        "Control peak 면적 최소값": "0",
+        "Control peak 면적 최대값": "0",
+        "Test peak 면적 최대값": "0",
+        "Antigen peak 면적 최대값": "0",
+        "광학계 타입": "1",
+        "고정 Gain 설정 기능": "6",
+        "Control peak 위치값": "0",
+        "Reaction time 고정": "12",
+        "Peak 개수 지정": "3",
+        "출력 단위 고정": "0",
+        "계산방향": "0",
+        "샘플 고정": "0",
+        "듀얼 출력 유닛 출력 여부 설정": "0",
+        "듀얼 출력 아이템 출력 단위 변경": "0",
+        "2번째 결과값 display unit": "0",
+        "3번째 결과값 display unit": "0",
+        "T광학계 고정게인, 오토게인 설정": "0",
+        "장비별 수식 존재 여부": "0",
+        "i-Chroma1 - ichroma 2 구분 팩터": "0",
+        "수식 버전 정보": "0",
+        "TRF UV duration 타이밍 설정": "0",
+        "바코드 유무2": "0",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "Scan Start Adjust": "0"
+      }
+    },
+    "ref:ichroma:H.pylori%20SA:lot0": {
+      "savedAt": "2026-03-31T05:41:37.809Z",
+      "params": {
+        "바코드 유무": "ff",
+        "온도보정수식": "1",
+        "Scan ready 위치 변경 기능": "0",
+        "Control peak 면적 최소값": "0",
+        "Control peak 면적 최대값": "0",
+        "Test peak 면적 최대값": "0",
+        "Antigen peak 면적 최대값": "0",
+        "광학계 타입": "0",
+        "고정 Gain 설정 기능": "0",
+        "Control peak 위치값": "0",
+        "Reaction time 고정": "0",
+        "Peak 개수 지정": "4",
+        "출력 단위 고정": "0",
+        "계산방향": "1",
+        "샘플 고정": "0",
+        "듀얼 출력 유닛 출력 여부 설정": "0",
+        "듀얼 출력 아이템 출력 단위 변경": "0",
+        "2번째 결과값 display unit": "0",
+        "3번째 결과값 display unit": "0",
+        "T광학계 고정게인, 오토게인 설정": "0",
+        "장비별 수식 존재 여부": "0",
+        "i-Chroma1 - ichroma 2 구분 팩터": "0",
+        "수식 버전 정보": "0",
+        "TRF UV duration 타이밍 설정": "0",
+        "바코드 유무2": "0",
+        "Invalid34 기능 사용 여부 선택": "1",
+        "Scan Start Adjust": "0"
+      }
+    },
+    "ref:ichroma:PSA:lot0": {
+      "savedAt": "2026-03-31T05:41:38.904Z",
+      "params": {
+        "바코드 유무": "ff",
+        "온도보정수식": "1",
+        "Scan ready 위치 변경 기능": "0",
+        "Control peak 면적 최소값": "0",
+        "Control peak 면적 최대값": "0",
+        "Test peak 면적 최대값": "0",
+        "Antigen peak 면적 최대값": "0",
+        "광학계 타입": "0",
+        "고정 Gain 설정 기능": "0",
+        "Control peak 위치값": "0",
+        "Reaction time 고정": "0",
+        "Peak 개수 지정": "0",
+        "출력 단위 고정": "0",
+        "계산방향": "0",
+        "샘플 고정": "0",
+        "듀얼 출력 유닛 출력 여부 설정": "0",
+        "듀얼 출력 아이템 출력 단위 변경": "0",
+        "2번째 결과값 display unit": "0",
+        "3번째 결과값 display unit": "0",
+        "T광학계 고정게인, 오토게인 설정": "0",
+        "장비별 수식 존재 여부": "0",
+        "i-Chroma1 - ichroma 2 구분 팩터": "0",
+        "수식 버전 정보": "0",
+        "TRF UV duration 타이밍 설정": "0",
+        "바코드 유무2": "ff",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "Scan Start Adjust": "0"
+      }
+    },
+    "ref:ichroma:Cyfra21-1:lot0": {
+      "savedAt": "2026-04-27T05:59:18.668Z",
+      "params": {
+        "바코드 유무": "ff",
+        "온도보정수식": "1",
+        "Scan ready 위치 변경 기능": "0",
+        "Control peak 면적 최소값": "0",
+        "Control peak 면적 최대값": "0",
+        "Test peak 면적 최대값": "0",
+        "Antigen peak 면적 최대값": "0",
+        "광학계 타입": "1",
+        "고정 Gain 설정 기능": "6",
+        "Control peak 위치값": "0",
+        "Reaction time 고정": "12",
+        "Peak 개수 지정": "3",
+        "출력 단위 고정": "0",
+        "계산방향": "0",
+        "샘플 고정": "0",
+        "듀얼 출력 유닛 출력 여부 설정": "0",
+        "듀얼 출력 아이템 출력 단위 변경": "0",
+        "2번째 결과값 display unit": "0",
+        "3번째 결과값 display unit": "0",
+        "T광학계 고정게인, 오토게인 설정": "0",
+        "장비별 수식 존재 여부": "0",
+        "i-Chroma1 - ichroma 2 구분 팩터": "0",
+        "수식 버전 정보": "0",
+        "TRF UV duration 타이밍 설정": "0",
+        "바코드 유무2": "0",
+        "빈공간": "0"
+      }
+    },
+    "ref:ichroma:FOB:lot0": {
+      "savedAt": "2026-04-09T02:11:17.349Z",
+      "params": {
+        "바코드 유무": "ff",
+        "온도보정수식": "1",
+        "Scan ready 위치 변경 기능": "0",
+        "Control peak 면적 최소값": "0",
+        "Control peak 면적 최대값": "0",
+        "Test peak 면적 최대값": "0",
+        "Antigen peak 면적 최대값": "0",
+        "광학계 타입": "0",
+        "고정 Gain 설정 기능": "1",
+        "Control peak 위치값": "0",
+        "Reaction time 고정": "0",
+        "Peak 개수 지정": "4",
+        "출력 단위 고정": "0",
+        "계산방향": "1",
+        "샘플 고정": "0",
+        "듀얼 출력 유닛 출력 여부 설정": "0",
+        "듀얼 출력 아이템 출력 단위 변경": "0",
+        "2번째 결과값 display unit": "0",
+        "3번째 결과값 display unit": "0",
+        "T광학계 고정게인, 오토게인 설정": "0",
+        "장비별 수식 존재 여부": "0",
+        "i-Chroma1 - ichroma 2 구분 팩터": "0",
+        "수식 버전 정보": "0",
+        "TRF UV duration 타이밍 설정": "0",
+        "바코드 유무2": "ff",
+        "Invalid34 기능 사용 여부 선택": "1",
+        "Scan Start Adjust": "0"
+      }
+    },
+    "ref:AFIAS:PSA%20(X):item": {
+      "savedAt": "2026-03-23T02:23:02.641Z",
+      "params": {
+        "Sample type": "2",
+        "UNIT": "ng/mL",
+        "WAIT TIME 1": "15",
+        "WAIT TIME 2": "0",
+        "WAIT TIME 3": "0",
+        "WAIT TIME 4": "0",
+        "peak number": "2",
+        "샘플 믹싱 횟수 지정": "20",
+        "샘플 믹싱 볼륨 지정": "100",
+        "광학계 타입": "0",
+        "카트리지 타입": "0",
+        "스캔 방향 지정": "0",
+        "Calibration test Mean value 허용 오차": "40",
+        "아이디칩 구조 버전": "0",
+        "고정게인 기능": "0",
+        "컨트롤 면적 기준값 설정 - 사용안함": "0",
+        "샘플 희석 분주시 샘플양": "160",
+        "컨트롤 픽 찾기 경계값": "0",
+        "Serum buffer volume": "0",
+        "Blood buffer volume": "0",
+        "Blood_Sample Volume": "30",
+        "Mixture Volume": "90",
+        "Serum_Sample Volume": "30",
+        "버퍼 type 설정": "1",
+        "수식 버전 정보": "0",
+        "TRF_OnDuration": "0",
+        "장비별 수식 존재 여부": "0",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "DB 튜브 높이 차 설정": "-56",
+        "튜브3 Volume #1st": "0",
+        "Scan Start Adjust": "0",
+        "튜브3 Volume #2nd": "0"
+      }
+    },
+    "ref:AFIAS:PSA%20(F):item": {
+      "savedAt": "2026-03-11T04:14:04.009Z",
+      "params": {
+        "Sample type": "2",
+        "UNIT": "ng/mL",
+        "WAIT TIME 1": "15",
+        "peak number": "2",
+        "샘플 믹싱 횟수 지정": "10",
+        "샘플 믹싱 볼륨 지정": "100",
+        "Calibration test Mean value 허용 오차": "40",
+        "Blood_Sample Volume": "50",
+        "Mixture Volume": "100",
+        "Serum_Sample Volume": "75",
+        "버퍼 type 설정": "0",
+        "수식 버전 정보": "0",
+        "TRF_OnDuration": "0",
+        "장비별 수식 존재 여부": "0",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "DB 튜브 높이 차 설정": "0",
+        "튜브3 Volume #1st": "0",
+        "Scan Start Adjust": "0",
+        "튜브3 Volume #2nd": "0"
+      }
+    },
+    "ref:AFIAS:CA125:item": {
+      "savedAt": "2026-04-29T07:09:10.284Z",
+      "params": {
+        "Sample type": "2",
+        "UNIT": "U/mL",
+        "WAIT TIME 1": "12",
+        "WAIT TIME 2": "0",
+        "WAIT TIME 3": "0",
+        "WAIT TIME 4": "0",
+        "peak number": "3",
+        "샘플 믹싱 횟수 지정": "20",
+        "샘플 믹싱 볼륨 지정": "100",
+        "광학계 타입": "1",
+        "카트리지 타입": "0",
+        "스캔 방향 지정": "0",
+        "Calibration test Mean value 허용 오차": "100",
+        "아이디칩 구조 버전": "0",
+        "고정게인 기능": "6",
+        "컨트롤 면적 기준값 설정 - 사용안함": "0",
+        "샘플 희석 분주시 샘플양": "150",
+        "컨트롤 픽 찾기 경계값": "0",
+        "Serum buffer volume": "150",
+        "Blood buffer volume": "0",
+        "Blood_Sample Volume": "0",
+        "Mixture Volume": "75",
+        "Serum_Sample Volume": "30",
+        "버퍼 type 설정": "1",
+        "수식 버전 정보": "0",
+        "TRF_OnDuration": "50",
+        "장비별 수식 존재 여부": "2",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "DB 튜브 높이 차 설정": "-56",
+        "튜브3 Volume #1st": "0",
+        "Scan Start Adjust": "0",
+        "튜브3 Volume #2nd": "0"
+      }
+    },
+    "ref:ichroma:Free%20PSA:lot0": {
+      "savedAt": "2026-03-31T05:41:36.009Z",
+      "params": {
+        "바코드 유무": "ff",
+        "온도보정수식": "1",
+        "Scan ready 위치 변경 기능": "0",
+        "Control peak 면적 최소값": "0",
+        "Control peak 면적 최대값": "0",
+        "Test peak 면적 최대값": "0",
+        "Antigen peak 면적 최대값": "0",
+        "광학계 타입": "1",
+        "고정 Gain 설정 기능": "6",
+        "Control peak 위치값": "0",
+        "Reaction time 고정": "0",
+        "Peak 개수 지정": "3",
+        "출력 단위 고정": "0",
+        "계산방향": "0",
+        "샘플 고정": "0",
+        "듀얼 출력 유닛 출력 여부 설정": "0",
+        "듀얼 출력 아이템 출력 단위 변경": "0",
+        "2번째 결과값 display unit": "0",
+        "3번째 결과값 display unit": "0",
+        "T광학계 고정게인, 오토게인 설정": "0",
+        "장비별 수식 존재 여부": "0",
+        "i-Chroma1 - ichroma 2 구분 팩터": "1",
+        "수식 버전 정보": "0",
+        "TRF UV duration 타이밍 설정": "50",
+        "바코드 유무2": "ff",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "Scan Start Adjust": "0"
+      }
+    },
+    "ref:ichroma:CEA:lot0": {
+      "savedAt": "2026-03-23T22:45:13.033Z",
+      "params": {
+        "바코드 유무": "ff",
+        "온도보정수식": "1",
+        "Scan ready 위치 변경 기능": "0",
+        "Control peak 면적 최소값": "0",
+        "Control peak 면적 최대값": "0",
+        "Test peak 면적 최대값": "0",
+        "Antigen peak 면적 최대값": "0",
+        "광학계 타입": "0",
+        "고정 Gain 설정 기능": "0",
+        "Control peak 위치값": "0",
+        "Reaction time 고정": "0",
+        "Peak 개수 지정": "0",
+        "출력 단위 고정": "0",
+        "계산방향": "0",
+        "샘플 고정": "0",
+        "듀얼 출력 유닛 출력 여부 설정": "0",
+        "듀얼 출력 아이템 출력 단위 변경": "0",
+        "2번째 결과값 display unit": "0",
+        "3번째 결과값 display unit": "0",
+        "T광학계 고정게인, 오토게인 설정": "0",
+        "장비별 수식 존재 여부": "0",
+        "i-Chroma1 - ichroma 2 구분 팩터": "0",
+        "수식 버전 정보": "0",
+        "TRF UV duration 타이밍 설정": "0",
+        "바코드 유무2": "ff",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "Scan Start Adjust": "0"
+      }
+    },
+    "ref:AFIAS:Calprotectin%20(X):item": {
+      "savedAt": "2026-04-06T07:36:45.378Z",
+      "params": {
+        "Sample type": "2",
+        "UNIT": "mg/kg",
+        "WAIT TIME 1": "10",
+        "WAIT TIME 2": "0",
+        "WAIT TIME 3": "0",
+        "WAIT TIME 4": "0",
+        "peak number": "4",
+        "샘플 믹싱 횟수 지정": "10",
+        "샘플 믹싱 볼륨 지정": "75",
+        "광학계 타입": "0",
+        "카트리지 타입": "0",
+        "스캔 방향 지정": "1",
+        "Calibration test Mean value 허용 오차": "40",
+        "아이디칩 구조 버전": "0",
+        "고정게인 기능": "1.24",
+        "컨트롤 면적 기준값 설정 - 사용안함": "0",
+        "샘플 희석 분주시 샘플양": "0",
+        "컨트롤 픽 찾기 경계값": "0",
+        "Serum buffer volume": "0",
+        "Blood buffer volume": "0",
+        "Blood_Sample Volume": "75",
+        "Mixture Volume": "0",
+        "Serum_Sample Volume": "75",
+        "버퍼 type 설정": "0",
+        "수식 버전 정보": "0",
+        "TRF_OnDuration": "0",
+        "장비별 수식 존재 여부": "0",
+        "Invalid34 기능 사용 여부 선택": "1",
+        "DB 튜브 높이 차 설정": "0",
+        "튜브3 Volume #1st": "0",
+        "Scan Start Adjust": "0",
+        "튜브3 Volume #2nd": "0",
+        "Dual Strip #2nd : Blood_Sample Volume": "0",
+        "Dual Strip #2nd : Serum_Sample Volume": "0",
+        "Dual Strip #2nd : 컨트롤 픽 찾기 경계값": "0"
+      }
+    },
+    "ref:ichroma:AFP:lot0": {
+      "savedAt": "2026-03-13T04:54:10.097Z",
+      "params": {
+        "바코드 유무": "ff",
+        "온도보정수식": "1",
+        "Scan ready 위치 변경 기능": "0",
+        "Control peak 면적 최소값": "0",
+        "Control peak 면적 최대값": "0",
+        "Test peak 면적 최대값": "0",
+        "Antigen peak 면적 최대값": "0",
+        "광학계 타입": "0",
+        "고정 Gain 설정 기능": "0",
+        "Control peak 위치값": "0",
+        "Reaction time 고정": "0",
+        "Peak 개수 지정": "0",
+        "출력 단위 고정": "0",
+        "계산방향": "0",
+        "샘플 고정": "0",
+        "듀얼 출력 유닛 출력 여부 설정": "0",
+        "듀얼 출력 아이템 출력 단위 변경": "0",
+        "2번째 결과값 display unit": "0",
+        "3번째 결과값 display unit": "0",
+        "T광학계 고정게인, 오토게인 설정": "0",
+        "장비별 수식 존재 여부": "0",
+        "i-Chroma1 - ichroma 2 구분 팩터": "0",
+        "수식 버전 정보": "0",
+        "TRF UV duration 타이밍 설정": "0",
+        "바코드 유무2": "ff",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "Scan Start Adjust": "0"
+      }
+    },
+    "ref:AFIAS:CA19-9:item": {
+      "savedAt": "2026-03-24T04:15:03.131Z",
+      "params": {
+        "Sample type": "1",
+        "UNIT": "U/mL",
+        "WAIT TIME 1": "12",
+        "WAIT TIME 2": "0",
+        "WAIT TIME 3": "0",
+        "WAIT TIME 4": "0",
+        "peak number": "3",
+        "샘플 믹싱 횟수 지정": "20",
+        "샘플 믹싱 볼륨 지정": "100",
+        "광학계 타입": "1",
+        "카트리지 타입": "0",
+        "스캔 방향 지정": "0",
+        "Calibration test Mean value 허용 오차": "100",
+        "아이디칩 구조 버전": "0",
+        "고정게인 기능": "6",
+        "컨트롤 면적 기준값 설정 - 사용안함": "0",
+        "샘플 희석 분주시 샘플양": "200",
+        "컨트롤 픽 찾기 경계값": "0",
+        "Serum buffer volume": "0",
+        "Blood buffer volume": "0",
+        "Blood_Sample Volume": "30",
+        "Mixture Volume": "75",
+        "Serum_Sample Volume": "30",
+        "버퍼 type 설정": "1",
+        "수식 버전 정보": "0",
+        "TRF_OnDuration": "50",
+        "장비별 수식 존재 여부": "0",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "DB 튜브 높이 차 설정": "-56",
+        "튜브3 Volume #1st": "0",
+        "Scan Start Adjust": "0",
+        "튜브3 Volume #2nd": "0",
+        "Dual Strip #2nd : Blood_Sample Volume": "0",
+        "Dual Strip #2nd : Serum_Sample Volume": "0",
+        "Dual Strip #2nd : 컨트롤 픽 찾기 경계값": "0"
+      }
+    },
+    "ref:AFIAS:H.pylori%20SA%20(X):item": {
+      "savedAt": "2026-04-22T02:36:55.198Z",
+      "params": {
+        "Sample type": "2",
+        "UNIT": "COI",
+        "WAIT TIME 1": "12",
+        "WAIT TIME 2": "0",
+        "WAIT TIME 3": "0",
+        "WAIT TIME 4": "0",
+        "peak number": "4",
+        "샘플 믹싱 횟수 지정": "20",
+        "샘플 믹싱 볼륨 지정": "100",
+        "광학계 타입": "0",
+        "카트리지 타입": "0",
+        "스캔 방향 지정": "1",
+        "Calibration test Mean value 허용 오차": "0",
+        "아이디칩 구조 버전": "0",
+        "고정게인 기능": "0",
+        "컨트롤 면적 기준값 설정 - 사용안함": "0",
+        "샘플 희석 분주시 샘플양": "0",
+        "컨트롤 픽 찾기 경계값": "0",
+        "Serum buffer volume": "0",
+        "Blood buffer volume": "0",
+        "Blood_Sample Volume": "0",
+        "Mixture Volume": "75",
+        "Serum_Sample Volume": "170",
+        "버퍼 type 설정": "1",
+        "수식 버전 정보": "0",
+        "TRF_OnDuration": "0",
+        "장비별 수식 존재 여부": "0",
+        "Invalid34 기능 사용 여부 선택": "1",
+        "DB 튜브 높이 차 설정": "-56",
+        "튜브3 Volume #1st": "0",
+        "Scan Start Adjust": "0",
+        "튜브3 Volume #2nd": "0"
+      }
+    },
+    "ref:ichroma:Ferritin:lot0": {
+      "savedAt": "2026-03-13T04:46:09.481Z",
+      "params": {
+        "바코드 유무": "FF",
+        "온도보정수식": "0",
+        "Scan ready 위치 변경 기능": "0",
+        "Control peak 면적 최소값": "0",
+        "Control peak 면적 최대값": "0",
+        "Test peak 면적 최대값": "0",
+        "Antigen peak 면적 최대값": "0",
+        "광학계 타입": "0",
+        "고정 Gain 설정 기능": "0",
+        "Control peak 위치값": "0",
+        "Reaction time 고정": "0",
+        "Peak 개수 지정": "0",
+        "출력 단위 고정": "0",
+        "계산방향": "0",
+        "샘플 고정": "0",
+        "듀얼 출력 유닛 출력 여부 설정": "0",
+        "듀얼 출력 아이템 출력 단위 변경": "0",
+        "2번째 결과값 display unit": "0",
+        "3번째 결과값 display unit": "0",
+        "T광학계 고정게인, 오토게인 설정": "0",
+        "장비별 수식 존재 여부": "0",
+        "i-Chroma1 - ichroma 2 구분 팩터": "0",
+        "수식 버전 정보": "0",
+        "TRF UV duration 타이밍 설정": "0",
+        "바코드 유무2": "0",
+        "Invalid34 기능 사용 여부 선택": "0",
+        "Scan Start Adjust": "0"
+      }
+    }
+  }
+}
