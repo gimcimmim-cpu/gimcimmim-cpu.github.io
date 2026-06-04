@@ -2,7 +2,56 @@
   "allData": {
     "2026-06-01": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "Hitado_JMC260506HR",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "DDCOWE53_2027.05",
+            "qty": "180",
+            "note": "독일 포장",
+            "cancer": false
+          },
+          {
+            "lot": "VDCOWC22_2027.03",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FRCOWB28",
+            "qty": "40",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "NIC260326H",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PECOWF06_2027.06",
+            "qty": "5",
+            "note": "독일 포장",
+            "cancer": false
+          },
+          {
+            "lot": "PECOWF06_2027.06",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "RSCWF18_2026.12",
+            "qty": "40",
+            "note": "QC 10",
+            "cancer": false
+          }
+        ],
         "dry": [
           {
             "lot": "COVID-19/Flu A+B/RSV Ag 1",
@@ -2680,13 +2729,19 @@
             "qty": "16",
             "note": null,
             "cancer": false
+          },
+          {
+            "lot": "AACOWE45_2027.05",
+            "qty": "794",
+            "note": "19까지-짐바브웨향 777 / 예맨 향 17",
+            "cancer": false
           }
         ],
         "dry": [
           {
             "lot": "IL-6 1",
             "qty": "1,000",
-            "note": "1ML-1시-7호기",
+            "note": "1ML-1시",
             "cancer": false
           },
           {
@@ -2705,6 +2760,18 @@
             "lot": "Estradiol 2",
             "qty": "500",
             "note": "1ML - 9시",
+            "cancer": false
+          },
+          {
+            "lot": "RF IgM 1",
+            "qty": "130",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "RF IgM 1",
+            "qty": "130",
+            "note": null,
             "cancer": false
           }
         ]
@@ -2884,14 +2951,57 @@
     },
     "2026-05-20": {
       "std": {
-        "pack": [],
-        "dry": [
+        "pack": [
           {
-            "lot": "FLU A 전처리",
-            "qty": "2,700",
-            "note": "150 ML",
+            "lot": "FICOWB20_2027.02",
+            "qty": "2",
+            "note": "Boditech Anti-Infliximab Control",
             "cancer": false
           },
+          {
+            "lot": "FMCOWE29_2027.05",
+            "qty": "1",
+            "note": "Boditech Infliximab Control",
+            "cancer": false
+          },
+          {
+            "lot": "FGCOWE15_2027.05",
+            "qty": "1",
+            "note": "Boditech Anti-Golimumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "AUCOWC23_2027.03",
+            "qty": "1",
+            "note": "Boditech Adalimumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "FDCOWB24_2027.02",
+            "qty": "2",
+            "note": "Boditech Anti-Adalimumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "MHCOWE01H_2027.05",
+            "qty": "30",
+            "note": "ALCIS AMH Control-국내포장",
+            "cancer": false
+          },
+          {
+            "lot": "FSCOWE01H_2027.05",
+            "qty": "30",
+            "note": "ALCIS FSH Control-국내포장",
+            "cancer": false
+          },
+          {
+            "lot": "PLCOWE01H_2027.05",
+            "qty": "30",
+            "note": "ALCIS PRL Control-국내포장",
+            "cancer": false
+          }
+        ],
+        "dry": [
           {
             "lot": "hsTn-I 1",
             "qty": "100",
@@ -2901,6 +3011,18 @@
           {
             "lot": "hsTn-I 2",
             "qty": "100",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "Tn-I plus 1",
+            "qty": "1,000",
+            "note": "연구용-박가현 사원",
+            "cancer": false
+          },
+          {
+            "lot": "Tn-I plus 2",
+            "qty": "1,000",
             "note": null,
             "cancer": false
           }
@@ -3077,9 +3199,21 @@
       "std": {
         "pack": [
           {
-            "lot": "AACOWE45_2027.05",
-            "qty": "794",
-            "note": "19까지-짐바브웨향 777 / 예맨 향 17",
+            "lot": "MHWDA01H",
+            "qty": "47",
+            "note": "ALCIS CALIBRATRO",
+            "cancer": false
+          },
+          {
+            "lot": "PLWDA01H",
+            "qty": "59",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FSWDA01H",
+            "qty": "57",
+            "note": null,
             "cancer": false
           }
         ],
@@ -3309,8 +3443,57 @@
     },
     "2026-05-27": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "IVA260520",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TGCOWC27",
+            "qty": "20",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "NBCOWE20",
+            "qty": "30",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FRCAWB28_2027.02",
+            "qty": "5",
+            "note": "당일 QC",
+            "cancer": true
+          },
+          {
+            "lot": "TNCOWD18_2027.04",
+            "qty": "174",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "CKCOWD18_2027.04",
+            "qty": "50",
+            "note": "",
+            "cancer": false
+          },
+          {
+            "lot": "CYCOWD09",
+            "qty": "2",
+            "note": null,
+            "cancer": true
+          }
+        ],
         "dry": [
+          {
+            "lot": "FLU B 전처리",
+            "qty": "2,700",
+            "note": "150 ML",
+            "cancer": false
+          },
           {
             "lot": "Ez-tracker Vedolizumab 1",
             "qty": "150",
@@ -3320,6 +3503,12 @@
           {
             "lot": "Ez-tracker Vedolizumab 2",
             "qty": "150",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PCT 2",
+            "qty": "5,000",
             "note": null,
             "cancer": false
           }
@@ -34475,24 +34664,91 @@
     },
     "2026-05-21": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "DVZ260514",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PPCOWD28",
+            "qty": "16",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PCCOWD29",
+            "qty": "2",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "HOCOWB59",
+            "qty": "20",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "AACOWA42",
+            "qty": "12",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "F1COWA08",
+            "qty": "2",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "FRCOWB28",
+            "qty": "2",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "DDCOWD52",
+            "qty": "60",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "CTCOWD08",
+            "qty": "2",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PHCOWA14_2027.01",
+            "qty": "2",
+            "note": "브라질 포장 / 전용 라벨 + 전용 설명서",
+            "cancer": false
+          },
+          {
+            "lot": "INCOWA07_2027.01",
+            "qty": "1",
+            "note": null,
+            "cancer": false
+          }
+        ],
         "dry": [
           {
-            "lot": "FLU B 전처리",
+            "lot": "FLU A 전처리",
             "qty": "2,700",
             "note": "150 ML",
             "cancer": false
           },
           {
-            "lot": "Ez-tracker anti-Infliximab Control 1",
-            "qty": "200",
-            "note": "1 mL",
+            "lot": "연구용 1",
+            "qty": "20 * 3",
+            "note": "안수연 대리",
             "cancer": false
           },
           {
-            "lot": "Ez-tracker anti-Infliximab Control 2",
-            "qty": "200",
-            "note": null,
+            "lot": "연구용 1",
+            "qty": "20 * 3",
+            "note": "김진아 과장",
             "cancer": false
           }
         ]
@@ -34672,6 +34928,24 @@
             "qty": "2,000",
             "note": "20까지",
             "cancer": false
+          },
+          {
+            "lot": "HOCOWE63_2027.05",
+            "qty": "20",
+            "note": "브라질 포장",
+            "cancer": false
+          },
+          {
+            "lot": "FNCOWE27_2027.05",
+            "qty": "2",
+            "note": "20까지-Boditech Total Anti-IFX Control",
+            "cancer": false
+          },
+          {
+            "lot": "GMCOWE17_2027.05",
+            "qty": "1",
+            "note": "20까지-Boditech Golimumab Control",
+            "cancer": false
           }
         ],
         "dry": [
@@ -34684,6 +34958,12 @@
           {
             "lot": "Ustekinumab 2",
             "qty": "300",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PCT 1",
+            "qty": "5,000",
             "note": null,
             "cancer": false
           }
@@ -34912,8 +35192,70 @@
     },
     "2026-05-28": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "C1COWD12_2027.04",
+            "qty": "40",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "CXCOWD08_2027.04",
+            "qty": "50",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "INCOWA07_2027.01",
+            "qty": "20",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TECOWC20_2027.03",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PHCOWA14_2027.01",
+            "qty": "7",
+            "note": "필리핀 2, 이탈리아 5",
+            "cancer": false
+          },
+          {
+            "lot": "TBCOWD18_2027.04",
+            "qty": "300",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FMCOWE29_2027.05",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "IFCWE10_2027.11",
+            "qty": "60",
+            "note": "QC 10",
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "KL-6 Calibrator 1",
+            "qty": "50",
+            "note": "연구용-김애진 차장",
+            "cancer": false
+          },
+          {
+            "lot": "VET fPL 1",
+            "qty": "467",
+            "note": "0.5 mL",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -35096,7 +35438,38 @@
     },
     "2026-05-29": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "FNCOWE27_2027.05",
+            "qty": "20",
+            "note": "Boditech Total Anti-Infliximab Control",
+            "cancer": false
+          },
+          {
+            "lot": "PGWCA01H",
+            "qty": "58",
+            "note": "ALCIS CALIBRATRO",
+            "cancer": false
+          },
+          {
+            "lot": "LHWDA01H",
+            "qty": "40",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TTWDA01H",
+            "qty": "59",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "T3WDA05G",
+            "qty": "42",
+            "note": null,
+            "cancer": false
+          }
+        ],
         "dry": []
       },
       "prod": {
@@ -35286,8 +35659,28 @@
     },
     "2026-06-02": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "AACOWE45_2027.05",
+            "qty": "15",
+            "note": "예맨향",
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "Penkid 1",
+            "qty": "100",
+            "note": "1mL",
+            "cancer": false
+          },
+          {
+            "lot": "Penkid 2",
+            "qty": "100",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -35524,7 +35917,38 @@
     },
     "2026-06-05": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "AACOWF47_2027.06(인도법인)",
+            "qty": "20",
+            "note": "인도 법인 출고용",
+            "cancer": false
+          },
+          {
+            "lot": "HOCOWF66_2027.06(인도법인)",
+            "qty": "20",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PGCOWE01H_2027.05",
+            "qty": "30",
+            "note": "ALCIS Control 국내용",
+            "cancer": false
+          },
+          {
+            "lot": "LHCOWE01H_2027.05",
+            "qty": "30",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TTCOWE01H_2027.05",
+            "qty": "30",
+            "note": null,
+            "cancer": false
+          }
+        ],
         "dry": []
       },
       "prod": {
@@ -35732,8 +36156,58 @@
     },
     "2026-06-04": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "MRCOWA09_2027.01",
+            "qty": "72",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "AUCOWC23_2027.03",
+            "qty": "30",
+            "note": "당일입고-Boditech Adalimumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "RACOWD20_2027.04",
+            "qty": "30",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "NOCOWA21_2027.01",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "연구용 1",
+            "qty": "50",
+            "note": "장헤진 과장",
+            "cancer": false
+          },
+          {
+            "lot": "연구용 2",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VITAMIN D 1",
+            "qty": "6,000",
+            "note": "딥프리저-5호기",
+            "cancer": false
+          },
+          {
+            "lot": "VITAMIN D 1",
+            "qty": "6,000",
+            "note": "딥프리저-4호기",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -35934,8 +36408,64 @@
     },
     "2026-06-08": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "FDCOWB24_2027.02",
+            "qty": "10",
+            "note": "Boditech Anti-Adalimumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "HCWCA01H",
+            "qty": "59",
+            "note": "ALCIS Calibrator",
+            "cancer": false
+          },
+          {
+            "lot": "LTWDA01H",
+            "qty": "74",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VDWEA02H",
+            "qty": "117",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "ESWEA02H",
+            "qty": "141",
+            "note": null,
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "VET Progesterone Control 1",
+            "qty": "150",
+            "note": "0.5 mL",
+            "cancer": false
+          },
+          {
+            "lot": "VET Progesterone Control 2",
+            "qty": "150",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VITAMIN D 2",
+            "qty": "6,000",
+            "note": "5호기",
+            "cancer": false
+          },
+          {
+            "lot": "VITAMIN D 2",
+            "qty": "6,000",
+            "note": "4호기",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -36118,7 +36648,32 @@
     },
     "2026-06-09": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "HCCOWE01H_2027.05",
+            "qty": "30",
+            "note": "ALCIS Control 국내용",
+            "cancer": false
+          },
+          {
+            "lot": "LTCOWE01H_2027.05",
+            "qty": "30",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VDCOWF01H_2027.06",
+            "qty": "30",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "ESCOWF01H_2027.06",
+            "qty": "30",
+            "note": null,
+            "cancer": false
+          }
+        ],
         "dry": []
       },
       "prod": {
@@ -36290,7 +36845,32 @@
     },
     "2026-06-10": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "ILCOWF28_2027.06",
+            "qty": "200",
+            "note": "5까지",
+            "cancer": false
+          },
+          {
+            "lot": "JMC260420B",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "ILCOWF28_2027.06",
+            "qty": "55",
+            "note": "독일 포장",
+            "cancer": false
+          },
+          {
+            "lot": "TGCOWF28_2027.06",
+            "qty": "1,000",
+            "note": "5까지",
+            "cancer": false
+          }
+        ],
         "dry": []
       },
       "prod": {
@@ -36444,8 +37024,28 @@
     },
     "2026-06-11": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "CRCOWF48_2027.06",
+            "qty": "400",
+            "note": "5까지-리투아니아향",
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "Cardiac 1",
+            "qty": "6,000",
+            "note": "딥프리저-5호기",
+            "cancer": false
+          },
+          {
+            "lot": "Cardiac 2",
+            "qty": "6,000",
+            "note": "딥프리저-4호기",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -36598,7 +37198,14 @@
     },
     "2026-06-12": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "VDCOWF23_2027.06",
+            "qty": "600",
+            "note": "10까지",
+            "cancer": false
+          }
+        ],
         "dry": []
       },
       "prod": {
@@ -36760,7 +37367,14 @@
     "2026-06-15": {
       "std": {
         "pack": [],
-        "dry": []
+        "dry": [
+          {
+            "lot": "T-QC Plus 1",
+            "qty": "6,000",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -37150,7 +37764,14 @@
     "2026-06-18": {
       "std": {
         "pack": [],
-        "dry": []
+        "dry": [
+          {
+            "lot": "T-QC Plus 2",
+            "qty": "6,000",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -41543,7 +42164,20 @@
     "2026-06-22": {
       "std": {
         "pack": [],
-        "dry": []
+        "dry": [
+          {
+            "lot": "Infliximab 1",
+            "qty": "1,200",
+            "note": "1 ML",
+            "cancer": false
+          },
+          {
+            "lot": "Infliximab 2",
+            "qty": "1,200",
+            "note": "1 ML",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [],
@@ -41982,7 +42616,7 @@
       "gran": []
     }
   },
-  "curMon": "2026-05-25",
-  "savedAt": "2026-05-28T07:00:40.501Z",
+  "curMon": "2026-06-01",
+  "savedAt": "2026-06-04T00:40:58.831Z",
   "version": 1
 }
