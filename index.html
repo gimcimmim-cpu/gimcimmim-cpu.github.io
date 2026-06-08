@@ -545,39 +545,45 @@
   }
   .card-hd:hover { background:rgba(255,255,255,.02); }
 
-  /* ── 카드 호버 시 설명 + "클릭해주세요" 말풍선 ── */
-  .card-hover-tip {
-    position:absolute; left:18px; right:18px; top:calc(100% + 10px); z-index:30;
-    background:var(--bg2); border:1px solid var(--accent-color, var(--border));
+  /* ── 카드 호버 시 설명 + "클릭해주세요" 말풍선 (공용, position:fixed로 카드 밖에 표시) ── */
+  /* .card-wrap의 overflow:hidden 에 가려지지 않도록 body에 직접 붙이고 JS로 위치를 계산한다 */
+  #global-hover-tip {
+    position:fixed; z-index:600; max-width:340px; left:0; top:0;
+    background:var(--bg2); border:1px solid var(--tip-color, var(--border));
     border-radius:12px; padding:12px 14px;
-    box-shadow:0 10px 28px -8px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.02) inset;
+    box-shadow:0 14px 34px -10px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.02) inset;
     opacity:0; visibility:hidden; transform:translateY(-6px) scale(.97);
-    transform-origin:top center;
-    transition:opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+    transform-origin:top left;
+    transition:opacity .16s ease, transform .16s ease, visibility 0s linear .16s;
     pointer-events:none;
   }
-  .card-hd:hover .card-hover-tip,
-  .card-wrap.open .card-hd:hover .card-hover-tip {
+  #global-hover-tip.show {
     opacity:1; visibility:visible; transform:translateY(0) scale(1);
-    transition:opacity .18s ease, transform .18s ease, visibility 0s;
+    transition:opacity .16s ease, transform .16s ease, visibility 0s;
   }
-  .card-hover-tip::before {
+  #global-hover-tip::before {
     content:''; position:absolute; left:32px; top:-7px; width:13px; height:13px;
-    background:var(--bg2); border-left:1px solid var(--accent-color, var(--border));
-    border-top:1px solid var(--accent-color, var(--border));
+    background:var(--bg2); border-left:1px solid var(--tip-color, var(--border));
+    border-top:1px solid var(--tip-color, var(--border));
     transform:rotate(45deg); border-radius:2px 0 0 0;
+  }
+  #global-hover-tip.tip-above::before {
+    left:32px; top:auto; bottom:-7px;
+    border-left:none; border-top:none;
+    border-right:1px solid var(--tip-color, var(--border));
+    border-bottom:1px solid var(--tip-color, var(--border));
   }
   .card-hover-tip-desc {
     font-size:12px; line-height:1.55; color:var(--text-muted); margin-bottom:8px;
   }
   .card-hover-tip-cta {
     display:inline-flex; align-items:center; gap:6px;
-    font-size:12px; font-weight:700; color:var(--accent-color, var(--blue));
+    font-size:12px; font-weight:700; color:var(--tip-color, var(--blue));
     background:rgba(255,255,255,.04); border-radius:8px; padding:5px 11px;
   }
   .card-hover-tip-cta .tip-pulse {
-    width:7px; height:7px; border-radius:50%; background:var(--accent-color, var(--blue));
-    box-shadow:0 0 0 0 var(--accent-color, var(--blue));
+    width:7px; height:7px; border-radius:50%; background:var(--tip-color, var(--blue));
+    box-shadow:0 0 0 0 var(--tip-color, var(--blue));
     animation:tipPulse 1.6s ease-out infinite;
   }
   @keyframes tipPulse {
@@ -585,7 +591,7 @@
     70%  { box-shadow:0 0 0 8px rgba(88,166,255,0); }
     100% { box-shadow:0 0 0 0 rgba(88,166,255,0); }
   }
-  @media(max-width:640px){ .card-hover-tip{ display:none; } }
+  @media(max-width:640px){ #global-hover-tip{ display:none; } }
   .card-hd-num { font-size:10px; font-weight:700; color:rgba(139,148,158,.35); width:20px; flex-shrink:0; font-variant-numeric:tabular-nums; }
   .card-hd-icon { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; box-shadow:inset 0 0 0 1px rgba(255,255,255,.05); transition:transform .25s, box-shadow .25s; }
   .card-wrap:hover .card-hd-icon{ transform:scale(1.08) rotate(-3deg); }
@@ -1275,7 +1281,77 @@ document.addEventListener('keydown', function(e){
 });
 // 일반 카드(잠금 없는 카드)의 "열기" 버튼과 카드 본문을 클릭하면
 // 새 탭 이동 대신 메인 화면 안에서 바로 대시보드를 보여준다.
+// 카드 헤더에 마우스를 올리면 설명 + "클릭해주세요" 말풍선을 띄운다.
+// .card-wrap에 overflow:hidden이 걸려 있어 카드 내부에 두면 잘려 보이지 않으므로,
+// body에 단 하나의 공용 말풍선을 만들어 position:fixed로 카드 밖에 표시한다.
+// iframe 인라인 뷰어 사용 가능 여부와 무관하게 항상 동작해야 하므로 별도 함수로 분리.
+var _hoverTipEl = null, _hoverTipTimer = null;
+function getHoverTipEl(){
+  if(_hoverTipEl) return _hoverTipEl;
+  var tip = document.createElement('div');
+  tip.id = 'global-hover-tip';
+  var descDiv = document.createElement('div');
+  descDiv.className = 'card-hover-tip-desc';
+  var ctaDiv = document.createElement('div');
+  ctaDiv.className = 'card-hover-tip-cta';
+  var pulse = document.createElement('span');
+  pulse.className = 'tip-pulse';
+  ctaDiv.appendChild(pulse);
+  ctaDiv.appendChild(document.createTextNode('클릭해주세요 →'));
+  tip.appendChild(descDiv);
+  tip.appendChild(ctaDiv);
+  document.body.appendChild(tip);
+  _hoverTipEl = tip;
+  return tip;
+}
+function showHoverTip(hd, descTxt, color){
+  clearTimeout(_hoverTipTimer);
+  var tip = getHoverTipEl();
+  tip.querySelector('.card-hover-tip-desc').textContent = descTxt;
+  if(color) tip.style.setProperty('--tip-color', color);
+  // 우선 표시해서 실제 크기를 측정한 뒤 위치를 계산한다
+  tip.classList.remove('tip-above');
+  tip.style.left = '-9999px'; tip.style.top = '-9999px';
+  tip.classList.add('show');
+  var hr = hd.getBoundingClientRect();
+  var tr = tip.getBoundingClientRect();
+  var margin = 10;
+  var left = hr.left;
+  var maxLeft = window.innerWidth - tr.width - 12;
+  if(left > maxLeft) left = Math.max(12, maxLeft);
+  var top = hr.bottom + margin;
+  if(top + tr.height > window.innerHeight - 12){
+    // 아래쪽 공간이 부족하면 카드 위쪽에 표시
+    top = hr.top - tr.height - margin;
+    tip.classList.add('tip-above');
+  }
+  // 말풍선 화살표가 카드 헤더를 가리키도록 left 보정 폭 안에서 화살표 위치 고정(32px)이라
+  // 카드 헤더 좌측과 너무 멀어지지 않게 살짝만 보정
+  tip.style.left = left + 'px';
+  tip.style.top = Math.max(12, top) + 'px';
+}
+function hideHoverTip(){
+  clearTimeout(_hoverTipTimer);
+  _hoverTipTimer = setTimeout(function(){
+    if(_hoverTipEl) _hoverTipEl.classList.remove('show');
+  }, 60);
+}
+function attachHoverTips(){
+  document.querySelectorAll('.card-wrap').forEach(function(card){
+    var hd = card.querySelector('.card-hd');
+    if(!hd || hd.getAttribute('data-tip-wired')) return;
+    var subEl = card.querySelector('.card-body-sub');
+    var descTxt = subEl ? subEl.textContent.trim() : '';
+    if(!descTxt) return;
+    hd.setAttribute('data-tip-wired', '1');
+    var color = getComputedStyle(card).getPropertyValue('--accent-color').trim() || null;
+    hd.addEventListener('mouseenter', function(){ showHoverTip(hd, descTxt, color); });
+    hd.addEventListener('mouseleave', hideHoverTip);
+  });
+}
+
 function wireCardOpenButtons(){
+  attachHoverTips();
   // file:// 로 직접 열었을 때는 크롬이 다른 로컬 html 파일을 iframe으로
   // 불러오는 것을 차단(빈 화면)하므로, 이 경우엔 기존 방식(같은 탭 이동)을 유지한다.
   // GitHub Pages 등 http(s) 로 서빙될 때만 인라인 모달 뷰어를 사용한다.
@@ -1311,25 +1387,6 @@ function wireCardOpenButtons(){
         if(ev.target.closest('.card-open-btn')) return;
         openDashboard(ev, href, title, cat);
       });
-      // 마우스를 올리면 간단한 설명 + "클릭해주세요" 말풍선을 띄워준다
-      var subEl = card.querySelector('.card-body-sub');
-      var descTxt = subEl ? subEl.textContent.trim() : '';
-      if(descTxt && !hd.querySelector('.card-hover-tip')){
-        var tip = document.createElement('div');
-        tip.className = 'card-hover-tip';
-        var descDiv = document.createElement('div');
-        descDiv.className = 'card-hover-tip-desc';
-        descDiv.textContent = descTxt;
-        var ctaDiv = document.createElement('div');
-        ctaDiv.className = 'card-hover-tip-cta';
-        var pulse = document.createElement('span');
-        pulse.className = 'tip-pulse';
-        ctaDiv.appendChild(pulse);
-        ctaDiv.appendChild(document.createTextNode('클릭해주세요 →'));
-        tip.appendChild(descDiv);
-        tip.appendChild(ctaDiv);
-        hd.appendChild(tip);
-      }
     }
   });
 }
