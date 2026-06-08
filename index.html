@@ -1257,6 +1257,18 @@ function wireCardOpenButtons(){
         openDashboard(ev, href, title, cat);
       });
     }
+    // 카드 메뉴(상단 헤더, 01/아이콘/제목 영역)를 클릭하면
+    // 펼치기(아코디언) 대신 곧바로 대시보드 화면으로 진입한다.
+    var hd = card.querySelector('.card-hd');
+    if(hd){
+      hd.removeAttribute('onclick');
+      hd.onclick = null;
+      hd.style.cursor = 'pointer';
+      hd.addEventListener('click', function(ev){
+        if(ev.target.closest('.card-open-btn')) return;
+        openDashboard(ev, href, title, cat);
+      });
+    }
   });
 }
 window.addEventListener('DOMContentLoaded', wireCardOpenButtons);
