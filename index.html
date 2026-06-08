@@ -428,6 +428,46 @@
   }
   .ctrl-btn:hover { border-color:var(--blue); color:var(--blue); }
 
+  /* ── EXCEL SHEET-TAB STYLE CATEGORY SWITCHER ── */
+  .sheet-tabbar {
+    display:flex; align-items:flex-end; gap:3px; margin:-2px 0 16px 0;
+    border-bottom:2px solid var(--border); padding:0 2px;
+    overflow-x:auto; scrollbar-width:thin;
+  }
+  .sheet-tabbar::-webkit-scrollbar { height:5px; }
+  .sheet-tabbar::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+  .sheet-tab {
+    position:relative; flex-shrink:0; cursor:pointer; user-select:none;
+    font-family:inherit; font-size:12px; font-weight:600; letter-spacing:.3px;
+    color:var(--text-muted); background:var(--bg3);
+    border:1px solid var(--border); border-bottom:none;
+    border-radius:8px 8px 0 0; padding:8px 18px 9px;
+    transition:all .18s; white-space:nowrap; bottom:-2px;
+  }
+  .sheet-tab .stab-icon { margin-right:6px; font-size:12px; opacity:.85; }
+  .sheet-tab .stab-count {
+    display:inline-block; min-width:16px; padding:0 4px; margin-left:7px;
+    font-size:9px; font-weight:700; text-align:center; border-radius:8px;
+    background:rgba(139,148,158,.15); color:var(--text-muted); vertical-align:1px;
+  }
+  .sheet-tab:hover { color:var(--text); background:var(--bg2); transform:translateY(-1px); }
+  .sheet-tab.active {
+    color:var(--tab-color, var(--blue)); background:var(--bg2);
+    border-color:var(--tab-color, var(--blue)); border-bottom:2px solid var(--bg2);
+    box-shadow:0 -3px 14px -4px var(--tab-color, var(--blue));
+    z-index:2; font-weight:700;
+  }
+  .sheet-tab.active .stab-count { background:var(--tab-color, var(--blue)); color:#0d1117; }
+  .sheet-tab.active::after {
+    content:''; position:absolute; left:0; right:0; bottom:-2px; height:2px;
+    background:var(--bg2);
+  }
+  body.theme-white .sheet-tab.active { box-shadow:0 -3px 14px -6px var(--tab-color, var(--blue)); }
+  .card-wrap.cat-hidden { display:none; }
+  .card-grid.switching .card-wrap { animation:catFadeIn .28s ease; }
+  @keyframes catFadeIn { from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  @media(max-width:640px){ .sheet-tab{ padding:7px 12px 8px; font-size:11px; } .sheet-tab .stab-icon{ margin-right:4px; } }
+
   /* ── ACCORDION CARD GRID ── */
   .card-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
 
@@ -531,6 +571,46 @@
     transition:opacity .15s, transform .15s;
   }
   .card-open-btn:hover { opacity:.92; transform:translateX(4px); box-shadow:0 4px 16px -4px var(--accent-color, #58a6ff); }
+
+  /* ── 카드 클릭 → 인라인 대시보드 뷰어 모달 ── */
+  .dash-modal {
+    position:fixed; inset:0; z-index:500; display:flex; flex-direction:column;
+    background:var(--bg1); opacity:0; visibility:hidden; transform:scale(.97);
+    transition:opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+  }
+  .dash-modal.open {
+    opacity:1; visibility:visible; transform:scale(1);
+    transition:opacity .22s ease, transform .22s ease, visibility 0s;
+  }
+  .dash-modal-bar {
+    display:flex; align-items:center; gap:10px; flex-shrink:0;
+    padding:10px 16px; background:var(--bg2); border-bottom:1px solid var(--border);
+    box-shadow:0 2px 12px rgba(0,0,0,.18);
+  }
+  .dash-modal-icon { font-size:18px; }
+  .dash-modal-title { font-size:14px; font-weight:700; color:var(--text); letter-spacing:.2px; }
+  .dash-modal-spacer { flex:1; }
+  .dash-modal-newtab {
+    font-size:12px; font-weight:600; color:var(--text-muted); text-decoration:none;
+    border:1px solid var(--border); border-radius:7px; padding:6px 12px;
+    transition:all .15s; white-space:nowrap;
+  }
+  .dash-modal-newtab:hover { color:var(--blue); border-color:var(--blue); }
+  .dash-modal-close {
+    width:32px; height:32px; border-radius:8px; border:1px solid var(--border);
+    background:var(--bg3); color:var(--text-muted); font-size:14px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:all .15s;
+  }
+  .dash-modal-close:hover { background:rgba(248,113,113,.15); color:#f87171; border-color:#f87171; transform:rotate(90deg); }
+  .dash-modal-body { flex:1; min-height:0; position:relative; }
+  .dash-frame { width:100%; height:100%; border:0; display:block; background:#fff; }
+  .dash-modal-body::before {
+    content:'불러오는 중…'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    color:var(--text-muted); font-size:13px; letter-spacing:.5px; pointer-events:none;
+    opacity:0; transition:opacity .15s;
+  }
+  .dash-modal-body.loading::before { opacity:1; }
+  body.modal-open { overflow:hidden; }
 
   /* Full-width card (card 09) */
   .card-full { grid-column:1/-1; }
@@ -1069,6 +1149,118 @@ function wxDesc(code){
 }
 
 /* ── Accordion ── */
+var CAT_LABELS = {
+  all:  '프로그램 목록',
+  prod: '생산·QC 분석',
+  reg:  '인허가·클레임',
+  work: '업무·일정',
+  tool: '도구·계산기'
+};
+function switchCat(cat, tabEl){
+  var grid = document.getElementById('card-grid');
+  var cards = document.querySelectorAll('.card-wrap');
+  var visible = 0;
+  cards.forEach(function(w){
+    var match = (cat === 'all') || (w.getAttribute('data-cat') === cat);
+    w.classList.toggle('cat-hidden', !match);
+    if(match) visible++;
+  });
+  // 탭 활성화 상태 + 색상
+  document.querySelectorAll('.sheet-tab').forEach(function(t){ t.classList.remove('active'); });
+  if(tabEl){
+    tabEl.classList.add('active');
+    document.querySelectorAll('.sheet-tab').forEach(function(t){
+      var c = t.getAttribute('data-color');
+      if(c) t.style.setProperty('--tab-color', c);
+    });
+  }
+  // 라벨 업데이트
+  var label = document.getElementById('section-label');
+  if(label){ label.textContent = (CAT_LABELS[cat] || '프로그램 목록') + ' · ' + visible + '개'; }
+  // 페이드 전환 애니메이션
+  grid.classList.remove('switching');
+  void grid.offsetWidth; // reflow로 애니메이션 재시작
+  grid.classList.add('switching');
+  // 시트 전환 상태 저장
+  try{ localStorage.setItem('hub-active-cat', cat); }catch(e){}
+}
+// 페이지 로드시 마지막 선택 시트 복원
+(function restoreCat(){
+  try{
+    var saved = localStorage.getItem('hub-active-cat');
+    if(saved && saved !== 'all'){
+      document.addEventListener('DOMContentLoaded', function(){
+        var tab = document.querySelector('.sheet-tab[data-cat="'+saved+'"]');
+        if(tab) switchCat(saved, tab);
+      });
+    }
+  }catch(e){}
+})();
+// ── 카드 클릭 → 인라인 대시보드 뷰어 ──────────────────────────
+var ICON_BY_CAT = { prod:'🏭', reg:'📋', work:'📊', tool:'🧰' };
+function openDashboard(ev, url, title, cat){
+  if(ev){ ev.preventDefault(); ev.stopPropagation(); }
+  if(!url || url === '#') return false;
+  var modal = document.getElementById('dash-modal');
+  var frame = document.getElementById('dash-frame');
+  var ttl   = document.getElementById('dash-modal-title');
+  var icon  = document.getElementById('dash-modal-icon');
+  var newtab= document.getElementById('dash-modal-newtab');
+  var body  = modal.querySelector('.dash-modal-body');
+  ttl.textContent = title || '대시보드';
+  icon.textContent = ICON_BY_CAT[cat] || '📊';
+  newtab.setAttribute('href', url);
+  body.classList.add('loading');
+  frame.src = url;
+  frame.onload = function(){ body.classList.remove('loading'); };
+  modal.classList.add('open');
+  document.body.classList.add('modal-open');
+  return false;
+}
+function closeDashboard(){
+  var modal = document.getElementById('dash-modal');
+  var frame = document.getElementById('dash-frame');
+  modal.classList.remove('open');
+  document.body.classList.remove('modal-open');
+  setTimeout(function(){ frame.src = 'about:blank'; }, 220);
+}
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape'){
+    var modal = document.getElementById('dash-modal');
+    if(modal && modal.classList.contains('open')) closeDashboard();
+  }
+});
+// 일반 카드(잠금 없는 카드)의 "열기" 버튼과 카드 본문을 클릭하면
+// 새 탭 이동 대신 메인 화면 안에서 바로 대시보드를 보여준다.
+function wireCardOpenButtons(){
+  // file:// 로 직접 열었을 때는 크롬이 다른 로컬 html 파일을 iframe으로
+  // 불러오는 것을 차단(빈 화면)하므로, 이 경우엔 기존 방식(같은 탭 이동)을 유지한다.
+  // GitHub Pages 등 http(s) 로 서빙될 때만 인라인 모달 뷰어를 사용한다.
+  if(window.location.protocol === 'file:') return;
+  document.querySelectorAll('.card-wrap').forEach(function(card){
+    var btn = card.querySelector('.card-open-btn');
+    if(!btn) return;
+    var href = btn.getAttribute('href') || '';
+    // 잠금 카드(openLocked 사용)는 비밀번호 절차를 그대로 유지
+    if(!href || href === '#' || /openLocked/.test(btn.getAttribute('onclick') || '')) return;
+    var titleEl = card.querySelector('.card-hd-title');
+    var title = titleEl ? titleEl.textContent.trim() : '대시보드';
+    var cat = card.getAttribute('data-cat') || '';
+    var handler = function(ev){ return openDashboard(ev, href, title, cat); };
+    btn.addEventListener('click', handler);
+    // 펼쳐진 카드 본문(설명/태그 영역) 클릭으로도 바로 열람 가능하게
+    var bodyInner = card.querySelector('.card-body-inner');
+    if(bodyInner){
+      bodyInner.style.cursor = 'pointer';
+      bodyInner.addEventListener('click', function(ev){
+        if(ev.target.closest('.card-open-btn')) return; // 버튼은 위에서 처리
+        openDashboard(ev, href, title, cat);
+      });
+    }
+  });
+}
+window.addEventListener('DOMContentLoaded', wireCardOpenButtons);
+
 function toggleCard(id){
   var w=document.getElementById(id);
   if(!w) return;
@@ -1781,19 +1973,38 @@ document.addEventListener('keydown',function(e){
   <main class="main-wrap">
 
     <div class="section-controls">
-      <div class="section-label">프로그램 목록 · 13개</div>
+      <div class="section-label" id="section-label">프로그램 목록 · 13개</div>
       <div class="ctrl-btns">
         <button class="ctrl-btn" onclick="toggleSidebar()">☰ 사이드바</button>
         <button class="ctrl-btn" id="toggle-all-btn" onclick="expandAll()">▼ 모두 펼치기</button>
       </div>
     </div>
 
-    <div class="card-grid">
+    <!-- 엑셀 시트탭 스타일 카테고리 전환 -->
+    <div class="sheet-tabbar" id="sheet-tabbar" role="tablist">
+      <div class="sheet-tab active" data-cat="all" data-color="#58a6ff" onclick="switchCat('all', this)">
+        <span class="stab-icon">🗂️</span>전체<span class="stab-count" id="cnt-all">13</span>
+      </div>
+      <div class="sheet-tab" data-cat="prod" data-color="#22d3ee" onclick="switchCat('prod', this)">
+        <span class="stab-icon">🏭</span>생산·QC<span class="stab-count" id="cnt-prod">5</span>
+      </div>
+      <div class="sheet-tab" data-cat="reg" data-color="#f87171" onclick="switchCat('reg', this)">
+        <span class="stab-icon">📋</span>인허가·클레임<span class="stab-count" id="cnt-reg">2</span>
+      </div>
+      <div class="sheet-tab" data-cat="work" data-color="#58a6ff" onclick="switchCat('work', this)">
+        <span class="stab-icon">📊</span>업무·일정<span class="stab-count" id="cnt-work">2</span>
+      </div>
+      <div class="sheet-tab" data-cat="tool" data-color="#bc8cff" onclick="switchCat('tool', this)">
+        <span class="stab-icon">🧰</span>도구·계산기<span class="stab-count" id="cnt-tool">4</span>
+      </div>
+    </div>
+
+    <div class="card-grid" id="card-grid">
 
       
 
       <!-- 01. RS232 QC 분석 툴 -->
-      <div class="card-wrap c-violet" id="cw-1">
+      <div class="card-wrap c-violet" id="cw-1" data-cat="prod">
         <div class="card-hd" onclick="toggleCard('cw-1')">
           <span class="card-hd-num">01</span>
           <div class="card-hd-icon">📡</div>
@@ -1810,7 +2021,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 02. 생산 대시보드 통합 KCM -->
-      <div class="card-wrap c-cyan" id="cw-2">
+      <div class="card-wrap c-cyan" id="cw-2" data-cat="prod">
         <div class="card-hd" onclick="toggleCard('cw-2')">
           <span class="card-hd-num">02</span>
           <div class="card-hd-icon">🏭</div>
@@ -1829,7 +2040,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 03. 인허가 현황 대시보드 -->
-      <div class="card-wrap c-pink" id="cw-3">
+      <div class="card-wrap c-pink" id="cw-3" data-cat="reg">
         <div class="card-hd" onclick="toggleCard('cw-3')">
           <span class="card-hd-num">03</span>
           <div class="card-hd-icon">📋</div>
@@ -1846,7 +2057,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 04. Value 클레임 대시보드 -->
-      <div class="card-wrap c-red" id="cw-4">
+      <div class="card-wrap c-red" id="cw-4" data-cat="reg">
         <div class="card-hd" onclick="toggleCard('cw-4')">
           <span class="card-hd-num">04</span>
           <div class="card-hd-icon">🚨</div>
@@ -1863,7 +2074,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 01. QC 목표기준 달성 현황 -->
-      <div class="card-wrap c-green" id="cw-5">
+      <div class="card-wrap c-green" id="cw-5" data-cat="prod">
         <div class="card-hd" onclick="toggleCard('cw-5')">
           <span class="card-hd-num">05</span>
           <div class="card-hd-icon">🎯</div>
@@ -1880,7 +2091,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 05. 주간 업무 대시보드 -->
-      <div class="card-wrap c-blue" id="cw-6">
+      <div class="card-wrap c-blue" id="cw-6" data-cat="work">
         <div class="card-hd" onclick="toggleCard('cw-6')">
           <span class="card-hd-num">06</span>
           <div class="card-hd-icon">📊</div>
@@ -1897,7 +2108,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 05. 실험 시트 타이머 -->
-      <div class="card-wrap c-teal" id="cw-7">
+      <div class="card-wrap c-teal" id="cw-7" data-cat="tool">
         <div class="card-hd" onclick="toggleCard('cw-7')">
           <span class="card-hd-num">07</span>
           <div class="card-hd-icon">⏱️</div>
@@ -1914,7 +2125,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 06. Sequential Protocol Timer -->
-      <div class="card-wrap c-yellow" id="cw-8">
+      <div class="card-wrap c-yellow" id="cw-8" data-cat="tool">
         <div class="card-hd" onclick="toggleCard('cw-8')">
           <span class="card-hd-num">08</span>
           <div class="card-hd-icon">🔢</div>
@@ -1931,7 +2142,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 07. Conjugation 계산기 -->
-      <div class="card-wrap c-purple" id="cw-9">
+      <div class="card-wrap c-purple" id="cw-9" data-cat="tool">
         <div class="card-hd" onclick="toggleCard('cw-9')">
           <span class="card-hd-num">09</span>
           <div class="card-hd-icon">🧪</div>
@@ -1948,7 +2159,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 08. 생산일정 관리 -->
-      <div class="card-wrap c-green" id="cw-10">
+      <div class="card-wrap c-green" id="cw-10" data-cat="prod">
         <div class="card-hd" onclick="toggleCard('cw-10')">
           <span class="card-hd-num">10</span>
           <div class="card-hd-icon">🏭</div>
@@ -1965,7 +2176,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 09. IDChip QC 대시보드 -->
-      <div class="card-wrap c-orange" id="cw-11">
+      <div class="card-wrap c-orange" id="cw-11" data-cat="prod">
         <div class="card-hd" onclick="toggleCard('cw-11')">
           <span class="card-hd-num">11</span>
           <div class="card-hd-icon">🔬</div>
@@ -1982,7 +2193,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 10. Flowchart Generator -->
-      <div class="card-wrap c-teal" id="cw-12">
+      <div class="card-wrap c-teal" id="cw-12" data-cat="tool">
         <div class="card-hd" onclick="toggleCard('cw-12')">
           <span class="card-hd-num">12</span>
           <div class="card-hd-icon">🗺️</div>
@@ -1999,7 +2210,7 @@ document.addEventListener('keydown',function(e){
       </div>
 
       <!-- 11. 공지사항 편집기 -->
-      <div class="card-wrap c-orange" id="cw-13">
+      <div class="card-wrap c-orange" id="cw-13" data-cat="work">
         <div class="card-hd" onclick="toggleCard('cw-13')">
           <span class="card-hd-num">13</span>
           <div class="card-hd-icon">📢</div>
@@ -2017,6 +2228,20 @@ document.addEventListener('keydown',function(e){
 
     </div>
   </main>
+</div>
+
+<!-- 카드 클릭 → 인라인 대시보드 뷰어 모달 -->
+<div class="dash-modal" id="dash-modal">
+  <div class="dash-modal-bar">
+    <span class="dash-modal-icon" id="dash-modal-icon">📊</span>
+    <span class="dash-modal-title" id="dash-modal-title">대시보드</span>
+    <span class="dash-modal-spacer"></span>
+    <a class="dash-modal-newtab" id="dash-modal-newtab" href="#" target="_blank" rel="noopener" title="새 창에서 열기">↗ 새 창</a>
+    <button class="dash-modal-close" id="dash-modal-close" onclick="closeDashboard()" title="닫기 (Esc)">✕</button>
+  </div>
+  <div class="dash-modal-body">
+    <iframe id="dash-frame" class="dash-frame" src="about:blank" loading="eager"></iframe>
+  </div>
 </div>
 
 <footer>
