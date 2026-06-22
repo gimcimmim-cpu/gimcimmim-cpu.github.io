@@ -368,10 +368,10 @@ function parseStd(wb){
 // 구조: row[n] col0='XX주차', cols 1,4,7,10,13 = 날짜 (Date 객체)
 //        data cols: [lot=1,qty=2,note=3], [4,5,6], [7,8,9], [10,11,12], [13,14,15]
 const SHEETS_DIV=['ichroma_분주계획'];                                    // ichroma 버퍼 분주 (별도 공정)
-const SHEETS_ICH_HQ=['ichroma_조립계획','ichroma2_생산계획'];               // ichroma 조립/생산 — 본사(1)
-const SHEETS_ICH_TH=['태현ichroma_생산계획'];                              // ichroma 조립/생산 — 태현(2, 외주)
-const SHEETS_AFI_HQ=['AFIAS_생산계획','AFIAS2_생산계획','AFIAS 생산'];      // AFIAS — 본사(1)
-const SHEETS_AFI_TH=['태현AFIAS_생산계획'];                                // AFIAS — 태현(2, 외주)
+const SHEETS_ICH_HQ=['ichroma_조립계획'];                                   // ichroma 조립/생산 — 본사(1)
+const SHEETS_ICH_TH=['태현ichroma_생산계획','ichroma2_생산계획'];            // ichroma 조립/생산 — 태현(2, 외주) (월별 시트명 표기 다름)
+const SHEETS_AFI_HQ=['AFIAS_생산계획','AFIAS 생산'];                        // AFIAS — 본사(1)
+const SHEETS_AFI_TH=['태현AFIAS_생산계획','AFIAS2_생산계획'];               // AFIAS — 태현(2, 외주) (월별 시트명 표기 다름)
 const SKIP_TXT=['→','작업내용','까지 입고','후수식','창고','이탈리아','브라질','과테말라','인도','독일','어린이날','대체 공휴일','지방선거','변경 :','기존 :','인서트 개정','해외 재작업','해외 ','영국 '];
 
 function parseProdSheet(wb,sheets,plat,site){
