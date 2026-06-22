@@ -96,6 +96,7 @@ body{font-family:'맑은 고딕','Malgun Gothic',sans-serif;background:#0c1220;c
 .shd.sdv{border-left:3px solid var(--col-prod-div);color:#a5f3fc}
 .shd.si{border-left:3px solid var(--col-prod-ich);color:#c4b5fd}
 .shd.sa{border-left:3px solid var(--col-prod-afi);color:#93c5fd}
+.shd.s-th{border-left-style:dashed;opacity:.82}
 .shd.sg{border-left:3px solid var(--col-gran);color:#86efac}
 .dc{padding:4px;border:1px solid var(--border);vertical-align:top}
 .lot{margin-bottom:3px;padding:4px 5px;border-radius:5px;border-left:3px solid;word-break:break-word}
@@ -195,8 +196,10 @@ body{font-family:'맑은 고딕','Malgun Gothic',sans-serif;background:#0c1220;c
   <div class="leg"><div class="lb" style="background:var(--col-std-pack)"></div>표준물질 포장</div>
   <div class="leg"><div class="lb" style="background:var(--col-std-dry)"></div>표준물질 분주/건조</div>
   <div class="leg"><div class="lb" style="background:var(--col-prod-div)"></div>ichroma 분주</div>
-  <div class="leg"><div class="lb" style="background:var(--col-prod-ich)"></div>ichroma 조립/생산</div>
-  <div class="leg"><div class="lb" style="background:var(--col-prod-afi)"></div>실제생산 AFIAS</div>
+  <div class="leg"><div class="lb" style="background:var(--col-prod-ich)"></div>ichroma 조립/생산(본사)</div>
+  <div class="leg"><div class="lb" style="background:var(--col-prod-ich);outline:1px dashed #c4b5fd;outline-offset:1px"></div>ichroma 조립/생산(태현)</div>
+  <div class="leg"><div class="lb" style="background:var(--col-prod-afi)"></div>실제생산 AFIAS(본사)</div>
+  <div class="leg"><div class="lb" style="background:var(--col-prod-afi);outline:1px dashed #93c5fd;outline-offset:1px"></div>실제생산 AFIAS(태현)</div>
   <div class="leg"><div class="lb" style="background:var(--col-gran)"></div>그래뉼 생산</div>
   <div class="leg"><div class="lb" style="background:var(--col-cancer);box-shadow:0 0 4px var(--col-cancer)"></div>Cancer팀</div>
 </div>
@@ -267,7 +270,8 @@ function isCancer(lot,isGran=false){
 }
 
 // ─── 상태 ───────────────────────────────────────────────
-let allData={}; // {date: {std:{pack:[],dry:[]},prod:{ich:[],afi:[]},gran:[]}}
+let allData={}; // {date: {std:{pack:[],dry:[]},prod:{div:[],ich:[],afi:[],ich_hq:[],ich_th:[],afi_hq:[],afi_th:[]},gran:[]}}
+// ich/afi = 본사+태현 합산(KPI 합계용), ich_hq/afi_hq = 본사(1), ich_th/afi_th = 태현(2, 외주)
 let curMon=null, curFilter='all';
 const DAYS=['월','화','수','목','금'];
 
@@ -335,7 +339,7 @@ function getMon(d){ const dt=new Date(d); const day=dt.getDay(); dt.setDate(dt.g
 function addD(d,n){ const dt=new Date(d); dt.setDate(dt.getDate()+n); return ds(dt); }
 function fmt(d){ if(!d) return ''; const dt=new Date(d); return `${dt.getMonth()+1}/${dt.getDate()}`; }
 function weekNum(d){ const dt=new Date(d); const s=new Date(dt.getFullYear(),0,1); return Math.ceil(((dt-s)/86400000+s.getDay()+1)/7); }
-function ensD(d){ if(!allData[d]) allData[d]={std:{pack:[],dry:[]},prod:{div:[],ich:[],afi:[]},gran:[]}; }
+function ensD(d){ if(!allData[d]) allData[d]={std:{pack:[],dry:[]},prod:{div:[],ich:[],afi:[],ich_hq:[],ich_th:[],afi_hq:[],afi_th:[]},gran:[]}; }
 
 // ─── 업로드 ─────────────────────────────────────────────
 function initDZ(dzId,fId,type){
@@ -421,15 +425,17 @@ function parseStd(wb){
 // 구조: row[n] col0='XX주차', cols 1,4,7,10,13 = 날짜 (Date 객체)
 //        data cols: [lot=1,qty=2,note=3], [4,5,6], [7,8,9], [10,11,12], [13,14,15]
 const SHEETS_DIV=['ichroma_분주계획'];                                    // ichroma 버퍼 분주 (별도 공정)
-const SHEETS_ICH=['ichroma_조립계획','ichroma2_생산계획','태현ichroma_생산계획']; // ichroma 조립/생산
-const SHEETS_AFI=['AFIAS_생산계획','AFIAS2_생산계획','태현AFIAS_생산계획','AFIAS 생산']; // AFIAS
+const SHEETS_ICH_HQ=['ichroma_조립계획','ichroma2_생산계획'];               // ichroma 조립/생산 — 본사(1)
+const SHEETS_ICH_TH=['태현ichroma_생산계획'];                              // ichroma 조립/생산 — 태현(2, 외주)
+const SHEETS_AFI_HQ=['AFIAS_생산계획','AFIAS2_생산계획','AFIAS 생산'];      // AFIAS — 본사(1)
+const SHEETS_AFI_TH=['태현AFIAS_생산계획'];                                // AFIAS — 태현(2, 외주)
 const SKIP_TXT=['→','작업내용','까지 입고','후수식','창고','이탈리아','브라질','과테말라','인도','독일','어린이날','대체 공휴일','지방선거','변경 :','기존 :','인서트 개정',
   '해외 재작업','재작업','rework',   // 재작업 (생산팀 전용)
   '재포장','repack','해외 재포장',   // 재포장 (생산팀 전용)
   '해외 ','영국 '];
 
-function parseProdSheet(wb,sheets,plat){
-  for(const d of Object.keys(allData)) allData[d].prod[plat]=[];
+function parseProdSheet(wb,sheets,plat,site){
+  // site: null(분주 전용) | 'hq'(본사,1) | 'th'(태현,2 외주)
   sheets.filter(s=>wb.SheetNames.includes(s)).forEach(sn=>{
     const data=XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,defval:null,raw:false,cellDates:true});
     let i=0;
@@ -468,7 +474,13 @@ function parseProdSheet(wb,sheets,plat){
             //  2) 로트 끝이 [숫자+X/G] — AFIAS 네이밍 규칙
             //  3) Cancer팀 로트 — KD, CA 등 비Cancer ichroma 제품 제외
             const actualPlat = (plat !== 'div' && isAFIASLot(ls) && isCancer(ls)) ? 'afi' : plat;
-            allData[d].prod[actualPlat].push({lot:ls,qty,note,cancer:isCancer(ls)});
+            const item={lot:ls,qty,note,cancer:isCancer(ls),site:site||null};
+            allData[d].prod[actualPlat].push(item);
+            if(site){
+              const bucket=actualPlat+'_'+site; // 예: ich_hq, ich_th, afi_hq, afi_th
+              if(!allData[d].prod[bucket]) allData[d].prod[bucket]=[];
+              allData[d].prod[bucket].push(item);
+            }
           });
           i++;
         }
@@ -478,10 +490,12 @@ function parseProdSheet(wb,sheets,plat){
 }
 
 function parseProd(wb){
-  for(const d of Object.keys(allData)) allData[d].prod={div:[],ich:[],afi:[]};
-  parseProdSheet(wb,SHEETS_DIV,'div');  // ichroma 분주 (별도 행)
-  parseProdSheet(wb,SHEETS_ICH,'ich'); // ichroma 조립/생산
-  parseProdSheet(wb,SHEETS_AFI,'afi'); // AFIAS
+  for(const d of Object.keys(allData)) allData[d].prod={div:[],ich:[],afi:[],ich_hq:[],ich_th:[],afi_hq:[],afi_th:[]};
+  parseProdSheet(wb,SHEETS_DIV,'div',null);     // ichroma 분주 (별도 행, 본사/태현 구분 없음)
+  parseProdSheet(wb,SHEETS_ICH_HQ,'ich','hq');  // ichroma 조립/생산 — 본사(1)
+  parseProdSheet(wb,SHEETS_ICH_TH,'ich','th');  // ichroma 조립/생산 — 태현(2)
+  parseProdSheet(wb,SHEETS_AFI_HQ,'afi','hq');  // AFIAS — 본사(1)
+  parseProdSheet(wb,SHEETS_AFI_TH,'afi','th');  // AFIAS — 태현(2)
 }
 
 // ─── 그래뉼 파싱 ─────────────────────────────────────────
@@ -626,8 +640,10 @@ function renderCal(dates){
   }
   if(sProd){
     sections.push({lbl:'ichroma\n분주',cls:'sdv',type:'tdv',get:d=>fi(allData[d]?.prod.div||[],co)});
-    sections.push({lbl:'ichroma\n조립/생산',cls:'si',type:'ti',get:d=>fi(allData[d]?.prod.ich||[],co)});
-    sections.push({lbl:'실제생산\nAFIAS',cls:'sa',type:'ta',get:d=>fi(allData[d]?.prod.afi||[],co)});
+    sections.push({lbl:'ichroma(본사)\n조립/생산',cls:'si',type:'ti',get:d=>fi(allData[d]?.prod.ich_hq||[],co)});
+    sections.push({lbl:'ichroma(태현)\n조립/생산',cls:'si s-th',type:'ti',get:d=>fi(allData[d]?.prod.ich_th||[],co)});
+    sections.push({lbl:'AFIAS(본사)\n실제생산',cls:'sa',type:'ta',get:d=>fi(allData[d]?.prod.afi_hq||[],co)});
+    sections.push({lbl:'AFIAS(태현)\n실제생산',cls:'sa s-th',type:'ta',get:d=>fi(allData[d]?.prod.afi_th||[],co)});
   }
   if(sGran){
     sections.push({lbl:'그래뉼\n생산',cls:'sg',type:'tg',get:d=>fi(allData[d]?.gran||[],co)});
