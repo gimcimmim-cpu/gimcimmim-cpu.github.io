@@ -747,6 +747,19 @@
   .theme-toggle:hover { border-color:var(--blue); color:var(--blue); box-shadow:0 0 0 3px rgba(88,166,255,.12); }
   .theme-toggle-icon { font-size:14px; line-height:1; }
 
+  /* ── 메일요약 바로가기 버튼 (외부: iwannafy-kcm.github.io) ── */
+  .mailsum-toggle {
+    position:absolute; top:14px; left:18px;
+    background:var(--bg3); border:1px solid var(--border); border-radius:20px;
+    padding:5px 13px; font-size:12px; cursor:pointer; z-index:20;
+    color:var(--text-muted); transition:all .2s;
+    display:flex; align-items:center; gap:7px; user-select:none; font-family:inherit;
+    text-decoration:none;
+  }
+  .mailsum-toggle:hover { border-color:var(--teal); color:var(--teal); box-shadow:0 0 0 3px rgba(57,211,245,.12); }
+  .mailsum-toggle-icon { font-size:14px; line-height:1; }
+  @media(max-width:480px) { .mailsum-toggle-label { display:none; } .mailsum-toggle { padding:5px 9px; } }
+
   /* ── 팀 메모 보드 ── */
   .memo-board {
     position:absolute; top:10px; right:120px; z-index:19;
@@ -1980,6 +1993,12 @@ document.addEventListener('keydown',function(e){
     <span class="theme-toggle-icon">☀️</span>
     <span class="theme-toggle-label">White</span>
   </button>
+
+  <!-- 메일요약 바로가기 (매일 자동 생성되는 메일 요약 + 오늘의 뉴스, 외부 사이트) -->
+  <a class="mailsum-toggle" href="https://iwannafy-kcm.github.io/kcm/" target="_blank" rel="noopener noreferrer" title="매일 자동 갱신되는 메일 요약 · 오늘의 뉴스 (새 탭에서 열림)">
+    <span class="mailsum-toggle-icon">📧</span>
+    <span class="mailsum-toggle-label">메일요약</span>
+  </a>
 
   <!-- 애니메이션 팀 로고 -->
   <div class="team-logo-wrap">
