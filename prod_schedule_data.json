@@ -44529,7 +44529,7 @@
             "site": "hq"
           },
           {
-            "lot": "PQWFA04G",
+            "lot": "PQWFA05G",
             "qty": "22,000",
             "note": "파우치포장까지 진행, TQC Plus",
             "cancer": false,
@@ -44647,7 +44647,7 @@
             "site": "hq"
           },
           {
-            "lot": "PQWFA04G",
+            "lot": "PQWFA05G",
             "qty": "22,000",
             "note": "파우치포장까지 진행, TQC Plus",
             "cancer": false,
@@ -47023,14 +47023,14 @@
           {
             "lot": "AAWGG07",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "AAWGG08",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
@@ -47105,6 +47105,27 @@
             "note": "해외",
             "cancer": true,
             "site": "hq"
+          },
+          {
+            "lot": "PSWGA70F",
+            "qty": "11,000",
+            "note": "해외",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "PSWGA70F",
+            "qty": "11,000",
+            "note": "국내",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "TTWGA31X",
+            "qty": "22,000",
+            "note": "독일",
+            "cancer": false,
+            "site": "th"
           }
         ],
         "ich_hq": [
@@ -47141,14 +47162,14 @@
           {
             "lot": "AAWGG07",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "AAWGG08",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
@@ -47223,9 +47244,31 @@
             "note": "해외",
             "cancer": true,
             "site": "hq"
+          },
+          {
+            "lot": "PSWGA70F",
+            "qty": "11,000",
+            "note": "해외",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "PSWGA70F",
+            "qty": "11,000",
+            "note": "국내",
+            "cancer": true,
+            "site": "hq"
           }
         ],
-        "afi_th": []
+        "afi_th": [
+          {
+            "lot": "TTWGA31X",
+            "qty": "22,000",
+            "note": "독일",
+            "cancer": false,
+            "site": "th"
+          }
+        ]
       },
       "gran": [
         {
@@ -47296,27 +47339,34 @@
           {
             "lot": "AAWGG07",
             "qty": "840",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
           {
             "lot": "AAWGG08",
             "qty": "840",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
           {
             "lot": "AAWGG09",
             "qty": "840",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
           {
             "lot": "AAWGG10",
-            "qty": "840",
+            "qty": "420",
+            "note": "이라크",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "AAWGG10",
+            "qty": "420",
             "note": "해외",
             "cancer": false,
             "site": null
@@ -47354,13 +47404,20 @@
           {
             "lot": "AAWGG09",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "AAWGG10",
-            "qty": "21,250",
+            "qty": "10,625",
+            "note": "이라크",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "AAWGG10",
+            "qty": "10,625",
             "note": "해외",
             "cancer": false,
             "site": "th"
@@ -47417,9 +47474,16 @@
             "site": "hq"
           },
           {
-            "lot": "TTWGA31X",
+            "lot": "VEWGD03X",
             "qty": "22,000",
-            "note": "독일",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "T3WGA73X",
+            "qty": "22,000",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           }
@@ -47443,13 +47507,20 @@
           {
             "lot": "AAWGG09",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "AAWGG10",
-            "qty": "21,250",
+            "qty": "10,625",
+            "note": "이라크",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "AAWGG10",
+            "qty": "10,625",
             "note": "해외",
             "cancer": false,
             "site": "th"
@@ -47504,13 +47575,20 @@
             "note": "해외",
             "cancer": false,
             "site": "hq"
+          },
+          {
+            "lot": "VEWGD03X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "TTWGA31X",
+            "lot": "T3WGA73X",
             "qty": "22,000",
-            "note": "독일",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           }
@@ -47661,8 +47739,15 @@
           },
           {
             "lot": "DT3WGL09",
-            "qty": "840",
+            "qty": "1,236",
             "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DT3WGL09",
+            "qty": "444",
+            "note": "이라크",
             "cancer": false,
             "site": null
           }
@@ -47759,20 +47844,6 @@
             "qty": "22,000",
             "note": "국내",
             "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "PSWGA70F",
-            "qty": "11,000",
-            "note": "해외",
-            "cancer": true,
-            "site": "hq"
-          },
-          {
-            "lot": "PSWGA70F",
-            "qty": "11,000",
-            "note": "국내",
-            "cancer": true,
             "site": "hq"
           },
           {
@@ -47912,20 +47983,6 @@
             "qty": "22,000",
             "note": "국내",
             "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "PSWGA70F",
-            "qty": "11,000",
-            "note": "해외",
-            "cancer": true,
-            "site": "hq"
-          },
-          {
-            "lot": "PSWGA70F",
-            "qty": "11,000",
-            "note": "국내",
-            "cancer": true,
             "site": "hq"
           },
           {
@@ -48396,8 +48453,15 @@
           },
           {
             "lot": "DT4WGR03",
-            "qty": "840",
+            "qty": "518",
             "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DT4WGR03",
+            "qty": "322",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
@@ -48432,7 +48496,7 @@
           {
             "lot": "KDWGH07EX",
             "qty": "840",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
@@ -48440,6 +48504,20 @@
             "lot": "NSWGA02EX",
             "qty": "320",
             "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "VEWGP09E",
+            "qty": "840",
+            "note": "이라크",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "VEWGP10E",
+            "qty": "840",
+            "note": "이라크",
             "cancer": false,
             "site": null
           }
@@ -48519,8 +48597,15 @@
           },
           {
             "lot": "PHWGA15G",
-            "qty": "10,000",
+            "qty": "9,760",
             "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "PHWGA15G",
+            "qty": "240",
+            "note": "국내",
             "cancer": false,
             "site": "hq"
           },
@@ -48544,13 +48629,6 @@
             "note": "국내",
             "cancer": true,
             "site": "hq"
-          },
-          {
-            "lot": "TNWGE62G",
-            "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "th"
           },
           {
             "lot": "AAWGC08X",
@@ -48637,8 +48715,15 @@
           },
           {
             "lot": "PHWGA15G",
-            "qty": "10,000",
+            "qty": "9,760",
             "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "PHWGA15G",
+            "qty": "240",
+            "note": "국내",
             "cancer": false,
             "site": "hq"
           },
@@ -48665,13 +48750,6 @@
           }
         ],
         "afi_th": [
-          {
-            "lot": "TNWGE62G",
-            "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "th"
-          },
           {
             "lot": "AAWGC08X",
             "qty": "22,000",
@@ -48730,14 +48808,14 @@
           {
             "lot": "AAWGG07",
             "qty": "21,000",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
           {
             "lot": "AAWGG08",
             "qty": "21,000",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
@@ -48771,15 +48849,22 @@
           },
           {
             "lot": "DFRWGG06",
-            "qty": "840",
+            "qty": "1,680",
+            "note": "이라크",
+            "cancer": true,
+            "site": null
+          },
+          {
+            "lot": "CPWGA14X",
+            "qty": "17,200",
             "note": "해외",
             "cancer": true,
             "site": null
           },
           {
             "lot": "CPWGA14X",
-            "qty": "22,000",
-            "note": "해외",
+            "qty": "4,800",
+            "note": "이탈리아",
             "cancer": true,
             "site": null
           }
@@ -48830,16 +48915,23 @@
             "site": "hq"
           },
           {
-            "lot": "VEWGD03X",
+            "lot": "VEWGD04X",
             "qty": "22,000",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "hq"
           },
           {
             "lot": "T4WHA50X",
-            "qty": "22,000",
+            "qty": "17,200",
             "note": "해외, 1개월 Aging",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "T4WHA50X",
+            "qty": "4,800",
+            "note": "이라크, 1개월 Aging",
             "cancer": false,
             "site": "hq"
           },
@@ -48886,16 +48978,16 @@
             "site": "hq"
           },
           {
-            "lot": "PPWGB76X",
-            "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "T3WGA73X",
+            "lot": "TBWGA46G",
             "qty": "22,000",
             "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "F4WGA72G",
+            "qty": "22,000",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           }
@@ -48948,16 +49040,23 @@
             "site": "hq"
           },
           {
-            "lot": "VEWGD03X",
+            "lot": "VEWGD04X",
             "qty": "22,000",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "hq"
           },
           {
             "lot": "T4WHA50X",
-            "qty": "22,000",
+            "qty": "17,200",
             "note": "해외, 1개월 Aging",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "T4WHA50X",
+            "qty": "4,800",
+            "note": "이라크, 1개월 Aging",
             "cancer": false,
             "site": "hq"
           },
@@ -49002,20 +49101,20 @@
             "note": "이탈리아",
             "cancer": false,
             "site": "hq"
+          },
+          {
+            "lot": "TBWGA46G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "PPWGB76X",
+            "lot": "F4WGA72G",
             "qty": "22,000",
             "note": "국내",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "T3WGA73X",
-            "qty": "22,000",
-            "note": "해외",
             "cancer": false,
             "site": "th"
           }
@@ -49077,13 +49176,20 @@
           {
             "lot": "AAWGG09",
             "qty": "21,000",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
           {
             "lot": "AAWGG10",
-            "qty": "21,000",
+            "qty": "10,500",
+            "note": "이라크",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "AAWGG10",
+            "qty": "10,500",
             "note": "해외",
             "cancer": false,
             "site": null
@@ -49119,29 +49225,36 @@
           {
             "lot": "VEWGP05E",
             "qty": "840",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
           {
             "lot": "VEWGP06E",
             "qty": "840",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
           {
             "lot": "VEWGP07E",
             "qty": "840",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
           {
             "lot": "VEWGP08E",
             "qty": "840",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DFRWGG07",
+            "qty": "1,680",
+            "note": "이라크",
+            "cancer": true,
             "site": null
           }
         ],
@@ -49183,8 +49296,15 @@
           },
           {
             "lot": "DT3WGL09",
-            "qty": "21,250",
+            "qty": "15,700",
             "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DT3WGL09",
+            "qty": "5,550",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
@@ -49247,11 +49367,11 @@
             "site": "hq"
           },
           {
-            "lot": "F4WGA72G",
+            "lot": "VEWGD05X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "이라크",
             "cancer": false,
-            "site": "th"
+            "site": "hq"
           },
           {
             "lot": "PSWGA52X",
@@ -49300,8 +49420,15 @@
           },
           {
             "lot": "DT3WGL09",
-            "qty": "21,250",
+            "qty": "15,700",
             "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DT3WGL09",
+            "qty": "5,550",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
@@ -49362,16 +49489,16 @@
             "note": "국내",
             "cancer": false,
             "site": "hq"
+          },
+          {
+            "lot": "VEWGD05X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
           }
         ],
         "afi_th": [
-          {
-            "lot": "F4WGA72G",
-            "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "th"
-          },
           {
             "lot": "PSWGA52X",
             "qty": "22,000",
@@ -49538,23 +49665,30 @@
             "site": "hq"
           },
           {
-            "lot": "NBWGD72G",
+            "lot": "NBWGD71G",
             "qty": "22,000",
             "note": "국내",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "NBWGD71G",
+            "lot": "VEWGD06X",
             "qty": "22,000",
-            "note": "해외",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "PPWGB76X",
+            "qty": "22,000",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "TSWGB60X",
+            "lot": "TNWGE62G",
             "qty": "22,000",
-            "note": "해외",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           }
@@ -49649,25 +49783,32 @@
             "site": "hq"
           },
           {
-            "lot": "NBWGD72G",
+            "lot": "NBWGD71G",
             "qty": "22,000",
             "note": "국내",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWGD06X",
+            "qty": "22,000",
+            "note": "이라크",
             "cancer": false,
             "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "NBWGD71G",
+            "lot": "PPWGB76X",
             "qty": "22,000",
-            "note": "해외",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "TSWGB60X",
+            "lot": "TNWGE62G",
             "qty": "22,000",
-            "note": "해외",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           }
@@ -49685,7 +49826,7 @@
           {
             "lot": "HCWGQ11EX",
             "qty": "21,000",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
@@ -49706,7 +49847,7 @@
           {
             "lot": "HCWGQ11EX",
             "qty": "840",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": null
           },
@@ -49794,20 +49935,41 @@
           {
             "lot": "HCWGA84X",
             "qty": "22,000",
-            "note": "해외",
+            "note": "국내",
             "cancer": false,
             "site": "hq"
           },
           {
             "lot": "CPWGA14X",
-            "qty": "22,000",
+            "qty": "15,760",
             "note": "해외",
             "cancer": true,
             "site": "hq"
           },
           {
-            "lot": "CRWGD94X",
-            "qty": "44,000",
+            "lot": "CPWGA14X",
+            "qty": "1,440",
+            "note": "국내",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "CPWGA14X",
+            "qty": "4,800",
+            "note": "이탈리아",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "NBWGD72G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "TSWGB60X",
+            "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "th"
@@ -49883,22 +50045,43 @@
           {
             "lot": "HCWGA84X",
             "qty": "22,000",
-            "note": "해외",
+            "note": "국내",
             "cancer": false,
             "site": "hq"
           },
           {
             "lot": "CPWGA14X",
-            "qty": "22,000",
+            "qty": "15,760",
             "note": "해외",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "CPWGA14X",
+            "qty": "1,440",
+            "note": "국내",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "CPWGA14X",
+            "qty": "4,800",
+            "note": "이탈리아",
             "cancer": true,
             "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "CRWGD94X",
-            "qty": "44,000",
+            "lot": "NBWGD72G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "TSWGB60X",
+            "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "th"
@@ -49958,9 +50141,23 @@
             "note": "해외",
             "cancer": false,
             "site": null
+          },
+          {
+            "lot": "VFWGA03V",
+            "qty": "5,000",
+            "note": "Vet FeLV/FIV EXP 18개월",
+            "cancer": false,
+            "site": null
           }
         ],
         "ich": [
+          {
+            "lot": "VFWGA03V",
+            "qty": "5,000",
+            "note": "Vet FeLV/FIV EXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
           {
             "lot": "TGWGQ08EX",
             "qty": "21,250",
@@ -50028,14 +50225,21 @@
           },
           {
             "lot": "FRWGA95X",
-            "qty": "22,000",
+            "qty": "16,528",
             "note": "해외",
             "cancer": true,
             "site": "hq"
           },
           {
+            "lot": "FRWGA95X",
+            "qty": "5,472",
+            "note": "국내",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
             "lot": "FIWHA22G",
-            "qty": "10,000",
+            "qty": "12,000",
             "note": "해외, 1개월 Aging",
             "cancer": false,
             "site": "hq"
@@ -50055,21 +50259,22 @@
             "site": "hq"
           },
           {
-            "lot": "AAWGC09X",
-            "qty": "22,000",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "AAWGC10X",
-            "qty": "22,000",
-            "note": "해외",
+            "lot": "CRWGD94X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           }
         ],
-        "ich_hq": [],
+        "ich_hq": [
+          {
+            "lot": "VFWGA03V",
+            "qty": "5,000",
+            "note": "Vet FeLV/FIV EXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "ich_th": [
           {
             "lot": "TGWGQ08EX",
@@ -50138,14 +50343,21 @@
           },
           {
             "lot": "FRWGA95X",
-            "qty": "22,000",
+            "qty": "16,528",
             "note": "해외",
             "cancer": true,
             "site": "hq"
           },
           {
+            "lot": "FRWGA95X",
+            "qty": "5,472",
+            "note": "국내",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
             "lot": "FIWHA22G",
-            "qty": "10,000",
+            "qty": "12,000",
             "note": "해외, 1개월 Aging",
             "cancer": false,
             "site": "hq"
@@ -50167,16 +50379,9 @@
         ],
         "afi_th": [
           {
-            "lot": "AAWGC09X",
-            "qty": "22,000",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "AAWGC10X",
-            "qty": "22,000",
-            "note": "해외",
+            "lot": "CRWGD94X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           }
@@ -50231,17 +50436,10 @@
         ],
         "afi": [
           {
-            "lot": "NBWGD74G",
-            "qty": "22,000",
-            "note": "중국1T, 8/28입고",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "DDWGC91F",
-            "qty": "22,000",
-            "note": "중국1T, 8/28입고",
-            "cancer": false,
+            "lot": "FRWGA96X",
+            "qty": "44,000",
+            "note": "이라크",
+            "cancer": true,
             "site": "hq"
           },
           {
@@ -50273,16 +50471,16 @@
             "site": "hq"
           },
           {
-            "lot": "F4WGA73G",
+            "lot": "AAWGC09X",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "F4WGA74G",
+            "lot": "AAWGC10X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           }
@@ -50320,17 +50518,10 @@
         ],
         "afi_hq": [
           {
-            "lot": "NBWGD74G",
-            "qty": "22,000",
-            "note": "중국1T, 8/28입고",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "DDWGC91F",
-            "qty": "22,000",
-            "note": "중국1T, 8/28입고",
-            "cancer": false,
+            "lot": "FRWGA96X",
+            "qty": "44,000",
+            "note": "이라크",
+            "cancer": true,
             "site": "hq"
           },
           {
@@ -50364,16 +50555,16 @@
         ],
         "afi_th": [
           {
-            "lot": "F4WGA73G",
+            "lot": "AAWGC09X",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "F4WGA74G",
+            "lot": "AAWGC10X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           }
@@ -50493,36 +50684,36 @@
         ],
         "afi": [
           {
-            "lot": "DDWGC92F",
+            "lot": "DDWGC91F",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "DDWGC93F",
-            "qty": "22,000",
-            "note": "독일",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "VEWGD04X",
-            "qty": "22,000",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "FRWGA96X",
-            "qty": "22,000",
-            "note": "독일",
+            "lot": "FRWGA97X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": true,
             "site": "hq"
           },
           {
-            "lot": "CRWGD95X",
-            "qty": "44,000",
+            "lot": "AAWGE48F",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "F4WGA73G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "F4WGA74G",
+            "qty": "22,000",
             "note": "국내",
             "cancer": false,
             "site": "th"
@@ -50589,38 +50780,38 @@
         ],
         "afi_hq": [
           {
-            "lot": "DDWGC92F",
+            "lot": "DDWGC91F",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "DDWGC93F",
-            "qty": "22,000",
-            "note": "독일",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "VEWGD04X",
-            "qty": "22,000",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "FRWGA96X",
-            "qty": "22,000",
-            "note": "독일",
+            "lot": "FRWGA97X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "AAWGE48F",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
             "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "CRWGD95X",
-            "qty": "44,000",
+            "lot": "F4WGA73G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "F4WGA74G",
+            "qty": "22,000",
             "note": "국내",
             "cancer": false,
             "site": "th"
@@ -50668,13 +50859,6 @@
       "prod": {
         "div": [
           {
-            "lot": "HCWGR01EX",
-            "qty": "21,000",
-            "note": "해외",
-            "cancer": false,
-            "site": null
-          },
-          {
             "lot": "TGWGQ10EX",
             "qty": "840",
             "note": "해외",
@@ -50682,16 +50866,16 @@
             "site": null
           },
           {
-            "lot": "HCWGR01EX",
-            "qty": "840",
-            "note": "해외",
-            "cancer": false,
+            "lot": "DFRWGG08",
+            "qty": "1,680",
+            "note": "이라크",
+            "cancer": true,
             "site": null
           },
           {
-            "lot": "DFRWGG07",
-            "qty": "840",
-            "note": "해외",
+            "lot": "DFRWGG09",
+            "qty": "1,680",
+            "note": "이라크",
             "cancer": true,
             "site": null
           }
@@ -50700,35 +50884,49 @@
           {
             "lot": "VEWGP05E",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "VEWGP06E",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "VEWGP07E",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "VEWGP08E",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VEWGP09E",
+            "qty": "21,250",
+            "note": "이라크",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VEWGP10E",
+            "qty": "21,250",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "HCWGQ11EX",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
@@ -50740,7 +50938,7 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "170,000",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -50749,23 +50947,9 @@
         ],
         "afi": [
           {
-            "lot": "CVWGA49G",
-            "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "KDWGA68X",
-            "qty": "22,000",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "FRWGA97X",
-            "qty": "22,000",
-            "note": "해외",
+            "lot": "FRWGA98X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": true,
             "site": "hq"
           },
@@ -50777,15 +50961,15 @@
             "site": "hq"
           },
           {
-            "lot": "AAWGC11X",
+            "lot": "AAWGE49F",
             "qty": "22,000",
-            "note": "국내",
+            "note": "이라크",
             "cancer": false,
-            "site": "th"
+            "site": "hq"
           },
           {
-            "lot": "AAWGC12X",
-            "qty": "22,000",
+            "lot": "CRWGD95X",
+            "qty": "44,000",
             "note": "국내",
             "cancer": false,
             "site": "th"
@@ -50796,35 +50980,49 @@
           {
             "lot": "VEWGP05E",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "VEWGP06E",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "VEWGP07E",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "VEWGP08E",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VEWGP09E",
+            "qty": "21,250",
+            "note": "이라크",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VEWGP10E",
+            "qty": "21,250",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
           {
             "lot": "HCWGQ11EX",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
@@ -50836,7 +51034,7 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "170,000",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -50845,23 +51043,9 @@
         ],
         "afi_hq": [
           {
-            "lot": "CVWGA49G",
-            "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "KDWGA68X",
-            "qty": "22,000",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "FRWGA97X",
-            "qty": "22,000",
-            "note": "해외",
+            "lot": "FRWGA98X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": true,
             "site": "hq"
           },
@@ -50871,19 +51055,19 @@
             "note": "국내",
             "cancer": false,
             "site": "hq"
+          },
+          {
+            "lot": "AAWGE49F",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "AAWGC11X",
-            "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "AAWGC12X",
-            "qty": "22,000",
+            "lot": "CRWGD95X",
+            "qty": "44,000",
             "note": "국내",
             "cancer": false,
             "site": "th"
@@ -50997,15 +51181,22 @@
         "ich": [
           {
             "lot": "DFRWGG06",
-            "qty": "21,250",
-            "note": "해외",
+            "qty": "42,500",
+            "note": "이라크",
             "cancer": true,
             "site": "th"
           },
           {
             "lot": "DT4WGR03",
-            "qty": "21,250",
+            "qty": "13,200",
             "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DT4WGR03",
+            "qty": "8,050",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
@@ -51038,7 +51229,7 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -51054,17 +51245,17 @@
             "site": "hq"
           },
           {
-            "lot": "ILWGA26G",
+            "lot": "DDWGC92F",
             "qty": "22,000",
-            "note": "국내",
+            "note": "독일",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "FRWGA98X",
+            "lot": "KDWGA68X",
             "qty": "22,000",
-            "note": "국내",
-            "cancer": true,
+            "note": "해외",
+            "cancer": false,
             "site": "hq"
           },
           {
@@ -51089,9 +51280,23 @@
             "site": "hq"
           },
           {
-            "lot": "CRWGD96X",
-            "qty": "44,000",
-            "note": "해외",
+            "lot": "AAWGE50F",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "AAWGC11X",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "AAWGC12X",
+            "qty": "22,000",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           }
@@ -51100,15 +51305,22 @@
         "ich_th": [
           {
             "lot": "DFRWGG06",
-            "qty": "21,250",
-            "note": "해외",
+            "qty": "42,500",
+            "note": "이라크",
             "cancer": true,
             "site": "th"
           },
           {
             "lot": "DT4WGR03",
-            "qty": "21,250",
+            "qty": "13,200",
             "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DT4WGR03",
+            "qty": "8,050",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
@@ -51141,7 +51353,7 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -51157,17 +51369,17 @@
             "site": "hq"
           },
           {
-            "lot": "ILWGA26G",
+            "lot": "DDWGC92F",
             "qty": "22,000",
-            "note": "국내",
+            "note": "독일",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "FRWGA98X",
+            "lot": "KDWGA68X",
             "qty": "22,000",
-            "note": "국내",
-            "cancer": true,
+            "note": "해외",
+            "cancer": false,
             "site": "hq"
           },
           {
@@ -51190,13 +51402,27 @@
             "note": "해외",
             "cancer": true,
             "site": "hq"
+          },
+          {
+            "lot": "AAWGE50F",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "CRWGD96X",
-            "qty": "44,000",
-            "note": "해외",
+            "lot": "AAWGC11X",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "AAWGC12X",
+            "qty": "22,000",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           }
@@ -51259,13 +51485,20 @@
             "note": "해외",
             "cancer": false,
             "site": null
+          },
+          {
+            "lot": "DTSWGB12",
+            "qty": "1,680",
+            "note": "이라크",
+            "cancer": false,
+            "site": null
           }
         ],
         "ich": [
           {
             "lot": "KDWGH07EX",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
@@ -51305,7 +51538,14 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "DFRWGG07",
+            "qty": "42,500",
+            "note": "이라크",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "170,000",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -51314,6 +51554,13 @@
         ],
         "afi": [
           {
+            "lot": "PLWGA46X",
+            "qty": "44,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
             "lot": "T3WGA77X",
             "qty": "22,000",
             "note": "이라크",
@@ -51321,23 +51568,30 @@
             "site": "hq"
           },
           {
-            "lot": "MAWGA44X",
-            "qty": "11,000",
+            "lot": "PLWGA47X",
+            "qty": "7,928",
             "note": "해외",
             "cancer": false,
-            "site": "th"
+            "site": "hq"
           },
           {
-            "lot": "MAWGA44X",
-            "qty": "11,000",
+            "lot": "PLWGA47X",
+            "qty": "3,072",
             "note": "국내",
             "cancer": false,
-            "site": "th"
+            "site": "hq"
           },
           {
-            "lot": "T4WHA51X",
+            "lot": "CVWGA49G",
             "qty": "22,000",
-            "note": "해외, 1개월 Aging",
+            "note": "국내",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "CRWGD96X",
+            "qty": "44,000",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           }
@@ -51347,7 +51601,7 @@
           {
             "lot": "KDWGH07EX",
             "qty": "21,250",
-            "note": "해외",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           },
@@ -51387,7 +51641,14 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "DFRWGG07",
+            "qty": "42,500",
+            "note": "이라크",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "170,000",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -51396,32 +51657,46 @@
         ],
         "afi_hq": [
           {
+            "lot": "PLWGA46X",
+            "qty": "44,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
             "lot": "T3WGA77X",
             "qty": "22,000",
             "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "PLWGA47X",
+            "qty": "7,928",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "PLWGA47X",
+            "qty": "3,072",
+            "note": "국내",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "CVWGA49G",
+            "qty": "22,000",
+            "note": "국내",
             "cancer": false,
             "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "MAWGA44X",
-            "qty": "11,000",
+            "lot": "CRWGD96X",
+            "qty": "44,000",
             "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "MAWGA44X",
-            "qty": "11,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "T4WHA51X",
-            "qty": "22,000",
-            "note": "해외, 1개월 Aging",
             "cancer": false,
             "site": "th"
           }
@@ -51518,16 +51793,51 @@
         ],
         "afi": [
           {
-            "lot": "TSWGB62X",
+            "lot": "NBWGD74G",
             "qty": "22,000",
+            "note": "중국1T, 8/28입고",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "DDWGC93F",
+            "qty": "22,000",
+            "note": "중국1T, 8/28입고",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "ILWGA26G",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWGD08X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "MAWGA44X",
+            "qty": "11,000",
             "note": "해외",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "TSWGB63X",
-            "qty": "22,000",
+            "lot": "MAWGA44X",
+            "qty": "11,000",
             "note": "국내",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VEWGD07X",
+            "qty": "22,000",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           }
@@ -51570,19 +51880,55 @@
             "site": "th"
           }
         ],
-        "afi_hq": [],
+        "afi_hq": [
+          {
+            "lot": "NBWGD74G",
+            "qty": "22,000",
+            "note": "중국1T, 8/28입고",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "DDWGC93F",
+            "qty": "22,000",
+            "note": "중국1T, 8/28입고",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "ILWGA26G",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWGD08X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "afi_th": [
           {
-            "lot": "TSWGB62X",
-            "qty": "22,000",
+            "lot": "MAWGA44X",
+            "qty": "11,000",
             "note": "해외",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "TSWGB63X",
-            "qty": "22,000",
+            "lot": "MAWGA44X",
+            "qty": "11,000",
             "note": "국내",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VEWGD07X",
+            "qty": "22,000",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           }
@@ -51735,16 +52081,37 @@
         ],
         "afi": [
           {
-            "lot": "TSWGB64X",
+            "lot": "VEWGD09X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "이라크",
             "cancer": false,
-            "site": "th"
+            "site": "hq"
           },
           {
-            "lot": "TNWGE64G",
+            "lot": "VEWGD10X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWGD11X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWGD12X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TSWGB62X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           }
@@ -51808,19 +52175,41 @@
             "site": "th"
           }
         ],
-        "afi_hq": [],
-        "afi_th": [
+        "afi_hq": [
           {
-            "lot": "TSWGB64X",
+            "lot": "VEWGD09X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "이라크",
             "cancer": false,
-            "site": "th"
+            "site": "hq"
           },
           {
-            "lot": "TNWGE64G",
+            "lot": "VEWGD10X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWGD11X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWGD12X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "afi_th": [
+          {
+            "lot": "TSWGB62X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           }
@@ -51838,6 +52227,13 @@
           {
             "lot": "CRWGK07",
             "qty": "85,000",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "HCWGR01EX",
+            "qty": "21,000",
             "note": "해외",
             "cancer": false,
             "site": null
@@ -51866,6 +52262,13 @@
           {
             "lot": "AAWGH02",
             "qty": "850",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "HCWGR01EX",
+            "qty": "840",
             "note": "해외",
             "cancer": false,
             "site": null
@@ -51903,16 +52306,37 @@
         ],
         "afi": [
           {
-            "lot": "TSWGB65X",
+            "lot": "NBWGD75G",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
-            "site": "th"
+            "site": "hq"
           },
           {
-            "lot": "T3WGA78X",
+            "lot": "TNWGE65X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "독일",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TNWGE66X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TNWGE67X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TSWGB63X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           }
@@ -51948,19 +52372,41 @@
             "site": "th"
           }
         ],
-        "afi_hq": [],
-        "afi_th": [
+        "afi_hq": [
           {
-            "lot": "TSWGB65X",
+            "lot": "NBWGD75G",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
-            "site": "th"
+            "site": "hq"
           },
           {
-            "lot": "T3WGA78X",
+            "lot": "TNWGE65X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "독일",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TNWGE66X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TNWGE67X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "afi_th": [
+          {
+            "lot": "TSWGB63X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": false,
             "site": "th"
           }
@@ -52027,8 +52473,8 @@
             "site": "th"
           },
           {
-            "lot": "HCWGR01EX",
-            "qty": "21,000",
+            "lot": "TAWGD05EX",
+            "qty": "21,250",
             "note": "해외",
             "cancer": false,
             "site": "th"
@@ -52041,7 +52487,7 @@
             "site": "th"
           },
           {
-            "lot": "127,000",
+            "lot": "127,250",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -52050,16 +52496,23 @@
         ],
         "afi": [
           {
-            "lot": "VEWGD05X",
+            "lot": "TNWGE68X",
             "qty": "22,000",
-            "note": "해외",
+            "note": "브라질",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "T3WGA78X",
+            "qty": "22,000",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "VEWGD06X",
+            "lot": "TNWGE64G",
             "qty": "22,000",
-            "note": "해외",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           }
@@ -52095,8 +52548,8 @@
             "site": "th"
           },
           {
-            "lot": "HCWGR01EX",
-            "qty": "21,000",
+            "lot": "TAWGD05EX",
+            "qty": "21,250",
             "note": "해외",
             "cancer": false,
             "site": "th"
@@ -52109,26 +52562,34 @@
             "site": "th"
           },
           {
-            "lot": "127,000",
+            "lot": "127,250",
             "qty": null,
             "note": null,
             "cancer": false,
             "site": "th"
           }
         ],
-        "afi_hq": [],
+        "afi_hq": [
+          {
+            "lot": "TNWGE68X",
+            "qty": "22,000",
+            "note": "브라질",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "afi_th": [
           {
-            "lot": "VEWGD05X",
+            "lot": "T3WGA78X",
             "qty": "22,000",
-            "note": "해외",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "VEWGD06X",
+            "lot": "TNWGE64G",
             "qty": "22,000",
-            "note": "해외",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           }
@@ -52232,14 +52693,14 @@
             "site": "hq"
           },
           {
-            "lot": "HCWGA85X",
+            "lot": "PPWGB79X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "VEWGD07X",
+            "lot": "VEWGD13X",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
@@ -52316,14 +52777,14 @@
         ],
         "afi_th": [
           {
-            "lot": "HCWGA85X",
+            "lot": "PPWGB79X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "VEWGD07X",
+            "lot": "VEWGD13X",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
@@ -52377,10 +52838,10 @@
             "site": "th"
           },
           {
-            "lot": "DFRWGG07",
+            "lot": "TEWGG09EX",
             "qty": "21,250",
             "note": "해외",
-            "cancer": true,
+            "cancer": false,
             "site": "th"
           },
           {
@@ -52393,16 +52854,9 @@
         ],
         "afi": [
           {
-            "lot": "F4WGA75G",
+            "lot": "VEWGD14X",
             "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "F4WGA76G",
-            "qty": "22,000",
-            "note": "국내",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           }
@@ -52445,14 +52899,153 @@
             "site": "th"
           },
           {
-            "lot": "DFRWGG07",
+            "lot": "TEWGG09EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [],
+        "afi_th": [
+          {
+            "lot": "VEWGD14X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          }
+        ]
+      },
+      "gran": []
+    },
+    "2026-08-06": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "HCWGR01EX",
+            "qty": "21,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTTWGC08",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWGB10",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWGB11",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWGB12",
+            "qty": "42,500",
+            "note": "이라크",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "CPWHE12Z",
             "qty": "21,250",
             "note": "해외",
             "cancer": true,
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "148,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [
+          {
+            "lot": "F4WGA75G",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "F4WGA76G",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "ich_hq": [],
+        "ich_th": [
+          {
+            "lot": "HCWGR01EX",
+            "qty": "21,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTTWGC08",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWGB10",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWGB11",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWGB12",
+            "qty": "42,500",
+            "note": "이라크",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "CPWHE12Z",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "148,500",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -52479,122 +53072,6 @@
       },
       "gran": []
     },
-    "2026-08-06": {
-      "std": {
-        "pack": [],
-        "dry": []
-      },
-      "prod": {
-        "div": [],
-        "ich": [
-          {
-            "lot": "TEWGG09EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "RFWGX11EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "DTTWGC08",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "DTSWGB10",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "DTSWGB11",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "CPWHE12Z",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "127,500",
-            "qty": null,
-            "note": null,
-            "cancer": false,
-            "site": "th"
-          }
-        ],
-        "afi": [],
-        "ich_hq": [],
-        "ich_th": [
-          {
-            "lot": "TEWGG09EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "RFWGX11EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "DTTWGC08",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "DTSWGB10",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "DTSWGB11",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "CPWHE12Z",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "127,500",
-            "qty": null,
-            "note": null,
-            "cancer": false,
-            "site": "th"
-          }
-        ],
-        "afi_hq": [],
-        "afi_th": []
-      },
-      "gran": []
-    },
     "2026-08-07": {
       "std": {
         "pack": [],
@@ -52611,13 +53088,6 @@
             "site": "th"
           },
           {
-            "lot": "TAWGD05EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
             "lot": "CEWGB08EX",
             "qty": "21,250",
             "note": "해외",
@@ -52655,6 +53125,13 @@
           {
             "lot": "STWGB11EX",
             "qty": "5,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "RFWGX11EX",
+            "qty": "21,250",
             "note": "해외",
             "cancer": false,
             "site": "th"
@@ -52667,18 +53144,26 @@
             "site": "th"
           }
         ],
-        "afi": [],
-        "ich_hq": [],
-        "ich_th": [
+        "afi": [
           {
-            "lot": "ASWGC03EX",
-            "qty": "21,250",
+            "lot": "TSWHB64X",
+            "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "TAWGD05EX",
+            "lot": "TSWHB65X",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "ich_hq": [],
+        "ich_th": [
+          {
+            "lot": "ASWGC03EX",
             "qty": "21,250",
             "note": "해외",
             "cancer": false,
@@ -52722,6 +53207,13 @@
           {
             "lot": "STWGB11EX",
             "qty": "5,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "RFWGX11EX",
+            "qty": "21,250",
             "note": "해외",
             "cancer": false,
             "site": "th"
@@ -52735,7 +53227,22 @@
           }
         ],
         "afi_hq": [],
-        "afi_th": []
+        "afi_th": [
+          {
+            "lot": "TSWHB64X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "TSWHB65X",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "th"
+          }
+        ]
       },
       "gran": []
     },
@@ -52748,16 +53255,12 @@
         "div": [],
         "ich": [
           {
-            "lot": "127,500",
-            "qty": null,
-            "note": null,
-            "cancer": false,
+            "lot": "DFRWGG08",
+            "qty": "42,500",
+            "note": "이라크",
+            "cancer": true,
             "site": "th"
-          }
-        ],
-        "afi": [],
-        "ich_hq": [],
-        "ich_th": [
+          },
           {
             "lot": "127,500",
             "qty": null,
@@ -52766,8 +53269,57 @@
             "site": "th"
           }
         ],
-        "afi_hq": [],
-        "afi_th": []
+        "afi": [
+          {
+            "lot": "FRWHA99X",
+            "qty": "22,000",
+            "note": "독일",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "TSWHB66X",
+            "qty": "44,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "ich_hq": [],
+        "ich_th": [
+          {
+            "lot": "DFRWGG08",
+            "qty": "42,500",
+            "note": "이라크",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [
+          {
+            "lot": "FRWHA99X",
+            "qty": "22,000",
+            "note": "독일",
+            "cancer": true,
+            "site": "hq"
+          }
+        ],
+        "afi_th": [
+          {
+            "lot": "TSWHB66X",
+            "qty": "44,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "th"
+          }
+        ]
       },
       "gran": []
     },
@@ -52780,16 +53332,12 @@
         "div": [],
         "ich": [
           {
-            "lot": "127,500",
-            "qty": null,
-            "note": null,
-            "cancer": false,
+            "lot": "DFRWGG09",
+            "qty": "42,500",
+            "note": "이라크",
+            "cancer": true,
             "site": "th"
-          }
-        ],
-        "afi": [],
-        "ich_hq": [],
-        "ich_th": [
+          },
           {
             "lot": "127,500",
             "qty": null,
@@ -52798,8 +53346,71 @@
             "site": "th"
           }
         ],
-        "afi_hq": [],
-        "afi_th": []
+        "afi": [
+          {
+            "lot": "FRWHB01X",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "TSWHB67X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "TSWHB68X",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "ich_hq": [],
+        "ich_th": [
+          {
+            "lot": "DFRWGG09",
+            "qty": "42,500",
+            "note": "이라크",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [
+          {
+            "lot": "FRWHB01X",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": true,
+            "site": "hq"
+          }
+        ],
+        "afi_th": [
+          {
+            "lot": "TSWHB67X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "TSWHB68X",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "th"
+          }
+        ]
       },
       "gran": []
     },
@@ -52819,7 +53430,15 @@
             "site": "th"
           }
         ],
-        "afi": [],
+        "afi": [
+          {
+            "lot": "HCWHA85X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          }
+        ],
         "ich_hq": [],
         "ich_th": [
           {
@@ -52831,7 +53450,15 @@
           }
         ],
         "afi_hq": [],
-        "afi_th": []
+        "afi_th": [
+          {
+            "lot": "HCWHA85X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          }
+        ]
       },
       "gran": []
     },
@@ -52901,6 +53528,6 @@
     }
   },
   "curMon": "2026-06-29",
-  "savedAt": "2026-06-29T07:42:31.819Z",
+  "savedAt": "2026-07-01T02:21:58.220Z",
   "version": 1
 }
