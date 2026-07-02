@@ -764,10 +764,24 @@
   .theme-toggle-icon { font-size:14px; line-height:1; }
 
   /* ── 팀 메모 보드 ── */
-  .memo-board {
+  /* 메모 + 인턴 스케쥴 버튼 묶음 */
+  .hdr-top-bar {
     position:absolute; top:10px; right:120px; z-index:19;
+    display:flex; align-items:flex-start; gap:6px;
+  }
+  .memo-board {
     width:230px; font-family:inherit;
   }
+
+  /* 인턴 스케쥴 버튼 */
+  .intern-btn {
+    display:inline-flex; align-items:center; gap:5px;
+    background:var(--bg3); border:1px solid var(--border); border-radius:12px;
+    padding:5px 12px; font-size:11px; font-weight:600; color:var(--text-muted);
+    text-decoration:none; white-space:nowrap; user-select:none;
+    transition:all .2s;
+  }
+  .intern-btn:hover { border-color:var(--green); color:var(--green); box-shadow:0 0 0 3px rgba(63,185,80,.1); }
   .memo-hd {
     display:flex; align-items:center; gap:6px;
     background:var(--bg3); border:1px solid var(--border); border-radius:12px;
@@ -841,7 +855,7 @@
   body.theme-white .memo-add-btn { color:#d97706; border-color:#c8cdd5; }
   body.theme-white .memo-add-btn:hover { background:rgba(180,83,9,0.08); }
 
-  @media(max-width:900px){ .memo-board { display:none; } }
+  @media(max-width:900px){ .hdr-top-bar { display:none; } }
 
   /* ── White 테마 오버라이드 ── */
   body.theme-white {
@@ -2104,20 +2118,27 @@ document.addEventListener('keydown',function(e){
     </div>
   </div>
 
-  <!-- 자유 메모 보드 -->
-  <div class="memo-board" id="memoBoard">
-    <div class="memo-hd" onclick="toggleMemo()">
-      <span class="memo-hd-icon">📝</span>
-      <span class="memo-hd-title">팀 메모</span>
-      <span class="memo-count" id="memoCount">0</span>
-      <span class="memo-chevron" id="memoChevron">▾</span>
-    </div>
-    <div class="memo-body" id="memoBody">
-      <div class="memo-list" id="memoList"></div>
-      <div class="memo-input-row">
-        <input class="memo-input" id="memoInput" placeholder="메모 입력 후 Enter…" maxlength="80"
-          onkeydown="if(event.key==='Enter')addMemo()">
-        <button class="memo-add-btn" onclick="addMemo()">+</button>
+  <!-- 상단 우측 버튼 그룹: 인턴 스케쥴 + 팀 메모 -->
+  <div class="hdr-top-bar">
+    <!-- 인턴 스케쥴 바로가기 -->
+    <a class="intern-btn" href="https://gimcimmim-cpu.github.io/claude-project/intern-schedule/" target="_blank" rel="noopener noreferrer" title="인턴 스케쥴 보기">
+      🗓 인턴 스케쥴
+    </a>
+    <!-- 자유 메모 보드 -->
+    <div class="memo-board" id="memoBoard">
+      <div class="memo-hd" onclick="toggleMemo()">
+        <span class="memo-hd-icon">📝</span>
+        <span class="memo-hd-title">팀 메모</span>
+        <span class="memo-count" id="memoCount">0</span>
+        <span class="memo-chevron" id="memoChevron">▾</span>
+      </div>
+      <div class="memo-body" id="memoBody">
+        <div class="memo-list" id="memoList"></div>
+        <div class="memo-input-row">
+          <input class="memo-input" id="memoInput" placeholder="메모 입력 후 Enter…" maxlength="80"
+            onkeydown="if(event.key==='Enter')addMemo()">
+          <button class="memo-add-btn" onclick="addMemo()">+</button>
+        </div>
       </div>
     </div>
   </div>
