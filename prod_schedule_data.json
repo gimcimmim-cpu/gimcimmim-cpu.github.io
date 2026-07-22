@@ -47546,7 +47546,7 @@
           {
             "lot": "CVCOWD24_2027.04(개선품)",
             "qty": "5",
-            "note": null,
+            "note": "",
             "cancer": false
           },
           {
@@ -47570,7 +47570,7 @@
         ],
         "dry": [
           {
-            "lot": "DPP-3 Cabrator",
+            "lot": "DPP-3 Calibrator",
             "qty": "35",
             "note": "연구용-길혜수과장",
             "cancer": false
@@ -47878,7 +47878,7 @@
           },
           {
             "lot": "FMCOWE29_2027.05",
-            "qty": "30",
+            "qty": "20",
             "note": "Boditech Infliximab Control",
             "cancer": false
           },
@@ -47890,14 +47890,32 @@
           },
           {
             "lot": "HOCOWE63",
-            "qty": "12",
+            "qty": "40",
             "note": null,
             "cancer": false
           },
           {
             "lot": "CRCOWF48_2027.06",
-            "qty": "3",
+            "qty": "4",
             "note": "브라질 포장",
+            "cancer": false
+          },
+          {
+            "lot": "CDCOWD42_2027.04",
+            "qty": "80",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PCCOWF30_2027.06",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PPCOWD28_2027.04",
+            "qty": "5",
+            "note": null,
             "cancer": false
           }
         ],
@@ -48169,7 +48187,14 @@
             "cancer": true
           }
         ],
-        "dry": []
+        "dry": [
+          {
+            "lot": "Hormone 1",
+            "qty": "5,000",
+            "note": "1 mL",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -48555,6 +48580,48 @@
             "qty": "50",
             "note": "16까지-Boditech VET T4 Control",
             "cancer": false
+          },
+          {
+            "lot": "PGWFA02H",
+            "qty": "139",
+            "note": "ALCIS Calibrator",
+            "cancer": false
+          },
+          {
+            "lot": "HCWFA02H",
+            "qty": "141",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "LHWFA02H",
+            "qty": "128",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "MHWFA02H",
+            "qty": "127",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PLWFA02H",
+            "qty": "123",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FSWGA02H",
+            "qty": "132",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TTWGA02H",
+            "qty": "137",
+            "note": null,
+            "cancer": false
           }
         ],
         "dry": [
@@ -48568,6 +48635,18 @@
             "lot": "NT-proBNP/ST2 2",
             "qty": "100",
             "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "연구용 1",
+            "qty": "50 * 4",
+            "note": "박가현 사원",
+            "cancer": false
+          },
+          {
+            "lot": "Hormone 2",
+            "qty": "5,000",
+            "note": "1 mL",
             "cancer": false
           }
         ]
@@ -48978,6 +49057,24 @@
             "qty": "20",
             "note": null,
             "cancer": false
+          },
+          {
+            "lot": "FDCOWB24_2027.02",
+            "qty": "6",
+            "note": "당일 QC-Boditech Anti-Adalimumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "FECOWF08_2027.06",
+            "qty": "10",
+            "note": "Boditech Anti-Etanercept Control",
+            "cancer": false
+          },
+          {
+            "lot": "FICOWB20_2027.02",
+            "qty": "1",
+            "note": "Boditech Anti-Infliximab Control",
+            "cancer": false
           }
         ],
         "dry": []
@@ -49381,20 +49478,7 @@
             "cancer": false
           }
         ],
-        "dry": [
-          {
-            "lot": "Anti-Vedolizumab 1",
-            "qty": "1,000",
-            "note": "1ML",
-            "cancer": false
-          },
-          {
-            "lot": "Anti-Vedolizumab 2",
-            "qty": "1,000",
-            "note": null,
-            "cancer": false
-          }
-        ]
+        "dry": []
       },
       "prod": {
         "div": [
@@ -49723,7 +49807,32 @@
     },
     "2026-07-28": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "AVCOWD22_2027.04",
+            "qty": "18",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "MRCOWG10_2027.07",
+            "qty": "376",
+            "note": "당일 QC",
+            "cancer": false
+          },
+          {
+            "lot": "C1COWD12_2027.04",
+            "qty": "27",
+            "note": "Boditech CA125 Control",
+            "cancer": true
+          },
+          {
+            "lot": "TMCOWD28_2027.04",
+            "qty": "100",
+            "note": null,
+            "cancer": false
+          }
+        ],
         "dry": []
       },
       "prod": {
@@ -50087,8 +50196,14 @@
           },
           {
             "lot": "PECOWG08_2027.07",
-            "qty": null,
-            "note": "24까지",
+            "qty": "30",
+            "note": "24까지-독일포장",
+            "cancer": false
+          },
+          {
+            "lot": "C5COWG02_2027.07",
+            "qty": "25",
+            "note": null,
             "cancer": false
           }
         ],
@@ -50501,9 +50616,27 @@
             "cancer": false
           },
           {
-            "lot": "FICOWF22_2027.07",
+            "lot": "FICOWG22_2027.07",
             "qty": "40",
             "note": "24까지-Boditech Anti-Infliximab Control",
+            "cancer": false
+          },
+          {
+            "lot": "HSCOVH12_2027.4",
+            "qty": "30",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "PHCOWF15_2027.06",
+            "qty": "5",
+            "note": "케냐",
+            "cancer": false
+          },
+          {
+            "lot": "CRCOWG11VN_2027.07",
+            "qty": "15",
+            "note": "28까지-Boditech VET cCRP Control-당일QC",
             "cancer": false
           }
         ],
@@ -51387,8 +51520,28 @@
     },
     "2026-08-10": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "AACOWG48_2027.07(스위스)",
+            "qty": "1,500",
+            "note": "29까지",
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "cCRP 1",
+            "qty": "300",
+            "note": "0.3 ML-오후",
+            "cancer": false
+          },
+          {
+            "lot": "cCRP 2",
+            "qty": "300",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -51733,7 +51886,20 @@
     "2026-08-11": {
       "std": {
         "pack": [],
-        "dry": []
+        "dry": [
+          {
+            "lot": "Anti-Vedolizumab 1",
+            "qty": "1,000",
+            "note": "1ML",
+            "cancer": false
+          },
+          {
+            "lot": "Anti-Vedolizumab 2",
+            "qty": "1,000",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -52037,7 +52203,20 @@
     "2026-08-12": {
       "std": {
         "pack": [],
-        "dry": []
+        "dry": [
+          {
+            "lot": "Boditech MxA/CRP 1",
+            "qty": "2,400",
+            "note": "1 ML",
+            "cancer": false
+          },
+          {
+            "lot": "Boditech MxA/CRP 2",
+            "qty": "2,400",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -56142,6 +56321,6 @@
     }
   },
   "curMon": "2026-07-20",
-  "savedAt": "2026-07-20T22:42:47.745Z",
+  "savedAt": "2026-07-22T07:49:07.987Z",
   "version": 1
 }
