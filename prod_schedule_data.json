@@ -46425,19 +46425,19 @@
         "dry": [
           {
             "lot": "ALCIS hs cTn-I Calibrator 1",
-            "qty": "250",
+            "qty": "300",
             "note": "액상",
             "cancer": false
           },
           {
             "lot": "ALCIS hs cTn-I Calibrator 2",
-            "qty": "250",
+            "qty": "300",
             "note": "액상",
             "cancer": false
           },
           {
             "lot": "ALCIS hs cTn-I Calibrator 3",
-            "qty": "250",
+            "qty": "300",
             "note": "액상",
             "cancer": false
           }
@@ -46869,6 +46869,30 @@
             "qty": "100",
             "note": "24까지",
             "cancer": false
+          },
+          {
+            "lot": "SJS260817R",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "AUCOWC23_2027.03",
+            "qty": "4",
+            "note": "Boditech Adalimumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "FDCOWB24_2027.02",
+            "qty": "3",
+            "note": "Boditech Anti-Adalimumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "RSWHA51R",
+            "qty": "803",
+            "note": "QC 3",
+            "cancer": false
           }
         ],
         "dry": [
@@ -47188,9 +47212,21 @@
           "cancer": true
         },
         {
-          "lot": "FREE T4",
-          "qty": "110,000",
-          "note": "남동경 대리",
+          "lot": "COVID-19 Ab",
+          "qty": "22,000",
+          "note": "송가연 대리",
+          "cancer": false
+        },
+        {
+          "lot": "IGRA TB 항체넣은거 EU BIO 1(200*2)",
+          "qty": "10,000",
+          "note": "전정원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "IGRA TB 항체넣은거 EU BIO 2 (200*2)",
+          "qty": "10000,",
+          "note": "전정원 사원",
           "cancer": false
         },
         {
@@ -47200,33 +47236,27 @@
           "cancer": true
         },
         {
-          "lot": "BNP EU",
-          "qty": "44,000",
-          "note": "백가은 사원",
+          "lot": "a-UST EU",
+          "qty": "12,000",
+          "note": "김진아 과장",
           "cancer": false
         },
         {
-          "lot": "IGRA TB DDB test",
-          "qty": "66,000",
+          "lot": "IGRA TB DDB test(일부항체넣은거)",
+          "qty": "99,000",
           "note": "전정원 사원",
           "cancer": false
         },
         {
-          "lot": "BNP BIO",
-          "qty": "44,000",
-          "note": "백가은 사원",
+          "lot": "a-UST BIO",
+          "qty": "12,000",
+          "note": "김진아 과장",
           "cancer": false
         },
         {
-          "lot": "IGRA TB DDB test",
-          "qty": "66,000",
-          "note": "전정원 사원",
-          "cancer": false
-        },
-        {
-          "lot": "COVID-19 Ab",
-          "qty": "22,000",
-          "note": "송가연 대리",
+          "lot": "FREE T4",
+          "qty": "110,000",
+          "note": "남동경 대리",
           "cancer": false
         }
       ]
@@ -47290,6 +47320,12 @@
           }
         ],
         "dry": [
+          {
+            "lot": "RSV SWAB 전처리",
+            "qty": "2,700",
+            "note": "150 mL - 오후",
+            "cancer": false
+          },
           {
             "lot": "ALCIS pTau-217 Control 1",
             "qty": "230",
@@ -47616,9 +47652,15 @@
       },
       "gran": [
         {
-          "lot": "a-IFX Eu (2시)",
-          "qty": "25,000",
-          "note": "김진아 과장",
+          "lot": "AFIAS LH",
+          "qty": "66,000",
+          "note": "박성원 과장",
+          "cancer": false
+        },
+        {
+          "lot": "AFIAS LH",
+          "qty": "66,000",
+          "note": "박성원 과장",
           "cancer": false
         },
         {
@@ -47661,15 +47703,33 @@
             "qty": "1,000",
             "note": "24까지",
             "cancer": false
+          },
+          {
+            "lot": "ETCOWH11_2027.08",
+            "qty": "1",
+            "note": "20까지-Ez-Tracker Etanercept Control",
+            "cancer": false
+          },
+          {
+            "lot": "FECOWH09_2027.08",
+            "qty": "1",
+            "note": "20까지-ez-Tracker Anti-Etanercept Control",
+            "cancer": false
+          },
+          {
+            "lot": "FMCOWH33_2027.08",
+            "qty": "1",
+            "note": "20까지-ez-Tracker Infliximab Control",
+            "cancer": false
+          },
+          {
+            "lot": "IFWXC02R",
+            "qty": "806",
+            "note": "QC 6",
+            "cancer": false
           }
         ],
         "dry": [
-          {
-            "lot": "CONTROL SWAB 연구용",
-            "qty": "40 * 2",
-            "note": "홍갈렙대리",
-            "cancer": false
-          },
           {
             "lot": "ALCIS pTau-217 Calirbrator 1",
             "qty": "70",
@@ -48031,45 +48091,21 @@
       },
       "gran": [
         {
-          "lot": "Anti-Adalimumab EU",
-          "qty": "20,000",
-          "note": "김현 사원",
-          "cancer": false
-        },
-        {
-          "lot": "Anti-Adalimumab BIO",
-          "qty": "20,000",
-          "note": "김현 사원",
-          "cancer": false
-        },
-        {
           "lot": "Tn-I neo",
-          "qty": "88,000",
+          "qty": "44,000",
           "note": "권재환 사원",
           "cancer": false
         },
         {
           "lot": "Tn-I neo",
-          "qty": "88,000",
+          "qty": "66,000",
           "note": "권재환 사원",
           "cancer": false
         },
         {
-          "lot": "AFIAS LH",
+          "lot": "Tn-I neo",
           "qty": "66,000",
-          "note": "박성원 과장",
-          "cancer": false
-        },
-        {
-          "lot": "Rubella IgM",
-          "qty": "22,000",
-          "note": "송가연 사원",
-          "cancer": false
-        },
-        {
-          "lot": "AFIAS LH",
-          "qty": "66,000",
-          "note": "박성원 과장",
+          "note": "권재환 사원",
           "cancer": false
         },
         {
@@ -48077,13 +48113,135 @@
           "qty": "44,000",
           "note": "박영서 대리",
           "cancer": true
+        },
+        {
+          "lot": "Rubella IgM",
+          "qty": "18,000",
+          "note": "송가연 사원",
+          "cancer": false
         }
       ]
     },
     "2026-08-28": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "ANT260708",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VDCOWF23",
+            "qty": "30",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PCCOWF30",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "CPCOWG31",
+            "qty": "20",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "CDCOWD42",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "DDCOWE53",
+            "qty": "30",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "ILCOWF28",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "CRCOWF48",
+            "qty": "20",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TMCOWD28",
+            "qty": "45",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "MACOWD74",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TECOWC20",
+            "qty": "20",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TGCOWF28",
+            "qty": "40",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PPCOWD28",
+            "qty": "20",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FRCOWB28",
+            "qty": "25",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "STCOWC12",
+            "qty": "2",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "HOCOWE63",
+            "qty": "150",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "MHCOWG21",
+            "qty": "20",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TACOWE16",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "ADENO SWAB 전처리",
+            "qty": "2,700",
+            "note": "150 mL",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -48489,19 +48647,19 @@
       "gran": [
         {
           "lot": "T4",
-          "qty": "44,000",
+          "qty": "취소",
           "note": "옥다은 사원",
           "cancer": false
         },
         {
           "lot": "T4",
-          "qty": "66,000",
+          "qty": "취소",
           "note": "옥다은 사원",
           "cancer": false
         },
         {
           "lot": "T4",
-          "qty": "66,000",
+          "qty": "취소",
           "note": "옥다은 사원",
           "cancer": false
         },
@@ -48521,8 +48679,100 @@
     },
     "2026-08-31": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "AACOWE45_2027.05",
+            "qty": "160",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "DDCOWH54_2027.08",
+            "qty": "50",
+            "note": "국내 포장",
+            "cancer": false
+          },
+          {
+            "lot": "CVCOWD24_2027.04(개선품)",
+            "qty": "20",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "ROCOWD20_2027.04",
+            "qty": "40",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "NOCOWG22_2027.07",
+            "qty": "40",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "RACOWD20_2027.04",
+            "qty": "25",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FMCOWG31_2027.07(국내)-Boditech Infliximab Control",
+            "qty": "40",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FNCOWF28M_2027.06-Boditech Total Anti-Infliximab CON",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "MACOWD74_2027.04-LEVEL 2 만 포장",
+            "qty": "5",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VZCOWG17_2027.07",
+            "qty": "10",
+            "note": "Boditech Vedolizumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "CKCOWD18_2027.04",
+            "qty": "5",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "ADWXA36R",
+            "qty": "803",
+            "note": "QC 3",
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "CONTROL SWAB 연구용",
+            "qty": "150 * 2",
+            "note": "홍갈렙대리",
+            "cancer": false
+          },
+          {
+            "lot": "H.pylori SA 1",
+            "qty": "200",
+            "note": "0.1 ml - 액상",
+            "cancer": true
+          },
+          {
+            "lot": "H.pylori SA 2",
+            "qty": "200",
+            "note": "0.1 ml - 액상",
+            "cancer": true
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -48872,20 +49122,20 @@
       "gran": [
         {
           "lot": "Estradiol eu (1시)",
-          "qty": "22,000",
+          "qty": "21,000",
           "note": "장미경 과장",
-          "cancer": false
-        },
-        {
-          "lot": "ICHROMA Anti-CCP Plus BIO",
-          "qty": "66,000",
-          "note": "정윤서 사원",
           "cancer": false
         },
         {
           "lot": "Estradiol bio (1시)",
-          "qty": "22,000",
+          "qty": "21,000",
           "note": "장미경 과장",
+          "cancer": false
+        },
+        {
+          "lot": "Golimumab\r\nSPCD1091",
+          "qty": "14,000",
+          "note": "기동욱 사원",
           "cancer": false
         },
         {
@@ -49295,13 +49545,13 @@
         },
         {
           "lot": "a-IFX EU",
-          "qty": "26,000",
+          "qty": "25,000",
           "note": "김진아 과장",
           "cancer": false
         },
         {
           "lot": "a-IFX BIO",
-          "qty": "26,000",
+          "qty": "25,000",
           "note": "김진아 과장",
           "cancer": false
         },
@@ -49347,6 +49597,12 @@
             "cancer": false
           },
           {
+            "lot": "TGCOWH29_2027.08",
+            "qty": "1000",
+            "note": null,
+            "cancer": false
+          },
+          {
             "lot": "ADWHA35R",
             "qty": "803",
             "note": "QC 3",
@@ -49364,6 +49620,18 @@
             "lot": "Total Anti-Infliximab 2",
             "qty": "500",
             "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "연구용 1",
+            "qty": "30*3",
+            "note": "박가현 사원-투명 VIAL",
+            "cancer": false
+          },
+          {
+            "lot": "CONTROL SWAB 연구용",
+            "qty": "150 * 2",
+            "note": "홍갈렙대리",
             "cancer": false
           }
         ]
@@ -49651,7 +49919,13 @@
       },
       "gran": [
         {
-          "lot": "HBA1C ICHROMA (녹여서)",
+          "lot": "HBA1C ICHROMA",
+          "qty": "22,000",
+          "note": "강가영 과장",
+          "cancer": false
+        },
+        {
+          "lot": "HBA1C ICHROMA",
           "qty": "22,000",
           "note": "강가영 과장",
           "cancer": false
@@ -49675,7 +49949,7 @@
           "cancer": false
         },
         {
-          "lot": "HBA1C ICHROMA (녹여서)",
+          "lot": "HBA1C ICHROMA",
           "qty": "110,000",
           "note": "강가영 과장",
           "cancer": false
@@ -49696,9 +49970,28 @@
             "qty": "1,500",
             "note": "당일QC-25까지",
             "cancer": false
+          },
+          {
+            "lot": "RSWHA52R",
+            "qty": "803",
+            "note": "QC 3",
+            "cancer": false
           }
         ],
-        "dry": []
+        "dry": [
+          {
+            "lot": "T-QC PLUS 1",
+            "qty": "1,500",
+            "note": "1 mL",
+            "cancer": false
+          },
+          {
+            "lot": "T-QC PLUS 2",
+            "qty": "1,500",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -49852,14 +50145,7 @@
             "site": "th"
           },
           {
-            "lot": "HSWHL11",
-            "qty": "21,250",
-            "note": "과테말라",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "170,000",
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -49998,14 +50284,7 @@
             "site": "th"
           },
           {
-            "lot": "HSWHL11",
-            "qty": "21,250",
-            "note": "과테말라",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "170,000",
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -50081,37 +50360,25 @@
           "cancer": false
         },
         {
-          "lot": "hsTn-I BIO",
-          "qty": "22,000",
-          "note": "김창일 대리",
-          "cancer": false
-        },
-        {
-          "lot": "hsTn-I EU",
-          "qty": "22,000",
-          "note": "김창일 대리",
-          "cancer": false
-        },
-        {
-          "lot": "SPCD1076-1",
+          "lot": "Anti-Adalimumab EU \r\n버퍼 260825",
           "qty": "20,000",
-          "note": "전향아 차장",
+          "note": "김현 사원",
           "cancer": false
         },
         {
-          "lot": "SPCD1076-2",
+          "lot": "Anti-Adalimumab EU  1\r\n버퍼 260831",
           "qty": "20,000",
-          "note": "전향아 차장",
+          "note": "김현 사원",
           "cancer": false
         },
         {
-          "lot": "AFIAS Anti-CCP Plus BIO",
-          "qty": "66,000",
-          "note": "정윤서 사원",
+          "lot": "a-IFX Eu",
+          "qty": "12,000",
+          "note": "김진아 과장",
           "cancer": false
         },
         {
-          "lot": "AFIAS Anti-CCP Plus BIO",
+          "lot": "AFIAS Anti-CCP Plus EU",
           "qty": "66,000",
           "note": "정윤서 사원",
           "cancer": false
@@ -50146,7 +50413,7 @@
             "cancer": false
           },
           {
-            "lot": "HSCOWX15_2028.08",
+            "lot": "HSCOWX15_2028.05",
             "qty": "44",
             "note": "25까지",
             "cancer": true
@@ -50156,9 +50423,40 @@
             "qty": "30",
             "note": "27까지-Boditech Adalimumab Control",
             "cancer": false
+          },
+          {
+            "lot": "IFWXC01R",
+            "qty": "806",
+            "note": "QC 6",
+            "cancer": false
           }
         ],
-        "dry": []
+        "dry": [
+          {
+            "lot": "cNT-proBNP 1",
+            "qty": "200",
+            "note": "0.5 mL",
+            "cancer": false
+          },
+          {
+            "lot": "cNT-proBNP 2",
+            "qty": "200",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "Cardiac 1",
+            "qty": "238",
+            "note": "1 mL",
+            "cancer": false
+          },
+          {
+            "lot": "Cardiac 2",
+            "qty": "238",
+            "note": "12호기 레시피 테스트",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -50415,7 +50713,7 @@
         },
         {
           "lot": "PTH",
-          "qty": "20000",
+          "qty": "10000",
           "note": "이석 대리",
           "cancer": false
         },
@@ -50465,7 +50763,32 @@
     },
     "2026-09-03": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "V4COWX02V_2027.09",
+            "qty": "50",
+            "note": "Boditech VET T4 Control",
+            "cancer": false
+          },
+          {
+            "lot": "UACOWH13_2027.08",
+            "qty": "10",
+            "note": "Boditech Anti-Ustekinumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "NBCAWE20_2027.05",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "ADWXA37R",
+            "qty": "803",
+            "note": "QC 3",
+            "cancer": false
+          }
+        ],
         "dry": [
           {
             "lot": "VET cCRP 1",
@@ -50481,7 +50804,7 @@
           },
           {
             "lot": "Anti-CCP Plus 2",
-            "qty": "30",
+            "qty": "50 * 2",
             "note": "연구용-정윤서사원",
             "cancer": false
           }
@@ -50576,14 +50899,7 @@
             "site": "th"
           },
           {
-            "lot": "HSWHL12",
-            "qty": "21,250",
-            "note": "과테말라",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "170,000",
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -50679,14 +50995,7 @@
             "site": "th"
           },
           {
-            "lot": "HSWHL12",
-            "qty": "21,250",
-            "note": "과테말라",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "170,000",
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -50749,46 +51058,83 @@
       },
       "gran": [
         {
-          "lot": "TSH Plus BIO",
+          "lot": "TSH",
+          "qty": "44,000",
+          "note": "전유찬 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "44,000",
+          "note": "전유찬 사원",
+          "cancer": false
+        },
+        {
+          "lot": "T- QC PLUS",
           "qty": "22,000",
-          "note": "백지원 사원",
+          "note": "장지원 사원",
           "cancer": false
         },
         {
-          "lot": "TSH Plus EU",
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "전유찬 사원",
+          "cancer": false
+        },
+        {
+          "lot": "T -QC PLUS",
+          "qty": "6,000",
+          "note": "장지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "전유찬 사원",
+          "cancer": false
+        },
+        {
+          "lot": "T4",
+          "qty": "10,000",
+          "note": "남동경 대리",
+          "cancer": false
+        },
+        {
+          "lot": "a-IFX Eu 1",
+          "qty": "11,000",
+          "note": "김진아 과장",
+          "cancer": false
+        },
+        {
+          "lot": "T- QC PLUS",
           "qty": "22,000",
-          "note": "백지원 사원",
-          "cancer": false
-        },
-        {
-          "lot": "TSH Plus BIO",
-          "qty": "66,000",
-          "note": "백지원 사원",
-          "cancer": false
-        },
-        {
-          "lot": "TSH Plus BIO",
-          "qty": "66,000",
-          "note": "백지원 사원",
-          "cancer": false
-        },
-        {
-          "lot": "TSH Plus EU",
-          "qty": "66,000",
-          "note": "백지원 사원",
-          "cancer": false
-        },
-        {
-          "lot": "TSH Plus EU",
-          "qty": "66,000",
-          "note": "백지원 사원",
+          "note": "장지원 사원",
           "cancer": false
         }
       ]
     },
     "2026-09-04": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "VDCOWH24_2027.08",
+            "qty": "500",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FDCOWH26_2027.08",
+            "qty": "1",
+            "note": "프랑스포장-Boditech Anti-Adalimumab Control",
+            "cancer": false
+          },
+          {
+            "lot": "IFWXC03R",
+            "qty": "806",
+            "note": "QC 6",
+            "cancer": false
+          }
+        ],
         "dry": []
       },
       "prod": {
@@ -50887,7 +51233,14 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "HSWHL11",
+            "qty": "21,250",
+            "note": "과테말라",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -50925,8 +51278,15 @@
           },
           {
             "lot": "GMWXA20G",
-            "qty": "1,020",
+            "qty": "972",
             "note": "해외, AFIAS",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "GMWXA20G",
+            "qty": "48",
+            "note": "과테말라, AFIAS",
             "cancer": false,
             "site": "hq"
           },
@@ -51019,7 +51379,14 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "HSWHL11",
+            "qty": "21,250",
+            "note": "과테말라",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -51057,8 +51424,15 @@
           },
           {
             "lot": "GMWXA20G",
-            "qty": "1,020",
+            "qty": "972",
             "note": "해외, AFIAS",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "GMWXA20G",
+            "qty": "48",
+            "note": "과테말라, AFIAS",
             "cancer": false,
             "site": "hq"
           },
@@ -51134,7 +51508,7 @@
         },
         {
           "lot": "1076-3 분주 후 냉동",
-          "qty": "20,000",
+          "qty": "15,000",
           "note": "전향아 차장",
           "cancer": false
         }
@@ -51158,8 +51532,46 @@
     },
     "2026-09-07": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "CCCOWX02_2027.09",
+            "qty": "30",
+            "note": "2까지-Cystatin C",
+            "cancer": false
+          },
+          {
+            "lot": "IVA260813B",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "NBCOWE20_2027.05",
+            "qty": "10",
+            "note": "프랑스 포장",
+            "cancer": false
+          },
+          {
+            "lot": "TGCOWH29_2027.08",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "hsTn-I 1",
+            "qty": "300",
+            "note": "1mL",
+            "cancer": false
+          },
+          {
+            "lot": "hsTn-I 2",
+            "qty": "300",
+            "note": "1시",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [],
@@ -51193,13 +51605,6 @@
             "site": "th"
           },
           {
-            "lot": "F1WHB07EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
             "lot": "VEWXQ12E",
             "qty": "21,250",
             "note": "이라크",
@@ -51221,7 +51626,7 @@
             "site": "th"
           },
           {
-            "lot": "170,000",
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -51268,13 +51673,6 @@
             "site": "th"
           },
           {
-            "lot": "F1WHB07EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
             "lot": "VEWXQ12E",
             "qty": "21,250",
             "note": "이라크",
@@ -51296,7 +51694,7 @@
             "site": "th"
           },
           {
-            "lot": "170,000",
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -51316,41 +51714,175 @@
       },
       "gran": [
         {
-          "lot": "Ferritin",
-          "qty": "44,000",
-          "note": "박영서 대리",
-          "cancer": true
+          "lot": "RF IGM",
+          "qty": "22,000",
+          "note": "이성준 사원",
+          "cancer": false
         },
         {
-          "lot": "Ferritin",
-          "qty": "66,000",
-          "note": "박영서 대리",
-          "cancer": true
+          "lot": "RF IGM",
+          "qty": "22,000",
+          "note": "이성준 사원",
+          "cancer": false
         },
         {
-          "lot": "Ferritin",
-          "qty": "66,000",
-          "note": "박영서 대리",
-          "cancer": true
+          "lot": "RF IGM",
+          "qty": "15,000",
+          "note": "이성준 사원",
+          "cancer": false
         },
         {
           "lot": "1076-3 건조",
           "qty": "20,000",
           "note": "전향아 차장",
           "cancer": false
-        },
-        {
-          "lot": "RF IGM",
-          "qty": "66,000",
-          "note": "이성준 사원",
-          "cancer": false
         }
       ]
     },
     "2026-09-08": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "DVZ260819 + DVZ260819-2",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TMCOWH29",
+            "qty": "5",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PPCOWD28",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PCCOWF30",
+            "qty": "3",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "NBCOWE20",
+            "qty": "6",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FOCOWE59",
+            "qty": "12",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "FRCOWG29",
+            "qty": "4",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "DDCOWE53",
+            "qty": "7",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "RFCOWH28",
+            "qty": "2",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "F1COWG09",
+            "qty": "4",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "AACOWE45",
+            "qty": "14",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "HOCOWE63",
+            "qty": "22",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "INCOWG08",
+            "qty": "6",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "DGCOWD19",
+            "qty": "2",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "RACOWD20",
+            "qty": "4",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "CPCOWE30",
+            "qty": "1",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "HSCOWX15",
+            "qty": "1",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "F4COWF19_2027.06",
+            "qty": "4",
+            "note": "과테말라 포장",
+            "cancer": false
+          },
+          {
+            "lot": "DNCOWF19_2027.06",
+            "qty": "33",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "IFWXC04R",
+            "qty": "806",
+            "note": "QC 6",
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "FLU A SWAB 전처리",
+            "qty": "2,700",
+            "note": "150 mL",
+            "cancer": false
+          },
+          {
+            "lot": "FREE PSA 1",
+            "qty": "500",
+            "note": "1 mL",
+            "cancer": true
+          },
+          {
+            "lot": "FREE PSA 2",
+            "qty": "500",
+            "note": null,
+            "cancer": true
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -51414,8 +51946,15 @@
           },
           {
             "lot": "TBTWXA80",
-            "qty": "21,250",
+            "qty": "20,500",
             "note": "해외, 150T",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TBTWXA80",
+            "qty": "750",
+            "note": "인도CPC, 150T",
             "cancer": false,
             "site": "hq"
           },
@@ -51476,14 +52015,7 @@
             "site": "th"
           },
           {
-            "lot": "HSWXM01",
-            "qty": "21,250",
-            "note": "과테말라",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "165,750",
+            "lot": "144,500",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -51572,8 +52104,15 @@
           },
           {
             "lot": "TBTWXA80",
-            "qty": "21,250",
+            "qty": "20,500",
             "note": "해외, 150T",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TBTWXA80",
+            "qty": "750",
+            "note": "인도CPC, 150T",
             "cancer": false,
             "site": "hq"
           }
@@ -51636,14 +52175,7 @@
             "site": "th"
           },
           {
-            "lot": "HSWXM01",
-            "qty": "21,250",
-            "note": "과테말라",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "165,750",
+            "lot": "144,500",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -51727,14 +52259,20 @@
       },
       "gran": [
         {
-          "lot": "hCG plus BIO FDA용",
-          "qty": "44,000",
-          "note": "김지윤 사원",
+          "lot": "InsulinBIO",
+          "qty": "22,000",
+          "note": "길혜수 과장",
+          "cancer": false
+        },
+        {
+          "lot": "Insulin EU",
+          "qty": "22,000",
+          "note": "길혜수 과장",
           "cancer": false
         },
         {
           "lot": "hCG plus BIO FDA용",
-          "qty": "66,000",
+          "qty": "110,000",
           "note": "김지윤 사원",
           "cancer": false
         },
@@ -51745,23 +52283,67 @@
           "cancer": false
         },
         {
-          "lot": "TNT EU",
+          "lot": "InsulinBIO",
           "qty": "66,000",
-          "note": "장혜진 과장",
+          "note": "길혜수 과장",
           "cancer": false
         },
         {
-          "lot": "TNT BIO",
-          "qty": "66,000",
-          "note": "장혜진 과장",
+          "lot": "Insulin EU",
+          "qty": "88,000",
+          "note": "길혜수 과장",
           "cancer": false
         }
       ]
     },
     "2026-09-09": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "T3COWX02H_2027.09",
+            "qty": "50",
+            "note": "ALCIS T3 Control-국내",
+            "cancer": false
+          },
+          {
+            "lot": "TSCOWX02H_2027.09",
+            "qty": "50",
+            "note": "ALCIS TSH Control-국내",
+            "cancer": false
+          },
+          {
+            "lot": "CRCOWF48_2027.06",
+            "qty": "694",
+            "note": "440SET 빼고 포장",
+            "cancer": false
+          },
+          {
+            "lot": "DNCOWF19_2027.06",
+            "qty": "20",
+            "note": null,
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "FLU B SWAB 전처리",
+            "qty": "2,700",
+            "note": "150 mL",
+            "cancer": false
+          },
+          {
+            "lot": "T-QC PLUS 1",
+            "qty": "1,900",
+            "note": "1 mL",
+            "cancer": false
+          },
+          {
+            "lot": "T-QC PLUS 2",
+            "qty": "1,900",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -51859,10 +52441,10 @@
             "site": "th"
           },
           {
-            "lot": "F4WHH04",
+            "lot": "HSWHL12",
             "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
+            "note": "과테말라",
+            "cancer": true,
             "site": "th"
           },
           {
@@ -51889,9 +52471,9 @@
             "site": "hq"
           },
           {
-            "lot": "TSWXB72X",
+            "lot": "PQWXA06G",
             "qty": "22,000",
-            "note": "해외",
+            "note": "파우치포장만 진행(광서출하건), TQC Plus",
             "cancer": false,
             "site": "hq"
           },
@@ -51949,10 +52531,10 @@
             "site": "th"
           },
           {
-            "lot": "F4WHH04",
+            "lot": "HSWHL12",
             "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
+            "note": "과테말라",
+            "cancer": true,
             "site": "th"
           },
           {
@@ -51979,9 +52561,9 @@
             "site": "hq"
           },
           {
-            "lot": "TSWXB72X",
+            "lot": "PQWXA06G",
             "qty": "22,000",
-            "note": "해외",
+            "note": "파우치포장만 진행(광서출하건), TQC Plus",
             "cancer": false,
             "site": "hq"
           }
@@ -52017,7 +52599,7 @@
         },
         {
           "lot": "TSH",
-          "qty": "110,000",
+          "qty": "44,000",
           "note": "전유찬 사원",
           "cancer": false
         },
@@ -52031,8 +52613,118 @@
     },
     "2026-09-10": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "DVZ260824",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "CPCOWG31",
+            "qty": "5",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "DDCOWE53",
+            "qty": "5",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "DNCOWF19",
+            "qty": "22",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "F1COWG09",
+            "qty": "5",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "F4COWC18",
+            "qty": "15",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "HOCOWE63",
+            "qty": "46",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FOCOWE59",
+            "qty": "28",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "PCCOWF30",
+            "qty": "8",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TGCOWF28",
+            "qty": "18",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TACOWE16",
+            "qty": "5",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VDCOWF23",
+            "qty": "7",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "BBCOWD11_2027.04",
+            "qty": "9",
+            "note": "콜롬비아 포장",
+            "cancer": false
+          },
+          {
+            "lot": "TECOWH21_2027.08",
+            "qty": "6",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "ILCOWF28_2027.06",
+            "qty": "100",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "IFWXC05R",
+            "qty": "806",
+            "note": "QC 6",
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "MAU 1",
+            "qty": "650",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "MAU 2",
+            "qty": "650",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -52112,6 +52804,13 @@
             "note": "이라크",
             "cancer": false,
             "site": null
+          },
+          {
+            "lot": "NOWXA30G",
+            "qty": "500",
+            "note": "해외, RUO, 전산등록X",
+            "cancer": false,
+            "site": null
           }
         ],
         "ich": [
@@ -52158,21 +52857,14 @@
             "site": "th"
           },
           {
-            "lot": "CPWXF01Z",
-            "qty": "18,700",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "CPWXF01Z",
-            "qty": "2,550",
-            "note": "국내",
-            "cancer": true,
-            "site": "th"
-          },
-          {
             "lot": "CHWXE01",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "F4WHH04",
             "qty": "21,250",
             "note": "해외",
             "cancer": false,
@@ -52187,13 +52879,6 @@
           }
         ],
         "afi": [
-          {
-            "lot": "CRWXE02X",
-            "qty": "44,000",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
           {
             "lot": "AAWXE56F",
             "qty": "22,000",
@@ -52216,10 +52901,24 @@
             "site": "hq"
           },
           {
-            "lot": "FRWXB06X",
-            "qty": "44,000",
-            "note": "이라크",
-            "cancer": true,
+            "lot": "NOWXA30G",
+            "qty": "500",
+            "note": "해외, RUO, Pouch포장까지진행\r\n전산등록X",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "ACWXA43G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "T4WXA54X",
+            "qty": "11,000",
+            "note": "과테말라",
+            "cancer": false,
             "site": "th"
           }
         ],
@@ -52269,21 +52968,14 @@
             "site": "th"
           },
           {
-            "lot": "CPWXF01Z",
-            "qty": "18,700",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "CPWXF01Z",
-            "qty": "2,550",
-            "note": "국내",
-            "cancer": true,
-            "site": "th"
-          },
-          {
             "lot": "CHWXE01",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "F4WHH04",
             "qty": "21,250",
             "note": "해외",
             "cancer": false,
@@ -52298,13 +52990,6 @@
           }
         ],
         "afi_hq": [
-          {
-            "lot": "CRWXE02X",
-            "qty": "44,000",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
           {
             "lot": "AAWXE56F",
             "qty": "22,000",
@@ -52325,14 +53010,28 @@
             "note": "해외, RUO, BOX포장까지진행",
             "cancer": false,
             "site": "hq"
+          },
+          {
+            "lot": "NOWXA30G",
+            "qty": "500",
+            "note": "해외, RUO, Pouch포장까지진행\r\n전산등록X",
+            "cancer": false,
+            "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "FRWXB06X",
-            "qty": "44,000",
-            "note": "이라크",
-            "cancer": true,
+            "lot": "ACWXA43G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "T4WXA54X",
+            "qty": "11,000",
+            "note": "과테말라",
+            "cancer": false,
             "site": "th"
           }
         ]
@@ -52346,7 +53045,13 @@
         },
         {
           "lot": "TN-I PLUS EU",
-          "qty": "110000",
+          "qty": "44000",
+          "note": "박영주 대리",
+          "cancer": false
+        },
+        {
+          "lot": "TN-I PLUS EU",
+          "qty": "66000",
           "note": "박영주 대리",
           "cancer": false
         },
@@ -52355,30 +53060,55 @@
           "qty": "44000",
           "note": "박영주 대리",
           "cancer": false
-        },
-        {
-          "lot": "TSH",
-          "qty": "66,000",
-          "note": "전유찬 사원",
-          "cancer": false
-        },
-        {
-          "lot": "TSH",
-          "qty": "110,000",
-          "note": "전유찬 사원",
-          "cancer": false
-        },
-        {
-          "lot": "TSH",
-          "qty": "110,000",
-          "note": "전유찬 사원",
-          "cancer": false
         }
       ]
     },
     "2026-09-11": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "DVZ260818",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "HOCOWE63",
+            "qty": "60",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TGCOWF28",
+            "qty": "60",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "Boditech Cardiac Control_브라질",
+            "qty": "50",
+            "note": "브라질 포장",
+            "cancer": false
+          },
+          {
+            "lot": "TGCAWH29_2027.08",
+            "qty": "2",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VDCOWF23_2027.06",
+            "qty": "470",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "IFWXC06R",
+            "qty": "806",
+            "note": "QC 6",
+            "cancer": false
+          }
+        ],
         "dry": []
       },
       "prod": {
@@ -52519,7 +53249,14 @@
             "site": "th"
           },
           {
-            "lot": "153,250",
+            "lot": "HSWXM01",
+            "qty": "21,250",
+            "note": "과테말라",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "174,500",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -52528,10 +53265,17 @@
         ],
         "afi": [
           {
-            "lot": "ACWXA43G",
-            "qty": "22,000",
-            "note": "해외",
-            "cancer": false,
+            "lot": "FRWXB06X",
+            "qty": "40,400",
+            "note": "이라크",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "FRWXB06X",
+            "qty": "3,600",
+            "note": "스위스1T",
+            "cancer": true,
             "site": "hq"
           },
           {
@@ -52545,13 +53289,6 @@
             "lot": "MHWXA32G",
             "qty": "1,200",
             "note": "이탈리아",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "F4WXA77G",
-            "qty": "22,000",
-            "note": "국내",
             "cancer": false,
             "site": "hq"
           },
@@ -52658,7 +53395,14 @@
             "site": "th"
           },
           {
-            "lot": "153,250",
+            "lot": "HSWXM01",
+            "qty": "21,250",
+            "note": "과테말라",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "174,500",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -52667,10 +53411,17 @@
         ],
         "afi_hq": [
           {
-            "lot": "ACWXA43G",
-            "qty": "22,000",
-            "note": "해외",
-            "cancer": false,
+            "lot": "FRWXB06X",
+            "qty": "40,400",
+            "note": "이라크",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "FRWXB06X",
+            "qty": "3,600",
+            "note": "스위스1T",
+            "cancer": true,
             "site": "hq"
           },
           {
@@ -52684,13 +53435,6 @@
             "lot": "MHWXA32G",
             "qty": "1,200",
             "note": "이탈리아",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "F4WXA77G",
-            "qty": "22,000",
-            "note": "국내",
             "cancer": false,
             "site": "hq"
           },
@@ -52768,8 +53512,70 @@
     },
     "2026-09-14": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "AACOWX50_2027.09(인도법인)",
+            "qty": "10",
+            "note": "설명서 X / 별지 X",
+            "cancer": false
+          },
+          {
+            "lot": "TSCOWX17_2027.09(인도법인)",
+            "qty": "20",
+            "note": "인도 법인 출고용",
+            "cancer": false
+          },
+          {
+            "lot": "MACOWX75_2027.09",
+            "qty": "139",
+            "note": "9까지",
+            "cancer": false
+          },
+          {
+            "lot": "FNCOWE27_2027.05",
+            "qty": "5",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FICOWG22_2027.07",
+            "qty": "20",
+            "note": "Boditech Anti-Infliximab Control",
+            "cancer": false
+          },
+          {
+            "lot": "INCOWG08_2027.07",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VDCOWF23_2027.06",
+            "qty": "30",
+            "note": "국내 포장",
+            "cancer": false
+          },
+          {
+            "lot": "FICOWX23_2027.09-취소",
+            "qty": "21",
+            "note": "ez-Tracker Anti-Infliximab Control",
+            "cancer": false
+          },
+          {
+            "lot": "IFWXC07R",
+            "qty": "806",
+            "note": "QC 6",
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "연구용 1",
+            "qty": "20 * 2",
+            "note": "박가현사원-5호기",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -52798,6 +53604,13 @@
             "lot": "AAWXH10",
             "qty": "21,000",
             "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "VBWXA03G",
+            "qty": "1,000",
+            "note": "해외시제품, RUO, 200㎕",
             "cancer": false,
             "site": null
           },
@@ -52874,6 +53687,13 @@
         ],
         "ich": [
           {
+            "lot": "IFWXC07R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
             "lot": "PGWXE04VB",
             "qty": "14,000",
             "note": "Speed Progesterone, EXP 20개월",
@@ -52939,6 +53759,20 @@
         ],
         "afi": [
           {
+            "lot": "TBWXA48G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "F4WXA77G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
             "lot": "F4WXA78G",
             "qty": "22,000",
             "note": "국내",
@@ -52946,14 +53780,7 @@
             "site": "hq"
           },
           {
-            "lot": "F4WXA79G",
-            "qty": "22,000",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "TBWXA48G",
+            "lot": "TSWXB72X",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
@@ -52962,33 +53789,19 @@
           {
             "lot": "T3WXA78X",
             "qty": "22,000",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "TNWXE80G",
-            "qty": "22,000",
-            "note": "중국1T, Tn-I",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "T3WXA79X",
-            "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "T3WXA80X",
-            "qty": "22,000",
             "note": "이라크",
             "cancer": false,
             "site": "th"
           }
         ],
         "ich_hq": [
+          {
+            "lot": "IFWXC07R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
           {
             "lot": "PGWXE04VB",
             "qty": "14,000",
@@ -53057,20 +53870,6 @@
         ],
         "afi_hq": [
           {
-            "lot": "F4WXA78G",
-            "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "F4WXA79G",
-            "qty": "22,000",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
             "lot": "TBWXA48G",
             "qty": "22,000",
             "note": "해외",
@@ -53078,30 +53877,30 @@
             "site": "hq"
           },
           {
-            "lot": "T3WXA78X",
+            "lot": "F4WXA77G",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "TNWXE80G",
+            "lot": "F4WXA78G",
             "qty": "22,000",
-            "note": "중국1T, Tn-I",
+            "note": "국내",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TSWXB72X",
+            "qty": "22,000",
+            "note": "해외",
             "cancer": false,
             "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "T3WXA79X",
-            "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "T3WXA80X",
+            "lot": "T3WXA78X",
             "qty": "22,000",
             "note": "이라크",
             "cancer": false,
@@ -53110,12 +53909,6 @@
         ]
       },
       "gran": [
-        {
-          "lot": "a-IFX Eu (2시)",
-          "qty": "25,000",
-          "note": "김진아 과장",
-          "cancer": false
-        },
         {
           "lot": "RF IGM",
           "qty": "66,000",
@@ -53127,13 +53920,111 @@
           "qty": "44,000",
           "note": "이성준 사원",
           "cancer": false
+        },
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "44,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "66,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "66,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "66,000",
+          "note": "김형민 사원",
+          "cancer": false
         }
       ]
     },
     "2026-09-15": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "JMC260729HR-28일출고예정",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "CRCOWF48_2027.06",
+            "qty": "300",
+            "note": "독일포장",
+            "cancer": false
+          },
+          {
+            "lot": "DDCOWH54_2027.08",
+            "qty": "250",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FRCOWH30_2027.08",
+            "qty": "50",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "F1COWG09_2027.07",
+            "qty": "20",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "HOCOWX67_2027.09",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PCCOWF30_2027.06",
+            "qty": "70",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TGCOWH29_2027.08",
+            "qty": "220",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TPCOWD18_2027.04",
+            "qty": "230",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TMCOWH29_2027.08",
+            "qty": "180",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VDCOWH24_2027.08",
+            "qty": "200",
+            "note": null,
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "ez-Tracker Anti-Infliximab 2",
+            "qty": "200",
+            "note": "1 mL-5호기",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -53224,13 +54115,6 @@
         ],
         "ich": [
           {
-            "lot": "PWWXH07EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
             "lot": "T4WXD06VB",
             "qty": "14,000",
             "note": "Speed T4, EXP 24개월",
@@ -53287,13 +54171,6 @@
             "site": "th"
           },
           {
-            "lot": "FOWXG01Z",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
             "lot": "DFRWXH03",
             "qty": "21,250",
             "note": "파키스탄",
@@ -53301,7 +54178,7 @@
             "site": "th"
           },
           {
-            "lot": "169,750",
+            "lot": "148,500",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -53309,6 +54186,13 @@
           }
         ],
         "afi": [
+          {
+            "lot": "CRWXE02X",
+            "qty": "44,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
           {
             "lot": "NBWXD79G",
             "qty": "14,560",
@@ -53320,13 +54204,6 @@
             "lot": "NBWXD79G",
             "qty": "7,440",
             "note": "이탈리아",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "PCWXA33X",
-            "qty": "22,000",
-            "note": "해외",
             "cancer": false,
             "site": "hq"
           },
@@ -53359,9 +54236,9 @@
             "site": "hq"
           },
           {
-            "lot": "TNWXE81G",
-            "qty": "22,000",
-            "note": "중국1T, Tn-I",
+            "lot": "F4WXA84G",
+            "qty": "2,000",
+            "note": "해외, RUO, 박스포장",
             "cancer": false,
             "site": "hq"
           },
@@ -53374,13 +54251,6 @@
           }
         ],
         "ich_hq": [
-          {
-            "lot": "PWWXH07EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
           {
             "lot": "T4WXD06VB",
             "qty": "14,000",
@@ -53440,13 +54310,6 @@
             "site": "th"
           },
           {
-            "lot": "FOWXG01Z",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
             "lot": "DFRWXH03",
             "qty": "21,250",
             "note": "파키스탄",
@@ -53454,7 +54317,7 @@
             "site": "th"
           },
           {
-            "lot": "169,750",
+            "lot": "148,500",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -53462,6 +54325,13 @@
           }
         ],
         "afi_hq": [
+          {
+            "lot": "CRWXE02X",
+            "qty": "44,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
           {
             "lot": "NBWXD79G",
             "qty": "14,560",
@@ -53473,13 +54343,6 @@
             "lot": "NBWXD79G",
             "qty": "7,440",
             "note": "이탈리아",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "PCWXA33X",
-            "qty": "22,000",
-            "note": "해외",
             "cancer": false,
             "site": "hq"
           },
@@ -53512,9 +54375,9 @@
             "site": "hq"
           },
           {
-            "lot": "TNWXE81G",
-            "qty": "22,000",
-            "note": "중국1T, Tn-I",
+            "lot": "F4WXA84G",
+            "qty": "2,000",
+            "note": "해외, RUO, 박스포장",
             "cancer": false,
             "site": "hq"
           }
@@ -53564,8 +54427,58 @@
     },
     "2026-09-16": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "DVZ260819",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "HSCOWX16_2028.05",
+            "qty": "50",
+            "note": "8일까지-과테말라 포장",
+            "cancer": true
+          },
+          {
+            "lot": "HOCOWX67_2027.09",
+            "qty": "1,000",
+            "note": "7까지",
+            "cancer": false
+          },
+          {
+            "lot": "CTCOWX09_2027.09",
+            "qty": "100",
+            "note": "9까지",
+            "cancer": false
+          },
+          {
+            "lot": "IFWXC08R",
+            "qty": "806",
+            "note": "QC 6",
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "CARDIAC 1",
+            "qty": "1,000",
+            "note": "1 mL",
+            "cancer": false
+          },
+          {
+            "lot": "CARDIAC 2",
+            "qty": "1,000",
+            "note": "냉동고 35도 -12호기",
+            "cancer": false
+          },
+          {
+            "lot": "연구용 1",
+            "qty": "20 * 2",
+            "note": "박가현사원-5호기",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -53624,13 +54537,41 @@
             "note": "해외",
             "cancer": false,
             "site": null
+          },
+          {
+            "lot": "DFRWXH05",
+            "qty": "840",
+            "note": "해외",
+            "cancer": true,
+            "site": null
+          },
+          {
+            "lot": "DFRWXH04",
+            "qty": "738",
+            "note": "해외",
+            "cancer": true,
+            "site": null
+          },
+          {
+            "lot": "DFRWXH04I",
+            "qty": "102",
+            "note": "인도Qdx",
+            "cancer": true,
+            "site": null
           }
         ],
         "ich": [
           {
-            "lot": "TSWXB06V",
-            "qty": "3,000",
-            "note": "Vet TSH EXP 20개월",
+            "lot": "IFWXC08R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "PWWXH07EX",
+            "qty": "21,250",
+            "note": "해외",
             "cancer": false,
             "site": "hq"
           },
@@ -53670,10 +54611,17 @@
             "site": "th"
           },
           {
-            "lot": "F4WHH06",
-            "qty": "21,250",
+            "lot": "CPWXF01Z",
+            "qty": "18,700",
             "note": "해외",
-            "cancer": false,
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "CPWXF01Z",
+            "qty": "2,550",
+            "note": "국내",
+            "cancer": true,
             "site": "th"
           },
           {
@@ -53707,25 +54655,25 @@
             "site": "hq"
           },
           {
-            "lot": "AAWXE59F",
-            "qty": "22,000",
-            "note": "이라크",
+            "lot": "MAWXA47X",
+            "qty": "19,120",
+            "note": "해외",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "NBWXD80G",
-            "qty": "22,000",
-            "note": "중국1T",
+            "lot": "MAWXA47X",
+            "qty": "480",
+            "note": "이탈리아",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "F4WXA80G",
-            "qty": "22,000",
-            "note": "국내",
+            "lot": "MAWXA47X",
+            "qty": "2,400",
+            "note": "스위스1T",
             "cancer": false,
-            "site": "th"
+            "site": "hq"
           },
           {
             "lot": "TAWXA34G",
@@ -53740,13 +54688,27 @@
             "note": "이탈리아",
             "cancer": false,
             "site": "th"
+          },
+          {
+            "lot": "T3WXA79X",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "th"
           }
         ],
         "ich_hq": [
           {
-            "lot": "TSWXB06V",
-            "qty": "3,000",
-            "note": "Vet TSH EXP 20개월",
+            "lot": "IFWXC08R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "PWWXH07EX",
+            "qty": "21,250",
+            "note": "해외",
             "cancer": false,
             "site": "hq"
           }
@@ -53788,10 +54750,17 @@
             "site": "th"
           },
           {
-            "lot": "F4WHH06",
-            "qty": "21,250",
+            "lot": "CPWXF01Z",
+            "qty": "18,700",
             "note": "해외",
-            "cancer": false,
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "CPWXF01Z",
+            "qty": "2,550",
+            "note": "국내",
+            "cancer": true,
             "site": "th"
           },
           {
@@ -53825,28 +54794,28 @@
             "site": "hq"
           },
           {
-            "lot": "AAWXE59F",
-            "qty": "22,000",
-            "note": "이라크",
+            "lot": "MAWXA47X",
+            "qty": "19,120",
+            "note": "해외",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "NBWXD80G",
-            "qty": "22,000",
-            "note": "중국1T",
+            "lot": "MAWXA47X",
+            "qty": "480",
+            "note": "이탈리아",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "MAWXA47X",
+            "qty": "2,400",
+            "note": "스위스1T",
             "cancer": false,
             "site": "hq"
           }
         ],
         "afi_th": [
-          {
-            "lot": "F4WXA80G",
-            "qty": "22,000",
-            "note": "국내",
-            "cancer": false,
-            "site": "th"
-          },
           {
             "lot": "TAWXA34G",
             "qty": "20,800",
@@ -53860,33 +54829,125 @@
             "note": "이탈리아",
             "cancer": false,
             "site": "th"
+          },
+          {
+            "lot": "T3WXA79X",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "th"
           }
         ]
       },
       "gran": [
         {
-          "lot": "TN-I PLUS Bio",
-          "qty": "88000",
-          "note": "박영주 대리",
+          "lot": "Toxo IgG bio",
+          "qty": "22,000",
+          "note": "송가연 대리",
           "cancer": false
         },
         {
-          "lot": "TN-I PLUS Bio",
-          "qty": "66000",
-          "note": "박영주 대리",
+          "lot": "Toxo IgG eu",
+          "qty": "22,000",
+          "note": "송가연 대리",
           "cancer": false
         },
         {
-          "lot": "TN-I PLUS Bio",
-          "qty": "66000",
-          "note": "박영주 대리",
+          "lot": "T-QC",
+          "qty": "66,000",
+          "note": "신동후 사원",
+          "cancer": false
+        },
+        {
+          "lot": "reducing bf",
+          "qty": "5,000",
+          "note": "정여진 대리",
           "cancer": false
         }
       ]
     },
     "2026-09-17": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "JMC260827NR-30일 출고 예정",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "CRCOWF48_2027.06",
+            "qty": "140",
+            "note": "독일포장",
+            "cancer": false
+          },
+          {
+            "lot": "DDCOWH54_2027.08",
+            "qty": "90",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FRCOWH30_2027.08",
+            "qty": "40",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "HOCOWX67_2027.09",
+            "qty": "20",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "MRCOWG10_2027.07",
+            "qty": "5",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PCCOWF30_2027.06",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TGCOWH29_2027.08",
+            "qty": "60",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TACOWE17_2027.05(독일)",
+            "qty": "45",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TPCOWD18_2027.04",
+            "qty": "30",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TMCOWH29_2027.08",
+            "qty": "90",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VDCOWH24_2027.08",
+            "qty": "100",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VACOWX13_2027.09",
+            "qty": "10",
+            "note": "11까지-Boditech Anti-Vedolizumab Control",
+            "cancer": false
+          }
+        ],
         "dry": []
       },
       "prod": {
@@ -53950,6 +55011,13 @@
         ],
         "ich": [
           {
+            "lot": "TSWXB06V",
+            "qty": "3,000",
+            "note": "Vet TSH EXP 20개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
             "lot": "KDWXX01EX",
             "qty": "16,200",
             "note": "해외",
@@ -53999,14 +55067,21 @@
             "site": "th"
           },
           {
-            "lot": "CPWXF02Z",
+            "lot": "F1WHB07EX",
             "qty": "21,250",
             "note": "해외",
             "cancer": true,
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "F4WHH06",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -54015,30 +55090,16 @@
         ],
         "afi": [
           {
-            "lot": "MAWXA47X",
-            "qty": "19,120",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "MAWXA47X",
-            "qty": "480",
-            "note": "이탈리아",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "MAWXA47X",
-            "qty": "2,400",
-            "note": "스위스1T",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
             "lot": "INWXA17G",
             "qty": "22,000",
             "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "AAWXE59F",
+            "qty": "22,000",
+            "note": "이라크",
             "cancer": false,
             "site": "hq"
           },
@@ -54050,16 +55111,9 @@
             "site": "hq"
           },
           {
-            "lot": "AAWXE61F",
+            "lot": "F4WXA79G",
             "qty": "22,000",
-            "note": "이라크",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "DDWXC95F",
-            "qty": "22,000",
-            "note": "중국1T",
+            "note": "국내",
             "cancer": false,
             "site": "hq"
           },
@@ -54071,7 +55125,15 @@
             "site": "th"
           }
         ],
-        "ich_hq": [],
+        "ich_hq": [
+          {
+            "lot": "TSWXB06V",
+            "qty": "3,000",
+            "note": "Vet TSH EXP 20개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "ich_th": [
           {
             "lot": "KDWXX01EX",
@@ -54123,14 +55185,21 @@
             "site": "th"
           },
           {
-            "lot": "CPWXF02Z",
+            "lot": "F1WHB07EX",
             "qty": "21,250",
             "note": "해외",
             "cancer": true,
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "F4WHH06",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -54139,30 +55208,16 @@
         ],
         "afi_hq": [
           {
-            "lot": "MAWXA47X",
-            "qty": "19,120",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "MAWXA47X",
-            "qty": "480",
-            "note": "이탈리아",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "MAWXA47X",
-            "qty": "2,400",
-            "note": "스위스1T",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
             "lot": "INWXA17G",
             "qty": "22,000",
             "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "AAWXE59F",
+            "qty": "22,000",
+            "note": "이라크",
             "cancer": false,
             "site": "hq"
           },
@@ -54174,16 +55229,9 @@
             "site": "hq"
           },
           {
-            "lot": "AAWXE61F",
+            "lot": "F4WXA79G",
             "qty": "22,000",
-            "note": "이라크",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "DDWXC95F",
-            "qty": "22,000",
-            "note": "중국1T",
+            "note": "국내",
             "cancer": false,
             "site": "hq"
           }
@@ -54200,28 +55248,59 @@
       },
       "gran": [
         {
-          "lot": "TN-I PLUS EU",
+          "lot": "TN-I PLUS BIO",
           "qty": "88000",
           "note": "박영주 대리",
           "cancer": false
         },
         {
           "lot": "TN-I PLUS EU",
-          "qty": "66000",
+          "qty": "88000",
           "note": "박영주 대리",
           "cancer": false
         },
         {
-          "lot": "TN-I PLUS EU",
-          "qty": "66000",
-          "note": "박영주 대리",
-          "cancer": false
+          "lot": "H.pylori SA",
+          "qty": "66,000",
+          "note": "유다연 사원",
+          "cancer": true
+        },
+        {
+          "lot": "H.pylori SA",
+          "qty": "66,000",
+          "note": "유다연 사원",
+          "cancer": true
         }
       ]
     },
     "2026-09-18": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "HSCOWX16_2028.05",
+            "qty": "100",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "INCOWG08_2027.07",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "CXCOWD08_2027.04",
+            "qty": "10",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "TJCOWD10_2027.04",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          }
+        ],
         "dry": []
       },
       "prod": {
@@ -54245,6 +55324,34 @@
             "qty": "850",
             "note": "해외",
             "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DFRWXH06",
+            "qty": "840",
+            "note": "해외",
+            "cancer": true,
+            "site": null
+          },
+          {
+            "lot": "DFRWXH07",
+            "qty": "840",
+            "note": "해외",
+            "cancer": true,
+            "site": null
+          },
+          {
+            "lot": "DFRWXH08",
+            "qty": "840",
+            "note": "해외",
+            "cancer": true,
+            "site": null
+          },
+          {
+            "lot": "DFRWXH09",
+            "qty": "840",
+            "note": "해외",
+            "cancer": true,
             "site": null
           }
         ],
@@ -54320,7 +55427,14 @@
             "site": "th"
           },
           {
-            "lot": "148,750",
+            "lot": "FOWXG01Z",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "170,000",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -54336,9 +55450,9 @@
             "site": "hq"
           },
           {
-            "lot": "AAWXE63F",
+            "lot": "AAWXE61F",
             "qty": "22,000",
-            "note": "기기검사",
+            "note": "이라크",
             "cancer": false,
             "site": "hq"
           },
@@ -54423,7 +55537,14 @@
             "site": "th"
           },
           {
-            "lot": "148,750",
+            "lot": "FOWXG01Z",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "170,000",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -54439,9 +55560,9 @@
             "site": "hq"
           },
           {
-            "lot": "AAWXE63F",
+            "lot": "AAWXE61F",
             "qty": "22,000",
-            "note": "기기검사",
+            "note": "이라크",
             "cancer": false,
             "site": "hq"
           }
@@ -54456,22 +55577,54 @@
           }
         ]
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "C-peptide",
+          "qty": "44,000",
+          "note": "장혜진 과장",
+          "cancer": false
+        },
+        {
+          "lot": "Pepsinogen l/ll Eu",
+          "qty": "22,000",
+          "note": "박주연 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Pepsinogen l/ll Bio",
+          "qty": "22,000",
+          "note": "박주연 사원",
+          "cancer": false
+        }
+      ]
     },
     "2026-09-22": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "CYCOWX10_2027.09",
+            "qty": "30",
+            "note": "16까지",
+            "cancer": true
+          }
+        ],
+        "dry": [
+          {
+            "lot": "TOXO IgG/IgM 1",
+            "qty": "200",
+            "note": "0.5 ML",
+            "cancer": false
+          },
+          {
+            "lot": "TOXO IgG/IgM 2",
+            "qty": "200",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
-          {
-            "lot": "CKWXC04",
-            "qty": "21,000",
-            "note": "해외",
-            "cancer": false,
-            "site": null
-          },
           {
             "lot": "HCWXR06EX",
             "qty": "21,000",
@@ -54538,13 +55691,6 @@
         ],
         "ich": [
           {
-            "lot": "CKWXC04",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
             "lot": "KTWXE10EX",
             "qty": "21,250",
             "note": "해외",
@@ -54594,14 +55740,7 @@
             "site": "th"
           },
           {
-            "lot": "FOWXG02Z",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "168,750",
+            "lot": "126,250",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -54610,43 +55749,43 @@
         ],
         "afi": [
           {
-            "lot": "F4WXA82G",
+            "lot": "F4WXA80G",
             "qty": "22,000",
             "note": "국내",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "F4WXA83G",
+            "lot": "LHWXA29X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "해외",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "VEWXD29X",
+            "lot": "TBWXA49G",
             "qty": "22,000",
-            "note": "이라크",
+            "note": "이탈리아",
             "cancer": false,
-            "site": "th"
+            "site": "hq"
           },
           {
-            "lot": "VEWXD30X",
+            "lot": "TNWXE81G",
             "qty": "22,000",
-            "note": "이라크",
+            "note": "중국1T, Tn-I",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "T3WXA80X",
+            "qty": "22,000",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           }
         ],
         "ich_hq": [],
         "ich_th": [
-          {
-            "lot": "CKWXC04",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
           {
             "lot": "KTWXE10EX",
             "qty": "21,250",
@@ -54697,14 +55836,7 @@
             "site": "th"
           },
           {
-            "lot": "FOWXG02Z",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "168,750",
+            "lot": "126,250",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -54713,74 +55845,148 @@
         ],
         "afi_hq": [
           {
-            "lot": "F4WXA82G",
+            "lot": "F4WXA80G",
             "qty": "22,000",
             "note": "국내",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "F4WXA83G",
+            "lot": "LHWXA29X",
             "qty": "22,000",
-            "note": "국내",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TBWXA49G",
+            "qty": "22,000",
+            "note": "이탈리아",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TNWXE81G",
+            "qty": "22,000",
+            "note": "중국1T, Tn-I",
             "cancer": false,
             "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "VEWXD29X",
+            "lot": "T3WXA80X",
             "qty": "22,000",
-            "note": "이라크",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "VEWXD30X",
-            "qty": "22,000",
-            "note": "이라크",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           }
         ]
       },
-      "gran": [
-        {
-          "lot": "CRP",
-          "qty": "44,000",
-          "note": "박세빈 사원",
-          "cancer": false
-        },
-        {
-          "lot": "CRP",
-          "qty": "110,000",
-          "note": "박세빈 사원",
-          "cancer": false
-        },
-        {
-          "lot": "CRP",
-          "qty": "110,000",
-          "note": "박세빈 사원",
-          "cancer": false
-        },
-        {
-          "lot": "CRP",
-          "qty": "110,000",
-          "note": "박세빈 사원",
-          "cancer": false
-        },
-        {
-          "lot": "CRP",
-          "qty": "110,000",
-          "note": "박세빈 사원",
-          "cancer": false
-        }
-      ]
+      "gran": []
     },
     "2026-09-21": {
       "std": {
-        "pack": [],
-        "dry": []
+        "pack": [
+          {
+            "lot": "JMC260827-3HR",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "MHCOWG21_2027.07",
+            "qty": "10",
+            "note": "독일 포장",
+            "cancer": false
+          },
+          {
+            "lot": "DDCOWH54_2027.08",
+            "qty": "170",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "FRCOWH30_2027.08",
+            "qty": "20",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "F1COWG09_2027.07",
+            "qty": "20",
+            "note": null,
+            "cancer": true
+          },
+          {
+            "lot": "HOCOWX67_2027.09",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "ILCOWF28_2027.06",
+            "qty": "80",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "PCCOWF30_2027.06",
+            "qty": "55",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TGCOWH29_2027.08",
+            "qty": "160",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TACOWE17_2027.05(독일)",
+            "qty": "100",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TPCOWD18_2027.04",
+            "qty": "130",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "TMCOWH29_2027.08",
+            "qty": "50",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "SGCOWD06_2027.04",
+            "qty": "10",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "VDCOWF23",
+            "qty": "70",
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "IFWXC09R",
+            "qty": "806",
+            "note": "QC 6",
+            "cancer": false
+          }
+        ],
+        "dry": [
+          {
+            "lot": "TN-I PLUS 1",
+            "qty": "5,000",
+            "note": "1mL",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -54855,21 +56061,28 @@
             "site": null
           },
           {
-            "lot": "DFRWXH04",
-            "qty": "738",
+            "lot": "CPWXA16X",
+            "qty": "11,000",
             "note": "해외",
             "cancer": true,
             "site": null
           },
           {
-            "lot": "DFRWXH04I",
-            "qty": "102",
-            "note": "인도Qdx",
+            "lot": "CPWXA16X",
+            "qty": "11,000",
+            "note": "이탈리아",
             "cancer": true,
             "site": null
           }
         ],
         "ich": [
+          {
+            "lot": "IFWXC09R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
           {
             "lot": "ACWXF02E",
             "qty": "18,700",
@@ -54920,7 +56133,28 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "DFRWXH04",
+            "qty": "18,700",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXH04I",
+            "qty": "2,550",
+            "note": "인도Qdx",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXH05",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "170,000",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -54929,28 +56163,50 @@
         ],
         "afi": [
           {
-            "lot": "F4WXA81G",
-            "qty": "22,000",
-            "note": "국내",
+            "lot": "TSWXB74X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "LHWXA29X",
+            "lot": "AAWXE63F",
+            "qty": "22,000",
+            "note": "기기검사",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TNWXE80G",
+            "qty": "22,000",
+            "note": "중국1T, Tn-I",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "NBWXD80G",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "TSWXB74X",
-            "qty": "44,000",
-            "note": "이라크",
+            "lot": "PCWXA33X",
+            "qty": "22,000",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           }
         ],
-        "ich_hq": [],
+        "ich_hq": [
+          {
+            "lot": "IFWXC09R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "ich_th": [
           {
             "lot": "ACWXF02E",
@@ -55002,7 +56258,28 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "DFRWXH04",
+            "qty": "18,700",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXH04I",
+            "qty": "2,550",
+            "note": "인도Qdx",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXH05",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "170,000",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -55011,14 +56288,28 @@
         ],
         "afi_hq": [
           {
-            "lot": "F4WXA81G",
-            "qty": "22,000",
-            "note": "국내",
+            "lot": "TSWXB74X",
+            "qty": "44,000",
+            "note": "이라크",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "LHWXA29X",
+            "lot": "AAWXE63F",
+            "qty": "22,000",
+            "note": "기기검사",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TNWXE80G",
+            "qty": "22,000",
+            "note": "중국1T, Tn-I",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "NBWXD80G",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
@@ -55027,19 +56318,63 @@
         ],
         "afi_th": [
           {
-            "lot": "TSWXB74X",
-            "qty": "44,000",
-            "note": "이라크",
+            "lot": "PCWXA33X",
+            "qty": "22,000",
+            "note": "해외",
             "cancer": false,
             "site": "th"
           }
         ]
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "AMH BIO",
+          "qty": "44,000",
+          "note": "김도원 과장",
+          "cancer": false
+        },
+        {
+          "lot": "AMH BIO",
+          "qty": "66,000",
+          "note": "김도원 과장",
+          "cancer": false
+        },
+        {
+          "lot": "MAU",
+          "qty": "110,000",
+          "note": "박성원 과장",
+          "cancer": false
+        },
+        {
+          "lot": "MAU",
+          "qty": "110,000",
+          "note": "박성원 과장",
+          "cancer": false
+        },
+        {
+          "lot": "T4",
+          "qty": "66,000",
+          "note": "남동경 대리",
+          "cancer": false
+        }
+      ]
     },
     "2026-09-23": {
       "std": {
-        "pack": [],
+        "pack": [
+          {
+            "lot": "JMC260827-3HR",
+            "qty": null,
+            "note": null,
+            "cancer": false
+          },
+          {
+            "lot": "SGCOWX07_2027.09",
+            "qty": "10",
+            "note": "18까지-독일포장",
+            "cancer": false
+          }
+        ],
         "dry": []
       },
       "prod": {
@@ -55113,13 +56448,6 @@
             "note": "해외",
             "cancer": false,
             "site": null
-          },
-          {
-            "lot": "CPWXA16X",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": null
           }
         ],
         "ich": [
@@ -55166,28 +56494,14 @@
             "site": "th"
           },
           {
-            "lot": "DTSWXD06",
+            "lot": "CPWXF02Z",
             "qty": "21,250",
             "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "DFRWXH04",
-            "qty": "18,700",
-            "note": "해외",
             "cancer": true,
             "site": "th"
           },
           {
-            "lot": "DFRWXH04I",
-            "qty": "2,550",
-            "note": "인도Qdx",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "170,000",
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -55196,30 +56510,37 @@
         ],
         "afi": [
           {
-            "lot": "VEWXD33X",
+            "lot": "VEWXD29X",
             "qty": "22,000",
             "note": "이라크",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "VEWXD34X",
+            "lot": "F4WXA81G",
             "qty": "22,000",
-            "note": "이라크",
+            "note": "국내",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "VEWXD31X",
+            "lot": "TQWXB21G",
             "qty": "22,000",
-            "note": "이라크",
+            "note": "해외",
             "cancer": false,
-            "site": "th"
+            "site": "hq"
           },
           {
-            "lot": "VEWXD32X",
+            "lot": "NBWXD81G",
             "qty": "22,000",
-            "note": "이라크",
+            "note": "중국1T",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "F4WXA82G",
+            "qty": "22,000",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           }
@@ -55269,28 +56590,14 @@
             "site": "th"
           },
           {
-            "lot": "DTSWXD06",
+            "lot": "CPWXF02Z",
             "qty": "21,250",
             "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "DFRWXH04",
-            "qty": "18,700",
-            "note": "해외",
             "cancer": true,
             "site": "th"
           },
           {
-            "lot": "DFRWXH04I",
-            "qty": "2,550",
-            "note": "인도Qdx",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "170,000",
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -55299,38 +56606,100 @@
         ],
         "afi_hq": [
           {
-            "lot": "VEWXD33X",
+            "lot": "VEWXD29X",
             "qty": "22,000",
             "note": "이라크",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "VEWXD34X",
+            "lot": "F4WXA81G",
             "qty": "22,000",
-            "note": "이라크",
+            "note": "국내",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TQWXB21G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "NBWXD81G",
+            "qty": "22,000",
+            "note": "중국1T",
             "cancer": false,
             "site": "hq"
           }
         ],
         "afi_th": [
           {
-            "lot": "VEWXD31X",
+            "lot": "F4WXA82G",
             "qty": "22,000",
-            "note": "이라크",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "VEWXD32X",
-            "qty": "22,000",
-            "note": "이라크",
+            "note": "국내",
             "cancer": false,
             "site": "th"
           }
         ]
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "IGRA TB EU",
+          "qty": "66,000",
+          "note": "전정원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "이그라 단독 12호기사용",
+          "qty": null,
+          "note": null,
+          "cancer": false
+        },
+        {
+          "lot": "AMH EU",
+          "qty": "88,000",
+          "note": "김도원 과장",
+          "cancer": false
+        },
+        {
+          "lot": "LH ichroma",
+          "qty": "22,000",
+          "note": "박성원 과장",
+          "cancer": false
+        },
+        {
+          "lot": "AMH EU",
+          "qty": "44,000",
+          "note": "김도원 과장",
+          "cancer": false
+        },
+        {
+          "lot": "IGRA TB BIO",
+          "qty": "66,000",
+          "note": "전정원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "이그라 단독 12호기사용",
+          "qty": null,
+          "note": null,
+          "cancer": false
+        },
+        {
+          "lot": "PSA NEO",
+          "qty": "66,000",
+          "note": "임지은 대리",
+          "cancer": true
+        },
+        {
+          "lot": "LH ichroma",
+          "qty": "110,000",
+          "note": "박성원 과장",
+          "cancer": false
+        }
+      ]
     },
     "2026-09-25": {
       "std": {
@@ -55351,7 +56720,14 @@
     "2026-09-28": {
       "std": {
         "pack": [],
-        "dry": []
+        "dry": [
+          {
+            "lot": "TN-I PLUS 2",
+            "qty": "5,000",
+            "note": "1mL",
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -55407,6 +56783,13 @@
         ],
         "ich": [
           {
+            "lot": "IFWXC10R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
             "lot": "TGWXR07EX",
             "qty": "21,250",
             "note": "해외",
@@ -55449,7 +56832,21 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "DTSWXD06",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXH06",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "170,000",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -55458,35 +56855,64 @@
         ],
         "afi": [
           {
-            "lot": "TQWXB21G",
+            "lot": "PCWXB17F",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "VEWXD35X",
-            "qty": "22,000",
+            "lot": "CPWXA16X",
+            "qty": "11,000",
             "note": "해외",
-            "cancer": false,
+            "cancer": true,
             "site": "hq"
           },
           {
-            "lot": "ETWXA13X",
-            "qty": "280",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "ETWXA13X",
-            "qty": "720",
+            "lot": "CPWXA16X",
+            "qty": "11,000",
             "note": "이탈리아",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "T3WXA81X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "DDWXC95F",
+            "qty": "22,000",
+            "note": "중국1T",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "PSWXA56X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "FSWXA38X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "ich_hq": [
+          {
+            "lot": "IFWXC10R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
             "cancer": false,
             "site": "hq"
           }
         ],
-        "ich_hq": [],
         "ich_th": [
           {
             "lot": "TGWXR07EX",
@@ -55531,7 +56957,21 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "DTSWXD06",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXH06",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "170,000",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -55540,42 +56980,108 @@
         ],
         "afi_hq": [
           {
-            "lot": "TQWXB21G",
+            "lot": "PCWXB17F",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "VEWXD35X",
-            "qty": "22,000",
+            "lot": "CPWXA16X",
+            "qty": "11,000",
             "note": "해외",
-            "cancer": false,
+            "cancer": true,
             "site": "hq"
           },
           {
-            "lot": "ETWXA13X",
-            "qty": "280",
-            "note": "해외",
-            "cancer": false,
-            "site": "hq"
-          },
-          {
-            "lot": "ETWXA13X",
-            "qty": "720",
+            "lot": "CPWXA16X",
+            "qty": "11,000",
             "note": "이탈리아",
+            "cancer": true,
+            "site": "hq"
+          },
+          {
+            "lot": "T3WXA81X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "DDWXC95F",
+            "qty": "22,000",
+            "note": "중국1T",
             "cancer": false,
             "site": "hq"
           }
         ],
-        "afi_th": []
+        "afi_th": [
+          {
+            "lot": "PSWXA56X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "FSWXA38X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          }
+        ]
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "Ferritin (10시반)",
+          "qty": "44,000",
+          "note": "박영서 대리",
+          "cancer": true
+        },
+        {
+          "lot": "InsulinBIO",
+          "qty": "88,000",
+          "note": "길혜수 과장",
+          "cancer": false
+        },
+        {
+          "lot": "Ferritin (10시반)",
+          "qty": "88,000",
+          "note": "박영서 대리",
+          "cancer": true
+        },
+        {
+          "lot": "Ferritin (10시반)",
+          "qty": "88,000",
+          "note": "박영서 대리",
+          "cancer": true
+        },
+        {
+          "lot": "InsulinBIO",
+          "qty": "66,000",
+          "note": "길혜수 과장",
+          "cancer": false
+        }
+      ]
     },
     "2026-09-29": {
       "std": {
         "pack": [],
-        "dry": []
+        "dry": [
+          {
+            "lot": "C-peptide 1",
+            "qty": "200",
+            "note": "1 ML-1시",
+            "cancer": false
+          },
+          {
+            "lot": "C-peptide 2",
+            "qty": "200",
+            "note": null,
+            "cancer": false
+          }
+        ]
       },
       "prod": {
         "div": [
@@ -55584,6 +57090,34 @@
             "qty": "840",
             "note": "해외",
             "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DFRWXH10",
+            "qty": "840",
+            "note": "해외",
+            "cancer": true,
+            "site": null
+          },
+          {
+            "lot": "DFRWXH11",
+            "qty": "840",
+            "note": "해외",
+            "cancer": true,
+            "site": null
+          },
+          {
+            "lot": "DFRWXH12",
+            "qty": "840",
+            "note": "해외",
+            "cancer": true,
+            "site": null
+          },
+          {
+            "lot": "DFRWXX01",
+            "qty": "840",
+            "note": "해외",
+            "cancer": true,
             "site": null
           }
         ],
@@ -55631,14 +57165,28 @@
             "site": "th"
           },
           {
-            "lot": "FOWXG03Z",
+            "lot": "DFRWXH07",
             "qty": "21,250",
             "note": "해외",
             "cancer": true,
             "site": "th"
           },
           {
-            "lot": "126,250",
+            "lot": "DFRWXH08",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXH09",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "168,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -55647,16 +57195,30 @@
         ],
         "afi": [
           {
-            "lot": "PCWXB17F",
+            "lot": "F4WXA83G",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWXD31X",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "TBWXA49G",
+            "lot": "VEWXD32X",
             "qty": "22,000",
-            "note": "이탈리아",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWXD30X",
+            "qty": "22,000",
+            "note": "이라크",
             "cancer": false,
             "site": "hq"
           },
@@ -55666,6 +57228,41 @@
             "note": "해외",
             "cancer": true,
             "site": "hq"
+          },
+          {
+            "lot": "KMWXA10X",
+            "qty": "3,600",
+            "note": "독일",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "KMWXA10X",
+            "qty": "1,400",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "ETWXA13X",
+            "qty": "2,280",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "ETWXA13X",
+            "qty": "720",
+            "note": "이탈리아",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "NBWXD82G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
           }
         ],
         "ich_hq": [],
@@ -55713,14 +57310,28 @@
             "site": "th"
           },
           {
-            "lot": "FOWXG03Z",
+            "lot": "DFRWXH07",
             "qty": "21,250",
             "note": "해외",
             "cancer": true,
             "site": "th"
           },
           {
-            "lot": "126,250",
+            "lot": "DFRWXH08",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXH09",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "168,750",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -55729,16 +57340,30 @@
         ],
         "afi_hq": [
           {
-            "lot": "PCWXB17F",
+            "lot": "F4WXA83G",
+            "qty": "22,000",
+            "note": "국내",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWXD31X",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "TBWXA49G",
+            "lot": "VEWXD32X",
             "qty": "22,000",
-            "note": "이탈리아",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWXD30X",
+            "qty": "22,000",
+            "note": "이라크",
             "cancer": false,
             "site": "hq"
           },
@@ -55748,11 +57373,72 @@
             "note": "해외",
             "cancer": true,
             "site": "hq"
+          },
+          {
+            "lot": "KMWXA10X",
+            "qty": "3,600",
+            "note": "독일",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "KMWXA10X",
+            "qty": "1,400",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "ETWXA13X",
+            "qty": "2,280",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "ETWXA13X",
+            "qty": "720",
+            "note": "이탈리아",
+            "cancer": false,
+            "site": "hq"
           }
         ],
-        "afi_th": []
+        "afi_th": [
+          {
+            "lot": "NBWXD82G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          }
+        ]
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "66,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        }
+      ]
     },
     "2026-09-30": {
       "std": {
@@ -55767,9 +57453,51 @@
             "note": "해외",
             "cancer": false,
             "site": null
+          },
+          {
+            "lot": "DTSWXD08",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DTSWXD09",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DTSWXD10",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DTSWXD11",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DTSWXD12",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
           }
         ],
         "ich": [
+          {
+            "lot": "RSWXA53R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
           {
             "lot": "CRWXL02",
             "qty": "85,000",
@@ -55782,6 +57510,261 @@
             "qty": "21,250",
             "note": "해외",
             "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "FOWXG02Z",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "CAWXV01",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "148,750",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [
+          {
+            "lot": "VEWXD33X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWXD34X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWXD35X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWXD36X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_hq": [
+          {
+            "lot": "RSWXA53R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_th": [
+          {
+            "lot": "CRWXL02",
+            "qty": "85,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DPLWXY12",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "FOWXG02Z",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "CAWXV01",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "148,750",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [
+          {
+            "lot": "VEWXD33X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWXD34X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWXD35X",
+            "qty": "22,000",
+            "note": "이라크",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWXD36X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "afi_th": []
+      },
+      "gran": [
+        {
+          "lot": "a-IFX Eu (2시)",
+          "qty": "25,000",
+          "note": "김진아 과장",
+          "cancer": false
+        },
+        {
+          "lot": "a-IFX BIO (2시)",
+          "qty": "25,000",
+          "note": "김진아 과장",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "66,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D Bio",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        }
+      ]
+    },
+    "2026-10-01": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [
+          {
+            "lot": "CAWXV01",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "PSWYU02",
+            "qty": "21,000",
+            "note": "해외",
+            "cancer": true,
+            "site": null
+          },
+          {
+            "lot": "VEWYS06E",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "VEWYS07E",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "VEWYS08E",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "VEWYS09E",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          }
+        ],
+        "ich": [
+          {
+            "lot": "TEWXG11EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "RFWXY01EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "PSWXE06EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "PSWXE07EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "PSWYU02",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
             "site": "th"
           },
           {
@@ -55801,21 +57784,28 @@
         ],
         "afi": [
           {
-            "lot": "CPWXA16X",
-            "qty": "11,000",
+            "lot": "AAWXC21X",
+            "qty": "22,000",
             "note": "해외",
-            "cancer": true,
+            "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "CPWXA16X",
-            "qty": "11,000",
-            "note": "이탈리아",
-            "cancer": true,
+            "lot": "MAWXA48X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "T3WXA81X",
+            "lot": "TNWXE82X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TNWXE83X",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
@@ -55825,17 +57815,38 @@
         "ich_hq": [],
         "ich_th": [
           {
-            "lot": "CRWXL02",
-            "qty": "85,000",
+            "lot": "TEWXG11EX",
+            "qty": "21,250",
             "note": "해외",
             "cancer": false,
             "site": "th"
           },
           {
-            "lot": "DPLWXY12",
+            "lot": "RFWXY01EX",
             "qty": "21,250",
             "note": "해외",
             "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "PSWXE06EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "PSWXE07EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "PSWYU02",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
             "site": "th"
           },
           {
@@ -55855,21 +57866,28 @@
         ],
         "afi_hq": [
           {
-            "lot": "CPWXA16X",
-            "qty": "11,000",
+            "lot": "AAWXC21X",
+            "qty": "22,000",
             "note": "해외",
-            "cancer": true,
+            "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "CPWXA16X",
-            "qty": "11,000",
-            "note": "이탈리아",
-            "cancer": true,
+            "lot": "MAWXA48X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
             "site": "hq"
           },
           {
-            "lot": "T3WXA81X",
+            "lot": "TNWXE82X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TNWXE83X",
             "qty": "22,000",
             "note": "해외",
             "cancer": false,
@@ -55878,131 +57896,26 @@
         ],
         "afi_th": []
       },
-      "gran": []
-    },
-    "2026-10-01": {
-      "std": {
-        "pack": [],
-        "dry": []
-      },
-      "prod": {
-        "div": [
-          {
-            "lot": "PSWYU02",
-            "qty": "21,000",
-            "note": "해외",
-            "cancer": true,
-            "site": null
-          }
-        ],
-        "ich": [
-          {
-            "lot": "TEWXG11EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "RFWXY01EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "PSWXE06EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "PSWXE07EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "PSWYU02",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "CPWXF03Z",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "127,500",
-            "qty": null,
-            "note": null,
-            "cancer": false,
-            "site": "th"
-          }
-        ],
-        "afi": [],
-        "ich_hq": [],
-        "ich_th": [
-          {
-            "lot": "TEWXG11EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "RFWXY01EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": false,
-            "site": "th"
-          },
-          {
-            "lot": "PSWXE06EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "PSWXE07EX",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "PSWYU02",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "CPWXF03Z",
-            "qty": "21,250",
-            "note": "해외",
-            "cancer": true,
-            "site": "th"
-          },
-          {
-            "lot": "127,500",
-            "qty": null,
-            "note": null,
-            "cancer": false,
-            "site": "th"
-          }
-        ],
-        "afi_hq": [],
-        "afi_th": []
-      },
-      "gran": []
+      "gran": [
+        {
+          "lot": "PSA NEO",
+          "qty": "66,000",
+          "note": "임지은 대리",
+          "cancer": true
+        },
+        {
+          "lot": "InsulinBIO",
+          "qty": "66,000",
+          "note": "길혜수 과장",
+          "cancer": false
+        },
+        {
+          "lot": "InsulinBIO",
+          "qty": "88,000",
+          "note": "길혜수 과장",
+          "cancer": false
+        }
+      ]
     },
     "2026-10-02": {
       "std": {
@@ -56017,6 +57930,27 @@
             "note": "해외",
             "cancer": false,
             "site": null
+          },
+          {
+            "lot": "VGWYB01EX",
+            "qty": "400",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "RGWYA12EX",
+            "qty": "400",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "XMWYA09EX",
+            "qty": "200",
+            "note": "해외",
+            "cancer": false,
+            "site": null
           }
         ],
         "ich": [
@@ -56063,14 +57997,43 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "FOWXG03Z",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
             "site": "th"
           }
         ],
-        "afi": [],
+        "afi": [
+          {
+            "lot": "CRWYE03X",
+            "qty": "44,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TNWYE84X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TSWYB75X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "ich_hq": [],
         "ich_th": [
           {
@@ -56116,14 +58079,43 @@
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "FOWXG03Z",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "148,750",
             "qty": null,
             "note": null,
             "cancer": false,
             "site": "th"
           }
         ],
-        "afi_hq": [],
+        "afi_hq": [
+          {
+            "lot": "CRWYE03X",
+            "qty": "44,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TNWYE84X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TSWYB75X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "afi_th": []
       },
       "gran": [
@@ -56134,15 +58126,15 @@
           "cancer": false
         },
         {
-          "lot": "ICHROMA HBA1C",
+          "lot": "Testosterone",
           "qty": "66,000",
-          "note": "강가영 과장",
+          "note": "박병준 대리",
           "cancer": false
         },
         {
-          "lot": "ICHROMA HBA1C",
-          "qty": "66,000",
-          "note": "강가영 과장",
+          "lot": "Testosterone",
+          "qty": "44,000",
+          "note": "박병준 대리",
           "cancer": false
         },
         {
@@ -56167,28 +58159,77 @@
       "prod": {
         "div": [
           {
-            "lot": "DFRWYH05",
-            "qty": "840",
-            "note": "해외",
-            "cancer": true,
-            "site": null
-          },
-          {
-            "lot": "DFRWYH06",
-            "qty": "840",
-            "note": "해외",
-            "cancer": true,
-            "site": null
-          },
-          {
             "lot": "ACWYF03E",
             "qty": "840",
             "note": "해외(건조)",
             "cancer": false,
             "site": null
+          },
+          {
+            "lot": "DTSWYE01",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DTSWYE02",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DTSWYE03",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DTSWYE04",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DTSWYE05",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "PSWYE08EX",
+            "qty": "840",
+            "note": "해외",
+            "cancer": true,
+            "site": null
+          },
+          {
+            "lot": "KDWYX03EX",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "F4WYH07",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
           }
         ],
         "ich": [
+          {
+            "lot": "ADWYA38R",
+            "qty": "20,000",
+            "note": "국내 FPCC305-2",
+            "cancer": false,
+            "site": "hq"
+          },
           {
             "lot": "HCWXR08EX",
             "qty": "21,250",
@@ -56225,7 +58266,7 @@
             "site": "th"
           },
           {
-            "lot": "HSWXM02",
+            "lot": "DFRWXH10",
             "qty": "21,250",
             "note": "해외",
             "cancer": true,
@@ -56239,8 +58280,52 @@
             "site": "th"
           }
         ],
-        "afi": [],
-        "ich_hq": [],
+        "afi": [
+          {
+            "lot": "TTWYA35X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "INWYA18G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TBWYA50G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "BBWYA15G",
+            "qty": "2,500",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "BBWYA15G",
+            "qty": "2,500",
+            "note": "이탈리아",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_hq": [
+          {
+            "lot": "ADWYA38R",
+            "qty": "20,000",
+            "note": "국내 FPCC305-2",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "ich_th": [
           {
             "lot": "HCWXR08EX",
@@ -56278,7 +58363,7 @@
             "site": "th"
           },
           {
-            "lot": "HSWXM02",
+            "lot": "DFRWXH10",
             "qty": "21,250",
             "note": "해외",
             "cancer": true,
@@ -56292,7 +58377,43 @@
             "site": "th"
           }
         ],
-        "afi_hq": [],
+        "afi_hq": [
+          {
+            "lot": "TTWYA35X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "INWYA18G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TBWYA50G",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "BBWYA15G",
+            "qty": "2,500",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "BBWYA15G",
+            "qty": "2,500",
+            "note": "이탈리아",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "afi_th": []
       },
       "gran": []
@@ -56303,13 +58424,56 @@
         "dry": []
       },
       "prod": {
-        "div": [],
+        "div": [
+          {
+            "lot": "DPGWYE01",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          }
+        ],
         "ich": [
           {
-            "lot": "HSWYM03",
+            "lot": "DFRWXH11",
             "qty": "21,250",
             "note": "해외",
             "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXH12",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXX01",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "VEWYS06E",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VEWYS07E",
+            "qty": "21,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VEWYS08E",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
             "site": "th"
           },
           {
@@ -56324,10 +58488,45 @@
         "ich_hq": [],
         "ich_th": [
           {
-            "lot": "HSWYM03",
+            "lot": "DFRWXH11",
             "qty": "21,250",
             "note": "해외",
             "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXH12",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "DFRWXX01",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "VEWYS06E",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VEWYS07E",
+            "qty": "21,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VEWYS08E",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
             "site": "th"
           },
           {
@@ -56341,7 +58540,38 @@
         "afi_hq": [],
         "afi_th": []
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "Anti-Adalimumab Bio",
+          "qty": "40,000",
+          "note": "김현 대리",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D FL",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D FL",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D FL",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D FL",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        }
+      ]
     },
     "2026-10-05": {
       "std": {
@@ -56362,11 +58592,123 @@
     "2026-10-07": {
       "std": {
         "pack": [],
-        "dry": []
+        "dry": [
+          {
+            "lot": "Cyfra21-1 1",
+            "qty": "300",
+            "note": "1mL",
+            "cancer": true
+          },
+          {
+            "lot": "Cyfra21-1 2",
+            "qty": "300",
+            "note": null,
+            "cancer": true
+          }
+        ]
       },
       "prod": {
-        "div": [],
+        "div": [
+          {
+            "lot": "DFSWYG03",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "DFSWYG04",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "TEWYG12EX",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "TEWYH01EX",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "RFWYY02EX",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "ASWYC05EX",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "INWYC10",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "MHWYD09E",
+            "qty": "840",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          }
+        ],
         "ich": [
+          {
+            "lot": "DTSWXD08",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWXD09",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWXD10",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWXD11",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWXD12",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "CPWXF03Z",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
           {
             "lot": "127,500",
             "qty": null,
@@ -56375,10 +58717,81 @@
             "site": "th"
           }
         ],
-        "afi": [],
+        "afi": [
+          {
+            "lot": "PLWYA50X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "COWYA20X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TEWYA21X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "PPWYB80X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "ich_hq": [],
         "ich_th": [
           {
+            "lot": "DTSWXD08",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWXD09",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWXD10",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWXD11",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWXD12",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "CPWXF03Z",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
             "lot": "127,500",
             "qty": null,
             "note": null,
@@ -56386,10 +58799,64 @@
             "site": "th"
           }
         ],
-        "afi_hq": [],
+        "afi_hq": [
+          {
+            "lot": "PLWYA50X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "COWYA20X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TEWYA21X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "PPWYB80X",
+            "qty": "22,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "afi_th": []
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "Vitamin D FL",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D FL",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D FL",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        },
+        {
+          "lot": "Vitamin D FL",
+          "qty": "110,000",
+          "note": "김형민 사원",
+          "cancer": false
+        }
+      ]
     },
     "2026-10-09": {
       "std": {
@@ -56398,26 +58865,10 @@
       },
       "prod": {
         "div": [],
-        "ich": [
-          {
-            "lot": "127,500",
-            "qty": null,
-            "note": null,
-            "cancer": false,
-            "site": "th"
-          }
-        ],
+        "ich": [],
         "afi": [],
         "ich_hq": [],
-        "ich_th": [
-          {
-            "lot": "127,500",
-            "qty": null,
-            "note": null,
-            "cancer": false,
-            "site": "th"
-          }
-        ],
+        "ich_th": [],
         "afi_hq": [],
         "afi_th": []
       },
@@ -56429,24 +58880,109 @@
         "dry": []
       },
       "prod": {
-        "div": [],
+        "div": [
+          {
+            "lot": "MAWYY10EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "AAWYX07",
+            "qty": "850",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "AAWYX08",
+            "qty": "850",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "AAWYX09",
+            "qty": "850",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "AAWYX10",
+            "qty": "850",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          }
+        ],
         "ich": [
           {
-            "lot": "DFRWYH05",
+            "lot": "IFWYC11R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "VEWYS09E",
             "qty": "21,250",
             "note": "해외",
-            "cancer": true,
+            "cancer": false,
             "site": "th"
           },
           {
-            "lot": "DFRWYH06",
+            "lot": "AAWYX07",
             "qty": "21,250",
             "note": "해외",
-            "cancer": true,
+            "cancer": false,
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "AAWYX08",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "AAWYX09",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "AAWYX10",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VGWYB01EX",
+            "qty": "10,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "RGWYA12EX",
+            "qty": "10,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "XMWYA09EX",
+            "qty": "5,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "131,250",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -56454,24 +58990,74 @@
           }
         ],
         "afi": [],
-        "ich_hq": [],
+        "ich_hq": [
+          {
+            "lot": "IFWYC11R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "ich_th": [
           {
-            "lot": "DFRWYH05",
+            "lot": "VEWYS09E",
             "qty": "21,250",
             "note": "해외",
-            "cancer": true,
+            "cancer": false,
             "site": "th"
           },
           {
-            "lot": "DFRWYH06",
+            "lot": "AAWYX07",
             "qty": "21,250",
             "note": "해외",
-            "cancer": true,
+            "cancer": false,
             "site": "th"
           },
           {
-            "lot": "127,500",
+            "lot": "AAWYX08",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "AAWYX09",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "AAWYX10",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "VGWYB01EX",
+            "qty": "10,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "RGWYA12EX",
+            "qty": "10,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "XMWYA09EX",
+            "qty": "5,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "131,250",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -56489,13 +59075,70 @@
         "dry": []
       },
       "prod": {
-        "div": [],
+        "div": [
+          {
+            "lot": "AAWYX07",
+            "qty": "21,000",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "AAWYX08",
+            "qty": "21,000",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "TNWYH09",
+            "qty": "850",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          }
+        ],
         "ich": [
           {
-            "lot": "HSWYM04",
+            "lot": "PSWYE08EX",
             "qty": "21,250",
             "note": "해외",
             "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "KDWYX03EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "MAWYY10EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "F4WYH07",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DFSWYG03",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DFSWYG04",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
             "site": "th"
           },
           {
@@ -56510,10 +59153,45 @@
         "ich_hq": [],
         "ich_th": [
           {
-            "lot": "HSWYM04",
+            "lot": "PSWYE08EX",
             "qty": "21,250",
             "note": "해외",
             "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "KDWYX03EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "MAWYY10EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "F4WYH07",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DFSWYG03",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DFSWYG04",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
             "site": "th"
           },
           {
@@ -56527,7 +59205,26 @@
         "afi_hq": [],
         "afi_th": []
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "TN-I PLUS Bio",
+          "qty": "88000",
+          "note": "박영주 대리",
+          "cancer": false
+        },
+        {
+          "lot": "TN-I PLUS Bio",
+          "qty": "66000",
+          "note": "박영주 대리",
+          "cancer": false
+        },
+        {
+          "lot": "TN-I PLUS Bio",
+          "qty": "66000",
+          "note": "박영주 대리",
+          "cancer": false
+        }
+      ]
     },
     "2026-10-14": {
       "std": {
@@ -56535,8 +59232,44 @@
         "dry": []
       },
       "prod": {
-        "div": [],
+        "div": [
+          {
+            "lot": "AAWYX09",
+            "qty": "21,000",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          },
+          {
+            "lot": "AAWYX10",
+            "qty": "21,000",
+            "note": "해외",
+            "cancer": false,
+            "site": null
+          }
+        ],
         "ich": [
+          {
+            "lot": "IFWYC12R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "TEWYG12EX",
+            "qty": "21,250",
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "HSWYM02",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
           {
             "lot": "127,500",
             "qty": null,
@@ -56546,8 +59279,30 @@
           }
         ],
         "afi": [],
-        "ich_hq": [],
+        "ich_hq": [
+          {
+            "lot": "IFWYC12R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "ich_th": [
+          {
+            "lot": "TEWYG12EX",
+            "qty": "21,250",
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "HSWYM02",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
           {
             "lot": "127,500",
             "qty": null,
@@ -56559,7 +59314,38 @@
         "afi_hq": [],
         "afi_th": []
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "TSH",
+          "qty": "44,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        }
+      ]
     },
     "2026-10-15": {
       "std": {
@@ -56570,14 +59356,49 @@
         "div": [],
         "ich": [
           {
-            "lot": "HSWYM05",
+            "lot": "DTSWYE01",
             "qty": "21,250",
             "note": "해외",
-            "cancer": true,
+            "cancer": false,
             "site": "th"
           },
           {
-            "lot": "127,250",
+            "lot": "DTSWYE02",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWYE03",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWYE04",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWYE05",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "TNWYH09",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "127,500",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -56588,14 +59409,49 @@
         "ich_hq": [],
         "ich_th": [
           {
-            "lot": "HSWYM05",
+            "lot": "DTSWYE01",
             "qty": "21,250",
             "note": "해외",
-            "cancer": true,
+            "cancer": false,
             "site": "th"
           },
           {
-            "lot": "127,250",
+            "lot": "DTSWYE02",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWYE03",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWYE04",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DTSWYE05",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "TNWYH09",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "127,500",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -56605,7 +59461,26 @@
         "afi_hq": [],
         "afi_th": []
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "TN-I PLUS EU",
+          "qty": "88000",
+          "note": "박영주 대리",
+          "cancer": false
+        },
+        {
+          "lot": "TN-I PLUS EU",
+          "qty": "66000",
+          "note": "박영주 대리",
+          "cancer": false
+        },
+        {
+          "lot": "TN-I PLUS EU",
+          "qty": "66000",
+          "note": "박영주 대리",
+          "cancer": false
+        }
+      ]
     },
     "2026-10-16": {
       "std": {
@@ -56616,7 +59491,56 @@
         "div": [],
         "ich": [
           {
-            "lot": "127,500",
+            "lot": "TEWYH01EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "RFWYY02EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "ASWYC05EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "INWYC10",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "MHWYD09E",
+            "qty": "21,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DPGWYE01",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "HSWYM03",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "148,500",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -56627,7 +59551,56 @@
         "ich_hq": [],
         "ich_th": [
           {
-            "lot": "127,500",
+            "lot": "TEWYH01EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "RFWYY02EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "ASWYC05EX",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "INWYC10",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "MHWYD09E",
+            "qty": "21,000",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "DPGWYE01",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": false,
+            "site": "th"
+          },
+          {
+            "lot": "HSWYM03",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "148,500",
             "qty": null,
             "note": null,
             "cancer": false,
@@ -56637,7 +59610,20 @@
         "afi_hq": [],
         "afi_th": []
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "BNP EU",
+          "qty": "22,000",
+          "note": "백가은 사원",
+          "cancer": false
+        },
+        {
+          "lot": "BNP BIO",
+          "qty": "22,000",
+          "note": "백가은 사원",
+          "cancer": false
+        }
+      ]
     },
     "2026-10-19": {
       "std": {
@@ -56648,6 +59634,13 @@
         "div": [],
         "ich": [
           {
+            "lot": "RSWYA54R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
             "lot": "127,500",
             "qty": null,
             "note": null,
@@ -56656,7 +59649,15 @@
           }
         ],
         "afi": [],
-        "ich_hq": [],
+        "ich_hq": [
+          {
+            "lot": "RSWYA54R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "ich_th": [
           {
             "lot": "127,500",
@@ -56701,7 +59702,38 @@
         "afi_hq": [],
         "afi_th": []
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "CRP",
+          "qty": "44,000",
+          "note": "박세빈 사원",
+          "cancer": false
+        },
+        {
+          "lot": "CRP",
+          "qty": "110,000",
+          "note": "박세빈 사원",
+          "cancer": false
+        },
+        {
+          "lot": "CRP",
+          "qty": "110,000",
+          "note": "박세빈 사원",
+          "cancer": false
+        },
+        {
+          "lot": "CRP",
+          "qty": "110,000",
+          "note": "박세빈 사원",
+          "cancer": false
+        },
+        {
+          "lot": "CRP",
+          "qty": "66,000",
+          "note": "박세빈 사원",
+          "cancer": false
+        }
+      ]
     },
     "2026-10-21": {
       "std": {
@@ -56712,6 +59744,20 @@
         "div": [],
         "ich": [
           {
+            "lot": "ADWYA39R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "HSWYM04",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
             "lot": "127,500",
             "qty": null,
             "note": null,
@@ -56720,8 +59766,23 @@
           }
         ],
         "afi": [],
-        "ich_hq": [],
+        "ich_hq": [
+          {
+            "lot": "ADWYA39R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
         "ich_th": [
+          {
+            "lot": "HSWYM04",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
           {
             "lot": "127,500",
             "qty": null,
@@ -56733,7 +59794,38 @@
         "afi_hq": [],
         "afi_th": []
       },
-      "gran": []
+      "gran": [
+        {
+          "lot": "TSH",
+          "qty": "44,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        }
+      ]
     },
     "2026-10-22": {
       "std": {
@@ -56776,6 +59868,649 @@
         "div": [],
         "ich": [
           {
+            "lot": "HSWYM05",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [],
+        "ich_th": [
+          {
+            "lot": "HSWYM05",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": [
+        {
+          "lot": "BNP EU",
+          "qty": "22,000",
+          "note": "백가은 사원",
+          "cancer": false
+        },
+        {
+          "lot": "BNP BIO",
+          "qty": "22,000",
+          "note": "백가은 사원",
+          "cancer": false
+        }
+      ]
+    },
+    "2026-10-26": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "IFWYC13R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [
+          {
+            "lot": "IFWYC13R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_th": [
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-10-28": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "IFWYC14R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "FOWYG04Z",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [
+          {
+            "lot": "IFWYC14R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_th": [
+          {
+            "lot": "FOWYG04Z",
+            "qty": "21,250",
+            "note": "해외",
+            "cancer": true,
+            "site": "th"
+          },
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": [
+        {
+          "lot": "TSH",
+          "qty": "44,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        },
+        {
+          "lot": "TSH",
+          "qty": "66,000",
+          "note": "백지원 사원",
+          "cancer": false
+        }
+      ]
+    },
+    "2026-11-02": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "RSWKA55R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [
+          {
+            "lot": "RSWKA55R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_th": [
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-11-04": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "ADWKA40R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          },
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [
+          {
+            "lot": "ADWKA40R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_th": [
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-11-09": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "IFWKC15R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [
+          {
+            "lot": "IFWKC15R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_th": [],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-11-11": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "IFWKC16R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [
+          {
+            "lot": "IFWKC16R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_th": [],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-11-16": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "RSWKA56R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [
+          {
+            "lot": "RSWKA56R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_th": [],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-11-18": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "ADWKA41R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [
+          {
+            "lot": "ADWKA41R",
+            "qty": "20,000",
+            "note": "국내, FPCC303\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_th": [],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-11-23": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "IFWKC17R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [
+          {
+            "lot": "IFWKC17R",
+            "qty": "20,000",
+            "note": "국내, FPCC127\r\nEXP 18개월",
+            "cancer": false,
+            "site": "hq"
+          }
+        ],
+        "ich_th": [],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-10-27": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [],
+        "ich_th": [
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-10-29": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "127,250",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [],
+        "ich_th": [
+          {
+            "lot": "127,250",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-10-30": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [],
+        "ich_th": [
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": [
+        {
+          "lot": "ICHROMA HBA1C",
+          "qty": "44,000",
+          "note": "강가영 과장",
+          "cancer": false
+        },
+        {
+          "lot": "ICHROMA HBA1C",
+          "qty": "88,000",
+          "note": "강가영 과장",
+          "cancer": false
+        },
+        {
+          "lot": "ICHROMA HBA1C",
+          "qty": "66,000",
+          "note": "강가영 과장",
+          "cancer": false
+        },
+        {
+          "lot": "ICHROMA HBA1C",
+          "qty": "66,000",
+          "note": "강가영 과장",
+          "cancer": false
+        },
+        {
+          "lot": "ICHROMA HBA1C",
+          "qty": "66,000",
+          "note": "강가영 과장",
+          "cancer": false
+        }
+      ]
+    },
+    "2026-11-03": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [],
+        "ich_th": [
+          {
+            "lot": "127,500",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-11-05": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
+            "lot": "127,250",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi": [],
+        "ich_hq": [],
+        "ich_th": [
+          {
+            "lot": "127,250",
+            "qty": null,
+            "note": null,
+            "cancer": false,
+            "site": "th"
+          }
+        ],
+        "afi_hq": [],
+        "afi_th": []
+      },
+      "gran": []
+    },
+    "2026-11-06": {
+      "std": {
+        "pack": [],
+        "dry": []
+      },
+      "prod": {
+        "div": [],
+        "ich": [
+          {
             "lot": "127,500",
             "qty": null,
             "note": null,
@@ -56800,7 +60535,7 @@
       "gran": []
     }
   },
-  "curMon": "2026-08-31",
-  "savedAt": "2026-09-03T01:11:05.473Z",
+  "curMon": "2026-09-14",
+  "savedAt": "2026-09-14T01:45:02.166Z",
   "version": 1
 }
