@@ -203,20 +203,6 @@
   .prodperf-placeholder a { color:var(--blue); }
   @media(max-width:900px) { .prodperf-kpis { grid-template-columns:repeat(2,1fr); } }
 
-  /* ── 헤더 하단 2단 레이아웃 ── */
-  .hdr-bottom {
-    display:flex; gap:14px; align-items:flex-start;
-    width:100%; max-width:1200px; align-self:center;
-    margin-top:18px; padding:0 8px; text-align:left;
-  }
-
-  /* ── 헤더 좌측 컬럼 (공지 + CV 세로 스택) ── */
-  .hdr-left-col {
-    width:300px; flex-shrink:0;
-    display:flex; flex-direction:column; gap:10px;
-    padding-top:57px;
-  }
-
   /* ── 공지사항 박스 ── */
   .notice-box {
     width:100%; flex-shrink:0;
@@ -934,42 +920,59 @@
   body.theme-white .card-body-inner { border-top-color:#c8cdd5; }
   body.theme-white .sb-close-btn:hover { background:#eaecf0; }
 
-  /* ── 슬라이드(캐러셀) 보기 ── */
-  .card-grid.slide-view {
-    display:block; position:relative; min-height:140px;
+  /* ── 상단: 기본 정보 + 공지(고정) / 하단: 슬라이드 영역 ── */
+  .hdr-notice { width:100%; max-width:920px; margin-top:16px; text-align:left; }
+  .hdr-notice .notice-scroll-area { max-height:104px; }
+  header { padding-bottom:20px; }
+
+  .deck { position:relative; z-index:1; flex:1; display:flex; flex-direction:column; min-width:0; }
+  .deck-bar {
+    position:sticky; top:0; z-index:35; display:flex; align-items:center; justify-content:center; gap:10px;
+    padding:10px 16px; background:color-mix(in srgb, var(--bg2) 92%, transparent);
+    backdrop-filter:blur(8px); border-bottom:1px solid var(--border);
   }
-  .card-grid.slide-view .card-wrap {
-    display:none; opacity:1; transform:none; animation:none;
+  .deck-tabs { display:flex; gap:6px; overflow-x:auto; scrollbar-width:none; }
+  .deck-tabs::-webkit-scrollbar { display:none; }
+  .deck-tab {
+    flex-shrink:0; font-family:inherit; font-size:13px; font-weight:600; white-space:nowrap;
+    padding:8px 18px; border-radius:20px; cursor:pointer;
+    background:var(--bg3); color:var(--text-muted); border:1px solid var(--border);
+    transition:all .18s;
   }
-  .card-grid.slide-view .card-wrap.slide-active {
-    display:block; animation:catFadeIn .3s ease;
+  .deck-tab:hover { color:var(--text); border-color:var(--blue); }
+  .deck-tab.active { background:var(--blue); color:#0d1117; border-color:var(--blue); box-shadow:0 0 14px -3px var(--blue); }
+  body.theme-white .deck-tab.active { color:#fff; }
+  .deck-arrow {
+    width:34px; height:34px; border-radius:50%; flex-shrink:0; cursor:pointer;
+    background:var(--bg3); border:1px solid var(--border); color:var(--text); font-size:18px; line-height:1;
+    display:flex; align-items:center; justify-content:center; transition:all .15s;
   }
-  .slide-nav {
-    display:none; align-items:center; justify-content:center; gap:14px;
-    margin-top:16px;
-  }
-  .slide-nav.active { display:flex; }
-  .slide-btn {
-    width:34px; height:34px; border-radius:50%; flex-shrink:0;
-    background:var(--bg3); border:1px solid var(--border); color:var(--text);
-    font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center;
-    transition:all .15s;
-  }
-  .slide-btn:hover { border-color:var(--blue); color:var(--blue); transform:scale(1.08); }
-  .slide-btn:disabled { opacity:.35; cursor:default; }
-  .slide-btn:disabled:hover { border-color:var(--border); color:var(--text); transform:none; }
-  .slide-dots { display:flex; gap:6px; flex-wrap:wrap; justify-content:center; max-width:360px; }
-  .slide-dot {
-    width:8px; height:8px; border-radius:50%; background:var(--bg3); border:1px solid var(--border);
-    cursor:pointer; transition:all .15s;
-  }
-  .slide-dot:hover { border-color:var(--blue); }
-  .slide-dot.active { background:var(--blue); border-color:var(--blue); box-shadow:0 0 6px var(--blue); }
-  .slide-counter { font-size:11px; color:var(--text-muted); min-width:48px; text-align:center; }
+  .deck-arrow:hover:not(:disabled) { border-color:var(--blue); color:var(--blue); }
+  .deck-arrow:disabled { opacity:.3; cursor:default; }
+
+  .deck-viewport { position:relative; flex:1; overflow:hidden; }
+  /* 비활성 패널은 높이 0으로 접어 두되 폭은 유지해서 차트가 정상 크기로 그려지게 한다 */
+  .deck-panel { position:absolute; left:0; top:0; width:100%; height:0; overflow:hidden; visibility:hidden; }
+  .deck-panel.active { position:relative; height:auto; overflow:visible; visibility:visible; animation:deckInR .32s ease; }
+  .deck-viewport.back .deck-panel.active { animation-name:deckInL; }
+  @keyframes deckInR { from{ opacity:0; transform:translateX(36px); } to{ opacity:1; transform:none; } }
+  @keyframes deckInL { from{ opacity:0; transform:translateX(-36px); } to{ opacity:1; transform:none; } }
+  @media (prefers-reduced-motion: reduce){ .deck-panel.active{ animation:none; } }
+
+  #dp-sched, #dp-perf { padding:26px 28px 40px; }
+  #dp-cv { padding:34px 28px 40px; }
+  .deck-narrow { width:100%; max-width:560px; margin:0 auto; }
+  #dp-sched .cancer-hdr-widget { margin:0 auto; max-width:960px; padding:0; }
+  #dp-perf .prodperf-widget { max-width:960px; margin:0 auto; }
+  #dp-perf .prodperf-chart-wrap { height:240px; }
+  #dp-perf .pk-value { font-size:18px; }
+  #dp-perf .prodperf-title { font-size:14px; }
+  #dp-prog .content-wrap { min-height:70vh; }
+  #dp-prog .sidebar { position:static; height:auto; max-height:none; }
+  @media(max-width:640px){ .deck-tab { padding:7px 12px; font-size:12px; } #dp-sched, #dp-perf, #dp-cv { padding:18px 12px 32px; } }
 
   /* ── RESPONSIVE ── */
   @media(max-width:1100px) { .card-grid { grid-template-columns:1fr; } }
-  @media(max-width:900px) { .hdr-bottom { flex-direction:column; } .hdr-left-col { width:100%; } }
   @media(max-width:768px) {
     .sidebar { position:fixed; z-index:200; height:100vh; top:0; left:0; }
     .sidebar.collapsed { width:0; }
@@ -1324,81 +1327,7 @@ function switchCat(cat, tabEl){
   grid.classList.add('switching');
   // 시트 전환 상태 저장
   try{ localStorage.setItem('hub-active-cat', cat); }catch(e){}
-  // 슬라이드 보기 중이면 첫 슬라이드로 리셋
-  if(slideViewOn){ slideIndex = 0; updateSlideView(); }
 }
-
-/* ── 슬라이드(캐러셀) 보기 ── */
-var slideViewOn = false;
-var slideIndex = 0;
-function getVisibleSlideCards(){
-  return Array.from(document.querySelectorAll('.card-wrap')).filter(function(w){
-    return !w.classList.contains('cat-hidden');
-  });
-}
-function renderSlideDots(cards){
-  var dots = document.getElementById('slide-dots');
-  if(!dots) return;
-  dots.innerHTML = '';
-  cards.forEach(function(_, i){
-    var d = document.createElement('span');
-    d.className = 'slide-dot' + (i === slideIndex ? ' active' : '');
-    d.title = (i+1) + '번째';
-    d.onclick = function(){ slideIndex = i; updateSlideView(); };
-    dots.appendChild(d);
-  });
-}
-function updateSlideView(){
-  if(!slideViewOn) return;
-  var cards = getVisibleSlideCards();
-  if(slideIndex > cards.length - 1) slideIndex = Math.max(0, cards.length - 1);
-  if(slideIndex < 0) slideIndex = 0;
-  cards.forEach(function(w, i){
-    var active = i === slideIndex;
-    w.classList.toggle('slide-active', active);
-    w.classList.toggle('open', active); // 현재 슬라이드는 항상 펼친 상태로 표시
-  });
-  renderSlideDots(cards);
-  var counter = document.getElementById('slide-counter');
-  if(counter) counter.textContent = cards.length ? (slideIndex + 1) + ' / ' + cards.length : '0 / 0';
-  var prevBtn = document.getElementById('slide-prev-btn');
-  var nextBtn = document.getElementById('slide-next-btn');
-  if(prevBtn) prevBtn.disabled = (slideIndex <= 0);
-  if(nextBtn) nextBtn.disabled = (slideIndex >= cards.length - 1);
-}
-function slideGo(delta){
-  if(!slideViewOn) return;
-  slideIndex += delta;
-  updateSlideView();
-}
-function toggleSlideView(){
-  slideViewOn = !slideViewOn;
-  var grid = document.getElementById('card-grid');
-  var nav = document.getElementById('slide-nav');
-  var btn = document.getElementById('slide-view-btn');
-  if(grid) grid.classList.toggle('slide-view', slideViewOn);
-  if(nav) nav.classList.toggle('active', slideViewOn);
-  if(btn) btn.textContent = slideViewOn ? '▦ 목록 보기' : '🖼️ 슬라이드 보기';
-  if(slideViewOn){
-    slideIndex = 0;
-    updateSlideView();
-  }
-  try{ localStorage.setItem('hub-slide-view', slideViewOn ? '1' : '0'); }catch(e){}
-}
-document.addEventListener('keydown', function(e){
-  if(!slideViewOn) return;
-  if(e.key === 'ArrowLeft') slideGo(-1);
-  if(e.key === 'ArrowRight') slideGo(1);
-});
-// 페이지 로드시 마지막 슬라이드 보기 상태 복원
-(function restoreSlideView(){
-  try{
-    var saved = localStorage.getItem('hub-slide-view');
-    if(saved === '1'){
-      document.addEventListener('DOMContentLoaded', function(){ toggleSlideView(); });
-    }
-  }catch(e){}
-})();
 // 페이지 로드시 마지막 선택 시트 복원
 (function restoreCat(){
   try{
@@ -2250,12 +2179,8 @@ document.addEventListener('keydown',function(e){
     </div>
   </div>
 
-  <!-- 헤더 하단: 좌측컬럼(공지+CV) + 생산일정(메인) -->
-  <div class="hdr-bottom">
-
-    <!-- ── 좌측 세로 컬럼: 공지사항 위 + CV위젯 아래 ── -->
-    <div class="hdr-left-col">
-
+  <!-- 공지사항: 상단 고정 -->
+  <div class="hdr-notice">
       <!-- 공지사항 박스 -->
       <div class="notice-box">
         <div class="notice-box-hd">
@@ -2275,7 +2200,43 @@ document.addEventListener('keydown',function(e){
           </span>
         </div>
       </div>
+  </div>
+</header>
 
+<!-- ═══ 하단 슬라이드 영역: 생산 일정 → CV 달성 → 생산 실적 → 프로그램 ═══ -->
+<section class="deck" id="deck">
+  <div class="deck-bar">
+    <button class="deck-arrow" id="deck-prev" onclick="deckGo(-1)" title="이전 (←)">‹</button>
+    <div class="deck-tabs" id="deck-tabs" role="tablist">
+      <button class="deck-tab active" role="tab" onclick="deckTo(0)">🧬 생산 일정</button>
+      <button class="deck-tab" role="tab" onclick="deckTo(1)">🎯 CV 달성</button>
+      <button class="deck-tab" role="tab" onclick="deckTo(2)">📊 생산 실적</button>
+      <button class="deck-tab" role="tab" onclick="deckTo(3)">🗂️ 프로그램</button>
+    </div>
+    <button class="deck-arrow" id="deck-next" onclick="deckGo(1)" title="다음 (→)">›</button>
+  </div>
+
+  <div class="deck-viewport" id="deck-viewport">
+    <div class="deck-panel active" id="dp-sched">
+    <!-- Cancer팀 이번 주 생산 일정 (메인) -->
+    <div class="cancer-hdr-widget">
+      <div class="cancer-hdr-label">🧬 Cancer팀 이번 주 생산 일정</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;justify-content:flex-start">
+        <span class="cancer-item-type ct-std-pack" style="padding:2px 8px;border-radius:4px;font-size:9px">📦 표준물질 포장</span>
+        <span class="cancer-item-type ct-std-dry"  style="padding:2px 8px;border-radius:4px;font-size:9px">🧪 표준물질 분주</span>
+        <span class="cancer-item-type ct-div"      style="padding:2px 8px;border-radius:4px;font-size:9px">💧 ichroma 분주</span>
+        <span class="cancer-item-type ct-ich"      style="padding:2px 8px;border-radius:4px;font-size:9px">🔬 ichroma(본사)</span>
+        <span class="cancer-item-type ct-ich-th"   style="padding:2px 8px;border-radius:4px;font-size:9px;border:1px dashed #7c3aed">🔬 ichroma(태현)</span>
+        <span class="cancer-item-type ct-afi"      style="padding:2px 8px;border-radius:4px;font-size:9px">⚙️ AFIAS(본사)</span>
+        <span class="cancer-item-type ct-afi-th"   style="padding:2px 8px;border-radius:4px;font-size:9px;border:1px dashed #1d4ed8">⚙️ AFIAS(태현)</span>
+        <span class="cancer-item-type ct-gran"     style="padding:2px 8px;border-radius:4px;font-size:9px">🌿 그래뉼</span>
+      </div>
+      <div id="cancer-widget"></div>
+      </div>
+    </div>
+
+    <div class="deck-panel" id="dp-cv">
+      <div class="deck-narrow">
       <!-- CV 7% 달성 현황 위젯 (공지사항 바로 아래) -->
       <div class="cv-box">
         <div class="cv-box-hd">
@@ -2294,33 +2255,17 @@ document.addEventListener('keydown',function(e){
           <span style="font-size:9px;color:rgba(139,148,158,.25)">클릭 → 정지/재개</span>
         </div>
       </div>
-
-    </div><!-- /hdr-left-col -->
-
-    <!-- Cancer팀 이번 주 생산 일정 (메인) -->
-    <div class="cancer-hdr-widget">
-      <div class="cancer-hdr-label">🧬 Cancer팀 이번 주 생산 일정</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;justify-content:flex-start">
-        <span class="cancer-item-type ct-std-pack" style="padding:2px 8px;border-radius:4px;font-size:9px">📦 표준물질 포장</span>
-        <span class="cancer-item-type ct-std-dry"  style="padding:2px 8px;border-radius:4px;font-size:9px">🧪 표준물질 분주</span>
-        <span class="cancer-item-type ct-div"      style="padding:2px 8px;border-radius:4px;font-size:9px">💧 ichroma 분주</span>
-        <span class="cancer-item-type ct-ich"      style="padding:2px 8px;border-radius:4px;font-size:9px">🔬 ichroma(본사)</span>
-        <span class="cancer-item-type ct-ich-th"   style="padding:2px 8px;border-radius:4px;font-size:9px;border:1px dashed #7c3aed">🔬 ichroma(태현)</span>
-        <span class="cancer-item-type ct-afi"      style="padding:2px 8px;border-radius:4px;font-size:9px">⚙️ AFIAS(본사)</span>
-        <span class="cancer-item-type ct-afi-th"   style="padding:2px 8px;border-radius:4px;font-size:9px;border:1px dashed #1d4ed8">⚙️ AFIAS(태현)</span>
-        <span class="cancer-item-type ct-gran"     style="padding:2px 8px;border-radius:4px;font-size:9px">🌿 그래뉼</span>
       </div>
-      <div id="cancer-widget"></div>
+    </div>
 
+    <div class="deck-panel" id="dp-perf">
       <!-- 생산 실적 대시보드 미리보기 (dashboard.html을 매월 같은 파일명으로 교체하면 자동 반영) -->
       <div class="prodperf-widget" id="prodperf-widget">
         <div class="prodperf-placeholder" style="color:var(--text-muted)">⏳ 생산 실적 대시보드 로드 중...</div>
       </div>
     </div>
 
-  </div>
-</header>
-
+    <div class="deck-panel" id="dp-prog">
 <!-- BODY: sidebar + main -->
 <div class="content-wrap">
 
@@ -2416,7 +2361,6 @@ document.addEventListener('keydown',function(e){
       <div class="ctrl-btns">
         <button class="ctrl-btn" onclick="toggleSidebar()">☰ 사이드바</button>
         <button class="ctrl-btn" id="toggle-all-btn" onclick="expandAll()">▼ 모두 펼치기</button>
-        <button class="ctrl-btn" id="slide-view-btn" onclick="toggleSlideView()">🖼️ 슬라이드 보기</button>
       </div>
     </div>
 
@@ -2684,16 +2628,13 @@ document.addEventListener('keydown',function(e){
       </div>
 
     </div>
-
-    <!-- 슬라이드 보기 전환 시에만 표시되는 네비게이션 -->
-    <div class="slide-nav" id="slide-nav">
-      <button class="slide-btn" id="slide-prev-btn" onclick="slideGo(-1)" title="이전 (←)">‹</button>
-      <div class="slide-dots" id="slide-dots"></div>
-      <span class="slide-counter" id="slide-counter">0 / 0</span>
-      <button class="slide-btn" id="slide-next-btn" onclick="slideGo(1)" title="다음 (→)">›</button>
-    </div>
   </main>
 </div>
+    </div>
+  </div>
+</section>
+
+
 
 <!-- 카드 클릭 → 인라인 대시보드 뷰어 모달 -->
 <div class="dash-modal" id="dash-modal">
@@ -2817,6 +2758,45 @@ document.addEventListener('mousemove',function(e){
   var r=c.getBoundingClientRect();
   c.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
 });
+</script>
+<script>
+/* 하단 슬라이드 영역: 생산 일정 / CV 달성 / 생산 실적 / 프로그램 */
+(function(){
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.deck-panel'));
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.deck-tab'));
+  var viewport = document.getElementById('deck-viewport');
+  var cur = 0;
+  function show(i, back){
+    i = Math.max(0, Math.min(panels.length-1, i));
+    viewport.classList.toggle('back', !!back);
+    panels.forEach(function(p, k){ p.classList.toggle('active', k===i); });
+    tabs.forEach(function(t, k){ t.classList.toggle('active', k===i); t.setAttribute('aria-selected', k===i); });
+    document.getElementById('deck-prev').disabled = (i===0);
+    document.getElementById('deck-next').disabled = (i===panels.length-1);
+    var tabEl = tabs[i]; if(tabEl && tabEl.scrollIntoView) tabEl.scrollIntoView({block:'nearest', inline:'center'});
+    cur = i;
+    try{ localStorage.setItem('hub-deck-i', String(i)); }catch(e){}
+    window.dispatchEvent(new Event('resize'));
+  }
+  window.deckTo = function(i){ show(i, i < cur); };
+  window.deckGo = function(d){ show(cur + d, d < 0); };
+  document.addEventListener('keydown', function(e){
+    var t = e.target && e.target.tagName;
+    if(t==='INPUT' || t==='TEXTAREA' || t==='SELECT') return;
+    if(document.body.classList.contains('modal-open')) return;
+    if(e.key==='ArrowLeft') window.deckGo(-1);
+    if(e.key==='ArrowRight') window.deckGo(1);
+  });
+  var sx=null, sy=null;
+  viewport.addEventListener('touchstart', function(e){ sx=e.touches[0].clientX; sy=e.touches[0].clientY; }, {passive:true});
+  viewport.addEventListener('touchend', function(e){
+    if(sx===null) return;
+    var dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy; sx=null;
+    if(Math.abs(dx)>70 && Math.abs(dx)>Math.abs(dy)*1.6) window.deckGo(dx<0?1:-1);
+  }, {passive:true});
+  var saved=0; try{ saved=parseInt(localStorage.getItem('hub-deck-i'),10)||0; }catch(e){}
+  show(saved, false);
+})();
 </script>
 </body>
 </html>
