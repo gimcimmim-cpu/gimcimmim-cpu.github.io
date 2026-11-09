@@ -487,10 +487,9 @@
     overflow:hidden;
     transition:border-color .25s, box-shadow .25s, transform .25s;
     position:relative;
-    opacity:0; transform:translateY(14px);
-    animation:cardIn .5s cubic-bezier(.22,1,.36,1) forwards;
+    animation:cardIn .5s cubic-bezier(.22,1,.36,1) backwards;
   }
-  @keyframes cardIn{ to{opacity:1; transform:translateY(0);} }
+  @keyframes cardIn{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
   .card-wrap:nth-child(1){animation-delay:.03s}
   .card-wrap:nth-child(2){animation-delay:.08s}
   .card-wrap:nth-child(3){animation-delay:.13s}
@@ -1126,8 +1125,9 @@
   @keyframes deckInL { from{ opacity:0; transform:translateX(-70px) scale(.98); filter:blur(8px); } to{ opacity:1; transform:none; filter:none; } }
   @keyframes neonRise { from{ opacity:0; transform:translateY(22px); } to{ opacity:1; transform:none; } }
   .deck-panel.active .cancer-day-col, .deck-panel.active .prodperf-kpi, .deck-panel.active .cv-card, .deck-panel.active .cancer-item-type {
-    animation:neonRise .55s cubic-bezier(.22,1,.36,1) both;
+    animation:neonRise .55s cubic-bezier(.22,1,.36,1) backwards;
   }
+  .deck-panel.active .cancer-day-col.is-today { animation:neonRise .55s cubic-bezier(.22,1,.36,1) backwards, todayGlow 2.4s ease-in-out infinite; }
   .deck-panel.active .cancer-day-col:nth-child(1), .deck-panel.active .prodperf-kpi:nth-child(1), .deck-panel.active .cv-card:nth-child(1) { animation-delay:.10s; }
   .deck-panel.active .cancer-day-col:nth-child(2), .deck-panel.active .prodperf-kpi:nth-child(2), .deck-panel.active .cv-card:nth-child(2) { animation-delay:.18s; }
   .deck-panel.active .cancer-day-col:nth-child(3), .deck-panel.active .prodperf-kpi:nth-child(3), .deck-panel.active .cv-card:nth-child(3) { animation-delay:.26s; }
@@ -1162,6 +1162,47 @@
   body.theme-white .dt-value.time, body.theme-white .dt-value.weather-temp, body.theme-white .pk-value, body.theme-white .cv-stat-pct { text-shadow:none; }
   body.theme-white .dt-wrap, body.theme-white .notice-box, body.theme-white .cv-box, body.theme-white .prodperf-card { box-shadow:0 6px 22px -12px rgba(9,105,218,.35); }
   body.theme-white .team-logo-svg { animation:none; filter:none; }
+
+  /* ═══════════ HOLOGRAM CARD (3D tilt + glitter foil) ═══════════ */
+  .holo-t { transform-style:preserve-3d; will-change:transform; }
+  .prodperf-kpi, .cancer-day-col { position:relative; overflow:hidden; }
+  .holo-on {
+    transform:perspective(900px) rotateX(calc(var(--rxn) * 1deg)) rotateY(calc(var(--ryn) * 1deg)) scale(1.02) !important;
+    transition:transform .08s ease-out, box-shadow .2s, border-color .2s !important;
+    box-shadow:
+      calc(var(--ryn) * -1.4px) calc(var(--rxn) * 1.4px) 30px -6px rgba(57,211,245,.55),
+      0 0 0 1px rgba(255,255,255,.18) !important;
+    z-index:5;
+  }
+  .holo-fx { position:absolute; inset:0; border-radius:inherit; overflow:hidden; pointer-events:none; z-index:4; opacity:0; transition:opacity .25s; }
+  .holo-on > .holo-fx { opacity:1; }
+  .holo-fx i { position:absolute; inset:0; display:block; }
+  .holo-fx .glit {
+    background:conic-gradient(from calc(var(--hxn) * 3deg) at var(--hx) var(--hy), #ff5fa2, #ffd166, #5dffb1, #4cc9f0, #b388ff, #ff5fa2);
+    -webkit-mask-image:
+      radial-gradient(circle at 25% 35%, #000 0 1.6px, transparent 2.2px),
+      radial-gradient(circle at 68% 72%, #000 0 1.3px, transparent 1.9px),
+      radial-gradient(circle 150px at var(--hx) var(--hy), #000 0%, transparent 72%);
+    -webkit-mask-size:6px 6px, 9px 9px, 100% 100%;
+    -webkit-mask-composite:source-in, source-in;
+    mask-image:
+      radial-gradient(circle at 25% 35%, #000 0 1.6px, transparent 2.2px),
+      radial-gradient(circle at 68% 72%, #000 0 1.3px, transparent 1.9px),
+      radial-gradient(circle 150px at var(--hx) var(--hy), #000 0%, transparent 72%);
+    mask-size:6px 6px, 9px 9px, 100% 100%;
+    mask-composite:intersect, intersect;
+    mix-blend-mode:screen; opacity:1; filter:saturate(1.5) brightness(1.35);
+  }
+  .holo-fx .tint {
+    background:conic-gradient(from calc(var(--hxn) * 3deg) at var(--hx) var(--hy), rgba(255,95,162,.16), rgba(93,255,177,.12), rgba(76,201,240,.16), rgba(179,136,255,.14), rgba(255,95,162,.16));
+    -webkit-mask-image:radial-gradient(circle 200px at var(--hx) var(--hy), #000, transparent 75%);
+    mask-image:radial-gradient(circle 200px at var(--hx) var(--hy), #000, transparent 75%);
+    mix-blend-mode:screen;
+  }
+  .holo-fx .glare { background:radial-gradient(circle 160px at var(--hx) var(--hy), rgba(255,255,255,.26), transparent 70%); mix-blend-mode:overlay; }
+  body.theme-white .holo-fx .glit { mix-blend-mode:normal; opacity:.55; }
+  body.theme-white .holo-fx .tint { mix-blend-mode:multiply; }
+  @media (prefers-reduced-motion: reduce) { .holo-on { transform:none !important; } .holo-fx { display:none; } }
   .sec-hint { display:none; }
   @media (prefers-reduced-motion: reduce) {
     body::before, body::after, header::after, .team-logo-svg, .dt-wrap, .notice-box, .cv-box, .prodperf-card,
@@ -2938,6 +2979,57 @@ window.neonCountUp = function(list){
   }, {passive:true});
   var saved=0; try{ saved=parseInt(localStorage.getItem('hub-deck-i'),10)||0; }catch(e){}
   show(saved, false);
+})();
+</script>
+<script>
+/* 홀로그램 카드: 마우스를 따라 기울어지고, 마우스 주변에만 무지개 반짝이가 나타난다 */
+(function(){
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var SEL = '.card-wrap, .prodperf-kpi, .cancer-day-col';
+  var cur = null, raf = 0, last = null;
+  function ensureFx(el){
+    el.classList.add('holo-t');
+    if(el.querySelector(':scope > .holo-fx')) return;
+    var fx = document.createElement('span');
+    fx.className = 'holo-fx';
+    fx.innerHTML = '<i class="tint"></i><i class="glit"></i><i class="glare"></i>';
+    el.appendChild(fx);
+  }
+  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+  function apply(el, e){
+    var r = el.getBoundingClientRect();
+    var px = clamp((e.clientX - r.left) / r.width, 0, 1);
+    var py = clamp((e.clientY - r.top) / r.height, 0, 1);
+    var maxY = clamp(2200 / r.width, 3, 12);
+    var maxX = clamp(600 / r.height, 3, 8);
+    var touch = e.pointerType === 'touch';
+    el.style.setProperty('--hx', (px * 100).toFixed(1) + '%');
+    el.style.setProperty('--hy', (py * 100).toFixed(1) + '%');
+    el.style.setProperty('--hxn', (px * 100).toFixed(1));
+    el.style.setProperty('--ryn', touch ? 0 : ((px - 0.5) * 2 * maxY).toFixed(2));
+    el.style.setProperty('--rxn', touch ? 0 : ((0.5 - py) * 2 * maxX).toFixed(2));
+    el.classList.add('holo-on');
+  }
+  function release(el){
+    if(!el) return;
+    el.classList.remove('holo-on');
+    el.style.removeProperty('--rxn'); el.style.removeProperty('--ryn');
+  }
+  document.addEventListener('pointermove', function(e){
+    if(e.pointerType === 'pen') return;
+    var el = e.target.closest ? e.target.closest(SEL) : null;
+    if(el !== cur){ release(cur); cur = el; if(el) ensureFx(el); }
+    if(!el) return;
+    last = e;
+    if(!raf) raf = requestAnimationFrame(function(){ raf = 0; if(cur && last) apply(cur, last); });
+  }, {passive:true});
+  document.addEventListener('pointerout', function(e){
+    if(cur && !cur.contains(e.relatedTarget)){ release(cur); cur = null; }
+  });
+  ['pointerup','pointercancel'].forEach(function(t){
+    document.addEventListener(t, function(e){ if(e.pointerType === 'touch'){ release(cur); cur = null; } }, true);
+  });
+  window.addEventListener('blur', function(){ release(cur); cur = null; });
 })();
 </script>
 </body>
