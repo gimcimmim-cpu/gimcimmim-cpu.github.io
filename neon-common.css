@@ -1,0 +1,30 @@
+/* Cancer Hub 공통 네온 스타일 — 각 페이지의 기존 디자인을 덮어쓰지 않고 위에 얹는 레이어 */
+:root { --nc-a:#39d3f5; --nc-b:#bc8cff; --nc-c:#ff7eb6; }
+::selection { background:rgba(57,211,245,.35); color:inherit; }
+::-webkit-scrollbar { width:9px; height:9px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:linear-gradient(180deg, rgba(57,211,245,.55), rgba(188,140,255,.55)); border-radius:6px; }
+/* fill-mode 없이: 끝난 뒤 body에 transform/filter가 남으면 position:fixed 요소가 body 기준으로 밀린다 */
+body { animation:ncPageIn .55s cubic-bezier(.22,1,.36,1); }
+@keyframes ncPageIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+
+.nc-topline { position:fixed; top:0; left:0; right:0; height:2px; z-index:99998; pointer-events:none;
+  background:linear-gradient(90deg, transparent, var(--nc-a), var(--nc-b), var(--nc-c), var(--nc-a), transparent);
+  background-size:200% 100%; animation:ncFlow 5s linear infinite; box-shadow:0 0 12px rgba(57,211,245,.55); }
+@keyframes ncFlow { to { background-position:200% 0; } }
+
+.nc-home { position:fixed; left:12px; bottom:12px; z-index:99999; display:inline-flex; align-items:center; gap:6px;
+  padding:7px 14px; border-radius:20px; font:600 12px/1 'Noto Sans KR','Malgun Gothic',sans-serif; text-decoration:none; letter-spacing:.3px;
+  color:#dff7ff; background:rgba(8,14,24,.82); border:1px solid rgba(57,211,245,.45); backdrop-filter:blur(8px);
+  box-shadow:0 0 18px -4px rgba(57,211,245,.6); transition:transform .2s, box-shadow .2s; }
+.nc-home:hover { transform:translateX(3px); box-shadow:0 0 26px -2px rgba(57,211,245,.85); }
+@media print { .nc-home, .nc-topline { display:none !important; } }
+
+/* 어두운 페이지에만: 은은한 그리드 배경과 버튼 글로우 */
+html.nc-dark::before { content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background-image:linear-gradient(rgba(57,211,245,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(57,211,245,.05) 1px, transparent 1px);
+  background-size:48px 48px; -webkit-mask-image:radial-gradient(ellipse at 50% 20%, #000 5%, transparent 75%); mask-image:radial-gradient(ellipse at 50% 20%, #000 5%, transparent 75%);
+  animation:ncGrid 24s linear infinite; }
+@keyframes ncGrid { to { background-position:48px 48px, 48px 48px; } }
+html.nc-dark button:not(:disabled):hover, html.nc-dark .btn:hover { box-shadow:0 0 14px -2px rgba(57,211,245,.55); }
+@media (prefers-reduced-motion: reduce) { body, .nc-topline, html.nc-dark::before { animation:none !important; } }
